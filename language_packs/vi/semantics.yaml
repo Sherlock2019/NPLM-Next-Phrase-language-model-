@@ -1,0 +1,147 @@
+# Slot compatibility evidence for Vietnamese.
+#
+# Same honesty note as the other packs: SEED gazetteers, three outcomes (compatible,
+# incompatible, no evidence), and every derived metric reports its coverage.
+#
+# Coverage is thinnest here. Vietnamese also breaks the capitalisation heuristic the
+# English pack leans on - common nouns are not capitalised, but neither are many
+# borrowed place names in running text - so proper-noun guessing is weaker and the
+# classifier says "unknown" more often. That shows up as lower coverage, not as
+# confident wrong answers.
+
+language: vi
+version: 1
+coverage: seed
+
+slot_requirements:
+  subject:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [PRON, PROPN, NOUN, NUM, DET]
+    entity_types: [PERSON, ORG]
+    animate_preferred: true
+  objects:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [DET, PRON, PROPN, NOUN, NUM, ADJ]
+  recipients:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [ADP, PRON, PROPN, NOUN]
+    entity_types: [PERSON, ORG]
+    animate_preferred: true
+  participants:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [ADP, PRON, PROPN, NOUN]
+    entity_types: [PERSON, ORG]
+    animate_preferred: true
+  location:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [ADP, PROPN, NOUN, DET]
+    entity_types: [LOCATION, FACILITY, ORG]
+    classes: [thanh_pho, quoc_gia, khu_vuc, noi, toa_nha, dia_ly]
+  destination:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [ADP, PROPN, NOUN]
+    entity_types: [LOCATION, FACILITY, ORG]
+    classes: [thanh_pho, quoc_gia, khu_vuc, noi, toa_nha]
+  source:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [ADP, PROPN, NOUN]
+    entity_types: [LOCATION, FACILITY, ORG]
+    classes: [thanh_pho, quoc_gia, khu_vuc, noi, toa_nha]
+  time:
+    pos_allow: [NOUN, PROPN, ADV, NUM]
+    pos_open: [ADP, NOUN, PROPN, ADV, NUM, DET]
+    entity_types: [TIME]
+    classes: [thu, thang, thoi_luong, trang_tu_thoi_gian]
+  manner:
+    pos_allow: [ADV, NOUN, ADJ]
+    pos_open: [ADP, ADV, NOUN, ADJ]
+    classes: [transport, trang_tu_cach]
+  instrument:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [ADP, NOUN, PROPN]
+    classes: [tool, phan_mem, may]
+  cause:
+    pos_allow: [NOUN, PROPN, VERB, PRON]
+    pos_open: [SCONJ, ADP, NOUN, PRON, PROPN]
+  goal:
+    pos_allow: [VERB, NOUN]
+    pos_open: [SCONJ, ADP, VERB, NOUN]
+  condition:
+    pos_allow: [VERB, NOUN, PRON]
+    pos_open: [SCONJ, PRON, NOUN, PROPN]
+  predicate:
+    pos_allow: [VERB, AUX, ADJ]
+    pos_open: [VERB, AUX, ADJ, ADV]
+
+semantic_classes:
+  thanh_pho:
+    [paris, london, luân_đôn, tokyo, berlin, madrid, rome, lisbon, vienna,
+     amsterdam, brussels, dublin, geneva, zurich, munich, milan, barcelona,
+     moscow, istanbul, cairo, dubai, mumbai, delhi, bangkok, singapore, seoul,
+     tokyo, beijing, bắc_kinh, shanghai, sydney, toronto, chicago, boston,
+     hà_nội, sài_gòn, huế, đà_nẵng, hải_phòng, cần_thơ, nha_trang, đà_lạt,
+     "hà nội", "sài gòn", "đà nẵng", "hải phòng", "cần thơ", "nha trang"]
+  quoc_gia:
+    [pháp, đức, tây_ban_nha, ý, bồ_đào_nha, anh, ireland, bỉ, hà_lan, thụy_sĩ,
+     áo, ba_lan, hy_lạp, thụy_điển, na_uy, đan_mạch, phần_lan, nga, thổ_nhĩ_kỳ,
+     ai_cập, trung_quốc, nhật, nhật_bản, hàn_quốc, ấn_độ, việt_nam, thái_lan,
+     indonesia, malaysia, philippines, úc, canada, mexico, brazil,
+     "việt nam", "nhật bản", "hàn quốc", "trung quốc", "ấn độ", "thái lan"]
+  khu_vuc:
+    [châu_âu, châu_á, châu_phi, châu_mỹ, đông_nam_á, miền_bắc, miền_nam,
+     miền_trung, "châu âu", "châu á", "đông nam á"]
+  noi:
+    [thành_phố, thị_trấn, làng, quốc_gia, vùng, khu_vực, quận, huyện, phường,
+     trung_tâm, ngoại_ô, thủ_đô, cảng, biên_giới, "thành phố", "khu vực"]
+  toa_nha:
+    [văn_phòng, khách_sạn, sân_bay, nhà_ga, nhà_hàng, quán_cà_phê, bệnh_viện,
+     trường, trường_học, đại_học, thư_viện, bảo_tàng, nhà_hát, sân_vận_động,
+     nhà_máy, kho, phòng, nhà, tòa_nhà, đại_sứ_quán,
+     "văn phòng", "khách sạn", "sân bay", "nhà ga", "nhà hàng", "bệnh viện",
+     "trường học", "đại học", "thư viện", "bảo tàng", "tòa nhà"]
+  dia_ly:
+    [công_viên, bãi_biển, núi, hồ, sông, rừng, đảo, thung_lũng, bờ_biển,
+     sa_mạc, đồi, vườn, quảng_trường, đường, phố, cầu,
+     "công viên", "bãi biển", "thung lũng", "bờ biển", "quảng trường"]
+  thu:
+    [thứ_hai, thứ_ba, thứ_tư, thứ_năm, thứ_sáu, thứ_bảy, chủ_nhật,
+     "thứ hai", "thứ ba", "thứ tư", "thứ năm", "thứ sáu", "thứ bảy", "chủ nhật"]
+  thang:
+    [tháng_một, tháng_hai, tháng_ba, tháng_tư, tháng_năm, tháng_sáu,
+     tháng_bảy, tháng_tám, tháng_chín, tháng_mười, tháng_giêng, tháng]
+  thoi_luong:
+    [giây, phút, giờ, ngày, tuần, tháng, năm, thập_kỷ, buổi_sáng, buổi_chiều,
+     buổi_tối, đêm, trưa, nửa_đêm, cuối_tuần, quý, học_kỳ,
+     "buổi sáng", "buổi chiều", "buổi tối", "nửa đêm", "cuối tuần"]
+  trang_tu_thoi_gian:
+    [hôm_nay, hôm_qua, ngày_mai, bây_giờ, sắp_tới, gần_đây, sau_này, trước_đây,
+     "hôm nay", "hôm qua", "ngày mai", "bây giờ", "gần đây"]
+  phan_mem:
+    [terraform, ansible, docker, kubernetes, github, gitlab, python, java,
+     javascript, sql, linux, aws, azure, postgres, mysql, redis]
+  may:
+    [máy_tính, máy, điện_thoại, máy_in, robot, camera, động_cơ, thiết_bị,
+     "máy tính", "điện thoại", "máy in", "thiết bị"]
+  tool:
+    [búa, dao, tuốc_nơ_vít, cưa, bút, chìa_khóa, phần_mềm, công_cụ, nền_tảng,
+     "phần mềm", "công cụ", "nền tảng"]
+  transport:
+    [tàu, tàu_hỏa, xe, xe_hơi, ô_tô, xe_buýt, máy_bay, thuyền, phà, xe_đạp,
+     taxi, tàu_điện, xe_máy, trực_thăng, chân,
+     "tàu hỏa", "xe hơi", "ô tô", "xe buýt", "máy bay", "xe đạp", "xe máy"]
+  trang_tu_cach:
+    [nhanh, chậm, tốt, giỏi, cẩn_thận, cùng_nhau, một_mình, đột_ngột, dần_dần,
+     trực_tiếp, tự_động, "cẩn thận", "cùng nhau", "một mình"]
+
+scoring:
+  evidence_weights:
+    gazetteer_hit: 1.0
+    entity_type_match: 0.9
+    pos_head_match: 0.6
+    pos_open_match: 0.45
+    gazetteer_miss_other_slot: 0.8
+    pos_mismatch: 0.5
+  # Vietnamese does not capitalise common nouns, and borrowed place names are often
+  # left lowercase, so capitalisation is weaker evidence here than in English.
+  capitalised_suggests_proper_noun: 0.2
+  low_compatibility: 0.35

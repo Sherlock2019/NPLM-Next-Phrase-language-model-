@@ -1,0 +1,72 @@
+# Vietnamese morphology.
+#
+# There is essentially none, and that is the interesting part. Vietnamese is
+# isolating: no tense endings, no plural marking, no agreement, no case. Every
+# grammatical category SPLM normalises is carried by a separate word instead.
+#
+# So this file's job is mostly to say so. The morphology engine will report almost
+# nothing for Vietnamese, and the grammar score will return "no evidence" rather than
+# a fabricated pass - which is the correct behaviour, and exactly what the
+# `informative` flag on every feature exists to express.
+
+language: vi
+version: 1
+
+# No inflection means no defaults worth asserting. Person and number come from the
+# pronoun itself, which the table below supplies.
+defaults: {}
+
+feature_map:
+  # VTB annotates very few features. These are the ones that do appear.
+  Person: person
+  Number: number
+  Polarity: polarity
+  PronType: pronoun_type
+  NumType: number_type
+  Reflex: reflexive
+
+value_map:
+  number: { Sing: singular, Plur: plural }
+  person: { "1": 1, "2": 2, "3": 3 }
+  polarity: { Neg: negative, Pos: positive }
+
+# The pronoun system encodes social relationship rather than just person and number:
+# `anh` (elder brother), `chi` (elder sister) and `em` (younger sibling) are used as
+# second-person pronouns whose choice depends on relative age and formality. That is
+# recorded as politeness, and it must never leak into the universal frame as meaning.
+pronouns:
+  tôi:        { person: 1, number: singular, animate: true, politeness: neutral }
+  tao:        { person: 1, number: singular, animate: true, politeness: informal }
+  tớ:         { person: 1, number: singular, animate: true, politeness: informal }
+  mình:       { person: 1, number: singular, animate: true, politeness: informal }
+  chúng_tôi:  { person: 1, number: plural, animate: true }
+  chúng_ta:   { person: 1, number: plural, animate: true }
+  bạn:        { person: 2, number: singular, animate: true, politeness: neutral }
+  mày:        { person: 2, number: singular, animate: true, politeness: informal }
+  cậu:        { person: 2, number: singular, animate: true, politeness: informal }
+  anh:        { person: 2, number: singular, gender: masculine, animate: true, politeness: formal }
+  chị:        { person: 2, number: singular, gender: feminine, animate: true, politeness: formal }
+  em:         { person: 2, number: singular, animate: true, politeness: informal }
+  ông:        { person: 2, number: singular, gender: masculine, animate: true, politeness: elevated }
+  bà:         { person: 2, number: singular, gender: feminine, animate: true, politeness: elevated }
+  cô:         { person: 2, number: singular, gender: feminine, animate: true, politeness: formal }
+  nó:         { person: 3, number: singular, politeness: informal }
+  hắn:        { person: 3, number: singular, gender: masculine, politeness: informal }
+  họ:         { person: 3, number: plural, animate: true }
+  chúng_nó:   { person: 3, number: plural, politeness: informal }
+  ai:         { person: 3, pronoun_type: interrogative, animate: true }
+
+# Plurality is marked by a separate word, not a suffix.
+plural_markers: [các, những, mấy, mọi]
+
+# There is no conjugation table to provide: a Vietnamese verb has exactly one form.
+verb_forms: {}
+inflection_rules: {}
+irregular_plurals: {}
+
+notes:
+  - "No inflectional morphology. Tense, aspect and modality come from the preverbal
+     particles listed in grammar.yaml, and plurality from the markers above."
+  - "The morphology engine will return mostly empty analyses for Vietnamese. That is
+     correct, and downstream features must treat it as 'no evidence', never as a
+     violation."

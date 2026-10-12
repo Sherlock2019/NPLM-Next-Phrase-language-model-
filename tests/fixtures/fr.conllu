@@ -1,0 +1,49 @@
+# SPLM test fixture - SILVER data, not gold annotation.
+#
+# Produced by scripts/make_fixtures.py from the configured parser. Committed so
+# that tests of the frame builder run without a parser model and do not change
+# when a model is upgraded. Regenerate deliberately and review the diff.
+#
+# parser: stanza
+# language: fr
+
+# input = John rencontrera Sarah à Paris demain.
+# text = John rencontrera Sarah à Paris demain.
+1	John	John	PROPN	_	_	2	nsubj	_	Ner=PER
+2	rencontrera	rencontrer	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin	0	root	_	_
+3	Sarah	Sarah	PROPN	_	_	2	obj	_	Ner=PER
+4	à	à	ADP	_	_	5	case	_	_
+5	Paris	Paris	PROPN	_	_	2	obl:mod	_	Ner=LOC
+6	demain	demain	ADV	_	_	2	advmod	_	_
+7	.	.	PUNCT	_	_	2	punct	_	_
+
+# input = John est à Paris.
+# text = John est à Paris.
+1	John	John	PROPN	_	_	2	nsubj	_	Ner=PER
+2	est	être	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	à	à	ADP	_	_	4	case	_	_
+4	Paris	Paris	PROPN	_	_	2	obl:arg	_	Ner=LOC
+5	.	.	PUNCT	_	_	2	punct	_	_
+
+# input = John rencontrera Sarah à Paris demain en train pour négocier le contrat.
+# text = John rencontrera Sarah à Paris demain en train pour négocier le contrat.
+1	John	John	PROPN	_	_	2	nsubj	_	Ner=PER
+2	rencontrera	rencontrer	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin	0	root	_	_
+3	Sarah	Sarah	PROPN	_	_	2	obj	_	Ner=PER
+4	à	à	ADP	_	_	5	case	_	_
+5	Paris	Paris	PROPN	_	_	2	obl:mod	_	Ner=LOC
+6	demain	demain	ADV	_	_	2	advmod	_	_
+7	en	en	ADP	_	_	8	case	_	_
+8	train	train	NOUN	_	Number=Sing	2	obl:mod	_	_
+9	pour	pour	ADP	_	_	10	mark	_	_
+10	négocier	négocier	VERB	_	VerbForm=Inf	2	advcl	_	_
+11	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	12	det	_	_
+12	contrat	contrat	NOUN	_	Number=Sing	10	obj	_	_
+13	.	.	PUNCT	_	_	2	punct	_	_
+
+# input = Jean rencontrera Sarah à
+# text = Jean rencontrera Sarah à
+1	Jean	Jean	PROPN	_	_	2	nsubj	_	Ner=PER
+2	rencontrera	rencontrer	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin	0	root	_	_
+3	Sarah	Sarah	PROPN	_	_	2	obj	_	Ner=PER
+4	à	à	ADP	_	_	2	obl:arg	_	_

@@ -1,0 +1,80 @@
+# SPLM candidate scoring.
+#
+# FINAL = w_llm * llm + w_phrase_slot * phrase_slot + ... (spec section 23)
+#
+# These weights are hand-set for the first proof of concept and are expected to
+# be *replaced*, not tuned forever: once the pipeline is benchmarkable, a small
+# trainable scorer (backend: neural) learns them from data. Keep them here so no
+# weight is ever hard-coded in Python.
+
+backend: weighted # weighted | neural
+
+weights:
+  llm: 1.00
+  phrase_slot: 0.80
+  grammar: 0.50
+  syntax: 0.50
+  morphology: 0.40
+  semantic: 0.50
+  lexicon: 0.10
+  style: 0.15
+  context: 0.25
+
+# Ablation switches (spec section 39). A feature set to false contributes a
+# constant 0.0 to FINAL, which reduces SPLM to the base model when all are off.
+features:
+  lexicon: true
+  morphology: true
+  grammar: true
+  syntax: true
+  semantics: true
+  phrase_structure: true
+  context_graph: true
+  style: true
+
+# Named ablation presets used by scripts/benchmark.py.
+ablations:
+  base_only:
+    { lexicon: false, morphology: false, grammar: false, syntax: false,
+      semantics: false, phrase_structure: false, context_graph: false, style: false }
+  grammar_only:
+    { lexicon: false, morphology: true, grammar: true, syntax: false,
+      semantics: false, phrase_structure: false, context_graph: false, style: false }
+  syntax_only:
+    { lexicon: false, morphology: false, grammar: false, syntax: true,
+      semantics: false, phrase_structure: false, context_graph: false, style: false }
+  phrase_only:
+    { lexicon: false, morphology: false, grammar: false, syntax: false,
+      semantics: false, phrase_structure: true, context_graph: false, style: false }
+  phrase_grammar:
+    { lexicon: false, morphology: true, grammar: true, syntax: false,
+      semantics: false, phrase_structure: true, context_graph: false, style: false }
+  everything:
+    { lexicon: true, morphology: true, grammar: true, syntax: true,
+      semantics: true, phrase_structure: true, context_graph: true, style: true }
+
+scoring:
+  # Sub-scores are centred on this value, so a neutral feature (no evidence
+  # either way) neither promotes nor demotes a candidate. Scores run 0..1;
+  # (score - neutral) is what actually moves the logit.
+  neutral: 0.5
+
+  # Features are unitless scores in [0,1]; logits are not. This converts one unit
+  # of weighted feature agreement into logits. With the weights above, the largest
+  # possible adjustment is +-(sum of non-LLM weights) * 0.5 * logit_scale.
+  logit_scale: 2.0
+
+  # Hard cap on how far SPLM may move a single logit, in logit units. Prevents
+  # the structural layer from steamrolling a confident base model.
+  max_logit_delta: 6.0
+
+  # Re-score only candidates whose base probability clears this floor. Saves work
+  # on the long tail of the top-K.
+  min_candidate_prob: 0.0
+
+# Phase 9: small trainable scorer that replaces the weights above.
+neural:
+  checkpoint: data/processed/scorer.pt
+  hidden_sizes: [32, 16]
+  # Feature order is fixed by CandidateFeatures.FEATURE_ORDER; do not reorder.
+  normalize_llm_logit: true

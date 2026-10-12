@@ -1,0 +1,54 @@
+# SPLM test fixture - SILVER data, not gold annotation.
+#
+# Produced by scripts/make_fixtures.py from the configured parser. Committed so
+# that tests of the frame builder run without a parser model and do not change
+# when a model is upgraded. Regenerate deliberately and review the diff.
+#
+# parser: stanza
+# language: vi
+
+# input = Ngày mai John sẽ gặp Sarah ở Paris.
+# text = Ngày mai John sẽ gặp Sarah ở Paris.
+1	Ngày mai	Ngày mai	NOUN	N	_	4	obl:tmod	_	_
+2	John	John	PROPN	NNP	_	1	nmod	_	_
+3	sẽ	sẽ	ADV	Adv	_	4	advmod	_	_
+4	gặp	gặp	VERB	V	_	0	root	_	_
+5	Sarah	Sarah	PROPN	NNP	_	4	obj	_	_
+6	ở	ở	ADP	Pre	_	7	case	_	_
+7	Paris	Paris	PROPN	NNP	_	4	obl	_	_
+8	.	.	PUNCT	.	_	4	punct	_	_
+
+# input = John đang ở Paris.
+# text = John đang ở Paris.
+1	John	John	PROPN	NNP	_	3	nsubj	_	_
+2	đang	đang	ADV	Adv	_	3	advmod	_	_
+3	ở	ở	VERB	V	_	0	root	_	_
+4	Paris	Paris	PROPN	NNP	_	3	obj	_	_
+5	.	.	PUNCT	.	_	3	punct	_	_
+
+# input = Ngày mai John sẽ gặp Sarah ở Paris, đi bằng tàu để đàm phán hợp đồng.
+# text = Ngày mai John sẽ gặp Sarah ở Paris, đi bằng tàu để đàm phán hợp đồng.
+1	Ngày mai	Ngày mai	NOUN	N	_	4	obl:tmod	_	_
+2	John	John	PROPN	NNP	_	1	nmod	_	_
+3	sẽ	sẽ	ADV	Adv	_	4	advmod	_	_
+4	gặp	gặp	VERB	V	_	0	root	_	_
+5	Sarah	Sarah	PROPN	NNP	_	4	obj	_	_
+6	ở	ở	ADP	Pre	_	7	case	_	_
+7	Paris	Paris	PROPN	NNP	_	4	obl:comp	_	_
+8	,	,	PUNCT	,	_	9	punct	_	_
+9	đi	đi	VERB	V	_	4	conj	_	_
+10	bằng	bằng	ADP	Pre	_	11	case	_	_
+11	tàu	tàu	NOUN	N	_	9	obl:comp	_	_
+12	để	để	ADP	Pre	_	13	mark:pcomp	_	_
+13	đàm phán	đàm phán	VERB	V	_	9	advcl:objective	_	_
+14	hợp đồng	hợp đồng	NOUN	N	_	13	obj	_	_
+15	.	.	PUNCT	.	_	4	punct	_	_
+
+# input = Ngày mai John sẽ gặp Sarah ở
+# text = Ngày mai John sẽ gặp Sarah ở
+1	Ngày mai	Ngày mai	NOUN	N	_	4	obl:tmod	_	_
+2	John	John	PROPN	NNP	_	4	nsubj	_	_
+3	sẽ	sẽ	ADV	Adv	_	4	advmod	_	_
+4	gặp	gặp	VERB	V	_	0	root	_	_
+5	Sarah	Sarah	PROPN	NNP	_	4	obj	_	_
+6	ở	ở	VERB	V	_	4	xcomp	_	_

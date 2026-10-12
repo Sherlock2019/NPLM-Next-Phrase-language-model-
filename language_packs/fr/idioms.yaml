@@ -1,0 +1,74 @@
+# French multi-word expressions.
+#
+# Matched before role assignment so that a figurative object does not become a
+# literal one: "casser sa pipe" must not yield OBJECT = pipe.
+
+language: fr
+version: 1
+
+idioms:
+  - surface: "casser sa pipe"
+    lemma_pattern: [casser, son, pipe]
+    predicate: { type: EVENT, lemma: mourir }
+    suppress_children: true
+    register: casual
+
+  - surface: "avoir lieu"
+    lemma_pattern: [avoir, lieu]
+    predicate: { type: EVENT, lemma: arriver }
+    suppress_children: true
+
+  - surface: "prendre une décision"
+    lemma_pattern: [prendre, un, décision]
+    predicate: { type: ACTION, lemma: décider }
+    suppress_children: true
+
+  - surface: "faire attention"
+    lemma_pattern: [faire, attention]
+    predicate: { type: STATE, lemma: surveiller }
+
+  - surface: "se mettre en contact avec"
+    lemma_pattern: [se, mettre, en, contact, avec]
+    predicate: { type: ACTION, lemma: contacter }
+    role_override: { avec: PARTICIPANT }
+
+  - surface: "tenir compte de"
+    lemma_pattern: [tenir, compte, de]
+    predicate: { type: ACTION, lemma: considérer }
+    role_override: { de: THEME }
+
+  - surface: "en train de"
+    lemma_pattern: [en, train, de]
+    aspect: progressive
+
+  - surface: "à cause de"
+    lemma_pattern: [à, cause, de]
+    marker: CAUSE
+
+  - surface: "afin de"
+    lemma_pattern: [afin, de]
+    marker: PURPOSE
+
+  - surface: "dès que"
+    lemma_pattern: [dès, que]
+    marker: TIME
+
+  - surface: "au cas où"
+    lemma_pattern: [au, cas, où]
+    marker: CONDITION
+
+  - surface: "il y a"
+    lemma_pattern: [il, y, avoir]
+    predicate: { type: EXISTENCE, lemma: exister }
+
+# Light verbs: the noun carries the event, the verb is nearly empty.
+light_verbs: [faire, prendre, donner, avoir, mettre]
+light_verb_nouns:
+  demande: demander
+  décision: décider
+  appel: appeler
+  visite: visiter
+  présentation: présenter
+  annonce: annoncer
+  promenade: promener
+  tentative: tenter

@@ -1,0 +1,80 @@
+# The Universal Phrase DNA schema, described as data (spec sections 2, 9, 10).
+#
+# src/splm/phrase/schema.py defines the Pydantic model; this file defines how the
+# slots are *presented* and which conceptual question each one answers, so the
+# CLI, the UI and the slot predictor all agree without hard-coding labels.
+
+version: 1
+
+# Order used when rendering a frame. Mirrors the WHO / DOES WHAT / ... tree.
+slot_order:
+  [subject, predicate, objects, recipients, participants, location, destination,
+   source, time, manner, instrument, cause, goal, condition]
+
+slots:
+  subject:      { question: "WHO",                     cardinality: many }
+  predicate:    { question: "DOES WHAT / IS WHAT",     cardinality: one  }
+  objects:      { question: "WHAT",                    cardinality: many }
+  recipients:   { question: "TO WHOM",                 cardinality: many }
+  participants: { question: "WITH WHOM",               cardinality: many }
+  location:     { question: "WHERE",                   cardinality: many }
+  destination:  { question: "WHERE TO",                cardinality: many }
+  source:       { question: "FROM WHERE",              cardinality: many }
+  time:         { question: "WHEN",                    cardinality: many }
+  manner:       { question: "HOW",                     cardinality: many }
+  instrument:   { question: "USING WHAT",              cardinality: many }
+  cause:        { question: "WHY",                     cardinality: many }
+  goal:         { question: "FOR WHAT GOAL",           cardinality: many }
+  condition:    { question: "UNDER WHAT CONDITIONS",   cardinality: many }
+
+# Predicate types (spec section 10). `frame_label` is what the CLI prints in place
+# of the generic "PREDICATE" heading.
+predicate_types:
+  ACTION:       { frame_label: ACTION,       dynamic: true,  description: "Volitional or dynamic doing." }
+  STATE:        { frame_label: STATE,        dynamic: false, description: "A property or condition that holds." }
+  EVENT:        { frame_label: EVENT,        dynamic: true,  description: "Something that happens without a volitional agent." }
+  RELATIONSHIP: { frame_label: RELATIONSHIP, dynamic: false, description: "A relation holding between entities." }
+  EXISTENCE:    { frame_label: EXISTS,       dynamic: false, description: "Assertion that something exists." }
+  POSSESSION:   { frame_label: POSSESSION,   dynamic: false, description: "One entity has or holds another." }
+  CHANGE:       { frame_label: CHANGE,       dynamic: true,  description: "Transition from one state to another." }
+
+# Which slots a predicate of each type plausibly takes. Used to report
+# `unresolved_slots` on a frame and as the starting point for slot prediction.
+#
+# This is a statement about what is *missing*, never about what is required: a
+# sentence with no WHERE is perfectly complete. Ordering within each list is
+# rough salience, not word order.
+expected_slots_by_predicate_type:
+  ACTION:       [subject, objects, recipients, location, destination, time, manner, instrument, goal, cause]
+  EVENT:        [subject, location, time, manner, cause]
+  STATE:        [subject, location, time, cause]
+  RELATIONSHIP: [subject, objects, time]
+  POSSESSION:   [subject, objects, time]
+  # The thing that exists surfaces as an object, not a subject ("there is X").
+  EXISTENCE:    [objects, location, time]
+  CHANGE:       [subject, objects, destination, source, time, manner, cause]
+
+# Grammatical meaning normalised onto the frame, independent of how any language
+# spells it.
+tense:    [past, present, future]
+aspect:   [simple, progressive, perfect, perfect_progressive, habitual]
+modality: [none, possible, probable, necessary, obligatory, permitted, ability, intention, conditional]
+voice:    [active, passive, middle]
+
+# Certainty attached to a modality when the text gives no stronger signal.
+modality_certainty:
+  none: 0.95
+  ability: 0.8
+  intention: 0.75
+  probable: 0.7
+  permitted: 0.6
+  necessary: 0.85
+  obligatory: 0.85
+  conditional: 0.5
+  possible: 0.4
+
+styles: [casual, business, formal, technical, academic, literary]
+
+intents: [statement, question, command, request, offer, promise, warning]
+
+emotions: [neutral, positive, negative, anger, joy, sadness, fear, surprise]

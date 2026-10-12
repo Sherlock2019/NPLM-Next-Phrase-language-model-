@@ -1,0 +1,142 @@
+# French grammar: valid forms and constructions, and how French spells the
+# universal grammatical categories.
+
+language: fr
+name: French
+version: 1
+
+predicate_types:
+  STATE:
+    [être, sembler, paraître, rester, demeurer, se_sentir, avoir_l'air, savoir,
+     croire, vouloir, aimer, détester, préférer, comprendre, penser, connaître]
+  RELATIONSHIP:
+    [posséder, appartenir, contenir, comprendre, inclure, ressembler, égaler,
+     concerner, différer, correspondre]
+  POSSESSION:
+    [avoir, détenir, manquer, garder, conserver]
+  EXISTENCE:
+    [exister, subsister]
+  CHANGE:
+    [devenir, tourner, grandir, changer, augmenter, diminuer, monter, descendre,
+     améliorer, empirer, fondre, geler, développer, évoluer, transformer]
+  EVENT:
+    [arriver, se_passer, pleuvoir, neiger, commencer, débuter, finir, terminer,
+     continuer, surgir]
+
+predicate_type_rules:
+  # "il y a" is French's existential: an expletive `il` plus `avoir`.
+  - name: il_y_a_existence
+    when: { has_child_deprel: expl, lemma_in: [avoir] }
+    type: EXISTENCE
+  - name: copula_state
+    when: { has_child_deprel: cop }
+    type: STATE
+  - name: copula_change
+    when: { has_child_deprel: cop, lemma_in: [devenir] }
+    type: CHANGE
+
+predicate_senses:
+  # French UD analyses "John est a Paris" with `etre` as the root verb rather than as a
+  # copula, so the locative reading cannot be detected from clause structure alone. It
+  # is decided after roles are assigned, from the lemma plus a locative slot.
+  located:
+    when: { type: STATE, lemma_in: [être], has_slot: [location, destination] }
+  identity:
+    when: { type: STATE, copula_pos: [NOUN, PROPN] }
+  property:
+    when: { type: STATE, copula_pos: [ADJ] }
+  possession:
+    when: { type: [POSSESSION, RELATIONSHIP], lemma_in: [avoir, posséder, appartenir] }
+
+# French marks future and conditional in the verb ending rather than with an
+# auxiliary, so the morphology engine's Tense feature carries most of the load here.
+# These are the periphrastic and modal cases.
+auxiliaries:
+  avoir:    { tense: past, modality: null }
+  être:     { tense: null, modality: null }
+  aller:    { tense: future, modality: intention, certainty: 0.85 }
+  pouvoir:  { tense: null, modality: possible, certainty: 0.5 }
+  devoir:   { tense: null, modality: necessary, certainty: 0.8 }
+  vouloir:  { tense: null, modality: intention, certainty: 0.75 }
+  falloir:  { tense: null, modality: obligatory, certainty: 0.85 }
+  savoir:   { tense: null, modality: ability, certainty: 0.8 }
+
+# "aller + infinitive" is the near future.
+periphrastic_future:
+  - { aux_lemma: aller, verb_lemma: null, tense: future, modality: intention }
+
+aspect_rules:
+  - { name: perfect, aux_lemma: avoir, verbform: Part, aspect: perfect }
+  - { name: perfect_être, aux_lemma: être, verbform: Part, aspect: perfect }
+  - { name: progressive, aux_lemmas: [être], marker: "en train de", aspect: progressive }
+
+passive_markers:
+  aux_pass_lemmas: [être]
+  deprels: ["nsubj:pass", "aux:pass", "csubj:pass"]
+
+negation:
+  # French negation is two-part: `ne ... pas`. Either half is enough evidence, since
+  # spoken French routinely drops `ne`.
+  particles: [ne, "n'", pas, jamais, rien, personne, aucun, aucune, nulle, plus, guère, ni]
+  determiner_scope: [aucun, aucune, nul, nulle]
+
+certainty_adverbs:
+  certainement: 0.96
+  sûrement: 0.92
+  évidemment: 0.92
+  clairement: 0.9
+  probablement: 0.75
+  sans_doute: 0.8
+  apparemment: 0.6
+  peut-être: 0.4
+  possiblement: 0.4
+  prétendument: 0.35
+
+agreement:
+  subject_verb:
+    - { when: { tense: present, person: 3, number: singular }, requires: { verb_form: "3sg" } }
+    - { when: { tense: present, number: plural }, requires: { verb_form: "3pl" } }
+  # French agrees in gender too, which English does not - the determiner and the
+  # adjective must both match the noun.
+  determiner_noun:
+    - { when: { determiner: [le, un, ce, mon, ton, son] }, requires: { gender: masculine, number: singular } }
+    - { when: { determiner: [la, une, cette, ma, ta, sa] }, requires: { gender: feminine, number: singular } }
+    - { when: { determiner: [les, des, ces, mes, tes, ses] }, requires: { number: plural } }
+  adjective_noun:
+    - { requires: { gender: match, number: match } }
+  elision:
+    # `le`/`la`/`de`/`ne` elide before a vowel or mute h.
+    before_vowel: ["l'", "d'", "n'", "j'", "m'", "t'", "s'", "qu'"]
+
+function_words:
+  DET:
+    [le, la, les, un, une, des, du, de, ce, cet, cette, ces, mon, ma, mes, ton,
+     ta, tes, son, sa, ses, notre, nos, votre, vos, leur, leurs, quel, quelle,
+     chaque, tout, toute, tous, toutes, plusieurs, quelques, aucun, aucune]
+  PRON:
+    [je, me, moi, tu, te, toi, il, elle, le, la, lui, nous, vous, ils, elles,
+     les, leur, on, se, soi, qui, que, quoi, dont, celui, celle, ceux, celles,
+     ceci, cela, ça, personne, rien, quelqu'un]
+  AUX:
+    [suis, es, est, sommes, êtes, sont, étais, était, étions, étiez, étaient,
+     ai, as, a, avons, avez, ont, avais, avait, avions, aviez, avaient, serai,
+     sera, aurai, aura, vais, vas, va, allons, allez, vont]
+  CCONJ: [et, ou, mais, ni, or, donc, car]
+  PART: [ne, pas, plus]
+  NUM: [un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix, cent, mille]
+
+constituent_openers:
+  subject:      [DET, PRON, PROPN, NOUN, NUM, ADJ]
+  objects:      [DET, PRON, PROPN, NOUN, NUM, ADJ]
+  location:     [DET, PROPN, NOUN, ADJ, ADP, ADV, NUM]
+  destination:  [DET, PROPN, NOUN, ADJ, ADP]
+  source:       [DET, PROPN, NOUN, ADJ, ADP]
+  time:         [DET, NOUN, PROPN, ADV, NUM, ADJ, ADP]
+  manner:       [ADV, DET, NOUN, ADJ, ADP]
+  instrument:   [DET, NOUN, PROPN, ADJ, ADP, VERB]
+  cause:        [SCONJ, ADP, DET, NOUN, PRON, PROPN]
+  goal:         [SCONJ, ADP, VERB, DET, NOUN]
+  condition:    [SCONJ, PRON, DET, NOUN, PROPN]
+  recipients:   [DET, PRON, PROPN, NOUN, ADP]
+  participants: [DET, PRON, PROPN, NOUN, ADP]
+  predicate:    [VERB, AUX, ADV]

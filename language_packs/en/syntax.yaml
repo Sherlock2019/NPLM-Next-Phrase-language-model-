@@ -1,0 +1,304 @@
+# English syntax knowledge: how surface markers map onto universal roles.
+#
+# This is the file that turns an ambiguous `obl` into WHERE / WHEN / HOW /
+# USING WHAT. Values are likelihoods, multiplied against the UD prior in
+# language_packs/universal/dependency_mapping.yaml and then renormalised.
+
+language: en
+version: 1
+
+# ---------------------------------------------------------------------------
+# Adpositions (the `case` child of a constituent)
+# ---------------------------------------------------------------------------
+adposition_cues:
+  in:        { LOCATION: 0.55, TIME: 0.28, MANNER: 0.12, INSTRUMENT: 0.05 }
+  inside:    { LOCATION: 0.95 }
+  at:        { LOCATION: 0.60, TIME: 0.36, MANNER: 0.04 }
+  on:        { LOCATION: 0.48, TIME: 0.42, INSTRUMENT: 0.06, MANNER: 0.04 }
+  to:        { DESTINATION: 0.50, RECIPIENT: 0.38, PURPOSE: 0.08, TIME: 0.04 }
+  into:      { DESTINATION: 0.92, MANNER: 0.08 }
+  onto:      { DESTINATION: 0.95 }
+  toward:    { DESTINATION: 0.92 }
+  towards:   { DESTINATION: 0.92 }
+  from:      { SOURCE: 0.82, TIME: 0.12, CAUSE: 0.06 }
+  out:       { SOURCE: 0.85 }
+  with:      { PARTICIPANT: 0.42, INSTRUMENT: 0.42, MANNER: 0.16 }
+  without:   { MANNER: 0.70, INSTRUMENT: 0.30 }
+  by:        { INSTRUMENT: 0.30, MANNER: 0.28, AGENT: 0.20, LOCATION: 0.12, TIME: 0.10 }
+  using:     { INSTRUMENT: 0.95 }
+  via:       { INSTRUMENT: 0.45, LOCATION: 0.45, MANNER: 0.10 }
+  through:   { LOCATION: 0.45, INSTRUMENT: 0.30, MANNER: 0.25 }
+  for:       { BENEFICIARY: 0.42, PURPOSE: 0.40, TIME: 0.18 }
+  about:     { THEME: 0.90, TIME: 0.10 }
+  of:        { THEME: 0.95 }
+  during:    { TIME: 0.97 }
+  after:     { TIME: 0.95 }
+  before:    { TIME: 0.95 }
+  since:     { TIME: 0.80, CAUSE: 0.20 }
+  until:     { TIME: 0.97 }
+  till:      { TIME: 0.97 }
+  near:      { LOCATION: 0.95 }
+  outside:   { LOCATION: 0.92 }
+  under:     { LOCATION: 0.75, CONDITION: 0.25 }
+  over:      { LOCATION: 0.70, TIME: 0.30 }
+  above:     { LOCATION: 0.95 }
+  below:     { LOCATION: 0.95 }
+  behind:    { LOCATION: 0.95 }
+  beside:    { LOCATION: 0.95 }
+  between:   { LOCATION: 0.75, TIME: 0.25 }
+  among:     { LOCATION: 0.80, PARTICIPANT: 0.20 }
+  across:    { LOCATION: 0.90 }
+  along:     { LOCATION: 0.90 }
+  around:    { LOCATION: 0.70, TIME: 0.30 }
+  against:   { PARTICIPANT: 0.60, LOCATION: 0.40 }
+  because:   { CAUSE: 0.97 }
+  due:       { CAUSE: 0.97 }
+  owing:     { CAUSE: 0.97 }
+  thanks:    { CAUSE: 0.97 }
+  despite:   { CONDITION: 0.90 }
+  per:       { MANNER: 0.80 }
+  as:        { MANNER: 0.70, TIME: 0.30 }
+  like:      { MANNER: 0.95 }
+
+# Multi-word adpositions, matched on the `fixed` chain before single words.
+fixed_adpositions:
+  "because of":    { CAUSE: 0.97 }
+  "due to":        { CAUSE: 0.97 }
+  "owing to":      { CAUSE: 0.97 }
+  "thanks to":     { CAUSE: 0.95 }
+  "in order to":   { PURPOSE: 0.98 }
+  "so as to":      { PURPOSE: 0.98 }
+  "instead of":    { MANNER: 0.85 }
+  "according to":  { MANNER: 0.85 }
+  "next to":       { LOCATION: 0.95 }
+  "close to":      { LOCATION: 0.95 }
+  "far from":      { LOCATION: 0.95 }
+  "out of":        { SOURCE: 0.92 }
+  "ahead of":      { LOCATION: 0.70, TIME: 0.30 }
+  "prior to":      { TIME: 0.95 }
+  "in case of":    { CONDITION: 0.95 }
+  "by means of":   { INSTRUMENT: 0.97 }
+
+# `by` + a vehicle noun is mode of transport, i.e. HOW, not USING WHAT.
+# This reproduces the spec's "by train" -> manner.transport = train.
+lexical_overrides:
+  - name: by_transport
+    adposition: by
+    head_lemma_in_class: transport
+    distribution: { MANNER: 0.90, INSTRUMENT: 0.10 }
+    annotate: { transport: "{head_lemma}" }
+  - name: with_instrument_tool
+    adposition: with
+    head_lemma_in_class: tool
+    distribution: { INSTRUMENT: 0.90, PARTICIPANT: 0.10 }
+  - name: with_person
+    adposition: with
+    head_entity_type: PERSON
+    distribution: { PARTICIPANT: 0.92, INSTRUMENT: 0.08 }
+
+semantic_classes:
+  transport:
+    [train, car, bus, plane, airplane, aeroplane, boat, ship, ferry, bike,
+     bicycle, taxi, cab, metro, subway, tram, coach, helicopter, foot, rail, air, sea]
+  tool:
+    [hammer, knife, computer, laptop, phone, pen, pencil, brush, key, software,
+     tool, machine, terraform, ansible, docker, kubernetes, python, sql]
+
+# ---------------------------------------------------------------------------
+# Predicate-specific argument structure
+# ---------------------------------------------------------------------------
+# Spec section 18: roles are predicate-specific. The object of `meet` is someone
+# you meet *with*, the object of `deploy` is something you change the state of.
+# No ARG0/ARG1 shortcut is assumed anywhere.
+#
+# This is the hand-written stand-in for PropBank frame files. When the PropBank
+# adapter is enabled it contributes the same shape of evidence, derived from each
+# roleset's own argument descriptors.
+predicate_role_profiles:
+
+  # Symmetric / reciprocal predicates: the "object" is a co-participant.
+  meet:      { obj: { PARTICIPANT: 0.82, PATIENT: 0.12, THEME: 0.06 } }
+  marry:     { obj: { PARTICIPANT: 0.85, PATIENT: 0.15 } }
+  negotiate: { obj: { THEME: 0.80, PATIENT: 0.20 }, obl: { PARTICIPANT: 0.60, MANNER: 0.40 } }
+  argue:     { obl: { PARTICIPANT: 0.70, THEME: 0.30 } }
+  collaborate: { obl: { PARTICIPANT: 0.85, MANNER: 0.15 } }
+  compete:   { obl: { PARTICIPANT: 0.80, LOCATION: 0.20 } }
+  join:      { obj: { PARTICIPANT: 0.60, THEME: 0.40 } }
+
+  # Transfer predicates: indirect object is a recipient, direct object a theme.
+  give:      { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90, PATIENT: 0.10 } }
+  send:      { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90 }, obl: { DESTINATION: 0.70, RECIPIENT: 0.30 } }
+  tell:      { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90 } }
+  show:      { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90 } }
+  offer:     { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90 } }
+  hand:      { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90 } }
+
+  # Creation / change-of-state predicates: the object is genuinely affected.
+  deploy:    { obj: { PATIENT: 0.80, THEME: 0.20 }, obl: { DESTINATION: 0.70, LOCATION: 0.30 } }
+  build:     { obj: { PATIENT: 0.85, THEME: 0.15 } }
+  write:     { obj: { PATIENT: 0.70, THEME: 0.30 } }
+  destroy:   { obj: { PATIENT: 0.95 } }
+  fix:       { obj: { PATIENT: 0.90 } }
+  install:   { obj: { PATIENT: 0.80, THEME: 0.20 }, obl: { DESTINATION: 0.70, LOCATION: 0.30 } }
+
+  # Perception / cognition: the subject experiences rather than acts.
+  see:       { nsubj: { EXPERIENCER: 0.85, AGENT: 0.15 }, obj: { THEME: 0.90 } }
+  hear:      { nsubj: { EXPERIENCER: 0.90 }, obj: { THEME: 0.90 } }
+  know:      { nsubj: { EXPERIENCER: 0.90 }, obj: { THEME: 0.95 }, ccomp: { THEME: 0.95 } }
+  believe:   { nsubj: { EXPERIENCER: 0.90 }, ccomp: { THEME: 0.95 } }
+  want:      { nsubj: { EXPERIENCER: 0.85 }, obj: { THEME: 0.90 }, xcomp: { THEME: 0.85, PURPOSE: 0.15 } }
+  read:      { nsubj: { AGENT: 0.70, EXPERIENCER: 0.30 }, obj: { THEME: 0.85 } }
+
+  # Motion: obliques are endpoints rather than settings.
+  go:        { obl: { DESTINATION: 0.65, LOCATION: 0.20, MANNER: 0.15 } }
+  travel:    { obl: { DESTINATION: 0.55, LOCATION: 0.20, MANNER: 0.25 } }
+  move:      { obl: { DESTINATION: 0.60, SOURCE: 0.25, LOCATION: 0.15 } }
+  arrive:    { obl: { DESTINATION: 0.70, LOCATION: 0.20, TIME: 0.10 } }
+  leave:     { obj: { SOURCE: 0.55, THEME: 0.45 }, obl: { DESTINATION: 0.50, SOURCE: 0.30, TIME: 0.20 } }
+
+  # Communication: what is said is content, who is addressed is a recipient.
+  discuss:   { obj: { THEME: 0.92 }, obl: { PARTICIPANT: 0.60, LOCATION: 0.40 } }
+  call:      { obj: { RECIPIENT: 0.55, PATIENT: 0.45 } }
+  ask:       { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.70, RECIPIENT: 0.30 } }
+  request:   { obj: { THEME: 0.90 }, obl: { RECIPIENT: 0.60, SOURCE: 0.40 } }
+
+# Coarse verb classes, used by the rules below. Not a full lexical hierarchy - just
+# enough to settle the marker ambiguities that matter.
+predicate_classes:
+  transfer:
+    [give, send, tell, show, offer, hand, pass, lend, sell, pay, teach, write,
+     read, mail, forward, deliver, submit, report, explain, describe, introduce]
+  motion:
+    [go, travel, move, drive, fly, walk, run, ride, sail, return, arrive, head,
+     relocate, commute]
+  communication:
+    [say, speak, talk, ask, reply, answer, mention, announce, complain]
+
+# Marker readings that the predicate settles.
+#
+# "to" is both a preposition and an infinitival marker, and out of context the
+# infinitival reading is the stronger one. After a transfer verb with its object
+# already stated - "gave the document to ___" - it is a recipient, not a purpose. The
+# verb class decides, so the knowledge belongs here rather than in the engine.
+# Rules are tried in order and the first match wins, so lemma-specific rules come
+# before class-wide ones.
+marker_predicate_overrides:
+  # "is going to ___" is genuinely two constructions: a destination ("to Paris") or the
+  # be-going-to future, where what follows is a verb. Keys naming a slot directly
+  # (lower case) sit alongside role names, because "a predicate comes next" is not a
+  # semantic role. Neither reading dominates, and the prediction should say so.
+  - markers: [to]
+    predicate_lemmas: [go, come, head]
+    distribution: { DESTINATION: 0.50, predicate: 0.38, PURPOSE: 0.12 }
+  - markers: [to]
+    predicate_classes: [transfer]
+    distribution: { RECIPIENT: 0.70, DESTINATION: 0.22, PURPOSE: 0.08 }
+  - markers: [to]
+    predicate_classes: [motion]
+    distribution: { DESTINATION: 0.78, PURPOSE: 0.14, RECIPIENT: 0.08 }
+  - markers: [with]
+    predicate_classes: [communication]
+    distribution: { PARTICIPANT: 0.72, INSTRUMENT: 0.16, MANNER: 0.12 }
+
+# Verbs that head a clause but behave like an adposition. "using Terraform" is
+# USING WHAT, not a separate action. `promote_object` makes the clause's object
+# the element that fills the slot, so the frame records Terraform, not "using".
+clause_head_cues:
+  use:      { distribution: { INSTRUMENT: 0.92, MANNER: 0.08 }, promote_object: true }
+  utilize:  { distribution: { INSTRUMENT: 0.92, MANNER: 0.08 }, promote_object: true }
+  employ:   { distribution: { INSTRUMENT: 0.80, MANNER: 0.20 }, promote_object: true }
+  leverage: { distribution: { INSTRUMENT: 0.85, MANNER: 0.15 }, promote_object: true }
+  follow:   { distribution: { MANNER: 0.70, TIME: 0.30 } }
+  base:     { distribution: { CAUSE: 0.60, MANNER: 0.40 } }
+
+# ---------------------------------------------------------------------------
+# Subordinators (the `mark` child of a clause)
+# ---------------------------------------------------------------------------
+subordinator_cues:
+  if:        { CONDITION: 0.95 }
+  unless:    { CONDITION: 0.95 }
+  whether:   { THEME: 0.85, CONDITION: 0.15 }
+  when:      { TIME: 0.90, CONDITION: 0.10 }
+  whenever:  { TIME: 0.75, CONDITION: 0.25 }
+  while:     { TIME: 0.85, MANNER: 0.15 }
+  as:        { TIME: 0.50, CAUSE: 0.35, MANNER: 0.15 }
+  after:     { TIME: 0.97 }
+  before:    { TIME: 0.97 }
+  once:      { TIME: 0.90 }
+  until:     { TIME: 0.97 }
+  since:     { TIME: 0.60, CAUSE: 0.40 }
+  because:   { CAUSE: 0.97 }
+  so:        { PURPOSE: 0.70, CAUSE: 0.30 }
+  to:        { PURPOSE: 0.85, THEME: 0.15 }
+  that:      { THEME: 0.92, PURPOSE: 0.08 }
+  although:  { CONDITION: 0.85 }
+  though:    { CONDITION: 0.85 }
+  whereas:   { CONDITION: 0.85 }
+  provided:  { CONDITION: 0.95 }
+  lest:      { PURPOSE: 0.90 }
+
+# ---------------------------------------------------------------------------
+# Bare adverbials with no adposition
+# ---------------------------------------------------------------------------
+temporal_adverbs:
+  [yesterday, today, tomorrow, now, then, later, earlier, soon, afterward,
+   afterwards, tonight, recently, already, still, yet, always, never, often,
+   sometimes, rarely, daily, weekly, monthly, annually, immediately, finally]
+
+locative_adverbs:
+  [here, there, everywhere, nowhere, somewhere, anywhere, abroad, home,
+   upstairs, downstairs, outside, inside, nearby, overseas]
+
+manner_adverb_suffixes: ["ly"]
+manner_adverbs:
+  [well, badly, fast, hard, quickly, slowly, carefully, together, alone,
+   quietly, loudly, suddenly]
+
+# ---------------------------------------------------------------------------
+# Word-order tendency, used by the ExpectedSlotPredictor
+# ---------------------------------------------------------------------------
+# English is SVO with adjuncts typically after the core arguments, but this is a
+# *tendency*, never a template (spec section 31). Values are unnormalised
+# affinities for "this slot comes next given what is already filled".
+slot_sequence_priors:
+  after_predicate:
+    { objects: 0.30, recipients: 0.10, participants: 0.08, destination: 0.10,
+      location: 0.12, time: 0.10, manner: 0.08, instrument: 0.05, goal: 0.04,
+      cause: 0.02, source: 0.01 }
+  after_objects:
+    { destination: 0.18, recipients: 0.14, location: 0.18, time: 0.16,
+      manner: 0.10, instrument: 0.10, goal: 0.08, cause: 0.04, source: 0.02 }
+  after_location:
+    { time: 0.42, manner: 0.18, goal: 0.14, instrument: 0.12, cause: 0.08, source: 0.06 }
+  after_time:
+    { manner: 0.28, goal: 0.26, instrument: 0.20, location: 0.14, cause: 0.12 }
+  after_participants:
+    { location: 0.34, time: 0.24, manner: 0.14, goal: 0.14, instrument: 0.08, cause: 0.06 }
+  sentence_initial:
+    { subject: 0.62, time: 0.16, condition: 0.10, location: 0.08, manner: 0.04 }
+  # A subject with no predicate yet: the clause is waiting for its verb, not for
+  # another adjunct.
+  after_subject:
+    { predicate: 0.74, objects: 0.06, time: 0.06, location: 0.05, manner: 0.05,
+      cause: 0.02, condition: 0.02 }
+
+# How strongly a dangling marker at the end of the prefix overrides the priors.
+# "John will meet Sarah in" - the trailing `in` is near-decisive, so its cue is
+# raised to this power before being multiplied into the sequence prior. 1.0 would
+# treat the marker as just one more piece of evidence; higher values let it
+# dominate, which is what an unfinished prepositional phrase warrants.
+# What a trailing copula or auxiliary predicts. In SPLM's terms a copular complement
+# *is* the predicate, so "The day after Monday is ___" expects a predicate, not an
+# object - with a smaller chance of a participle continuing an auxiliary ("is being
+# deployed"), which also lands on the predicate.
+trailing_auxiliary_cue:
+  predicate: 0.86
+  objects: 0.09
+  location: 0.05
+
+dangling_marker_exponent: 2.0
+
+# Slots that can legitimately be filled more than once ("in Paris, at the office").
+# Everything else gets this penalty once already filled.
+repeat_slot_penalty: 0.25
+repeatable_slots: [time, location, manner]

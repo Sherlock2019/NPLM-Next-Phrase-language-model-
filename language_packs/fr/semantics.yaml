@@ -1,0 +1,136 @@
+# Slot compatibility evidence for French.
+#
+# Same honesty note as the English pack: these gazetteers are SEEDS, not coverage.
+# The classifier has three outcomes - compatible, incompatible, and no evidence - and
+# every metric built on it reports how many candidates it could judge at all.
+
+language: fr
+version: 1
+coverage: seed
+
+slot_requirements:
+  subject:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [DET, PRON, PROPN, NOUN, ADJ, NUM]
+    entity_types: [PERSON, ORG]
+    animate_preferred: true
+  objects:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [DET, PRON, PROPN, NOUN, ADJ, NUM]
+  recipients:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [DET, PRON, PROPN, NOUN]
+    entity_types: [PERSON, ORG]
+    animate_preferred: true
+  participants:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [DET, PRON, PROPN, NOUN]
+    entity_types: [PERSON, ORG]
+    animate_preferred: true
+  location:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [DET, PROPN, NOUN, ADJ]
+    entity_types: [LOCATION, FACILITY, ORG]
+    classes: [ville, pays, region, lieu, batiment, geographie]
+  destination:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [DET, PROPN, NOUN]
+    entity_types: [LOCATION, FACILITY, ORG]
+    classes: [ville, pays, region, lieu, batiment]
+  source:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [DET, PROPN, NOUN]
+    entity_types: [LOCATION, FACILITY, ORG]
+    classes: [ville, pays, region, lieu, batiment]
+  time:
+    pos_allow: [NOUN, PROPN, ADV, NUM]
+    pos_open: [DET, NOUN, PROPN, ADV, NUM, ADJ]
+    entity_types: [TIME]
+    classes: [jour, mois, duree, adverbe_temps]
+  manner:
+    pos_allow: [ADV, NOUN, ADJ]
+    pos_open: [ADV, DET, NOUN, ADJ]
+    classes: [transport, adverbe_maniere]
+  instrument:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [DET, NOUN, PROPN, ADJ]
+    classes: [tool, logiciel, machine]
+  cause:
+    pos_allow: [NOUN, PROPN, VERB, PRON]
+    pos_open: [DET, NOUN, PRON, PROPN]
+  goal:
+    pos_allow: [VERB, NOUN]
+    pos_open: [VERB, DET, NOUN]
+  condition:
+    pos_allow: [VERB, NOUN, PRON]
+    pos_open: [PRON, DET, NOUN, PROPN]
+  predicate:
+    pos_allow: [VERB, AUX, ADJ]
+    pos_open: [VERB, AUX, ADV]
+
+semantic_classes:
+  ville:
+    [paris, londres, tokyo, berlin, madrid, rome, lisbonne, vienne, prague,
+     amsterdam, bruxelles, dublin, genève, zurich, munich, milan, barcelone,
+     athènes, varsovie, budapest, copenhague, stockholm, oslo, helsinki, moscou,
+     istanbul, le_caire, dubaï, bombay, delhi, bangkok, singapour, séoul, pékin,
+     shanghai, sydney, melbourne, toronto, montréal, vancouver, chicago, boston,
+     lyon, marseille, toulouse, bordeaux, lille, nantes, nice, strasbourg,
+     hanoï, saïgon, dakar, abidjan]
+  pays:
+    [france, allemagne, espagne, italie, portugal, angleterre, écosse, irlande,
+     belgique, suisse, autriche, pologne, grèce, suède, norvège, danemark,
+     finlande, russie, turquie, égypte, maroc, sénégal, nigéria, kenya, chine,
+     japon, corée, inde, vietnam, thaïlande, indonésie, australie, canada,
+     mexique, brésil, argentine, chili, pérou]
+  region:
+    [europe, asie, afrique, amérique, scandinavie, balkans, caraïbes,
+     méditerranée, normandie, provence, bretagne, alsace, bourgogne, toscane]
+  lieu:
+    [ville, village, pays, région, quartier, campus, siège, centre, banlieue,
+     capitale, port, frontière, zone]
+  batiment:
+    [bureau, hôtel, aéroport, gare, restaurant, café, bar, hôpital, école,
+     université, bibliothèque, musée, théâtre, stade, usine, entrepôt, salle,
+     immeuble, tour, appartement, maison, ambassade, terminal]
+  geographie:
+    [parc, plage, montagne, lac, rivière, fleuve, forêt, île, vallée, côte,
+     désert, colline, jardin, place, rue, avenue, route, pont]
+  jour:
+    [lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche]
+  mois:
+    [janvier, février, mars, avril, mai, juin, juillet, août, septembre,
+     octobre, novembre, décembre]
+  duree:
+    [seconde, secondes, minute, minutes, heure, heures, jour, jours, semaine,
+     semaines, mois, année, années, décennie, matin, matinée, après-midi, soir,
+     soirée, nuit, midi, minuit, week-end, trimestre, semestre]
+  adverbe_temps:
+    [hier, aujourd'hui, demain, maintenant, bientôt, tard, tôt, ensuite,
+     récemment, déjà, alors, immédiatement]
+  logiciel:
+    [terraform, ansible, docker, kubernetes, jenkins, github, gitlab, python,
+     java, javascript, sql, linux, aws, azure, postgres, mysql, redis]
+  machine:
+    [ordinateur, portable, serveur, téléphone, tablette, imprimante, robot,
+     drone, caméra, machine, moteur, appareil]
+  tool:
+    [marteau, tournevis, clé, couteau, scie, perceuse, stylo, crayon, pinceau,
+     outil, logiciel, script, plateforme, tableur]
+  transport:
+    [train, voiture, bus, avion, bateau, ferry, vélo, taxi, métro, tram, car,
+     hélicoptère, pied, rail, air, mer, autocar, scooter, moto]
+  adverbe_maniere:
+    [rapidement, lentement, soigneusement, bien, mal, ensemble, seul,
+     doucement, soudain, directement, manuellement, automatiquement]
+
+scoring:
+  evidence_weights:
+    gazetteer_hit: 1.0
+    entity_type_match: 0.9
+    pos_head_match: 0.6
+    pos_open_match: 0.45
+    gazetteer_miss_other_slot: 0.8
+    pos_mismatch: 0.5
+  capitalised_suggests_proper_noun: 0.35
+  low_compatibility: 0.35

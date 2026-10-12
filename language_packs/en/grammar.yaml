@@ -1,0 +1,175 @@
+# English grammar knowledge: what forms and constructions are valid, and how
+# English spells the universal grammatical categories (spec section 8).
+
+language: en
+name: English
+version: 1
+
+# ---------------------------------------------------------------------------
+# Predicate typing (spec section 10)
+# ---------------------------------------------------------------------------
+# Lemma -> predicate type. Anything unlisted falls through to the structural
+# rules below, and finally to ACTION for verbs.
+#
+# NOTE ON `own`: the spec's own example (section 10) types "John owns a car" as
+# RELATIONSHIP rather than POSSESSION, so that is what is encoded here. Flip it
+# to POSSESSION in this file if you prefer the narrower reading - nothing in the
+# engine hard-codes either choice.
+predicate_types:
+  STATE:
+    [be, seem, appear, remain, stay, feel, look, sound, smell, taste, be_able,
+     know, believe, want, need, like, love, hate, prefer, understand, think]
+  RELATIONSHIP:
+    [own, belong, contain, include, comprise, consist, resemble, equal, match,
+     involve, concern, relate, differ, correspond]
+  POSSESSION:
+    [have, possess, hold, lack, carry, keep, retain]
+  EXISTENCE:
+    [exist, subsist]
+  CHANGE:
+    [become, turn, grow, change, increase, decrease, rise, fall, improve,
+     worsen, melt, freeze, expand, shrink, develop, evolve, convert, transform]
+  EVENT:
+    [happen, occur, rain, snow, begin, start, end, finish, continue, arise,
+     emerge, appear_suddenly]
+
+# Structural overrides, applied before the lemma table.
+predicate_type_rules:
+  - name: expletive_existence
+    when: { has_child_deprel: expl, lemma_in: [be] }
+    type: EXISTENCE
+  - name: copula_state
+    when: { has_child_deprel: cop }
+    type: STATE
+  - name: copula_change
+    when: { has_child_deprel: cop, lemma_in: [become, turn, get] }
+    type: CHANGE
+
+# Predicate senses. A sense is a coarse, language-independent reading used for
+# cross-language comparison: "John is in Paris" / "John est a Paris" /
+# "John dang o Paris" must agree on STATE + located even though the surface
+# machinery differs completely.
+predicate_senses:
+  # `lemma_in` keeps this narrow: only the copula gets the locative reading, so
+  # "John is tired in Paris" stays a property rather than becoming "located".
+  located:
+    when: { type: STATE, lemma_in: [be], has_slot: [location, destination] }
+  identity:
+    when: { type: STATE, copula_pos: [NOUN, PROPN] }
+  property:
+    when: { type: STATE, copula_pos: [ADJ] }
+  possession:
+    when: { type: [POSSESSION, RELATIONSHIP], lemma_in: [own, have, possess, belong] }
+
+# ---------------------------------------------------------------------------
+# Tense / aspect / modality / voice
+# ---------------------------------------------------------------------------
+auxiliaries:
+  will:   { tense: future, modality: intention, certainty: 0.9 }
+  shall:  { tense: future, modality: intention, certainty: 0.9 }
+  would:  { tense: null,   modality: conditional, certainty: 0.5 }
+  can:    { tense: present, modality: ability, certainty: 0.8 }
+  could:  { tense: null,   modality: possible, certainty: 0.45 }
+  may:    { tense: null,   modality: permitted, certainty: 0.5 }
+  might:  { tense: null,   modality: possible, certainty: 0.35 }
+  must:   { tense: null,   modality: necessary, certainty: 0.85 }
+  should: { tense: null,   modality: obligatory, certainty: 0.7 }
+  ought:  { tense: null,   modality: obligatory, certainty: 0.7 }
+  need:   { tense: null,   modality: necessary, certainty: 0.75 }
+
+# "be going to" is a future periphrasis, not a motion ACTION.
+periphrastic_future:
+  - { aux_lemma: be, verb_lemma: go, marker: to, tense: future, modality: intention }
+
+aspect_rules:
+  - { name: progressive,          aux_lemma: be,   verbform: Part, tense_feat: Pres, aspect: progressive }
+  - { name: perfect,              aux_lemma: have, verbform: Part, tense_feat: Past, aspect: perfect }
+  - { name: perfect_progressive,  aux_lemmas: [have, be], aspect: perfect_progressive }
+
+passive_markers:
+  aux_pass_lemmas: [be, get]
+  deprels: ["nsubj:pass", "aux:pass", "csubj:pass"]
+
+# ---------------------------------------------------------------------------
+# Negation and certainty
+# ---------------------------------------------------------------------------
+negation:
+  particles: [not, "n't", never, no, none, nothing, nobody, nowhere, neither, nor]
+  # Negative determiners scope over their head noun, not the whole clause.
+  determiner_scope: [no, neither]
+
+certainty_adverbs:
+  certainly: 0.97
+  definitely: 0.97
+  undoubtedly: 0.95
+  clearly: 0.9
+  surely: 0.9
+  probably: 0.75
+  likely: 0.75
+  apparently: 0.6
+  seemingly: 0.6
+  possibly: 0.4
+  perhaps: 0.4
+  maybe: 0.4
+  allegedly: 0.35
+  supposedly: 0.35
+
+# ---------------------------------------------------------------------------
+# Agreement - used by the grammar score when re-ranking candidates
+# ---------------------------------------------------------------------------
+agreement:
+  subject_verb:
+    # Present tense: 3rd person singular subject requires the -s form.
+    - { when: { tense: present, person: 3, number: singular }, requires: { verb_form: "3sg" } }
+    - { when: { tense: present, number: plural },              requires: { verb_form: "base" } }
+  determiner_noun:
+    - { when: { determiner: [a, an] },      requires: { number: singular, countable: true } }
+    - { when: { determiner: [these, those] }, requires: { number: plural } }
+    - { when: { determiner: [this, that] },   requires: { number: singular } }
+  article_phonology:
+    # "a" before a consonant sound, "an" before a vowel sound.
+    an_before_vowel: true
+    exceptions_an: [hour, honest, honour, honor, heir, "MBA", "FBI"]
+    exceptions_a: [university, european, one, unit, user, useful, ukulele]
+
+# Closed-class words, listed so a single candidate word can be assigned a part of
+# speech without running a tagger. A tagger cannot be trusted on one out-of-context
+# word anyway, and running one per candidate would dominate latency.
+function_words:
+  DET:
+    [the, a, an, this, that, these, those, my, your, his, her, its, our, their,
+     some, any, no, every, each, both, all, another, either, neither, which,
+     whose, few, many, much, several, enough]
+  PRON:
+    [i, me, you, he, him, she, it, we, us, they, them, who, whom, someone,
+     somebody, anyone, anybody, everyone, everybody, nobody, something,
+     anything, nothing, mine, yours, hers, ours, theirs, myself, himself,
+     herself, itself, themselves]
+  AUX:
+    [is, are, was, were, be, been, being, am, do, does, did, doing, have, has,
+     had, having, will, would, can, could, may, might, must, should, shall]
+  CCONJ: [and, or, but, nor, yet]
+  PART: [not, "n't"]
+  NUM: [one, two, three, four, five, six, seven, eight, nine, ten, hundred,
+        thousand, million, billion, first, second, third]
+
+# Word classes that may open a clause-level constituent. Used by the grammar score
+# to judge whether a candidate token could start the expected slot.
+#
+# These must stay consistent with `pos_open` in semantics.yaml: a determiner opens a
+# location ("in the office") just as readily as a proper noun ("in Paris").
+constituent_openers:
+  subject:     [DET, PRON, PROPN, NOUN, NUM, ADJ]
+  objects:     [DET, PRON, PROPN, NOUN, NUM, ADJ]
+  location:    [DET, PROPN, NOUN, ADJ, ADP, ADV, NUM]
+  destination: [DET, PROPN, NOUN, ADJ, ADP]
+  source:      [DET, PROPN, NOUN, ADJ, ADP]
+  time:        [DET, NOUN, PROPN, ADV, NUM, ADJ, ADP]
+  manner:      [ADV, DET, NOUN, ADJ, ADP]
+  instrument:  [DET, NOUN, PROPN, ADJ, ADP, VERB]
+  cause:       [SCONJ, ADP, DET, NOUN, PRON, PROPN]
+  goal:        [PART, SCONJ, ADP, VERB, DET, NOUN]
+  condition:   [SCONJ, PRON, DET, NOUN, PROPN]
+  recipients:  [DET, PRON, PROPN, NOUN]
+  participants: [DET, PRON, PROPN, NOUN]
+  predicate:   [VERB, AUX, ADV]

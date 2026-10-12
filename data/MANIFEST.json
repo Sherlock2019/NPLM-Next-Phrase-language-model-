@@ -1,0 +1,17 @@
+{
+  "artefacts": [
+    {
+      "name": "wiktionary",
+      "language": "en",
+      "provider": "Wiktionary via wiktextract (kaikki.org)",
+      "homepage": "https://kaikki.org/dictionary/",
+      "url": "https://kaikki.org/dictionary/English/kaikki.org-dictionary-English.jsonl.gz",
+      "version": "Sat, 03 Oct 2026 11:09:45 GMT",
+      "license": "CC BY-SA 4.0 and GFDL",
+      "downloaded_at": "2026-10-12T12:19:52.857790+00:00",
+      "destination": "/home/dzoan/SLM/data/raw/wiktionary/en.jsonl.gz"
+    }
+  ],
+  "updated_at": "2026-10-12T12:19:52.865153+00:00",
+  "note": "Provenance for every externally downloaded artefact. Each resource remains under its own licence; see config/data_sources.yaml."
+}

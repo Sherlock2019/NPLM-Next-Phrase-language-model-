@@ -1,0 +1,89 @@
+# Vietnamese style / register.
+#
+# Vietnamese encodes register mainly through the pronoun and address system and
+# through sentence-final politeness particles, not through vocabulary tiers the way
+# English does. `a` at the end of a sentence is a stronger formality signal than any
+# word choice.
+
+language: vi
+version: 1
+default_style: casual
+
+styles:
+  casual:
+    markers:
+      lexemes: [ừ, ờ, ok, thôi, nhé, nhỉ, à, mày, tao, tớ, cậu, chuyện, kiểu,
+                đồ, siêu, cực, hay, vui]
+      particles: [nhé, nhỉ, à, thôi, đi]
+      address: [mày, tao, tớ, cậu]
+      sentence_length: { mean: 11, max: 22 }
+      pronoun_rate: high
+    prefers: [muốn, có, nói, cho, cần]
+    avoids: [kính, trân_trọng, theo_đó, nêu_trên]
+
+  business:
+    markers:
+      lexemes: [báo_cáo, cuộc_họp, thời_hạn, khách_hàng, doanh_thu, quý,
+                đề_xuất, hợp_đồng, dự_báo, mục_tiêu, kế_hoạch, chương_trình,
+                "báo cáo", "cuộc họp", "thời hạn", "khách hàng", "doanh thu",
+                "đề xuất", "hợp đồng", "mục tiêu", "kế hoạch"]
+      particles: []
+      address: [anh, chị, quý_vị]
+      sentence_length: { mean: 18, max: 32 }
+      pronoun_rate: medium
+    prefers: [yêu_cầu, cung_cấp, xác_nhận, xem_xét, gửi, tham_dự]
+    avoids: [mày, tao, ừ, ờ]
+
+  formal:
+    markers:
+      lexemes: [kính, kính_thưa, trân_trọng, theo_đó, do_đó, tuy_nhiên,
+                vì_vậy, nêu_trên, quy_định, "kính thưa", "trân trọng",
+                "theo đó", "tuy nhiên"]
+      particles: [ạ, thưa]
+      address: [ông, bà, quý_vị]
+      sentence_length: { mean: 24, max: 44 }
+      pronoun_rate: low
+    prefers: [yêu_cầu, đề_nghị, cung_cấp, đảm_bảo, tuân_thủ]
+    avoids: [mày, tao, ừ, nhé]
+
+  technical:
+    markers:
+      lexemes: [triển_khai, điểm_cuối, độ_trễ, thông_lượng, cụm, container,
+                pipeline, lược_đồ, chỉ_mục, bộ_đệm, token, suy_luận, kho_mã,
+                "triển khai", "độ trễ", "thông lượng", "chỉ mục", "bộ đệm",
+                "suy luận", "kho mã"]
+      sentence_length: { mean: 16, max: 30 }
+      pronoun_rate: low
+    prefers: [cấu_hình, triển_khai, gọi, phân_tích, tối_ưu]
+    avoids: [đáng_yêu, tuyệt_vời]
+
+  academic:
+    markers:
+      lexemes: [giả_thuyết, phương_pháp, ngữ_liệu, đáng_kể, tương_quan,
+                thực_nghiệm, cơ_sở, do_đó, tuy_nhiên, hơn_nữa,
+                "giả thuyết", "phương pháp", "ngữ liệu", "đáng kể",
+                "tương quan", "thực nghiệm"]
+      sentence_length: { mean: 25, max: 48 }
+      pronoun_rate: low
+    prefers: [quan_sát, chứng_minh, cho_thấy, đề_xuất, đánh_giá]
+    avoids: [ừ, kiểu, siêu, cực]
+
+  literary:
+    markers:
+      lexemes: [hoàng_hôn, bóng, im_lặng, thì_thầm, lang_thang, ánh_mắt,
+                run_rẩy, đỏ_thắm, xa_xăm, ký_ức,
+                "hoàng hôn", "im lặng", "thì thầm", "lang thang", "ký ức"]
+      sentence_length: { mean: 19, max: 55 }
+      pronoun_rate: medium
+    prefers: [ngắm, lang_thang, thì_thầm, trôi]
+    avoids: [điểm_cuối, thông_lượng, doanh_thu]
+
+detection:
+  weights:
+    # Politeness particles and address terms outweigh vocabulary in Vietnamese.
+    lexeme_hits: 1.0
+    particle_hits: 1.2
+    address_hits: 1.2
+    mean_sentence_length: 0.4
+    pronoun_rate: 0.3
+  min_margin: 0.08

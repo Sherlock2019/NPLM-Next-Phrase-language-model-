@@ -1,0 +1,99 @@
+# French morphology normalised onto SPLM's universal categories.
+#
+# French marks far more than English: gender throughout, person and number on every
+# finite verb, and a distinct future and conditional in the verb stem. That extra
+# marking is what makes agreement checking actually informative here.
+
+language: fr
+version: 1
+
+defaults:
+  person: 3
+  number: singular
+  gender: null
+
+feature_map:
+  Person: person
+  Number: number
+  Gender: gender
+  Tense: tense
+  Aspect: aspect
+  Mood: mood
+  Voice: voice
+  Polarity: polarity
+  Definite: definiteness
+  Degree: degree
+  VerbForm: verb_form
+  PronType: pronoun_type
+  Poss: possessive
+  NumType: number_type
+  Reflex: reflexive
+
+value_map:
+  number: { Sing: singular, Plur: plural }
+  person: { "1": 1, "2": 2, "3": 3 }
+  gender: { Masc: masculine, Fem: feminine }
+  # French Imp is the imperfect - a past, not a progressive aspect.
+  tense: { Past: past, Pres: present, Fut: future, Imp: past, Pqp: past }
+  aspect: { Imp: progressive, Perf: perfect }
+  mood: { Ind: indicative, Imp: imperative, Sub: subjunctive, Cnd: conditional }
+  voice: { Act: active, Pass: passive }
+  polarity: { Neg: negative, Pos: positive }
+  definiteness: { Def: definite, Ind: indefinite }
+  degree: { Pos: positive, Cmp: comparative, Sup: superlative }
+  verb_form: { Fin: finite, Inf: infinitive, Part: participle, Ger: gerund }
+
+pronouns:
+  je:     { person: 1, number: singular, case: nominative, animate: true }
+  me:     { person: 1, number: singular, case: accusative, animate: true }
+  moi:    { person: 1, number: singular, animate: true }
+  tu:     { person: 2, number: singular, case: nominative, animate: true }
+  te:     { person: 2, number: singular, case: accusative, animate: true }
+  toi:    { person: 2, number: singular, animate: true }
+  il:     { person: 3, number: singular, gender: masculine, case: nominative }
+  elle:   { person: 3, number: singular, gender: feminine, case: nominative }
+  lui:    { person: 3, number: singular, case: dative, animate: true }
+  nous:   { person: 1, number: plural, animate: true }
+  vous:   { person: 2, number: plural, animate: true, politeness: formal }
+  ils:    { person: 3, number: plural, gender: masculine, case: nominative }
+  elles:  { person: 3, number: plural, gender: feminine, case: nominative }
+  les:    { person: 3, number: plural, case: accusative }
+  leur:   { person: 3, number: plural, case: dative }
+  on:     { person: 3, number: singular }
+  se:     { person: 3, reflexive: true }
+
+# Only the high-frequency irregulars; regular conjugation is handled by rule.
+verb_forms:
+  être:    { base: être, "1sg": suis, "2sg": es, "3sg": est, "1pl": sommes, "2pl": êtes, "3pl": sont, past: était, participle: été }
+  avoir:   { base: avoir, "1sg": ai, "2sg": as, "3sg": a, "1pl": avons, "2pl": avez, "3pl": ont, past: avait, participle: eu }
+  aller:   { base: aller, "1sg": vais, "2sg": vas, "3sg": va, "1pl": allons, "2pl": allez, "3pl": vont, participle: allé }
+  faire:   { base: faire, "3sg": fait, "3pl": font, participle: fait }
+  pouvoir: { base: pouvoir, "3sg": peut, "3pl": peuvent, participle: pu }
+  devoir:  { base: devoir, "3sg": doit, "3pl": doivent, participle: dû }
+  vouloir: { base: vouloir, "3sg": veut, "3pl": veulent, participle: voulu }
+  savoir:  { base: savoir, "3sg": sait, "3pl": savent, participle: su }
+  venir:   { base: venir, "3sg": vient, "3pl": viennent, participle: venu }
+  voir:    { base: voir, "3sg": voit, "3pl": voient, participle: vu }
+  dire:    { base: dire, "3sg": dit, "3pl": disent, participle: dit }
+  rencontrer: { base: rencontrer, "3sg": rencontre, "3pl": rencontrent, participle: rencontré }
+
+inflection_rules:
+  third_person_singular:
+    - { suffix_in: [er], replace: e }
+    - { suffix_in: [ir], replace: it }
+    - { suffix_in: [re], replace: t }
+    - { default: true, add: "" }
+  plural_noun:
+    - { suffix_in: [s, x, z], add: "" }
+    - { suffix_in: [al], replace: aux }
+    - { suffix_in: [eau], add: x }
+    - { default: true, add: s }
+
+irregular_plurals:
+  { oeil: yeux, œil: yeux, ciel: cieux, travail: travaux, cheval: chevaux,
+    journal: journaux, animal: animaux, hôpital: hôpitaux }
+
+# Feminine forms, needed for gender agreement checks on candidates.
+feminine_forms:
+  { petit: petite, grand: grande, bon: bonne, nouveau: nouvelle, beau: belle,
+    vieux: vieille, heureux: heureuse, premier: première, dernier: dernière }

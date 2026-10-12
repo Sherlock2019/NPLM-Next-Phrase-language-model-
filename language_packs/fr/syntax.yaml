@@ -1,0 +1,183 @@
+# French syntax: how French surface markers map onto universal roles.
+#
+# Written against the same interface as the English pack (spec section 4: adding a
+# language must not touch the engine). French differs from English in ways that show
+# up here rather than in code: `à` is far more ambiguous than any single English
+# preposition, `en` marks both manner-of-transport and location, and `de` carries
+# source as well as possession.
+
+language: fr
+version: 1
+
+adposition_cues:
+  # `à` is the hardest case in the language: place, time, recipient and destination
+  # all take it. The prior stays genuinely spread; entity type does the work.
+  à:          { LOCATION: 0.34, DESTINATION: 0.26, RECIPIENT: 0.22, TIME: 0.16, MANNER: 0.02 }
+  au:         { LOCATION: 0.34, DESTINATION: 0.26, RECIPIENT: 0.22, TIME: 0.16, MANNER: 0.02 }
+  aux:        { LOCATION: 0.32, DESTINATION: 0.26, RECIPIENT: 0.24, TIME: 0.16 }
+  dans:       { LOCATION: 0.68, TIME: 0.28, MANNER: 0.04 }
+  en:         { LOCATION: 0.38, MANNER: 0.34, TIME: 0.26, INSTRUMENT: 0.02 }
+  sur:        { LOCATION: 0.80, THEME: 0.20 }
+  sous:       { LOCATION: 0.80, CONDITION: 0.20 }
+  chez:       { LOCATION: 0.92 }
+  vers:       { DESTINATION: 0.75, TIME: 0.25 }
+  jusque:     { DESTINATION: 0.50, TIME: 0.50 }
+  de:         { SOURCE: 0.42, THEME: 0.48, CAUSE: 0.10 }
+  du:         { SOURCE: 0.42, THEME: 0.48, CAUSE: 0.10 }
+  des:        { SOURCE: 0.40, THEME: 0.50, CAUSE: 0.10 }
+  depuis:     { TIME: 0.70, SOURCE: 0.30 }
+  par:        { INSTRUMENT: 0.32, MANNER: 0.28, AGENT: 0.26, LOCATION: 0.14 }
+  avec:       { PARTICIPANT: 0.44, INSTRUMENT: 0.42, MANNER: 0.14 }
+  sans:       { MANNER: 0.72, INSTRUMENT: 0.28 }
+  pour:       { PURPOSE: 0.46, BENEFICIARY: 0.38, TIME: 0.16 }
+  afin:       { PURPOSE: 0.95 }
+  contre:     { PARTICIPANT: 0.60, LOCATION: 0.40 }
+  pendant:    { TIME: 0.95 }
+  durant:     { TIME: 0.95 }
+  avant:      { TIME: 0.92 }
+  après:      { TIME: 0.92 }
+  entre:      { LOCATION: 0.70, TIME: 0.30 }
+  parmi:      { LOCATION: 0.78, PARTICIPANT: 0.22 }
+  près:       { LOCATION: 0.92 }
+  malgré:     { CONDITION: 0.88 }
+  selon:      { MANNER: 0.85 }
+  comme:      { MANNER: 0.80, TIME: 0.20 }
+  grâce:      { CAUSE: 0.92 }
+
+fixed_adpositions:
+  "à cause de":     { CAUSE: 0.96 }
+  "grâce à":        { CAUSE: 0.92 }
+  "en raison de":   { CAUSE: 0.95 }
+  "afin de":        { PURPOSE: 0.97 }
+  "de façon à":     { PURPOSE: 0.92 }
+  "au lieu de":     { MANNER: 0.85 }
+  "à côté de":      { LOCATION: 0.94 }
+  "loin de":        { LOCATION: 0.92 }
+  "près de":        { LOCATION: 0.94 }
+  "au moyen de":    { INSTRUMENT: 0.95 }
+  "à partir de":    { SOURCE: 0.80, TIME: 0.20 }
+  "en cas de":      { CONDITION: 0.94 }
+  "jusqu'à":        { DESTINATION: 0.48, TIME: 0.52 }
+
+# `en train`, `en voiture`, `à vélo` are all manner of transport, not location.
+lexical_overrides:
+  - name: en_transport
+    adposition: en
+    head_lemma_in_class: transport
+    distribution: { MANNER: 0.92, INSTRUMENT: 0.08 }
+    annotate: { transport: "{head_lemma}" }
+  - name: a_transport
+    adposition: à
+    head_lemma_in_class: transport
+    distribution: { MANNER: 0.88, LOCATION: 0.12 }
+    annotate: { transport: "{head_lemma}" }
+  - name: par_transport
+    adposition: par
+    head_lemma_in_class: transport
+    distribution: { MANNER: 0.85, INSTRUMENT: 0.15 }
+    annotate: { transport: "{head_lemma}" }
+  - name: avec_personne
+    adposition: avec
+    head_entity_type: PERSON
+    distribution: { PARTICIPANT: 0.92, INSTRUMENT: 0.08 }
+  - name: avec_outil
+    adposition: avec
+    head_lemma_in_class: tool
+    distribution: { INSTRUMENT: 0.90, PARTICIPANT: 0.10 }
+
+semantic_classes:
+  transport:
+    [train, voiture, bus, avion, bateau, ferry, vélo, taxi, métro, tram, car,
+     hélicoptère, pied, rail, air, mer, autocar, scooter, moto]
+  tool:
+    [marteau, couteau, ordinateur, portable, téléphone, stylo, crayon, pinceau,
+     clé, logiciel, outil, machine, terraform, docker, kubernetes, python]
+
+predicate_role_profiles:
+  rencontrer: { obj: { PARTICIPANT: 0.82, PATIENT: 0.12, THEME: 0.06 } }
+  négocier:   { obj: { THEME: 0.82, PATIENT: 0.18 }, obl: { PARTICIPANT: 0.60, MANNER: 0.40 } }
+  épouser:    { obj: { PARTICIPANT: 0.85, PATIENT: 0.15 } }
+  donner:     { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90 } }
+  envoyer:    { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90 }, obl: { DESTINATION: 0.70, RECIPIENT: 0.30 } }
+  dire:       { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90 } }
+  montrer:    { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90 } }
+  déployer:   { obj: { PATIENT: 0.80, THEME: 0.20 }, obl: { DESTINATION: 0.70, LOCATION: 0.30 } }
+  construire: { obj: { PATIENT: 0.85, THEME: 0.15 } }
+  voir:       { nsubj: { EXPERIENCER: 0.85, AGENT: 0.15 }, obj: { THEME: 0.90 } }
+  savoir:     { nsubj: { EXPERIENCER: 0.90 }, ccomp: { THEME: 0.95 } }
+  vouloir:    { nsubj: { EXPERIENCER: 0.85 }, obj: { THEME: 0.90 } }
+  aller:      { obl: { DESTINATION: 0.68, LOCATION: 0.20, MANNER: 0.12 } }
+  voyager:    { obl: { DESTINATION: 0.52, MANNER: 0.28, LOCATION: 0.20 } }
+  arriver:    { obl: { DESTINATION: 0.70, LOCATION: 0.20, TIME: 0.10 } }
+  partir:     { obl: { DESTINATION: 0.45, SOURCE: 0.35, TIME: 0.20 } }
+  discuter:   { obj: { THEME: 0.90 }, obl: { PARTICIPANT: 0.60, THEME: 0.40 } }
+  travailler: { obl: { LOCATION: 0.70, MANNER: 0.30 } }
+
+clause_head_cues:
+  utiliser: { distribution: { INSTRUMENT: 0.92, MANNER: 0.08 }, promote_object: true }
+  employer: { distribution: { INSTRUMENT: 0.85, MANNER: 0.15 }, promote_object: true }
+
+subordinator_cues:
+  si:        { CONDITION: 0.95 }
+  quand:     { TIME: 0.90, CONDITION: 0.10 }
+  lorsque:   { TIME: 0.92 }
+  pendant:   { TIME: 0.95 }
+  tandis:    { TIME: 0.80, MANNER: 0.20 }
+  avant:     { TIME: 0.95 }
+  après:     { TIME: 0.95 }
+  dès:       { TIME: 0.92 }
+  jusqu:     { TIME: 0.95 }
+  depuis:    { TIME: 0.90 }
+  parce:     { CAUSE: 0.96 }
+  puisque:   { CAUSE: 0.92 }
+  car:       { CAUSE: 0.94 }
+  comme:     { CAUSE: 0.45, MANNER: 0.35, TIME: 0.20 }
+  pour:      { PURPOSE: 0.88, BENEFICIARY: 0.12 }
+  afin:      { PURPOSE: 0.96 }
+  que:       { THEME: 0.90, PURPOSE: 0.10 }
+  bien:      { CONDITION: 0.85 }
+  quoique:   { CONDITION: 0.85 }
+  sauf:      { CONDITION: 0.88 }
+  à moins:   { CONDITION: 0.92 }
+
+temporal_adverbs:
+  [hier, aujourd'hui, demain, maintenant, alors, ensuite, plus_tard, bientôt,
+   tôt, tard, déjà, encore, toujours, jamais, souvent, parfois, rarement,
+   quotidiennement, annuellement, immédiatement, enfin, récemment, ce_soir,
+   avant-hier, après-demain]
+
+locative_adverbs:
+  [ici, là, là-bas, partout, nulle_part, quelque_part, ailleurs, dehors,
+   dedans, dessus, dessous, autour, loin, près]
+
+manner_adverb_suffixes: ["ment"]
+manner_adverbs:
+  [bien, mal, vite, ensemble, seul, doucement, lentement, rapidement,
+   soigneusement, soudain, directement]
+
+# French adjuncts are freer than English ones; time can front, and the subject may be
+# dropped in the imperative. These are tendencies, not a template (spec section 31).
+slot_sequence_priors:
+  after_predicate:
+    { objects: 0.28, recipients: 0.11, participants: 0.08, destination: 0.11,
+      location: 0.13, time: 0.10, manner: 0.09, instrument: 0.05, goal: 0.04,
+      cause: 0.01 }
+  after_objects:
+    { destination: 0.17, recipients: 0.15, location: 0.18, time: 0.16,
+      manner: 0.11, instrument: 0.09, goal: 0.09, cause: 0.05 }
+  after_location:
+    { time: 0.40, manner: 0.19, goal: 0.15, instrument: 0.11, cause: 0.09, source: 0.06 }
+  after_time:
+    { manner: 0.27, goal: 0.25, instrument: 0.19, location: 0.16, cause: 0.13 }
+  after_participants:
+    { location: 0.30, time: 0.22, manner: 0.14, goal: 0.13, destination: 0.08,
+      instrument: 0.07, cause: 0.04, recipients: 0.02 }
+  sentence_initial:
+    { subject: 0.58, time: 0.19, condition: 0.11, location: 0.08, manner: 0.04 }
+  after_subject:
+    { predicate: 0.72, objects: 0.07, time: 0.06, location: 0.06, manner: 0.05,
+      cause: 0.02, condition: 0.02 }
+
+dangling_marker_exponent: 2.0
+repeat_slot_penalty: 0.25
+repeatable_slots: [time, location, manner]

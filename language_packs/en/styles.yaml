@@ -1,0 +1,93 @@
+# English style / register (spec section 28).
+#
+# Style governs *how* a meaning is expressed, never *what* it means. Nothing in
+# this file may change a frame slot - the style engine only scores candidates for
+# how well they fit the detected register.
+
+language: en
+version: 1
+
+default_style: casual
+
+styles:
+
+  casual:
+    markers:
+      lexemes: [yeah, ok, okay, gonna, wanna, stuff, thing, guy, kid, lots,
+                pretty, really, super, cool, hey, bit]
+      contractions: encouraged
+      sentence_length: { mean: 11, max: 22 }
+      pronoun_rate: high
+      passive_rate: low
+    prefers: [want, get, tell, ask, show, need, numbers]
+    avoids: [heretofore, pursuant, aforementioned, notwithstanding]
+
+  business:
+    markers:
+      lexemes: [report, meeting, deadline, client, revenue, quarter, deliverable,
+                stakeholder, agenda, proposal, contract, forecast, target]
+      contractions: discouraged
+      sentence_length: { mean: 18, max: 34 }
+      pronoun_rate: medium
+      passive_rate: medium
+    prefers: [request, provide, confirm, schedule, review, submit, attend]
+    avoids: [gonna, wanna, stuff, guy]
+
+  formal:
+    markers:
+      lexemes: [hereby, therefore, accordingly, furthermore, shall, may, must,
+                pursuant, respectfully, kindly]
+      contractions: forbidden
+      sentence_length: { mean: 24, max: 45 }
+      pronoun_rate: low
+      passive_rate: high
+    prefers: [request, require, provide, ensure, comply]
+    avoids: [gonna, wanna, yeah, ok, stuff]
+
+  technical:
+    markers:
+      lexemes: [deploy, endpoint, latency, throughput, cluster, container,
+                pipeline, schema, index, cache, token, gradient, inference,
+                repository, commit]
+      contractions: allowed
+      sentence_length: { mean: 16, max: 32 }
+      pronoun_rate: low
+      passive_rate: medium
+    prefers: [configure, deploy, invoke, allocate, parse, serialize]
+    avoids: [lovely, beautiful, charming]
+
+  academic:
+    markers:
+      lexemes: [hypothesis, methodology, corpus, significant, correlation,
+                empirical, baseline, ablation, therefore, however, moreover,
+                furthermore]
+      contractions: forbidden
+      sentence_length: { mean: 26, max: 50 }
+      pronoun_rate: low
+      passive_rate: high
+    prefers: [observe, demonstrate, indicate, suggest, evaluate, hypothesise]
+    avoids: [gonna, stuff, huge, awesome]
+
+  literary:
+    markers:
+      lexemes: [dusk, shadow, silence, whisper, wander, gaze, trembling,
+                crimson, distant, memory]
+      contractions: allowed
+      sentence_length: { mean: 20, max: 60 }
+      pronoun_rate: medium
+      passive_rate: low
+    prefers: [gaze, wander, linger, murmur, drift]
+    avoids: [endpoint, deliverable, KPI, throughput]
+
+# Detection weights. The style detector scores each style by marker hits
+# normalised by length, then blends with these structural signals.
+detection:
+  weights:
+    lexeme_hits: 1.0
+    contraction_rate: 0.6
+    mean_sentence_length: 0.5
+    passive_rate: 0.4
+    pronoun_rate: 0.3
+  # Below this margin over the runner-up, report the style as uncertain and let
+  # the style score stay neutral rather than guessing.
+  min_margin: 0.08

@@ -1,0 +1,159 @@
+# Universal Dependencies relation -> semantic role hypotheses (spec section 17).
+#
+# Every mapping produces a *probability distribution*, never a hard assignment.
+# The role engine multiplies these priors by evidence from adpositions
+# (language pack), named-entity type, and the predicate's lexical class, then
+# renormalises. Alternatives are kept on the frame element so downstream layers
+# can see what was considered and how close the runner-up was.
+
+version: 1
+
+# Floor probability for any role not listed in a distribution. Keeps the product
+# from collapsing to zero when one evidence source has never seen a role.
+floor: 0.02
+
+deprel_priors:
+
+  nsubj:
+    default: { AGENT: 0.60, EXPERIENCER: 0.18, THEME: 0.17, PATIENT: 0.05 }
+    by_predicate_type:
+      ACTION:       { AGENT: 0.75, EXPERIENCER: 0.10, THEME: 0.10, PATIENT: 0.05 }
+      STATE:        { EXPERIENCER: 0.55, THEME: 0.40, AGENT: 0.05 }
+      EVENT:        { THEME: 0.50, AGENT: 0.30, EXPERIENCER: 0.20 }
+      RELATIONSHIP: { EXPERIENCER: 0.45, THEME: 0.45, AGENT: 0.10 }
+      POSSESSION:   { EXPERIENCER: 0.70, AGENT: 0.15, THEME: 0.15 }
+      EXISTENCE:    { THEME: 0.85, EXPERIENCER: 0.15 }
+      CHANGE:       { PATIENT: 0.50, THEME: 0.35, AGENT: 0.15 }
+
+  nsubj:pass:
+    default: { PATIENT: 0.65, THEME: 0.30, EXPERIENCER: 0.05 }
+
+  csubj:
+    default: { THEME: 0.70, CAUSE: 0.20, AGENT: 0.10 }
+
+  obj:
+    default: { PATIENT: 0.45, THEME: 0.40, OBJECT: 0.15 }
+    by_predicate_type:
+      ACTION:       { PATIENT: 0.50, THEME: 0.35, OBJECT: 0.15 }
+      STATE:        { THEME: 0.75, OBJECT: 0.25 }
+      RELATIONSHIP: { THEME: 0.60, OBJECT: 0.40 }
+      POSSESSION:   { THEME: 0.70, OBJECT: 0.30 }
+      CHANGE:       { PATIENT: 0.70, THEME: 0.30 }
+
+  iobj:
+    default: { RECIPIENT: 0.75, BENEFICIARY: 0.20, THEME: 0.05 }
+
+  obl:
+    # The genuinely ambiguous one. Adposition and entity type do most of the work;
+    # this prior only says "adjunct-ish, probably circumstantial".
+    default:
+      { LOCATION: 0.22, TIME: 0.20, DESTINATION: 0.12, SOURCE: 0.10,
+        MANNER: 0.10, INSTRUMENT: 0.09, RECIPIENT: 0.07, BENEFICIARY: 0.05,
+        CAUSE: 0.05 }
+
+  obl:agent:
+    default: { AGENT: 0.90, CAUSE: 0.10 }
+
+  obl:tmod:
+    default: { TIME: 0.95, LOCATION: 0.05 }
+
+  obl:npmod:
+    default: { MANNER: 0.45, TIME: 0.35, LOCATION: 0.20 }
+
+  nmod:
+    # Attaches to a noun, not the predicate: usually modifies its head rather than
+    # filling a clause-level slot. Treated as a modifier unless promoted.
+    default: { THEME: 0.40, LOCATION: 0.25, TIME: 0.20, SOURCE: 0.15 }
+    modifier: true
+
+  nmod:poss:
+    default: { THEME: 0.60, EXPERIENCER: 0.40 }
+    modifier: true
+
+  advmod:
+    default: { MANNER: 0.55, TIME: 0.30, LOCATION: 0.10, CAUSE: 0.05 }
+
+  amod:
+    default: { THEME: 1.0 }
+    modifier: true
+
+  xcomp:
+    # Open clausal complement: "wants to leave", "went to buy bread".
+    default: { PURPOSE: 0.45, THEME: 0.45, MANNER: 0.10 }
+    nested: true
+
+  ccomp:
+    # Closed clausal complement: the *content* of a saying/thinking predicate.
+    default: { THEME: 0.85, PURPOSE: 0.15 }
+    nested: true
+
+  advcl:
+    # Disambiguated almost entirely by the subordinator (`mark`), see language packs.
+    default: { CONDITION: 0.25, PURPOSE: 0.25, TIME: 0.22, CAUSE: 0.20, MANNER: 0.08 }
+    nested: true
+
+  acl:
+    default: { THEME: 0.70, PURPOSE: 0.30 }
+    nested: true
+    modifier: true
+
+  acl:relcl:
+    default: { THEME: 1.0 }
+    nested: true
+    modifier: true
+
+  conj:
+    # Coordinated element: inherits the role of the conjunct it is attached to.
+    default: {}
+    inherit_from_head: true
+
+  appos:
+    default: { THEME: 1.0 }
+    modifier: true
+
+  obl:arg:
+    # An oblique *argument* - one the verb requires rather than an adjunct. It is
+    # commonly a location ("lives in Paris", "is at the office"), so LOCATION belongs
+    # here: omitting it made a locative argument impossible to recognise, and French
+    # `etre a X` came out as a destination.
+    default:
+      { RECIPIENT: 0.26, DESTINATION: 0.20, LOCATION: 0.20, THEME: 0.19,
+        SOURCE: 0.10, TIME: 0.05 }
+
+  obl:mod:
+    # An oblique modifier: circumstantial, so the same spread as a bare `obl`.
+    default:
+      { LOCATION: 0.24, TIME: 0.22, DESTINATION: 0.11, SOURCE: 0.09,
+        MANNER: 0.11, INSTRUMENT: 0.09, CAUSE: 0.07, RECIPIENT: 0.04,
+        BENEFICIARY: 0.03 }
+
+# Relations that never carry a semantic role of their own. They are consumed as
+# evidence about the token they attach to.
+functional_deprels:
+  case: adposition_marker      # supplies the adposition cue
+  mark: subordinator_marker    # supplies the clause-type cue
+  cop: copula                  # signals a STATE/RELATIONSHIP predicate
+  aux: auxiliary               # supplies tense / aspect / modality
+  aux:pass: auxiliary_passive
+  det: determiner              # supplies definiteness
+  cc: coordinator
+  punct: punctuation
+  expl: expletive              # "there is ..." -> EXISTENCE
+  discourse: discourse
+  fixed: fixed
+  flat: flat                   # multi-word names stay one element
+  goeswith: fixed
+  compound: compound           # part of its head's span
+  nummod: numeral
+  clf: classifier              # Vietnamese and friends
+  dep: unspecified
+
+# Relations that spawn a nested UniversalPhraseFrame instead of a flat element
+# (spec section 11 - complex language must not be flattened).
+nested_deprels: [advcl, xcomp, ccomp, acl, acl:relcl, csubj, parataxis]
+
+# Slot each role lands in is defined in semantic_roles.yaml; this only records
+# which relations may fill a *clause-level* slot at all.
+clause_level_deprels:
+  [nsubj, "nsubj:pass", csubj, obj, iobj, obl, "obl:agent", "obl:tmod",
+   "obl:npmod", "obl:arg", advmod, advcl, xcomp, ccomp, expl]

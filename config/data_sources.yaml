@@ -1,0 +1,102 @@
+# External linguistic resources.
+#
+# Rule (spec section 33): SPLM never downloads data silently at runtime.
+# scripts/download_resources.py is the only component allowed to fetch these,
+# and it writes provenance (url, version, license, download date, language)
+# into data/MANIFEST.json for every artefact it pulls.
+#
+# The one exception is the dictionary: with app.lexicon.auto_download on, the app
+# fetches a language's Wiktionary dump the first time it meets that language. That is
+# logged, shown on the dashboard's system page, and recorded in the same manifest.
+
+sources:
+
+  stanza_models:
+    kind: parser_model
+    provider: Stanford NLP
+    homepage: https://stanfordnlp.github.io/stanza/
+    license: Apache-2.0
+    version: "1.14.0-resources"
+    # Downloaded through the stanza API rather than a raw URL.
+    fetch: stanza
+    languages: [en, fr, vi]
+    dest: data/raw/stanza_resources
+    required_for: [milestone-1]
+    notes: >
+      Stanza's UD pipelines (tokenize, pos, lemma, depparse, ner). These supply the
+      Universal Dependencies analysis that the Phrase Frame Builder consumes.
+
+  universal_dependencies:
+    kind: treebank
+    provider: Universal Dependencies
+    homepage: https://universaldependencies.org/
+    url: https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5787
+    license: per-treebank (mixed CC BY-SA / CC BY-NC-SA / GPL - see each treebank's LICENSE.txt)
+    version: "2.14"
+    fetch: http
+    dest: data/raw/ud
+    treebanks:
+      en: UD_English-EWT
+      fr: UD_French-GSD
+      vi: UD_Vietnamese-VTB
+    required_for: [evaluation, slot-predictor-training]
+    notes: >
+      Gold dependency parses. Used to (a) evaluate the parser-independent parts of
+      SPLM and (b) mine training data for the trainable slot predictor: every gold
+      tree yields (prefix state -> next semantic slot) supervision for free.
+
+  unimorph:
+    kind: morphology
+    provider: UniMorph
+    homepage: https://unimorph.github.io/
+    url: https://github.com/unimorph
+    license: CC BY-SA 3.0
+    version: "4.0"
+    fetch: http
+    dest: data/raw/unimorph
+    languages: [en, fr, vi]
+    required_for: [morphology-engine]
+    notes: Inflection tables, normalised into the morphology table of splm.db.
+
+  wiktionary:
+    kind: lexicon
+    provider: Wiktionary via wiktextract (kaikki.org)
+    homepage: https://kaikki.org/dictionary/
+    # One dump per language, so only the languages actually used are fetched.
+    url_template: https://kaikki.org/dictionary/{name}/kaikki.org-dictionary-{name}.jsonl.gz
+    # Language code -> the name kaikki.org files that language under.
+    dump_names:
+      en: English
+      fr: French
+      vi: Vietnamese
+    license: CC BY-SA 4.0 and GFDL
+    # The dumps are regenerated regularly; the Last-Modified date of the one fetched
+    # is what gets recorded in the manifest.
+    version: latest
+    fetch: http
+    dest: data/raw/wiktionary
+    languages: [en, fr, vi]
+    required_for: [lexicon]
+    notes: >
+      Entries from the English-language Wiktionary, so definitions are in English for
+      every language. Fetched by scripts/build_lexicon.py, or by the running app for a
+      language it meets when app.lexicon.auto_download is on.
+
+  propbank:
+    kind: semantic_roles
+    provider: PropBank
+    homepage: https://propbank.github.io/
+    url: https://github.com/propbank/propbank-frames
+    license: CC BY-SA 4.0
+    version: "3.4"
+    fetch: git
+    dest: data/raw/propbank
+    languages: [en]
+    required_for: [semantic-role-engine]
+    notes: >
+      Frame files are predicate-specific: ARG0/ARG1 do NOT map to fixed roles.
+      The adapter reads each roleset's per-argument descriptor and function tag
+      and maps those to SPLM's universal role inventory.
+
+# Anything fetched lands here with provenance recorded alongside.
+manifest: data/MANIFEST.json

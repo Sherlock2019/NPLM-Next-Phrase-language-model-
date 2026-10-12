@@ -1,0 +1,275 @@
+# SPLM test fixture - SILVER data, not gold annotation.
+#
+# Produced by scripts/make_fixtures.py from the configured parser. Committed so
+# that tests of the frame builder run without a parser model and do not change
+# when a model is upgraded. Regenerate deliberately and review the diff.
+#
+# parser: stanza
+# language: en
+
+# input = John works.
+# text = John works.
+1	John	John	PROPN	NNP	Number=Sing	2	nsubj	_	Ner=PERSON
+2	works	work	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = John is tired.
+# text = John is tired.
+1	John	John	PROPN	NNP	Number=Sing	3	nsubj	_	Ner=PERSON
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	cop	_	_
+3	tired	tired	ADJ	JJ	Degree=Pos	0	root	_	_
+4	.	.	PUNCT	.	_	3	punct	_	_
+
+# input = John owns a car.
+# text = John owns a car.
+1	John	John	PROPN	NNP	Number=Sing	2	nsubj	_	Ner=PERSON
+2	owns	own	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	car	car	NOUN	NN	Number=Sing	2	obj	_	_
+5	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = John met Sarah.
+# text = John met Sarah.
+1	John	John	PROPN	NNP	Number=Sing	2	nsubj	_	Ner=PERSON
+2	met	meet	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	Sarah	Sarah	PROPN	NNP	Number=Sing	2	obj	_	Ner=PERSON
+4	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = John met Sarah in Paris.
+# text = John met Sarah in Paris.
+1	John	John	PROPN	NNP	Number=Sing	2	nsubj	_	Ner=PERSON
+2	met	meet	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	Sarah	Sarah	PROPN	NNP	Number=Sing	2	obj	_	Ner=PERSON
+4	in	in	ADP	IN	_	5	case	_	_
+5	Paris	Paris	PROPN	NNP	Number=Sing	2	obl	_	Ner=GPE
+6	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = John met Sarah in Paris yesterday.
+# text = John met Sarah in Paris yesterday.
+1	John	John	PROPN	NNP	Number=Sing	2	nsubj	_	Ner=PERSON
+2	met	meet	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	Sarah	Sarah	PROPN	NNP	Number=Sing	2	obj	_	Ner=PERSON
+4	in	in	ADP	IN	_	5	case	_	_
+5	Paris	Paris	PROPN	NNP	Number=Sing	2	obl	_	Ner=GPE
+6	yesterday	yesterday	NOUN	NN	Number=Sing	2	obl:unmarked	_	Ner=DATE
+7	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = John met Sarah in Paris yesterday by train.
+# text = John met Sarah in Paris yesterday by train.
+1	John	John	PROPN	NNP	Number=Sing	2	nsubj	_	Ner=PERSON
+2	met	meet	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	Sarah	Sarah	PROPN	NNP	Number=Sing	2	obj	_	Ner=PERSON
+4	in	in	ADP	IN	_	5	case	_	_
+5	Paris	Paris	PROPN	NNP	Number=Sing	2	obl	_	Ner=GPE
+6	yesterday	yesterday	NOUN	NN	Number=Sing	2	obl:unmarked	_	Ner=DATE
+7	by	by	ADP	IN	_	8	case	_	_
+8	train	train	NOUN	NN	Number=Sing	2	obl	_	_
+9	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = John met Sarah in Paris yesterday to discuss the contract.
+# text = John met Sarah in Paris yesterday to discuss the contract.
+1	John	John	PROPN	NNP	Number=Sing	2	nsubj	_	Ner=PERSON
+2	met	meet	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	Sarah	Sarah	PROPN	NNP	Number=Sing	2	obj	_	Ner=PERSON
+4	in	in	ADP	IN	_	5	case	_	_
+5	Paris	Paris	PROPN	NNP	Number=Sing	2	obl	_	Ner=GPE
+6	yesterday	yesterday	NOUN	NN	Number=Sing	2	obl:unmarked	_	Ner=DATE
+7	to	to	PART	TO	_	8	mark	_	_
+8	discuss	discuss	VERB	VB	VerbForm=Inf	2	advcl	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	contract	contract	NOUN	NN	Number=Sing	8	obj	_	_
+11	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = John will meet Sarah in Paris tomorrow.
+# text = John will meet Sarah in Paris tomorrow.
+1	John	John	PROPN	NNP	Number=Sing	3	nsubj	_	Ner=PERSON
+2	will	will	AUX	MD	VerbForm=Fin	3	aux	_	_
+3	meet	meet	VERB	VB	VerbForm=Inf	0	root	_	_
+4	Sarah	Sarah	PROPN	NNP	Number=Sing	3	obj	_	Ner=PERSON
+5	in	in	ADP	IN	_	6	case	_	_
+6	Paris	Paris	PROPN	NNP	Number=Sing	3	obl	_	Ner=GPE
+7	tomorrow	tomorrow	NOUN	NN	Number=Sing	3	obl:unmarked	_	Ner=DATE
+8	.	.	PUNCT	.	_	3	punct	_	_
+
+# input = John will meet Sarah in Paris tomorrow by train to discuss the contract.
+# text = John will meet Sarah in Paris tomorrow by train to discuss the contract.
+1	John	John	PROPN	NNP	Number=Sing	3	nsubj	_	Ner=PERSON
+2	will	will	AUX	MD	VerbForm=Fin	3	aux	_	_
+3	meet	meet	VERB	VB	VerbForm=Inf	0	root	_	_
+4	Sarah	Sarah	PROPN	NNP	Number=Sing	3	obj	_	Ner=PERSON
+5	in	in	ADP	IN	_	6	case	_	_
+6	Paris	Paris	PROPN	NNP	Number=Sing	3	obl	_	Ner=GPE
+7	tomorrow	tomorrow	NOUN	NN	Number=Sing	3	obl:unmarked	_	Ner=DATE
+8	by	by	ADP	IN	_	9	case	_	_
+9	train	train	NOUN	NN	Number=Sing	3	obl	_	_
+10	to	to	PART	TO	_	11	mark	_	_
+11	discuss	discuss	VERB	VB	VerbForm=Inf	3	advcl	_	_
+12	the	the	DET	DT	Definite=Def|PronType=Art	13	det	_	_
+13	contract	contract	NOUN	NN	Number=Sing	11	obj	_	_
+14	.	.	PUNCT	.	_	3	punct	_	_
+
+# input = The engineer deployed the application to AWS yesterday using Terraform.
+# text = The engineer deployed the application to AWS yesterday using Terraform.
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	engineer	engineer	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	deployed	deploy	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+4	the	the	DET	DT	Definite=Def|PronType=Art	5	det	_	_
+5	application	application	NOUN	NN	Number=Sing	3	obj	_	_
+6	to	to	ADP	IN	_	7	case	_	_
+7	AWS	AWS	PROPN	NNP	Number=Sing	3	obl	_	Ner=ORG
+8	yesterday	yesterday	NOUN	NN	Number=Sing	3	obl:unmarked	_	Ner=DATE
+9	using	use	VERB	VBG	Tense=Pres|VerbForm=Part	3	advcl	_	_
+10	Terraform	Terraform	PROPN	NNP	Number=Sing	9	obj	_	Ner=PRODUCT
+11	.	.	PUNCT	.	_	3	punct	_	_
+
+# input = If John knew that Sarah might leave, he would call her.
+# text = If John knew that Sarah might leave, he would call her.
+1	If	if	SCONJ	IN	_	3	mark	_	_
+2	John	John	PROPN	NNP	Number=Sing	3	nsubj	_	Ner=PERSON
+3	knew	know	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	11	advcl	_	_
+4	that	that	SCONJ	IN	_	7	mark	_	_
+5	Sarah	Sarah	PROPN	NNP	Number=Sing	7	nsubj	_	Ner=PERSON
+6	might	might	AUX	MD	VerbForm=Fin	7	aux	_	_
+7	leave	leave	VERB	VB	VerbForm=Inf	3	ccomp	_	_
+8	,	,	PUNCT	,	_	3	punct	_	_
+9	he	he	PRON	PRP	Case=Nom|Gender=Masc|Number=Sing|Person=3|PronType=Prs	11	nsubj	_	_
+10	would	would	AUX	MD	VerbForm=Fin	11	aux	_	_
+11	call	call	VERB	VB	VerbForm=Inf	0	root	_	_
+12	her	her	PRON	PRP	Case=Acc|Gender=Fem|Number=Sing|Person=3|PronType=Prs	11	obj	_	_
+13	.	.	PUNCT	.	_	11	punct	_	_
+
+# input = There is a problem with the deployment.
+# text = There is a problem with the deployment.
+1	There	there	PRON	EX	_	2	expl	_	_
+2	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	problem	problem	NOUN	NN	Number=Sing	2	nsubj	_	_
+5	with	with	ADP	IN	_	7	case	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	deployment	deployment	NOUN	NN	Number=Sing	4	nmod	_	_
+8	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = The application was deployed by the engineer.
+# text = The application was deployed by the engineer.
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	application	application	NOUN	NN	Number=Sing	4	nsubj:pass	_	_
+3	was	be	AUX	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	4	aux:pass	_	_
+4	deployed	deploy	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+5	by	by	ADP	IN	_	7	case	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	engineer	engineer	NOUN	NN	Number=Sing	4	obl:agent	_	_
+8	.	.	PUNCT	.	_	4	punct	_	_
+
+# input = John did not meet Sarah in Paris.
+# text = John did not meet Sarah in Paris.
+1	John	John	PROPN	NNP	Number=Sing	4	nsubj	_	Ner=PERSON
+2	did	do	AUX	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	4	aux	_	_
+3	not	not	PART	RB	Polarity=Neg	4	advmod	_	_
+4	meet	meet	VERB	VB	VerbForm=Inf	0	root	_	_
+5	Sarah	Sarah	PROPN	NNP	Number=Sing	4	obj	_	Ner=PERSON
+6	in	in	ADP	IN	_	7	case	_	_
+7	Paris	Paris	PROPN	NNP	Number=Sing	4	obl	_	Ner=GPE
+8	.	.	PUNCT	.	_	4	punct	_	_
+
+# input = John is in Paris.
+# text = John is in Paris.
+1	John	John	PROPN	NNP	Number=Sing	4	nsubj	_	Ner=PERSON
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	in	in	ADP	IN	_	4	case	_	_
+4	Paris	Paris	PROPN	NNP	Number=Sing	0	root	_	Ner=GPE
+5	.	.	PUNCT	.	_	4	punct	_	_
+
+# input = Sarah has requested today's sales report.
+# text = Sarah has requested today's sales report.
+1	Sarah	Sarah	PROPN	NNP	Number=Sing	3	nsubj	_	Ner=PERSON
+2	has	have	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	aux	_	_
+3	requested	request	VERB	VBN	Tense=Past|VerbForm=Part	0	root	_	_
+4	today	today	NOUN	NN	Number=Sing	7	nmod:poss	_	_
+5	's	's	PART	POS	_	4	case	_	_
+6	sales	sale	NOUN	NNS	Number=Plur	7	compound	_	_
+7	report	report	NOUN	NN	Number=Sing	3	obj	_	_
+8	.	.	PUNCT	.	_	3	punct	_	_
+
+# input = John gave Sarah the document.
+# text = John gave Sarah the document.
+1	John	John	PROPN	NNP	Number=Sing	2	nsubj	_	Ner=PERSON
+2	gave	give	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	Sarah	Sarah	PROPN	NNP	Number=Sing	2	iobj	_	Ner=PERSON
+4	the	the	DET	DT	Definite=Def|PronType=Art	5	det	_	_
+5	document	document	NOUN	NN	Number=Sing	2	obj	_	_
+6	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = John met Sarah and Mary in Paris.
+# text = John met Sarah and Mary in Paris.
+1	John	John	PROPN	NNP	Number=Sing	2	nsubj	_	Ner=PERSON
+2	met	meet	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	Sarah	Sarah	PROPN	NNP	Number=Sing	2	obj	_	Ner=PERSON
+4	and	and	CCONJ	CC	_	5	cc	_	_
+5	Mary	Mary	PROPN	NNP	Number=Sing	3	conj	_	Ner=PERSON
+6	in	in	ADP	IN	_	7	case	_	_
+7	Paris	Paris	PROPN	NNP	Number=Sing	2	obl	_	Ner=GPE
+8	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = John met Sarah in Paris and left early.
+# text = John met Sarah in Paris and left early.
+1	John	John	PROPN	NNP	Number=Sing	2	nsubj	_	Ner=PERSON
+2	met	meet	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	Sarah	Sarah	PROPN	NNP	Number=Sing	2	obj	_	Ner=PERSON
+4	in	in	ADP	IN	_	5	case	_	_
+5	Paris	Paris	PROPN	NNP	Number=Sing	2	obl	_	Ner=GPE
+6	and	and	CCONJ	CC	_	7	cc	_	_
+7	left	leave	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	_
+8	early	early	ADV	RB	Degree=Pos	7	advmod	_	_
+9	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = I saw the man with the telescope.
+# text = I saw the man with the telescope.
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	_
+2	saw	see	VERB	VBD	Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin	0	root	_	_
+3	the	the	DET	DT	Definite=Def|PronType=Art	4	det	_	_
+4	man	man	NOUN	NN	Number=Sing	2	obj	_	_
+5	with	with	ADP	IN	_	7	case	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	telescope	telescope	NOUN	NN	Number=Sing	2	obl	_	_
+8	.	.	PUNCT	.	_	2	punct	_	_
+
+# input = John will meet Sarah in
+# text = John will meet Sarah in
+1	John	John	PROPN	NNP	Number=Sing	3	nsubj	_	Ner=PERSON
+2	will	will	AUX	MD	VerbForm=Fin	3	aux	_	_
+3	meet	meet	VERB	VB	VerbForm=Inf	0	root	_	_
+4	Sarah	Sarah	PROPN	NNP	Number=Sing	3	obj	_	Ner=PERSON
+5	in	in	ADP	IN	_	3	obl	_	_
+
+# input = The engineer deployed the application to AWS yesterday using
+# text = The engineer deployed the application to AWS yesterday using
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	engineer	engineer	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	deployed	deploy	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+4	the	the	DET	DT	Definite=Def|PronType=Art	5	det	_	_
+5	application	application	NOUN	NN	Number=Sing	3	obj	_	_
+6	to	to	ADP	IN	_	7	case	_	_
+7	AWS	AWS	PROPN	NNP	Number=Sing	3	obl	_	Ner=ORG
+8	yesterday	yesterday	NOUN	NN	Number=Sing	9	obl:unmarked	_	Ner=DATE
+9	using	use	VERB	VBG	Tense=Pres|VerbForm=Part	3	advcl	_	_
+
+# input = John is going to
+# text = John is going to
+1	John	John	PROPN	NNP	Number=Sing	3	nsubj	_	Ner=PERSON
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	aux	_	_
+3	going	go	VERB	VBG	Tense=Pres|VerbForm=Part	0	root	_	_
+4	to	to	PART	TO	_	3	xcomp	_	_
+
+# input = She traveled to Paris because
+# text = She traveled to Paris because
+1	She	she	PRON	PRP	Case=Nom|Gender=Fem|Number=Sing|Person=3|PronType=Prs	2	nsubj	_	_
+2	traveled	travel	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	to	to	ADP	IN	_	4	case	_	_
+4	Paris	Paris	PROPN	NNP	Number=Sing	2	obl	_	Ner=GPE
+5	because	because	ADV	RB	_	2	advmod	_	_
+
+# input = John works at
+# text = John works at
+1	John	John	PROPN	NNP	Number=Sing	2	nsubj	_	Ner=PERSON
+2	works	work	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	at	at	ADP	IN	_	2	obl	_	_

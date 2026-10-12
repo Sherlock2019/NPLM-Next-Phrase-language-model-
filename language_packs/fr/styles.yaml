@@ -1,0 +1,89 @@
+# French style / register.
+#
+# French draws its register line differently from English: the tu/vous distinction and
+# the passé simple are grammatical markers of formality, not just lexical choices.
+
+language: fr
+version: 1
+default_style: casual
+
+styles:
+  casual:
+    markers:
+      lexemes: [ouais, ok, truc, machin, mec, gars, super, vraiment, sympa,
+                bosser, bouffer, salut, bien_sûr, du_coup]
+      contractions: encouraged
+      sentence_length: { mean: 12, max: 24 }
+      pronoun_rate: high
+      passive_rate: low
+      address: tu
+    prefers: [vouloir, avoir, dire, montrer, chiffres]
+    avoids: [nonobstant, susmentionné, ci-après, ledit]
+
+  business:
+    markers:
+      lexemes: [rapport, réunion, échéance, client, chiffre_d'affaires, trimestre,
+                livrable, ordre_du_jour, proposition, contrat, prévision, objectif]
+      contractions: discouraged
+      sentence_length: { mean: 19, max: 34 }
+      pronoun_rate: medium
+      passive_rate: medium
+      address: vous
+    prefers: [demander, fournir, confirmer, planifier, examiner, transmettre]
+    avoids: [ouais, truc, mec, bosser]
+
+  formal:
+    markers:
+      lexemes: [veuillez, par_la_présente, conformément, ainsi, néanmoins,
+                toutefois, nonobstant, ledit, susmentionné, cordialement]
+      contractions: forbidden
+      sentence_length: { mean: 25, max: 46 }
+      pronoun_rate: low
+      passive_rate: high
+      address: vous
+    prefers: [solliciter, requérir, fournir, veiller, se_conformer]
+    avoids: [ouais, ok, truc, mec]
+
+  technical:
+    markers:
+      lexemes: [déployer, point_de_terminaison, latence, débit, cluster,
+                conteneur, pipeline, schéma, index, cache, jeton, inférence,
+                dépôt, commit, requête]
+      contractions: allowed
+      sentence_length: { mean: 17, max: 32 }
+      pronoun_rate: low
+      passive_rate: medium
+    prefers: [configurer, déployer, invoquer, allouer, analyser, sérialiser]
+    avoids: [charmant, ravissant]
+
+  academic:
+    markers:
+      lexemes: [hypothèse, méthodologie, corpus, significatif, corrélation,
+                empirique, référence, ablation, par_conséquent, cependant,
+                en_outre, ainsi]
+      contractions: forbidden
+      sentence_length: { mean: 27, max: 50 }
+      pronoun_rate: low
+      passive_rate: high
+    prefers: [observer, démontrer, indiquer, suggérer, évaluer]
+    avoids: [ouais, truc, énorme, génial]
+
+  literary:
+    markers:
+      lexemes: [crépuscule, ombre, silence, murmure, errer, regard, tremblant,
+                cramoisi, lointain, mémoire, songe]
+      contractions: allowed
+      sentence_length: { mean: 21, max: 60 }
+      pronoun_rate: medium
+      passive_rate: low
+    prefers: [contempler, errer, s'attarder, murmurer, dériver]
+    avoids: [livrable, débit, indicateur]
+
+detection:
+  weights:
+    lexeme_hits: 1.0
+    contraction_rate: 0.6
+    mean_sentence_length: 0.5
+    passive_rate: 0.4
+    pronoun_rate: 0.3
+  min_margin: 0.08

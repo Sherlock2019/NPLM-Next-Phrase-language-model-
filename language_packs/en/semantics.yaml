@@ -1,0 +1,203 @@
+# Slot compatibility evidence for English.
+#
+# This file answers one question: given that SPLM expects a WHERE next, is this
+# candidate word a plausible WHERE?
+#
+# HONESTY NOTE - read before trusting any number computed from this file.
+#
+# The gazetteers below are *seeds*, not coverage. They contain a few hundred
+# entries, not the world's place names. So the classifier has three outcomes, not
+# two: compatible, incompatible, and NO EVIDENCE. Metrics built on it (Semantic
+# Focus, Candidate Relevance, Semantic Noise) must report the share of candidates
+# that had evidence at all, and must not treat "no evidence" as "incompatible".
+#
+# Replacing these seeds with a real resource (Wikidata place types, WordNet
+# hypernyms, a Wiktionary category dump) is the single highest-value upgrade to
+# SPLM's semantic scoring. Until then these metrics are indicative, not decisive.
+
+language: en
+version: 1
+coverage: seed # seed | partial | full - reported in the UI alongside any metric
+
+# ---------------------------------------------------------------------------
+# What kind of word can fill each slot
+# ---------------------------------------------------------------------------
+# Part of speech is the one signal available for every candidate, so it does most
+# of the work. `pos_allow` lists tags that can *head* the slot's constituent;
+# `pos_open` lists tags that can legitimately begin it (a determiner opens an
+# object, a preposition opens a location).
+slot_requirements:
+
+  subject:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [DET, PRON, PROPN, NOUN, ADJ, NUM]
+    entity_types: [PERSON, ORG]
+    animate_preferred: true
+
+  objects:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [DET, PRON, PROPN, NOUN, ADJ, NUM]
+
+  recipients:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [DET, PRON, PROPN, NOUN]
+    entity_types: [PERSON, ORG]
+    animate_preferred: true
+
+  participants:
+    pos_allow: [NOUN, PROPN, PRON]
+    pos_open: [DET, PRON, PROPN, NOUN]
+    entity_types: [PERSON, ORG]
+    animate_preferred: true
+
+  location:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [DET, PROPN, NOUN, ADJ]
+    entity_types: [LOCATION, FACILITY, ORG]
+    classes: [city, country, region, place, building, geography]
+
+  destination:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [DET, PROPN, NOUN]
+    entity_types: [LOCATION, FACILITY, ORG]
+    classes: [city, country, region, place, building]
+
+  source:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [DET, PROPN, NOUN]
+    entity_types: [LOCATION, FACILITY, ORG]
+    classes: [city, country, region, place, building]
+
+  time:
+    pos_allow: [NOUN, PROPN, ADV, NUM]
+    pos_open: [DET, NOUN, PROPN, ADV, NUM, ADJ]
+    entity_types: [TIME]
+    classes: [weekday, month, time_unit, time_adverb]
+
+  manner:
+    pos_allow: [ADV, NOUN, ADJ]
+    pos_open: [ADV, DET, NOUN, ADJ]
+    classes: [transport, manner_adverb]
+
+  instrument:
+    pos_allow: [NOUN, PROPN]
+    pos_open: [DET, NOUN, PROPN, ADJ]
+    classes: [tool, software, machine]
+
+  cause:
+    pos_allow: [NOUN, PROPN, VERB, PRON]
+    pos_open: [DET, NOUN, PRON, PROPN]
+
+  goal:
+    pos_allow: [VERB, NOUN]
+    pos_open: [VERB, DET, NOUN]
+
+  condition:
+    pos_allow: [VERB, NOUN, PRON]
+    pos_open: [PRON, DET, NOUN, PROPN]
+
+  predicate:
+    pos_allow: [VERB, AUX, ADJ]
+    pos_open: [VERB, AUX, ADV]
+
+# ---------------------------------------------------------------------------
+# Seed gazetteers
+# ---------------------------------------------------------------------------
+# Deliberately small and obviously incomplete. A word's absence proves nothing.
+semantic_classes:
+
+  city:
+    [paris, london, tokyo, berlin, madrid, rome, lisbon, vienna, prague, amsterdam,
+     brussels, dublin, geneva, zurich, munich, milan, barcelona, athens, warsaw,
+     budapest, copenhagen, stockholm, oslo, helsinki, moscow, istanbul, cairo,
+     dubai, mumbai, delhi, bangkok, singapore, jakarta, manila, seoul, beijing,
+     shanghai, osaka, sydney, melbourne, auckland, toronto, montreal, vancouver,
+     chicago, boston, seattle, denver, atlanta, miami, houston, dallas, austin,
+     hanoi, saigon, bangalore, nairobi, lagos, johannesburg, santiago, lima,
+     bogota, caracas, havana, brasilia]
+
+  country:
+    [france, germany, spain, italy, portugal, england, scotland, ireland, belgium,
+     netherlands, switzerland, austria, poland, greece, sweden, norway, denmark,
+     finland, russia, turkey, egypt, morocco, nigeria, kenya, china, japan, korea,
+     india, vietnam, thailand, indonesia, malaysia, philippines, australia, canada,
+     mexico, brazil, argentina, chile, peru, colombia]
+
+  region:
+    [europe, asia, africa, america, scandinavia, balkans, caribbean, mediterranean,
+     california, texas, florida, bavaria, catalonia, normandy, provence, tuscany]
+
+  place:
+    [city, town, village, country, region, area, district, neighbourhood,
+     neighborhood, campus, headquarters, downtown, suburb, capital, port, border]
+
+  building:
+    [office, hotel, airport, station, restaurant, cafe, bar, hospital, school,
+     university, library, museum, theatre, theater, stadium, factory, warehouse,
+     lobby, boardroom, auditorium, hall, room, building, tower, apartment, house,
+     home, embassy, consulate, terminal, lounge]
+
+  geography:
+    [park, beach, mountain, mountains, lake, river, forest, island, valley, coast,
+     desert, hill, garden, square, street, avenue, road, bridge]
+
+  weekday:
+    [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
+
+  month:
+    [january, february, march, april, may, june, july, august, september, october,
+     november, december]
+
+  time_unit:
+    [second, seconds, minute, minutes, hour, hours, day, days, week, weeks, month,
+     months, year, years, decade, morning, afternoon, evening, night, noon,
+     midnight, weekend, quarter, semester]
+
+  time_adverb:
+    [yesterday, today, tomorrow, tonight, now, soon, later, earlier, afterwards,
+     afterward, recently, already, then, immediately, shortly, presently]
+
+  software:
+    [terraform, ansible, docker, kubernetes, jenkins, github, gitlab, python,
+     java, javascript, typescript, sql, bash, linux, aws, azure, gcp, postgres,
+     mysql, redis, kafka, spark, pytorch, tensorflow, pandas, numpy]
+
+  machine:
+    [computer, laptop, server, cluster, phone, tablet, printer, scanner, robot,
+     drone, camera, machine, engine, device]
+
+  tool:
+    [hammer, screwdriver, wrench, knife, saw, drill, pen, pencil, brush, key,
+     tool, software, script, framework, library, platform, pipeline, spreadsheet]
+
+  transport:
+    [train, car, bus, plane, airplane, aeroplane, boat, ship, ferry, bike,
+     bicycle, taxi, cab, metro, subway, tram, coach, helicopter, foot, rail,
+     air, sea, road]
+
+  manner_adverb:
+    [quickly, slowly, carefully, carelessly, well, badly, together, alone,
+     quietly, loudly, suddenly, gradually, directly, remotely, manually,
+     automatically, efficiently, safely]
+
+# ---------------------------------------------------------------------------
+# Scoring
+# ---------------------------------------------------------------------------
+scoring:
+  # Weight of each evidence kind when it is available. Absent evidence contributes
+  # nothing at all rather than a default.
+  evidence_weights:
+    gazetteer_hit: 1.0
+    entity_type_match: 0.9
+    pos_head_match: 0.6
+    pos_open_match: 0.45
+    gazetteer_miss_other_slot: 0.8 # the word is a strong member of a *different* slot's class
+    pos_mismatch: 0.5
+
+  # A capitalised out-of-vocabulary word is probably a proper noun, which favours
+  # entity slots. Weak evidence, used only when nothing better exists.
+  capitalised_suggests_proper_noun: 0.35
+
+  # Below this compatibility a candidate is called "less compatible", never
+  # "impossible" - the scorer does not implement hard rules (metrics brief §11).
+  low_compatibility: 0.35

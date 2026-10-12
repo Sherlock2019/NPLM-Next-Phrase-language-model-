@@ -1,0 +1,53 @@
+# Base Transformer configuration.
+#
+# SPLM is deliberately independent of which causal LM sits underneath it.
+# Nothing in src/splm/ may hard-code a model id - it is read from here.
+
+model:
+  # Default is a small model so the pipeline runs on CPU during development.
+  # Swap for a research-scale model (see `profiles` below) once the pipeline works.
+  model_id: HuggingFaceTB/SmolLM2-135M
+
+  # auto | cpu | cuda | cuda:0 ...
+  device: auto
+
+  # auto | float32 | float16 | bfloat16
+  # `auto` picks float16 on CUDA (bfloat16 only when the GPU supports it) and
+  # float32 on CPU.
+  dtype: auto
+
+  # How many Transformer candidates SPLM re-scores per step. Everything outside
+  # the top-K keeps its original logit, which bounds the cost of re-ranking.
+  top_k_candidates: 100
+
+  # Cap on prompt tokens fed to the base model.
+  max_context_tokens: 1024
+
+  # Hugging Face cache. null = use HF defaults / HF_HOME.
+  cache_dir: null
+
+  # Fail instead of reaching out to the network at runtime (see spec section 33).
+  # scripts/download_resources.py is the only sanctioned downloader.
+  local_files_only: false
+
+  # Deterministic decoding by default so base-vs-SPLM comparisons are fair.
+  generation:
+    do_sample: false
+    max_new_tokens: 24
+    temperature: 1.0
+    top_p: 1.0
+
+# Named alternatives; select with `--profile` on the CLI or model.profile below.
+profiles:
+  tiny:
+    model_id: HuggingFaceTB/SmolLM2-135M
+    dtype: float32
+  small:
+    model_id: HuggingFaceTB/SmolLM2-360M
+    dtype: auto
+  medium:
+    model_id: Qwen/Qwen2.5-1.5B
+    dtype: auto
+  research:
+    model_id: Qwen/Qwen3-4B-Base
+    dtype: auto

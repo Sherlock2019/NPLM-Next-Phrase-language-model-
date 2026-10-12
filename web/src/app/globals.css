@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+/*
+ * SPLM dashboard design tokens.
+ *
+ * A research console: dense, calm, monospaced where numbers need aligning. Two
+ * accents carry the whole comparison - one for the base model, one for SPLM - so
+ * that any chart is readable without a legend. Dark by default, light supported.
+ */
+
+@theme {
+  --color-ink-50: #f6f7f9;
+  --color-ink-100: #eceef2;
+  --color-ink-200: #d4d8e0;
+  --color-ink-300: #a9b1bf;
+  --color-ink-400: #737d8f;
+  --color-ink-500: #4d5666;
+  --color-ink-600: #343c49;
+  --color-ink-700: #242a34;
+  --color-ink-800: #181d25;
+  --color-ink-900: #11151b;
+  --color-ink-950: #0b0e12;
+
+  /* Base model: cool, neutral, deliberately unexciting. */
+  --color-base-400: #8ea4c8;
+  --color-base-500: #6b86b3;
+  --color-base-600: #51689180;
+
+  /* SPLM: warm, the thing under test. */
+  --color-splm-300: #7fd6c1;
+  --color-splm-400: #45c3a6;
+  --color-splm-500: #21a98c;
+  --color-splm-600: #17836d;
+
+  --color-warn-400: #e0a94a;
+  --color-danger-400: #e0685f;
+  --color-ok-400: #58c07a;
+
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+:root {
+  color-scheme: dark;
+  --page: var(--color-ink-950);
+  --panel: var(--color-ink-900);
+  --panel-raised: var(--color-ink-800);
+  --border: #222834;
+  --text: var(--color-ink-100);
+  --text-dim: var(--color-ink-300);
+  --text-faint: var(--color-ink-400);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --page: #fbfbfc;
+  --panel: #ffffff;
+  --panel-raised: var(--color-ink-50);
+  --border: #e3e6ec;
+  --text: var(--color-ink-900);
+  --text-dim: var(--color-ink-500);
+  --text-faint: var(--color-ink-400);
+}
+
+html,
+body {
+  background: var(--page);
+  color: var(--text);
+}
+
+body {
+  font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- reusable pieces ---------------------------------------------------- */
+
+@utility panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+
+@utility panel-raised {
+  background: var(--panel-raised);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
+
+@utility dim {
+  color: var(--text-dim);
+}
+
+@utility faint {
+  color: var(--text-faint);
+}
+
+@utility hairline {
+  border-color: var(--border);
+}
+
+/* Section label: small, spaced, quiet. Used above every panel. */
+@utility eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-faint);
+}
+
+@utility num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- motion ------------------------------------------------------------- */
+
+@keyframes splm-rise {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes splm-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes splm-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-rise {
+  animation: splm-rise 0.28s ease-out both;
+}
+
+.animate-bar {
+  transform-origin: left;
+  animation: splm-grow 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.animate-pulse-soft {
+  animation: splm-pulse 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-bar,
+  .animate-pulse-soft {
+    animation: none;
+  }
+}
+
+/* Scrollbars that do not shout. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}

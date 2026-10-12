@@ -1,0 +1,58 @@
+# Runtime / application settings.
+
+logging:
+  level: INFO
+  format: "%(asctime)s %(levelname)-7s %(name)s | %(message)s"
+
+paths:
+  language_packs: language_packs
+  data: data
+  database: data/splm.db
+  results: results
+  stanza_resources: data/raw/stanza_resources
+
+languages:
+  # Languages the POC claims to support. Adding one here plus a language_packs/<code>
+  # directory is all the core engine needs (spec section 4).
+  supported: [en, fr, vi]
+  default: en
+
+parser:
+  # Which LinguisticParser implementation to use: stanza | null
+  backend: stanza
+  # Stanza processors per language. `ner` is optional but improves role typing.
+  processors:
+    en: tokenize,pos,lemma,depparse,ner
+    fr: tokenize,mwt,pos,lemma,depparse,ner
+    vi: tokenize,pos,lemma,depparse
+  use_gpu: auto
+  # Never reach for the network mid-run; scripts/download_resources.py does that.
+  download_method: none
+
+lexicon:
+  # Fetch and build a language's public dictionary the first time that language is
+  # chosen or detected. It runs in the background, is logged, and is recorded in
+  # data/MANIFEST.json. Set false to build only with scripts/build_lexicon.py.
+  auto_download: true
+  # Senses kept per dictionary entry.
+  max_definitions: 3
+
+slot_predictor:
+  # heuristic | neural  (neural is Phase 9)
+  backend: heuristic
+  checkpoint: data/processed/slot_predictor.pt
+  # Slots the predictor distributes probability over; OTHER absorbs the rest.
+  temperature: 1.0
+
+context_graph:
+  enabled: true
+  max_sentences: 50
+
+api:
+  host: 127.0.0.1
+  port: 8001
+
+ui:
+  host: 127.0.0.1
+  port: 7860
+  share: false

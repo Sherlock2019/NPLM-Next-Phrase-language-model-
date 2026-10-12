@@ -1,0 +1,148 @@
+# Vietnamese grammar.
+#
+# Vietnamese is the strongest test of whether the SPLM architecture is genuinely
+# language-independent, because almost everything English marks morphologically,
+# Vietnamese marks with a separate word or not at all:
+#
+#   * no inflection whatsoever - no tense endings, no agreement, no plurals;
+#   * tense and aspect come from preverbal particles (da, dang, se);
+#   * adjectives are predicates in their own right, with no copula ("John met");
+#   * `la` is a copula only for nominal identity;
+#   * `o` doubles as "to be located at" and as a locative preposition.
+#
+# All of that lives in this file. The engine is unchanged.
+
+language: vi
+name: Vietnamese
+version: 1
+
+predicate_types:
+  STATE:
+    # Adjectives are predicates directly, so the common ones are listed as STATEs.
+    [là, ở, tại, mệt, vui, buồn, đói, khát, khỏe, bệnh, đẹp, tốt, xấu, lớn, nhỏ,
+     cao, thấp, mới, cũ, nhanh, chậm, biết, hiểu, muốn, thích, yêu, ghét, cần,
+     tin, nghĩ, nhớ, sợ]
+  RELATIONSHIP:
+    [thuộc, gồm, bao_gồm, giống, bằng, khác, liên_quan, sở_hữu]
+  POSSESSION:
+    [có, mang, giữ, thiếu]
+  EXISTENCE:
+    [tồn_tại]
+  CHANGE:
+    [trở_thành, thành, trở_nên, tăng, giảm, đổi, thay_đổi, phát_triển, lên, xuống]
+  EVENT:
+    [xảy_ra, diễn_ra, mưa, nắng, bắt_đầu, kết_thúc, xong, tiếp_tục]
+
+predicate_type_rules:
+  # `co` with no subject is existential: "co mot van de" = "there is a problem".
+  - name: co_existence
+    when: { lemma_in: [có], upos_in: [VERB] }
+    type: POSSESSION
+  - name: copula_la
+    when: { has_child_deprel: cop, lemma_in: [là] }
+    type: STATE
+
+predicate_senses:
+  located:
+    when: { type: STATE, lemma_in: [ở, tại] }
+  identity:
+    when: { type: STATE, lemma_in: [là] }
+  possession:
+    when: { type: [POSSESSION, RELATIONSHIP], lemma_in: [có, thuộc, sở_hữu] }
+
+# Preverbal particles carry tense and aspect. Vietnamese has no verb morphology at
+# all, so these are the only tense evidence available - which is exactly why the
+# frame stores tense abstractly rather than as a verb form.
+auxiliaries:
+  đã:      { tense: past, modality: null, certainty: 0.9 }
+  vừa:     { tense: past, modality: null, certainty: 0.9 }
+  mới:     { tense: past, modality: null, certainty: 0.9 }
+  từng:    { tense: past, modality: null, certainty: 0.85 }
+  đang:    { tense: present, aspect: progressive, modality: null }
+  sẽ:      { tense: future, modality: intention, certainty: 0.85 }
+  sắp:     { tense: future, modality: intention, certainty: 0.85 }
+  có_thể:  { tense: null, modality: possible, certainty: 0.5 }
+  phải:    { tense: null, modality: obligatory, certainty: 0.85 }
+  nên:     { tense: null, modality: obligatory, certainty: 0.7 }
+  cần:     { tense: null, modality: necessary, certainty: 0.8 }
+  muốn:    { tense: null, modality: intention, certainty: 0.75 }
+  được:    { tense: null, modality: permitted, certainty: 0.7 }
+
+aspect_rules:
+  - { name: progressive, aux_lemma: đang, aspect: progressive }
+  - { name: perfect, aux_lemma: rồi, aspect: perfect }
+
+passive_markers:
+  # `duoc` marks a favourable passive, `bi` an adverse one - a distinction English
+  # does not make. Both map onto passive voice.
+  aux_pass_lemmas: [được, bị]
+  deprels: ["nsubj:pass", "aux:pass"]
+
+negation:
+  particles: [không, chẳng, chưa, đừng, chớ, khỏi]
+  determiner_scope: []
+
+certainty_adverbs:
+  chắc_chắn: 0.96
+  nhất_định: 0.95
+  rõ_ràng: 0.9
+  hẳn: 0.85
+  có_lẽ: 0.55
+  chắc: 0.7
+  hình_như: 0.5
+  dường_như: 0.5
+  có_thể: 0.4
+  không_chắc: 0.3
+
+agreement:
+  # Vietnamese has no subject-verb agreement to check. Saying so explicitly keeps the
+  # grammar score honest: it returns "no evidence" rather than a fabricated pass.
+  subject_verb: []
+  # Classifiers are the real agreement system: a noun counted or specified takes a
+  # classifier matching its semantic class.
+  classifier_noun:
+    - { when: { classifier: [người] }, requires: { animacy: human } }
+    - { when: { classifier: [con] }, requires: { animacy: animal } }
+    - { when: { classifier: [cái, chiếc] }, requires: { animacy: inanimate } }
+    - { when: { classifier: [quyển, cuốn] }, requires: { class: book } }
+    - { when: { classifier: [bức] }, requires: { class: flat_object } }
+
+classifiers:
+  người: human
+  con: animal
+  cái: inanimate
+  chiếc: vehicle_or_object
+  quyển: book
+  cuốn: book
+  bức: flat_object
+  tờ: sheet
+  ngôi: building
+  căn: room
+  bộ: set
+  đôi: pair
+
+function_words:
+  DET: [này, đó, kia, ấy, các, những, mọi, mỗi, một, cái, nào, gì]
+  PRON:
+    [tôi, tao, tớ, mình, ta, chúng_tôi, chúng_ta, bạn, mày, cậu, anh, chị, em,
+     ông, bà, cô, chú, nó, hắn, họ, chúng_nó, ai, đây, đấy]
+  AUX: [đã, đang, sẽ, sắp, vừa, mới, từng, phải, nên, cần, được, bị, rồi]
+  CCONJ: [và, hoặc, hay, nhưng, mà, còn]
+  PART: [không, chưa, chẳng, ạ, nhé, nhỉ, à, ư, thôi, cả]
+  NUM: [một, hai, ba, bốn, năm, sáu, bảy, tám, chín, mười, trăm, nghìn, triệu]
+
+constituent_openers:
+  subject:      [PRON, PROPN, NOUN, NUM, DET]
+  objects:      [DET, PRON, PROPN, NOUN, NUM, ADJ]
+  location:     [ADP, PROPN, NOUN, DET, VERB]
+  destination:  [ADP, PROPN, NOUN, VERB]
+  source:       [ADP, PROPN, NOUN]
+  time:         [ADP, NOUN, PROPN, ADV, NUM, DET]
+  manner:       [ADP, ADV, NOUN, ADJ]
+  instrument:   [ADP, NOUN, PROPN]
+  cause:        [SCONJ, ADP, NOUN, PRON, PROPN]
+  goal:         [SCONJ, ADP, VERB, NOUN]
+  condition:    [SCONJ, PRON, NOUN, PROPN]
+  recipients:   [ADP, PRON, PROPN, NOUN]
+  participants: [ADP, PRON, PROPN, NOUN]
+  predicate:    [VERB, AUX, ADJ, ADV]

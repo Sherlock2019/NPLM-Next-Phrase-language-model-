@@ -1,0 +1,72 @@
+# Vietnamese multi-word expressions.
+#
+# Vietnamese compounds heavily, so the boundary between an idiom and a lexical
+# compound is blurrier than in English. Listed here are expressions whose meaning is
+# genuinely not the sum of their parts, plus the fixed markers the role engine needs.
+
+language: vi
+version: 1
+
+idioms:
+  - surface: "qua đời"
+    lemma_pattern: [qua, đời]
+    predicate: { type: EVENT, lemma: chết }
+    suppress_children: true
+
+  - surface: "diễn ra"
+    lemma_pattern: [diễn, ra]
+    predicate: { type: EVENT, lemma: xảy_ra }
+    suppress_children: true
+
+  - surface: "ra quyết định"
+    lemma_pattern: [ra, quyết_định]
+    predicate: { type: ACTION, lemma: quyết_định }
+    suppress_children: true
+
+  - surface: "để ý"
+    lemma_pattern: [để, ý]
+    predicate: { type: STATE, lemma: chú_ý }
+
+  - surface: "liên lạc với"
+    lemma_pattern: [liên_lạc, với]
+    predicate: { type: ACTION, lemma: liên_lạc }
+    role_override: { với: PARTICIPANT }
+
+  - surface: "theo dõi"
+    lemma_pattern: [theo, dõi]
+    predicate: { type: ACTION, lemma: theo_dõi }
+
+  - surface: "bởi vì"
+    lemma_pattern: [bởi, vì]
+    marker: CAUSE
+
+  - surface: "để mà"
+    lemma_pattern: [để, mà]
+    marker: PURPOSE
+
+  - surface: "ngay khi"
+    lemma_pattern: [ngay, khi]
+    marker: TIME
+
+  - surface: "trong trường hợp"
+    lemma_pattern: [trong, trường_hợp]
+    marker: CONDITION
+
+  - surface: "bằng cách"
+    lemma_pattern: [bằng, cách]
+    marker: MANNER
+
+  - surface: "đang ở"
+    lemma_pattern: [đang, ở]
+    predicate: { type: STATE, lemma: ở }
+    sense: located
+
+# Light verbs: the noun carries the event.
+light_verbs: [làm, ra, đưa, cho, lấy, thực_hiện]
+light_verb_nouns:
+  quyết_định: quyết_định
+  yêu_cầu: yêu_cầu
+  báo_cáo: báo_cáo
+  thông_báo: thông_báo
+  đề_nghị: đề_nghị
+  chuyến_đi: đi

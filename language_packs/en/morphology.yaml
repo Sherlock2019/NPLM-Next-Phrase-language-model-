@@ -1,0 +1,101 @@
+# English morphology: UD features normalised onto SPLM's universal categories
+# (spec section 16), plus the English-specific facts the grammar score needs.
+
+language: en
+version: 1
+
+# English marks little morphologically; these defaults stop the engine from
+# reporting "unknown" for everything.
+defaults:
+  person: 3
+  number: singular
+  gender: null
+  case: null
+  politeness: null
+
+# UD Feats key -> SPLM category. The universal half of this table lives in the
+# engine; entries here override or extend it for English.
+feature_map:
+  Person:      person
+  Number:      number
+  Gender:      gender
+  Tense:       tense
+  Aspect:      aspect
+  Mood:        mood
+  Voice:       voice
+  Case:        case
+  Polarity:    polarity
+  Definite:    definiteness
+  Degree:      degree
+  VerbForm:    verb_form
+  PronType:    pronoun_type
+  Poss:        possessive
+  NumType:     number_type
+
+value_map:
+  number:   { Sing: singular, Plur: plural }
+  person:   { "1": 1, "2": 2, "3": 3 }
+  gender:   { Masc: masculine, Fem: feminine, Neut: neuter }
+  tense:    { Past: past, Pres: present, Fut: future, Imp: past, Pqp: past }
+  aspect:   { Imp: progressive, Perf: perfect, Prog: progressive, Hab: habitual }
+  mood:     { Ind: indicative, Imp: imperative, Sub: subjunctive, Cnd: conditional }
+  voice:    { Act: active, Pass: passive, Mid: middle }
+  case:     { Nom: nominative, Acc: accusative, Gen: genitive, Dat: dative }
+  polarity: { Neg: negative, Pos: positive }
+  definiteness: { Def: definite, Ind: indefinite }
+  degree:   { Pos: positive, Cmp: comparative, Sup: superlative }
+  verb_form: { Fin: finite, Inf: infinitive, Part: participle, Ger: gerund }
+
+# Pronoun inventory - feeds both morphology and the coreference resolver.
+pronouns:
+  i:       { person: 1, number: singular, case: nominative, animate: true }
+  me:      { person: 1, number: singular, case: accusative, animate: true }
+  we:      { person: 1, number: plural,   case: nominative, animate: true }
+  us:      { person: 1, number: plural,   case: accusative, animate: true }
+  you:     { person: 2, animate: true }
+  he:      { person: 3, number: singular, gender: masculine, case: nominative, animate: true }
+  him:     { person: 3, number: singular, gender: masculine, case: accusative, animate: true }
+  his:     { person: 3, number: singular, gender: masculine, case: genitive, animate: true }
+  she:     { person: 3, number: singular, gender: feminine, case: nominative, animate: true }
+  her:     { person: 3, number: singular, gender: feminine, case: accusative, animate: true }
+  hers:    { person: 3, number: singular, gender: feminine, case: genitive, animate: true }
+  it:      { person: 3, number: singular, gender: neuter, animate: false }
+  its:     { person: 3, number: singular, gender: neuter, case: genitive, animate: false }
+  they:    { person: 3, number: plural, case: nominative }
+  them:    { person: 3, number: plural, case: accusative }
+  their:   { person: 3, number: plural, case: genitive }
+
+# Verb forms needed to check subject-verb agreement on a candidate token.
+# Regular inflection is handled by rule; only irregulars are listed.
+verb_forms:
+  be:    { base: be,   "3sg": is,   "1sg": am, past: was,  past_plural: were, participle: been,   gerund: being }
+  have:  { base: have, "3sg": has,  past: had,  participle: had,  gerund: having }
+  do:    { base: do,   "3sg": does, past: did,  participle: done, gerund: doing }
+  go:    { base: go,   "3sg": goes, past: went, participle: gone, gerund: going }
+  meet:  { base: meet, "3sg": meets, past: met, participle: met,  gerund: meeting }
+  say:   { base: say,  "3sg": says, past: said, participle: said, gerund: saying }
+  take:  { base: take, "3sg": takes, past: took, participle: taken, gerund: taking }
+  give:  { base: give, "3sg": gives, past: gave, participle: given, gerund: giving }
+  read:  { base: read, "3sg": reads, past: read, participle: read, gerund: reading }
+  leave: { base: leave, "3sg": leaves, past: left, participle: left, gerund: leaving }
+  know:  { base: know, "3sg": knows, past: knew, participle: known, gerund: knowing }
+  run:   { base: run,  "3sg": runs, past: ran,  participle: run,  gerund: running }
+
+inflection_rules:
+  third_person_singular:
+    - { suffix_in: [s, sh, ch, x, z, o], add: es }
+    - { suffix_in: [y], preceded_by_consonant: true, replace: ies }
+    - { default: true, add: s }
+  plural_noun:
+    - { suffix_in: [s, sh, ch, x, z], add: es }
+    - { suffix_in: [y], preceded_by_consonant: true, replace: ies }
+    - { default: true, add: s }
+  past_tense:
+    - { suffix_in: [e], add: d }
+    - { suffix_in: [y], preceded_by_consonant: true, replace: ied }
+    - { default: true, add: ed }
+
+irregular_plurals:
+  { man: men, woman: women, child: children, person: people, foot: feet,
+    tooth: teeth, mouse: mice, goose: geese, datum: data, analysis: analyses,
+    criterion: criteria, phenomenon: phenomena }

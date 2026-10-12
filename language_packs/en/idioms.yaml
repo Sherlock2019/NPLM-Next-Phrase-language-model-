@@ -1,0 +1,76 @@
+# English multi-word expressions.
+#
+# Idioms matter to SPLM because their meaning is not the composition of their
+# parts: "kick the bucket" must not produce OBJECT = bucket. Matched before the
+# frame builder assigns roles; a match replaces the span with a single element
+# carrying the idiom's own predicate.
+
+language: en
+version: 1
+
+idioms:
+
+  - surface: "kick the bucket"
+    lemma_pattern: [kick, the, bucket]
+    predicate: { type: EVENT, lemma: die }
+    suppress_children: true
+    register: casual
+
+  - surface: "take place"
+    lemma_pattern: [take, place]
+    predicate: { type: EVENT, lemma: happen }
+    suppress_children: true
+
+  - surface: "make a decision"
+    lemma_pattern: [make, a, decision]
+    predicate: { type: ACTION, lemma: decide }
+    suppress_children: true
+
+  - surface: "give up"
+    lemma_pattern: [give, up]
+    predicate: { type: ACTION, lemma: abandon }
+
+  - surface: "look forward to"
+    lemma_pattern: [look, forward, to]
+    predicate: { type: STATE, lemma: anticipate }
+    register: business
+
+  - surface: "get in touch with"
+    lemma_pattern: [get, in, touch, with]
+    predicate: { type: ACTION, lemma: contact }
+    role_override: { with: PARTICIPANT }
+
+  - surface: "keep an eye on"
+    lemma_pattern: [keep, an, eye, on]
+    predicate: { type: ACTION, lemma: monitor }
+    role_override: { on: THEME }
+
+  - surface: "by and large"
+    lemma_pattern: [by, and, large]
+    adverbial: MANNER
+
+  - surface: "in order to"
+    lemma_pattern: [in, order, to]
+    marker: PURPOSE
+
+  - surface: "as soon as"
+    lemma_pattern: [as, soon, as]
+    marker: TIME
+
+  - surface: "in case"
+    lemma_pattern: [in, case]
+    marker: CONDITION
+
+# Light-verb constructions: the noun carries the event, the verb is near-empty.
+# "make a request" -> predicate request, not predicate make + object request.
+light_verbs: [make, take, give, have, do, get, put]
+light_verb_nouns:
+  request: request
+  decision: decide
+  call: call
+  look: look
+  walk: walk
+  attempt: attempt
+  visit: visit
+  presentation: present
+  announcement: announce

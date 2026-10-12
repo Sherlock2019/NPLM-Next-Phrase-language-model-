@@ -1,0 +1,181 @@
+# Vietnamese syntax: how Vietnamese markers map onto universal roles.
+#
+# Vietnamese marks roles with prepositions and serial verbs rather than with case or
+# morphology. Several of these words are verbs in their own right - `o` (to be at),
+# `den` (to arrive), `dung` (to use) - which is why the engine's clause-head cue
+# mechanism matters more here than in English or French.
+#
+# Note on tokenisation: the VTB treebank joins multi-syllable words with underscores
+# while plain text writes them with spaces. Both spellings are listed throughout.
+
+language: vi
+version: 1
+
+adposition_cues:
+  ở:        { LOCATION: 0.82, DESTINATION: 0.12, TIME: 0.06 }
+  tại:      { LOCATION: 0.88, TIME: 0.12 }
+  trong:    { LOCATION: 0.62, TIME: 0.36, MANNER: 0.02 }
+  trên:     { LOCATION: 0.85, THEME: 0.15 }
+  dưới:     { LOCATION: 0.82, CONDITION: 0.18 }
+  ngoài:    { LOCATION: 0.85 }
+  giữa:     { LOCATION: 0.72, TIME: 0.28 }
+  gần:      { LOCATION: 0.92 }
+  đến:      { DESTINATION: 0.58, TIME: 0.30, RECIPIENT: 0.12 }
+  tới:      { DESTINATION: 0.58, TIME: 0.30, RECIPIENT: 0.12 }
+  vào:      { TIME: 0.52, DESTINATION: 0.44 }
+  ra:       { DESTINATION: 0.75, SOURCE: 0.25 }
+  từ:       { SOURCE: 0.70, TIME: 0.30 }
+  bằng:     { INSTRUMENT: 0.48, MANNER: 0.46, THEME: 0.06 }
+  với:      { PARTICIPANT: 0.62, INSTRUMENT: 0.26, MANNER: 0.12 }
+  cùng:     { PARTICIPANT: 0.85, MANNER: 0.15 }
+  cho:      { RECIPIENT: 0.55, BENEFICIARY: 0.35, PURPOSE: 0.10 }
+  để:       { PURPOSE: 0.92, BENEFICIARY: 0.08 }
+  vì:       { CAUSE: 0.94 }
+  bởi:      { CAUSE: 0.60, AGENT: 0.40 }
+  do:       { CAUSE: 0.72, AGENT: 0.28 }
+  về:       { THEME: 0.70, DESTINATION: 0.30 }
+  theo:     { MANNER: 0.78, LOCATION: 0.22 }
+  như:      { MANNER: 0.92 }
+  sau:      { TIME: 0.78, LOCATION: 0.22 }
+  trước:    { TIME: 0.78, LOCATION: 0.22 }
+  suốt:     { TIME: 0.95 }
+  của:      { THEME: 0.95 }
+
+fixed_adpositions:
+  "bởi vì":    { CAUSE: 0.96 }
+  "bởi_vì":    { CAUSE: 0.96 }
+  "tại vì":    { CAUSE: 0.94 }
+  "do đó":     { CAUSE: 0.85 }
+  "để mà":     { PURPOSE: 0.95 }
+  "nhằm để":   { PURPOSE: 0.95 }
+  "bằng cách": { MANNER: 0.90 }
+  "bằng_cách": { MANNER: 0.90 }
+  "so với":    { MANNER: 0.85 }
+  "thay vì":   { MANNER: 0.85 }
+  "ngoài ra":  { MANNER: 0.70 }
+  "trong khi": { TIME: 0.90 }
+  "trong_khi": { TIME: 0.90 }
+  "sau khi":   { TIME: 0.95 }
+  "trước khi": { TIME: 0.95 }
+
+# `bang` + a vehicle is mode of transport: "di bang tau" = "travel by train".
+lexical_overrides:
+  - name: bang_transport
+    adposition: bằng
+    head_lemma_in_class: transport
+    distribution: { MANNER: 0.92, INSTRUMENT: 0.08 }
+    annotate: { transport: "{head_lemma}" }
+  - name: bang_tool
+    adposition: bằng
+    head_lemma_in_class: tool
+    distribution: { INSTRUMENT: 0.92, MANNER: 0.08 }
+  - name: voi_person
+    adposition: với
+    head_entity_type: PERSON
+    distribution: { PARTICIPANT: 0.93, INSTRUMENT: 0.07 }
+  - name: cho_person
+    adposition: cho
+    head_entity_type: PERSON
+    distribution: { RECIPIENT: 0.80, BENEFICIARY: 0.20 }
+
+semantic_classes:
+  transport:
+    [tàu, xe, xe_hơi, ô_tô, xe_buýt, máy_bay, thuyền, tàu_thủy, phà, xe_đạp,
+     taxi, tàu_điện, xe_máy, trực_thăng, chân, đường_sắt, đường_bộ,
+     "tàu hỏa", "xe hơi", "ô tô", "xe buýt", "máy bay", "xe đạp", "xe máy"]
+  tool:
+    [búa, dao, máy_tính, điện_thoại, bút, chìa_khóa, phần_mềm, công_cụ, máy,
+     terraform, docker, kubernetes, python, "máy tính", "điện thoại", "phần mềm"]
+
+predicate_role_profiles:
+  gặp:       { obj: { PARTICIPANT: 0.84, PATIENT: 0.10, THEME: 0.06 } }
+  gặp_gỡ:    { obj: { PARTICIPANT: 0.88, THEME: 0.12 } }
+  cưới:      { obj: { PARTICIPANT: 0.88, PATIENT: 0.12 } }
+  đàm_phán:  { obj: { THEME: 0.85, PATIENT: 0.15 }, obl: { PARTICIPANT: 0.65, MANNER: 0.35 } }
+  cho:       { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90 } }
+  tặng:      { iobj: { RECIPIENT: 0.95 }, obj: { THEME: 0.90 } }
+  gửi:       { iobj: { RECIPIENT: 0.92 }, obj: { THEME: 0.88 }, obl: { DESTINATION: 0.70, RECIPIENT: 0.30 } }
+  nói:       { iobj: { RECIPIENT: 0.92 }, obj: { THEME: 0.90 } }
+  triển_khai: { obj: { PATIENT: 0.80, THEME: 0.20 }, obl: { DESTINATION: 0.68, LOCATION: 0.32 } }
+  xây:       { obj: { PATIENT: 0.85, THEME: 0.15 } }
+  thấy:      { nsubj: { EXPERIENCER: 0.85, AGENT: 0.15 }, obj: { THEME: 0.90 } }
+  biết:      { nsubj: { EXPERIENCER: 0.90 }, ccomp: { THEME: 0.95 } }
+  muốn:      { nsubj: { EXPERIENCER: 0.85 }, obj: { THEME: 0.90 } }
+  đi:        { obj: { DESTINATION: 0.62, THEME: 0.38 }, obl: { DESTINATION: 0.60, MANNER: 0.24, LOCATION: 0.16 } }
+  đến:       { obl: { DESTINATION: 0.72, TIME: 0.18, LOCATION: 0.10 } }
+  # `o` is a locative verb as well as a preposition, so its direct object is a place,
+  # not a theme: "John dang o Paris" = "John is at Paris".
+  ở:         { obj: { LOCATION: 0.86, THEME: 0.14 }, obl: { LOCATION: 0.88, TIME: 0.12 } }
+  tại:       { obj: { LOCATION: 0.88, THEME: 0.12 }, obl: { LOCATION: 0.90, TIME: 0.10 } }
+  làm_việc:  { obl: { LOCATION: 0.72, MANNER: 0.28 } }
+  đọc:       { nsubj: { AGENT: 0.70, EXPERIENCER: 0.30 }, obj: { THEME: 0.88 } }
+
+# Serial-verb constructions: a second verb functions like a preposition.
+clause_head_cues:
+  dùng:     { distribution: { INSTRUMENT: 0.90, MANNER: 0.10 }, promote_object: true }
+  sử_dụng:  { distribution: { INSTRUMENT: 0.92, MANNER: 0.08 }, promote_object: true }
+  "sử dụng": { distribution: { INSTRUMENT: 0.92, MANNER: 0.08 }, promote_object: true }
+  theo:     { distribution: { MANNER: 0.72, TIME: 0.28 } }
+
+subordinator_cues:
+  nếu:      { CONDITION: 0.95 }
+  giá:      { CONDITION: 0.85 }
+  miễn:     { CONDITION: 0.88 }
+  khi:      { TIME: 0.90, CONDITION: 0.10 }
+  lúc:      { TIME: 0.92 }
+  sau:      { TIME: 0.92 }
+  trước:    { TIME: 0.92 }
+  đến_khi:  { TIME: 0.94 }
+  vì:       { CAUSE: 0.94 }
+  bởi:      { CAUSE: 0.88 }
+  do:       { CAUSE: 0.85 }
+  để:       { PURPOSE: 0.94 }
+  nhằm:     { PURPOSE: 0.94 }
+  rằng:     { THEME: 0.92 }
+  là:       { THEME: 0.70 }
+  mặc_dù:   { CONDITION: 0.85 }
+  tuy:      { CONDITION: 0.85 }
+  dù:       { CONDITION: 0.85 }
+
+temporal_adverbs:
+  [hôm_nay, hôm_qua, ngày_mai, ngày_mốt, bây_giờ, lúc_này, sau_này, trước_đây,
+   sắp_tới, vừa_rồi, gần_đây, lâu, sớm, muộn, ngay, liền, rồi, đã, luôn,
+   thường, đôi_khi, ít_khi, hàng_ngày, hàng_tuần, hàng_năm, tối_nay, sáng_nay,
+   "hôm nay", "hôm qua", "ngày mai", "bây giờ", "gần đây", "tối nay", "sáng nay"]
+
+locative_adverbs:
+  [đây, đó, kia, đấy, khắp_nơi, mọi_nơi, đâu_đó, nơi_khác, ngoài_kia,
+   trong_này, trên_kia, dưới_kia, gần_đây, xa]
+
+# Vietnamese has no adverb-forming suffix; manner is expressed by a bare adjective or
+# by `mot cach` + adjective.
+manner_adverb_suffixes: []
+manner_adverbs:
+  [nhanh, chậm, tốt, giỏi, kém, cẩn_thận, cùng_nhau, một_mình, im_lặng, to,
+   nhỏ, đột_ngột, dần_dần, trực_tiếp, tự_động, "cẩn thận", "cùng nhau"]
+
+# Vietnamese fronts time expressions far more readily than English: "Ngay mai John se
+# gap Sarah" puts WHEN first. That is why `sentence_initial` gives time real weight -
+# and why the frame itself stores no order at all (spec section 31).
+slot_sequence_priors:
+  after_predicate:
+    { objects: 0.30, participants: 0.10, recipients: 0.09, destination: 0.12,
+      location: 0.14, manner: 0.09, time: 0.06, instrument: 0.06, goal: 0.04 }
+  after_objects:
+    { destination: 0.16, location: 0.18, recipients: 0.13, manner: 0.14,
+      instrument: 0.11, goal: 0.13, time: 0.10, cause: 0.05 }
+  after_location:
+    { time: 0.26, manner: 0.22, goal: 0.22, instrument: 0.14, cause: 0.10, source: 0.06 }
+  after_time:
+    { subject: 0.34, predicate: 0.22, manner: 0.14, goal: 0.14, location: 0.10, instrument: 0.06 }
+  after_participants:
+    { location: 0.32, manner: 0.20, goal: 0.18, time: 0.14, instrument: 0.10, cause: 0.06 }
+  sentence_initial:
+    { subject: 0.44, time: 0.34, condition: 0.12, location: 0.07, manner: 0.03 }
+  after_subject:
+    { predicate: 0.70, objects: 0.07, time: 0.08, location: 0.06, manner: 0.05,
+      cause: 0.02, condition: 0.02 }
+
+dangling_marker_exponent: 2.0
+repeat_slot_penalty: 0.25
+repeatable_slots: [time, location, manner]

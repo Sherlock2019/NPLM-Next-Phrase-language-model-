@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "splm"
+version = "0.1.0"
+description = "Smart Phrase Language Model - explicit linguistic structure on top of a Transformer LM"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+dependencies = [
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+    "networkx>=3.2",
+    "numpy>=1.26",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+parse = ["stanza>=1.8"]
+llm = ["torch>=2.1", "transformers>=4.40", "tokenizers>=0.19", "accelerate>=0.30"]
+api = ["fastapi>=0.110", "uvicorn>=0.29"]
+ui = ["gradio>=4.0"]
+data = ["sqlalchemy>=2.0", "pandas>=2.0"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+splm = "splm.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+splm = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "parser: requires a downloaded Stanza model",
+    "llm: requires a downloaded Transformer model",
+    "slow: long-running test",
+]
+filterwarnings = ["ignore::DeprecationWarning"]

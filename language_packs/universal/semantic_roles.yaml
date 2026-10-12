@@ -1,0 +1,157 @@
+# Universal semantic role inventory (spec section 18).
+#
+# This file is language-independent on purpose. Every language pack maps its own
+# surface machinery (cases, adpositions, particles, word order) onto these roles;
+# nothing below may mention a specific language's words.
+#
+# `slot` is the UniversalPhraseFrame field the role lands in.
+# `question` is the natural-language probe used by the CLI/UI (spec section 2).
+
+version: 1
+
+roles:
+
+  AGENT:
+    slot: subject
+    question: WHO
+    description: Volitional initiator of an ACTION.
+    animacy_preference: animate
+
+  EXPERIENCER:
+    slot: subject
+    question: WHO
+    description: Entity undergoing a STATE or perceiving/feeling something.
+    animacy_preference: animate
+
+  PATIENT:
+    slot: objects
+    question: WHAT
+    description: Entity affected or changed by the predicate.
+
+  THEME:
+    slot: objects
+    question: WHAT
+    description: Entity moved, transferred, or predicated about without being changed.
+
+  OBJECT:
+    slot: objects
+    question: WHAT
+    description: Underspecified direct argument; used when PATIENT/THEME cannot be separated.
+
+  RECIPIENT:
+    slot: recipients
+    question: TO WHOM
+    description: Animate endpoint of a transfer.
+    animacy_preference: animate
+
+  BENEFICIARY:
+    slot: recipients
+    question: FOR WHOM
+    description: Entity on whose behalf the predicate happens.
+    animacy_preference: animate
+
+  PARTICIPANT:
+    slot: participants
+    question: WITH WHOM
+    description: Co-participant in a symmetric or joint predicate (meet, negotiate, argue).
+    animacy_preference: animate
+
+  DESTINATION:
+    slot: destination
+    question: WHERE TO
+    description: Spatial or abstract endpoint of motion/transfer.
+
+  SOURCE:
+    slot: source
+    question: FROM WHERE
+    description: Spatial or abstract origin of motion/transfer.
+
+  LOCATION:
+    slot: location
+    question: WHERE
+    description: Place at which the predicate holds.
+
+  TIME:
+    slot: time
+    question: WHEN
+    description: Temporal anchoring of the predicate.
+
+  MANNER:
+    slot: manner
+    question: HOW
+    description: Way in which the predicate is carried out, including mode of transport.
+
+  INSTRUMENT:
+    slot: instrument
+    question: USING WHAT
+    description: Tool or means used by the agent.
+
+  CAUSE:
+    slot: cause
+    question: WHY
+    description: Reason or causing event; backward-looking.
+
+  PURPOSE:
+    slot: goal
+    question: FOR WHAT GOAL
+    description: Intended outcome; forward-looking, typically a nested frame.
+
+  CONDITION:
+    slot: condition
+    question: UNDER WHAT CONDITIONS
+    description: Situation the predicate depends on; typically a nested frame.
+
+# Slots the ExpectedSlotPredictor may predict. OTHER absorbs the remaining mass
+# (punctuation, discourse markers, continuing an existing constituent).
+predictable_slots:
+  - subject
+  - predicate
+  - objects
+  - recipients
+  - participants
+  - location
+  - destination
+  - source
+  - time
+  - manner
+  - instrument
+  - cause
+  - goal
+  - condition
+
+# Entity-type evidence. Stanza/NER labels are normalised to these before use, so
+# the mapping stays independent of any particular NER tagset.
+entity_types:
+  PERSON:   { animate: true,  roles_boost: { AGENT: 1.6, EXPERIENCER: 1.5, RECIPIENT: 1.6, PARTICIPANT: 1.8, BENEFICIARY: 1.5, LOCATION: 0.2, TIME: 0.1 } }
+  ORG:      { animate: true,  roles_boost: { AGENT: 1.3, PARTICIPANT: 1.3, RECIPIENT: 1.3, LOCATION: 0.6, TIME: 0.1 } }
+  LOCATION: { animate: false, roles_boost: { LOCATION: 2.2, DESTINATION: 1.6, SOURCE: 1.4, AGENT: 0.2, TIME: 0.1 } }
+  FACILITY: { animate: false, roles_boost: { LOCATION: 2.0, DESTINATION: 1.6, AGENT: 0.2 } }
+  TIME:     { animate: false, roles_boost: { TIME: 3.0, LOCATION: 0.2, AGENT: 0.05, OBJECT: 0.2 } }
+  QUANTITY: { animate: false, roles_boost: { OBJECT: 1.1, TIME: 0.6 } }
+  PRODUCT:  { animate: false, roles_boost: { INSTRUMENT: 1.4, OBJECT: 1.2, AGENT: 0.2 } }
+  EVENT:    { animate: false, roles_boost: { TIME: 1.2, CAUSE: 1.2 } }
+  OTHER:    { animate: false, roles_boost: {} }
+
+# Normalisation table: NER label -> entity_type above.
+entity_type_aliases:
+  PERSON: PERSON
+  PER: PERSON
+  ORG: ORG
+  NORP: ORG
+  GPE: LOCATION
+  LOC: LOCATION
+  LOCATION: LOCATION
+  FAC: FACILITY
+  DATE: TIME
+  TIME: TIME
+  CARDINAL: QUANTITY
+  ORDINAL: QUANTITY
+  QUANTITY: QUANTITY
+  PERCENT: QUANTITY
+  MONEY: QUANTITY
+  PRODUCT: PRODUCT
+  WORK_OF_ART: PRODUCT
+  EVENT: EVENT
+  LANGUAGE: OTHER
+  LAW: OTHER
+  MISC: OTHER
