@@ -37,6 +37,8 @@ ENV_OVERRIDES = {
     "SPLM_TOP_K": "model.model.top_k_candidates",
     "SPLM_LOG_LEVEL": "app.logging.level",
     "SPLM_STANZA_DIR": "app.paths.stanza_resources",
+    "SPLM_API_HOST": "app.api.host",
+    "SPLM_API_PORT": "app.api.port",
     "SPLM_PARSER_BACKEND": "app.parser.backend",
     "SPLM_SCORER_BACKEND": "scoring.backend",
     "SPLM_SLOT_BACKEND": "app.slot_predictor.backend",

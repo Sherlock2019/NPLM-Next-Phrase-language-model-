@@ -20,6 +20,7 @@ tooling says so.
 - [Architecture](#architecture)
 - [Quick start](#quick-start)
 - [Installation](#installation)
+- [AWS EC2 deployment](#aws-ec2-deployment)
 - [Running it](#running-it)
 - [Measured results](#measured-results)
 - [Universal Phrase DNA](#universal-phrase-dna)
@@ -187,6 +188,57 @@ cd web && npm install && cd ..
 scripts/dev.sh start        # API on :8001, dashboard on :3010
 scripts/smoke.sh            # check every page and endpoint answers
 ```
+
+---
+
+## AWS EC2 deployment
+
+The EC2 installer runs the optimized Next.js build and the Python API as separate
+`systemd` services. They continue after the SSH session closes, restart on failure,
+and start automatically after a reboot. The dashboard listens on every network
+interface; the API stays private on `127.0.0.1` and is reached through the dashboard's
+`/api` proxy.
+
+Prerequisites: an Ubuntu EC2 instance with a public IPv4 address, `systemd`, Git,
+Python 3.11+, Node.js 20+, npm, and `curl`. Then run:
+
+```bash
+git clone git@github.com:Sherlock2019/NPLM-Next-Phrase-language-model-.git
+cd NPLM-Next-Phrase-language-model-
+./scripts/ec2_service.sh install
+```
+
+The first install downloads the configured Stanza pipelines and Transformer model and
+can take several minutes. If those resources are already present, use
+`SPLM_SKIP_RESOURCES=1 ./scripts/ec2_service.sh deploy`.
+
+In the instance's EC2 security group, add an inbound **Custom TCP** rule for port
+`3010`. Use **My IP** as the source for private access, or `0.0.0.0/0` only when the
+dashboard is intentionally public. Keep API port `8001` closed. Then open:
+
+```text
+http://EC2-PUBLIC-IP:3010
+```
+
+This direct endpoint is plain HTTP and has no authentication. Restrict the security
+group source while testing; before exposing it broadly, place it behind an HTTPS
+reverse proxy or load balancer and add authentication.
+
+Service management:
+
+```bash
+./scripts/ec2_service.sh status
+./scripts/ec2_service.sh logs
+./scripts/ec2_service.sh restart
+
+# Deploy a later revision
+git pull --ff-only
+SPLM_SKIP_RESOURCES=1 ./scripts/ec2_service.sh deploy
+```
+
+Set `SPLM_WEB_PORT` during installation to use a different public port. If the EC2
+instance is stopped and started, its auto-assigned public IPv4 address can change;
+associate an Elastic IP when the address must remain stable.
 
 ---
 
