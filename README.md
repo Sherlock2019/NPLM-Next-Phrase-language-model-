@@ -152,7 +152,7 @@ the full installation below.
 
 ## Installation
 
-Requires Python 3.11+ and, for the dashboard, Node 20+.
+Requires Python 3.11+ and, for the dashboard, Node 20.9+.
 
 ```bash
 git clone git@github.com:Sherlock2019/NPLM-Next-Phrase-language-model-.git
@@ -209,7 +209,7 @@ interface; the API stays private on `127.0.0.1` and is reached through the dashb
 `/api` proxy.
 
 Prerequisites: an Ubuntu EC2 instance with a public IPv4 address, `systemd`, Git,
-Python 3.11+, Node.js 20+, npm, and `curl`. Then run:
+Python 3.11+, Node.js 20.9+, npm, and `curl`. Then run:
 
 ```bash
 git clone git@github.com:Sherlock2019/NPLM-Next-Phrase-language-model-.git
