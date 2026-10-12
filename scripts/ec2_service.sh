@@ -16,6 +16,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 API_PORT="${SPLM_API_PORT:-8001}"
 WEB_PORT="${SPLM_WEB_PORT:-3010}"
 SERVICE_USER="${SPLM_SERVICE_USER:-${SUDO_USER:-$(id -un)}}"
+LEXICON_AUTO_DOWNLOAD="${SPLM_LEXICON_AUTO_DOWNLOAD:-false}"
 API_SERVICE="splm-api.service"
 WEB_SERVICE="splm-web.service"
 
@@ -83,13 +84,12 @@ check_platform() {
 
 prepare_application() {
   local python="$ROOT/.venv/bin/python"
-  local pip="$ROOT/.venv/bin/pip"
 
   echo "preparing Python environment"
-  if [ ! -x "$python" ]; then
-    as_service_user python3 -m venv "$ROOT/.venv"
-  fi
-  as_service_user "$pip" install -e "$ROOT[parse,llm,api,data]"
+  as_service_user env SPLM_ROOT="$ROOT" SPLM_PYTHON="$python" \
+    SPLM_TORCH_MODE="${SPLM_TORCH_MODE:-cpu}" \
+    SPLM_TORCH_INDEX_URL="${SPLM_TORCH_INDEX_URL:-}" \
+    "$ROOT/scripts/install_runtime.sh"
 
   echo "installing and building dashboard"
   as_service_user env SPLM_API_URL="http://127.0.0.1:$API_PORT" \
@@ -132,6 +132,7 @@ EnvironmentFile=-$ROOT/.env
 Environment="SPLM_ROOT=$ROOT"
 Environment="SPLM_API_HOST=127.0.0.1"
 Environment="SPLM_API_PORT=$API_PORT"
+Environment="SPLM_LEXICON_AUTO_DOWNLOAD=$LEXICON_AUTO_DOWNLOAD"
 Environment="HF_HOME=$ROOT/data/raw/hf"
 ExecStart=$python -m splm.api.main
 Restart=on-failure

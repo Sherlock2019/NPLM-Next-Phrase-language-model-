@@ -160,7 +160,10 @@ cd NPLM-Next-Phrase-language-model-
 
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
-pip install -e ".[parse,llm,api,ui,data,dev]"
+scripts/install_runtime.sh          # CPU-only PyTorch + runtime packages
+
+# Optional development and data tooling
+pip install -e ".[data,dev]"
 
 # Download parser models and the base Transformer before the first prediction.
 python scripts/download_resources.py --model
@@ -172,10 +175,15 @@ python scripts/download_resources.py --verify-only
 `download_resources.py` writes provenance — source, version, licence, date, language —
 for everything it fetches into `data/MANIFEST.json`.
 
+The runtime installer defaults to the CPU-only PyTorch wheel and omits Gradio, pandas,
+SQLAlchemy, and pytest. This avoids downloading the NVIDIA CUDA packages on ordinary
+EC2 instances. On a GPU instance, use `SPLM_TORCH_MODE=cuda scripts/install_runtime.sh`;
+set `SPLM_TORCH_INDEX_URL` to the wheel index appropriate for that CUDA version.
+
 Wiktionary lexicons are separate because the dumps are large. Build them ahead of
-time with `python scripts/build_lexicon.py --languages en fr vi`, or leave
-`app.lexicon.auto_download: true` in `config/app.yaml` to fetch each language on first
-use. Every download is logged and added to the same manifest.
+time with `python scripts/build_lexicon.py --languages en fr vi`, or launch with
+`SPLM_LEXICON_AUTO_DOWNLOAD=true` to fetch each language on first use. Every download
+is logged and added to the same manifest.
 
 > **On GPUs.** Device selection confirms CUDA by *running a kernel*, not by trusting
 > `torch.cuda.is_available()`. A GPU whose compute capability the installed torch build
@@ -212,6 +220,11 @@ cd NPLM-Next-Phrase-language-model-
 The first install downloads the configured Stanza pipelines and Transformer model and
 can take several minutes. If those resources are already present, use
 `SPLM_SKIP_RESOURCES=1 ./scripts/ec2_service.sh deploy`.
+
+CPU-only PyTorch is installed by default to keep the environment small. For a GPU EC2
+instance, run `SPLM_TORCH_MODE=cuda ./scripts/ec2_service.sh install`. Large Wiktionary
+lexicons are also disabled by the launchers unless
+`SPLM_LEXICON_AUTO_DOWNLOAD=true` is set explicitly.
 
 In the instance's EC2 security group, add an inbound **Custom TCP** rule for port
 `3010`. Use **My IP** as the source for private access, or `0.0.0.0/0` only when the

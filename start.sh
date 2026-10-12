@@ -16,8 +16,10 @@ cd "$ROOT"
 
 API_PORT="${SPLM_API_PORT:-8001}"
 WEB_PORT="${SPLM_WEB_PORT:-3010}"
-PYTHON="${SPLM_PYTHON:-$ROOT/.venv/bin/python}"
+DEFAULT_PYTHON="$ROOT/.venv/bin/python"
+PYTHON="${SPLM_PYTHON:-$DEFAULT_PYTHON}"
 URL="http://127.0.0.1:$WEB_PORT"
+export SPLM_LEXICON_AUTO_DOWNLOAD="${SPLM_LEXICON_AUTO_DOWNLOAD:-false}"
 
 port_available() {
   python3 - "$1" "$2" <<'PY'
@@ -83,10 +85,17 @@ preflight() {
     fi
   done
 
-  if [ ! -x "$PYTHON" ]; then
-    echo "no virtualenv at .venv; creating it and installing SPLM (this takes a while)"
-    python3 -m venv .venv || return 1
-    "$ROOT/.venv/bin/pip" install -e ".[parse,llm,api,ui,data,dev]" || return 1
+  local runtime_ready=false
+  if [ "$PYTHON" = "$DEFAULT_PYTHON" ]; then
+    [ -x "$PYTHON" ] && [ -f "$ROOT/.venv/.splm-runtime-ready" ] && runtime_ready=true
+  elif [ -x "$PYTHON" ] \
+    && "$PYTHON" -c 'import fastapi, stanza, torch, transformers' > /dev/null 2>&1; then
+    runtime_ready=true
+  fi
+
+  if [ "$runtime_ready" != true ]; then
+    echo "ensuring the lightweight Python runtime is installed"
+    SPLM_PYTHON="$PYTHON" scripts/install_runtime.sh || return 1
   fi
 
   if [ ! -d web/node_modules ]; then
