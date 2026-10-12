@@ -142,7 +142,8 @@ The dashboard runs at <http://127.0.0.1:3010>, the API at
 <http://127.0.0.1:8001>, and interactive API documentation at
 <http://127.0.0.1:8001/docs>. Use `./start.sh status`, `./start.sh logs`, and
 `./start.sh stop` to manage the services. Set `SPLM_NO_OPEN=1` if the launcher should
-not open a browser.
+not open a browser. If either default port is already occupied, the launcher selects
+the next available port and prints the resulting address.
 
 The first prediction also needs the parser models and base Transformer described in
 the full installation below.

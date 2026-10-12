@@ -19,16 +19,64 @@ WEB_PORT="${SPLM_WEB_PORT:-3010}"
 PYTHON="${SPLM_PYTHON:-$ROOT/.venv/bin/python}"
 URL="http://127.0.0.1:$WEB_PORT"
 
+port_available() {
+  python3 - "$1" "$2" <<'PY'
+import socket
+import sys
+
+host, port = sys.argv[1], int(sys.argv[2])
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+    try:
+        sock.bind((host, port))
+    except OSError:
+        raise SystemExit(1)
+PY
+}
+
+next_available_port() {
+  local host="$1"
+  local port="$2"
+  local avoid="${3:-}"
+
+  while [ "$port" -le 65535 ]; do
+    if [ "$port" != "$avoid" ] && port_available "$host" "$port"; then
+      printf '%s\n' "$port"
+      return 0
+    fi
+    port=$((port + 1))
+  done
+  return 1
+}
+
+select_ports() {
+  local requested
+
+  if ! port_available 127.0.0.1 "$API_PORT"; then
+    requested="$API_PORT"
+    API_PORT="$(next_available_port 127.0.0.1 "$((API_PORT + 1))" "$WEB_PORT")" \
+      || { echo "no available API port after $requested" >&2; return 1; }
+    echo "API port $requested is in use; using $API_PORT"
+  fi
+
+  if [ "$WEB_PORT" = "$API_PORT" ] || ! port_available 0.0.0.0 "$WEB_PORT"; then
+    requested="$WEB_PORT"
+    WEB_PORT="$(next_available_port 0.0.0.0 "$((WEB_PORT + 1))" "$API_PORT")" \
+      || { echo "no available dashboard port after $requested" >&2; return 1; }
+    echo "dashboard port $requested is in use; using $WEB_PORT"
+  fi
+
+  export SPLM_API_PORT="$API_PORT"
+  export SPLM_API_URL="http://127.0.0.1:$API_PORT"
+  export SPLM_WEB_PORT="$WEB_PORT"
+  URL="http://127.0.0.1:$WEB_PORT"
+}
+
 up() {
   [ "$(curl -s -o /dev/null --max-time 5 -w '%{http_code}' "$1")" = "200" ]
 }
 
-answering() {
-  curl -s -o /dev/null --max-time 5 "$1"
-}
-
 preflight() {
-  for tool in curl npm; do
+  for tool in curl npm python3; do
     if ! command -v "$tool" > /dev/null; then
       echo "missing required tool: $tool" >&2
       return 1
@@ -72,22 +120,22 @@ start() {
     return 0
   fi
 
-  # Anything answering here is not a healthy SPLM, and dev.sh would wait on it forever.
-  if answering "http://127.0.0.1:$API_PORT/" && ! up "http://127.0.0.1:$API_PORT/health"; then
-    echo "port $API_PORT is taken by another service; stop it, or change api.port in" >&2
-    echo "config/app.yaml and set SPLM_API_PORT and SPLM_API_URL to match" >&2
-    return 1
-  fi
-
   preflight || return 1
+  select_ports || return 1
   scripts/dev.sh start || return 1
   open_browser
 }
 
-case "${1:-start}" in
-  start) start ;;
-  stop | status) scripts/dev.sh "$1" ;;
-  restart) scripts/dev.sh stop; sleep 1; start ;;
-  logs) mkdir -p logs; touch logs/api.log logs/web.log; tail -n 20 -f logs/api.log logs/web.log ;;
-  *) echo "usage: $0 {start|stop|restart|status|logs}" >&2; exit 2 ;;
-esac
+main() {
+  case "${1:-start}" in
+    start) start ;;
+    stop | status) scripts/dev.sh "$1" ;;
+    restart) scripts/dev.sh stop; sleep 1; start ;;
+    logs) mkdir -p logs; touch logs/api.log logs/web.log; tail -n 20 -f logs/api.log logs/web.log ;;
+    *) echo "usage: $0 {start|stop|restart|status|logs}" >&2; exit 2 ;;
+  esac
+}
+
+if [ "${BASH_SOURCE[0]}" = "$0" ]; then
+  main "$@"
+fi
