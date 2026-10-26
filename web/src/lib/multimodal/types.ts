@@ -35,7 +35,8 @@ export interface Meaning {
 export interface CircleRow {
   about: string;
   text: string;
-  basis: string; // rule | simulation | observation | unknown
+  basis: string; // rule | simulation | observation | unknown | generic
+  direction?: string | null; // "+", "-" or "0" for layer impacts
   source?: string;
   reason?: string;
   needs?: string[];
@@ -66,6 +67,8 @@ export interface Scenario {
   uncertainty: Record<string, string | null>;
   backend: { name: string; version: string };
   circles: Circle[];
+  rings: Ring[] | null;
+  summary: ReportSummary;
   report_text: string;
   acm_json: unknown;
   decision_time_s: number | null;
@@ -119,11 +122,47 @@ export interface SaleFlow {
   note: string;
 }
 
+export interface Ring {
+  key: string;
+  title: string;
+  question: string;
+  extent: string | null;
+  rows: CircleRow[];
+  empty: string | null;
+}
+
+export interface ReportSummary {
+  action: string;
+  predicate: string | null;
+  concept: string | null;
+  actor: string | null;
+  self_view: boolean;
+  tense: string | null;
+  certainty: number;
+  realized: boolean;
+  condition: string | null;
+  places: string[];
+  notes: string[];
+}
+
+export interface PhraseResult {
+  id: string;
+  text: string;
+  context: string[];
+  summary: ReportSummary;
+  rings: Ring[];
+  report_text: string;
+  mindmap: string;
+  acm_json: unknown;
+  shows: string;
+}
+
 export interface DemoBundle {
   mode: "demo";
   badge: string;
   action_labels: Record<string, string>;
   flows: { text: Flow; image: Flow; video: VideoFlow; sale: SaleFlow };
+  phrases: PhraseResult[];
 }
 
 export interface VideoScript {

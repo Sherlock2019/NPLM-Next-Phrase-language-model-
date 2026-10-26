@@ -38,7 +38,8 @@ start() {
 
   for _ in $(seq 1 180); do
     api_up=$(curl -s -o /dev/null --max-time 5 -w '%{http_code}' "http://127.0.0.1:$API_PORT/health")
-    web_up=$(curl -s -o /dev/null --max-time 5 -w '%{http_code}' "http://127.0.0.1:$WEB_PORT/")
+    # -L: in ACM mode "/" redirects to /acm
+    web_up=$(curl -sL -o /dev/null --max-time 5 -w '%{http_code}' "http://127.0.0.1:$WEB_PORT/")
     if [ "$api_up" = "200" ] && [ "$web_up" = "200" ]; then
       echo "ready:  http://127.0.0.1:$WEB_PORT"
       return 0

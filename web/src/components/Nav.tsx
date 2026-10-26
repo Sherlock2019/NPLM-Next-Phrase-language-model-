@@ -3,19 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const PAGES = [
-  { href: "/", label: "Playground" },
-  { href: "/phrase-dna", label: "Phrase DNA" },
-  { href: "/inspector", label: "Inspector" },
-  { href: "/context", label: "Context Graph" },
-  { href: "/multimodal", label: "Multimodal → ACM" },
-  { href: "/multilingual", label: "Multilingual" },
-  { href: "/benchmark", label: "Benchmark" },
-  { href: "/ablation", label: "Ablation" },
-  { href: "/architecture", label: "Architecture" },
-  { href: "/system", label: "System" },
-];
+import { BRAND, PAGES } from "@/lib/app";
 
 export function Nav() {
   const pathname = usePathname();
@@ -44,17 +32,13 @@ export function Nav() {
         <Link href="/" className="group flex items-center gap-2.5">
           <span
             aria-hidden
-            className="grid size-7 place-items-center rounded-md bg-splm-500/15 text-[11px] font-bold text-splm-400 ring-1 ring-splm-500/30"
+            className="grid h-7 min-w-7 place-items-center rounded-md bg-splm-500/15 px-1 text-[11px] font-bold text-splm-400 ring-1 ring-splm-500/30"
           >
-            SP
+            {BRAND.mark}
           </span>
           <span className="flex flex-col leading-none">
-            <span className="text-[13px] font-semibold tracking-tight">
-              Meaning Language Model
-            </span>
-            <span className="faint mt-0.5 text-[10.5px]">
-              Understand meaning before predicting language
-            </span>
+            <span className="text-[13px] font-semibold tracking-tight">{BRAND.name}</span>
+            <span className="faint mt-0.5 text-[10.5px]">{BRAND.tagline}</span>
           </span>
         </Link>
 

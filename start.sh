@@ -28,6 +28,9 @@ import sys
 
 host, port = sys.argv[1], int(sys.argv[2])
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+    # Same as the servers themselves: connections of a just-stopped server lingering
+    # in TIME_WAIT do not make the port unavailable; a live listener still does.
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     try:
         sock.bind((host, port))
     except OSError:
@@ -74,7 +77,8 @@ select_ports() {
 }
 
 up() {
-  [ "$(curl -s -o /dev/null --max-time 5 -w '%{http_code}' "$1")" = "200" ]
+  # -L: in ACM mode "/" redirects to /acm
+  [ "$(curl -sL -o /dev/null --max-time 5 -w '%{http_code}' "$1")" = "200" ]
 }
 
 preflight() {

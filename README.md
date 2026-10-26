@@ -351,6 +351,20 @@ flowchart LR
 - **Live backends.** A Qwen3-VL client (any OpenAI-compatible endpoint) and an
   Ultralytics YOLO tracker are optional, lazily loaded, and never download anything.
 
+### The ACM demo and ACM mode
+
+`/acm` is the ACM demo: a phrase, an image and a video, each predicting the
+consequences of an action across the whole blast radius, with one **Run Demo** button.
+Started from ACM's `./start.sh`, the dashboard runs in **ACM mode**
+(`NEXT_PUBLIC_APP_MODE=acm`). It carries ACM branding, `/` opens `/acm`, and the MLM
+Playground moves to `/mlm`. Without that variable, the dashboard is the MLM console as
+before. Live phrases use `POST /api/acm/phrase`, which needs ACM and the Stanza model.
+
+The dev server only serves its client code to origins it trusts: `127.0.0.1`,
+`localhost`, and any hosts in `SPLM_ALLOWED_DEV_ORIGINS` (comma-separated). ACM's
+launcher adds the machine's public and LAN addresses. Without them, a page opened by
+IP stays on "Loading…".
+
 ### The interactive demo
 
 Open **`/multimodal`** in the dashboard (`./start.sh`, then
@@ -695,7 +709,7 @@ src/splm/
   evaluation/      datasets, metrics with real statistics, baseline arm, benchmark runner
   api/             FastAPI service
   cli.py           command line
-web/               Next.js dashboard (10 pages, incl. /multimodal); demo materials in web/public/demo
+web/               Next.js dashboard (12 pages, incl. /acm, /multimodal, /mlm); demo materials in web/public/demo
 scripts/           download_resources, make_fixtures, make_tabletop_demo, demo, benchmark, dev, smoke
 tests/             154 tests over committed CoNLL-U and meaning fixtures
 results/           benchmark output (JSON + CSV)

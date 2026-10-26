@@ -17,11 +17,13 @@ const STATUS_STYLE: Record<string, string> = {
   rule: "bg-splm-500/15 text-splm-300 ring-splm-500/30",
   observation: "bg-ok-400/12 text-ok-400 ring-ok-400/30",
   supplied: "bg-warn-400/12 text-warn-400 ring-warn-400/30",
+  generic: "bg-white/5 text-[var(--text-dim)] ring-white/15",
 };
 const STATUS_WORD: Record<string, string> = {
   simulation: "simulated",
   rule: "rule-derived",
   observation: "observed",
+  generic: "generic · no verdict",
 };
 
 export function StatusTag({ status }: { status: string }) {

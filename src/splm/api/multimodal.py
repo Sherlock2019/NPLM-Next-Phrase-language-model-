@@ -2,6 +2,7 @@
 
     GET  /api/multimodal/status   which flows can run live, and what is missing
     POST /api/multimodal/text     live: MLM parser -> meaning -> ACM (needs a parser model and ACM)
+    POST /api/acm/phrase          live: any action sentence (+ context) -> ACM's full blast radius
 
 The dashboard's Demo mode never calls these for results - it replays bundled
 fixtures. Live mode is enabled only for the flows this status reports as
@@ -19,6 +20,11 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
+
+
+class LivePhraseRequest(BaseModel):
+    text: str = Field(min_length=1, max_length=1000, description="The action sentence")
+    context: list[str] = Field(default_factory=list, max_length=10, description="Earlier sentences")
 
 
 class LiveTextRequest(BaseModel):
@@ -73,6 +79,20 @@ def register(app: FastAPI, prefix: str) -> None:
                          "Use splm.meaning.adapters.VideoAdapter with LiveVideoBackend from Python.",
             },
         }
+
+    @app.post(f"{prefix}/acm/phrase")
+    def acm_phrase(request: LivePhraseRequest) -> dict[str, Any]:
+        """Live: MLM parses context + action; ACM predicts the whole blast radius."""
+        acm_ok, acm_reason = acm_status()
+        parser_ok, parser_reason = parser_status()
+        if not (acm_ok and parser_ok):
+            raise HTTPException(status_code=503, detail=f"live phrase unavailable: {acm_reason if not acm_ok else parser_reason}")
+        from acm.demo import live_phrase_result
+
+        try:
+            return live_phrase_result(request.text, [c for c in request.context if c.strip()], pipeline())
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     @app.post(f"{prefix}/multimodal/text")
     def multimodal_text(request: LiveTextRequest) -> dict[str, Any]:

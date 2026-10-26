@@ -1333,6 +1333,22 @@
        "empty": "No supporting evidence"
       }
      ],
+     "rings": null,
+     "summary": {
+      "action": "(no action)",
+      "predicate": null,
+      "concept": null,
+      "actor": null,
+      "self_view": false,
+      "tense": null,
+      "certainty": 1.0,
+      "realized": true,
+      "condition": null,
+      "places": [],
+      "notes": [
+       "No action is taken: no rule applies, and the simulator predicts no change."
+      ]
+     },
      "report_text": "No action is taken: no rule applies, and the simulator predicts no change.",
      "mindmap": null,
      "acm_json": {
@@ -1683,6 +1699,211 @@
        "empty": "No supporting evidence"
       }
      ],
+     "rings": [
+      {
+       "key": "actor",
+       "title": "Actor",
+       "question": "who acts",
+       "extent": "self (I)",
+       "rows": [
+        {
+         "about": "self",
+         "text": "own goal 'push the blue cup toward the right edge': advanced",
+         "basis": "rule",
+         "source": "relation",
+         "reason": "makes 'blue cup is moved from where it was' true"
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "impacted",
+       "title": "Impacted",
+       "question": "what · to whom",
+       "extent": null,
+       "rows": [
+        {
+         "about": "blue_cup_01",
+         "text": "is moved from where it was",
+         "basis": "rule",
+         "source": "rule:PUSH",
+         "direction": null,
+         "evidence": []
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "loses the support of table_01",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "is no longer in table_01",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "is now in floor_01",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "falls",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "damage: whether it breaks or is damaged is unknown",
+         "basis": "unknown",
+         "source": "simulation.yaml",
+         "needs": [
+          "material",
+          "fall height",
+          "impact surface"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "spill: whether anything spills is unknown: its contents are unspecified",
+         "basis": "unknown",
+         "source": "simulation.yaml",
+         "needs": [
+          "contents"
+         ]
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "other_actors",
+       "title": "Other actors",
+       "question": "their goals and actions",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "environment",
+       "title": "Local environment",
+       "question": "where it happens",
+       "extent": "table_01, floor_01 (assumed)",
+       "rows": [
+        {
+         "about": "table_01",
+         "text": "no longer supports blue_cup_01",
+         "basis": "simulation",
+         "direction": null
+        },
+        {
+         "about": "table_01",
+         "text": "blue_cup_01 leaves",
+         "basis": "simulation",
+         "direction": null
+        },
+        {
+         "about": "floor_01 (assumed)",
+         "text": "blue_cup_01 arrives",
+         "basis": "simulation",
+         "direction": null
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "neighbour",
+       "title": "Neighbours",
+       "question": "places next to it",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "organization",
+       "title": "Organization",
+       "question": "business · enterprise · institution",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "city",
+       "title": "City",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "country",
+       "title": "Country",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "society",
+       "title": "Society",
+       "question": "economy · law · trust",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "earth",
+       "title": "Earth",
+       "question": "emissions · biodiversity · resources",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      }
+     ],
+     "summary": {
+      "action": "[proposed action act_push_edge: push blue_cup_01]",
+      "predicate": "push",
+      "concept": "PUSH",
+      "actor": "self",
+      "self_view": true,
+      "tense": "future",
+      "certainty": 0.8,
+      "realized": true,
+      "condition": null,
+      "places": [
+       "table_01",
+       "floor_01 (assumed)"
+      ],
+      "notes": [
+       "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
+       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+      ]
+     },
      "report_text": "ACTION  [proposed action act_push_edge: push blue_cup_01]\n        concept=PUSH  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  own goal 'push the blue cup toward the right edge': ADVANCED ✅ - makes 'blue cup is moved from where it was' true\n\nIMPACTED\n  blue_cup_01: is moved from where it was; loses the support of table_01; is no longer in table_01; is now in floor_01; falls\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  table_01, floor_01 (assumed)\n  table_01: no longer supports blue_cup_01; blue_cup_01 leaves\n  floor_01 (assumed): blue_cup_01 arrives\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((self · push))\n    Self\n      own goal push the blue cup toward the right edge: ADVANCED ✅\n    Impacted\n      blue_cup_01\n        is moved from where it was\n        loses the support of table_01\n        is no longer in table_01\n        is now in floor_01\n        falls\n    Local environment: table_01, floor_01 assumed\n      table_01: no longer supports blue_cup_01\n      table_01: blue_cup_01 leaves\n      floor_01 assumed: blue_cup_01 arrives\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
@@ -3412,6 +3633,144 @@
        "empty": "No supporting evidence"
       }
      ],
+     "rings": [
+      {
+       "key": "actor",
+       "title": "Actor",
+       "question": "who acts",
+       "extent": "self (I)",
+       "rows": [
+        {
+         "about": "self",
+         "text": "own goal 'push the blue cup toward the right edge': unaffected",
+         "basis": "rule",
+         "source": "relation",
+         "reason": "none of the action's changes touch it"
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "impacted",
+       "title": "Impacted",
+       "question": "what · to whom",
+       "extent": null,
+       "rows": [
+        {
+         "about": "blue_cup_01",
+         "text": "is now in the point (x=0.80, y=0.40 m on table_01)",
+         "basis": "rule",
+         "source": "rule:MOVE",
+         "direction": null,
+         "evidence": []
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "other_actors",
+       "title": "Other actors",
+       "question": "their goals and actions",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "environment",
+       "title": "Local environment",
+       "question": "where it happens",
+       "extent": "the point (x=0.80, y=0.40 m on table_01), table_01",
+       "rows": [
+        {
+         "about": "the point (x=0.80, y=0.40 m on table_01)",
+         "text": "blue_cup_01 arrives",
+         "basis": "rule",
+         "direction": null
+        },
+        {
+         "about": "the point (x=0.80, y=0.40 m on table_01)",
+         "text": "blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01)",
+         "basis": "rule",
+         "direction": null
+        },
+        {
+         "about": "the point (x=0.80, y=0.40 m on table_01)",
+         "text": "'move' takes place here",
+         "basis": "rule",
+         "direction": null
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "neighbour",
+       "title": "Neighbours",
+       "question": "places next to it",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "organization",
+       "title": "Organization",
+       "question": "business · enterprise · institution",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "city",
+       "title": "City",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "country",
+       "title": "Country",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "society",
+       "title": "Society",
+       "question": "economy · law · trust",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "earth",
+       "title": "Earth",
+       "question": "emissions · biodiversity · resources",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      }
+     ],
+     "summary": {
+      "action": "[proposed action act_move_center: move blue_cup_01]",
+      "predicate": "move",
+      "concept": "MOVE",
+      "actor": "self",
+      "self_view": true,
+      "tense": "future",
+      "certainty": 0.8,
+      "realized": true,
+      "condition": null,
+      "places": [
+       "the point (x=0.80, y=0.40 m on table_01)",
+       "table_01"
+      ],
+      "notes": [
+       "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
+       "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
+       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+      ]
+     },
      "report_text": "ACTION  [proposed action act_move_center: move blue_cup_01]\n        concept=MOVE  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  own goal 'push the blue cup toward the right edge': unaffected - none of the action's changes touch it\n\nIMPACTED\n  blue_cup_01: is now in the point (x=0.80, y=0.40 m on table_01)\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  the point (x=0.80, y=0.40 m on table_01), table_01\n  the point (x=0.80, y=0.40 m on table_01): blue_cup_01 arrives; blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01); 'move' takes place here\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((self · move))\n    Self\n      own goal push the blue cup toward the right edge: unaffected\n    Impacted\n      blue_cup_01\n        is now in the point x=0.80, y=0.40 m on table_01\n    Local environment: the point x=0.80, y=0.40 m on table_01, table_01\n      blue_cup_01 arrives\n      blue_cup_01 is in the point x=0.80, y=0.40 m on table_01\n      'move' takes place here\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
@@ -5367,6 +5726,22 @@
        "empty": "No supporting evidence"
       }
      ],
+     "rings": null,
+     "summary": {
+      "action": "(no action)",
+      "predicate": null,
+      "concept": null,
+      "actor": null,
+      "self_view": false,
+      "tense": null,
+      "certainty": 1.0,
+      "realized": true,
+      "condition": null,
+      "places": [],
+      "notes": [
+       "No action is taken: no rule applies, and the simulator predicts no change."
+      ]
+     },
      "report_text": "No action is taken: no rule applies, and the simulator predicts no change.",
      "mindmap": null,
      "acm_json": {
@@ -5709,6 +6084,203 @@
        "empty": "No supporting evidence"
       }
      ],
+     "rings": [
+      {
+       "key": "actor",
+       "title": "Actor",
+       "question": "who acts",
+       "extent": "self (I)",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "impacted",
+       "title": "Impacted",
+       "question": "what · to whom",
+       "extent": null,
+       "rows": [
+        {
+         "about": "blue_cup_01",
+         "text": "is moved from where it was",
+         "basis": "rule",
+         "source": "rule:PUSH",
+         "direction": null,
+         "evidence": []
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "loses the support of table_01",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "is no longer in table_01",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "is now in floor_01",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "falls",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "damage: whether it breaks or is damaged is unknown",
+         "basis": "unknown",
+         "source": "simulation.yaml",
+         "needs": [
+          "material",
+          "fall height",
+          "impact surface"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "spill: whether anything spills is unknown: its contents are unspecified",
+         "basis": "unknown",
+         "source": "simulation.yaml",
+         "needs": [
+          "contents"
+         ]
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "other_actors",
+       "title": "Other actors",
+       "question": "their goals and actions",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "environment",
+       "title": "Local environment",
+       "question": "where it happens",
+       "extent": "table_01, floor_01 (assumed)",
+       "rows": [
+        {
+         "about": "table_01",
+         "text": "no longer supports blue_cup_01",
+         "basis": "simulation",
+         "direction": null
+        },
+        {
+         "about": "table_01",
+         "text": "blue_cup_01 leaves",
+         "basis": "simulation",
+         "direction": null
+        },
+        {
+         "about": "floor_01 (assumed)",
+         "text": "blue_cup_01 arrives",
+         "basis": "simulation",
+         "direction": null
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "neighbour",
+       "title": "Neighbours",
+       "question": "places next to it",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "organization",
+       "title": "Organization",
+       "question": "business · enterprise · institution",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "city",
+       "title": "City",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "country",
+       "title": "Country",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "society",
+       "title": "Society",
+       "question": "economy · law · trust",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "earth",
+       "title": "Earth",
+       "question": "emissions · biodiversity · resources",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      }
+     ],
+     "summary": {
+      "action": "[proposed action act_push_edge: push blue_cup_01]",
+      "predicate": "push",
+      "concept": "PUSH",
+      "actor": "self",
+      "self_view": true,
+      "tense": "future",
+      "certainty": 0.8,
+      "realized": true,
+      "condition": null,
+      "places": [
+       "table_01",
+       "floor_01 (assumed)"
+      ],
+      "notes": [
+       "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
+       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+      ]
+     },
      "report_text": "ACTION  [proposed action act_push_edge: push blue_cup_01]\n        concept=PUSH  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  -\n\nIMPACTED\n  blue_cup_01: is moved from where it was; loses the support of table_01; is no longer in table_01; is now in floor_01; falls\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  table_01, floor_01 (assumed)\n  table_01: no longer supports blue_cup_01; blue_cup_01 leaves\n  floor_01 (assumed): blue_cup_01 arrives\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((self · push))\n    Self\n    Impacted\n      blue_cup_01\n        is moved from where it was\n        loses the support of table_01\n        is no longer in table_01\n        is now in floor_01\n        falls\n    Local environment: table_01, floor_01 assumed\n      table_01: no longer supports blue_cup_01\n      table_01: blue_cup_01 leaves\n      floor_01 assumed: blue_cup_01 arrives\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
@@ -7292,6 +7864,136 @@
        "empty": "No supporting evidence"
       }
      ],
+     "rings": [
+      {
+       "key": "actor",
+       "title": "Actor",
+       "question": "who acts",
+       "extent": "self (I)",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "impacted",
+       "title": "Impacted",
+       "question": "what · to whom",
+       "extent": null,
+       "rows": [
+        {
+         "about": "blue_cup_01",
+         "text": "is now in the point (x=0.80, y=0.40 m on table_01)",
+         "basis": "rule",
+         "source": "rule:MOVE",
+         "direction": null,
+         "evidence": []
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "other_actors",
+       "title": "Other actors",
+       "question": "their goals and actions",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "environment",
+       "title": "Local environment",
+       "question": "where it happens",
+       "extent": "the point (x=0.80, y=0.40 m on table_01), table_01",
+       "rows": [
+        {
+         "about": "the point (x=0.80, y=0.40 m on table_01)",
+         "text": "blue_cup_01 arrives",
+         "basis": "rule",
+         "direction": null
+        },
+        {
+         "about": "the point (x=0.80, y=0.40 m on table_01)",
+         "text": "blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01)",
+         "basis": "rule",
+         "direction": null
+        },
+        {
+         "about": "the point (x=0.80, y=0.40 m on table_01)",
+         "text": "'move' takes place here",
+         "basis": "rule",
+         "direction": null
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "neighbour",
+       "title": "Neighbours",
+       "question": "places next to it",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "organization",
+       "title": "Organization",
+       "question": "business · enterprise · institution",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "city",
+       "title": "City",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "country",
+       "title": "Country",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "society",
+       "title": "Society",
+       "question": "economy · law · trust",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "earth",
+       "title": "Earth",
+       "question": "emissions · biodiversity · resources",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      }
+     ],
+     "summary": {
+      "action": "[proposed action act_move_center: move blue_cup_01]",
+      "predicate": "move",
+      "concept": "MOVE",
+      "actor": "self",
+      "self_view": true,
+      "tense": "future",
+      "certainty": 0.8,
+      "realized": true,
+      "condition": null,
+      "places": [
+       "the point (x=0.80, y=0.40 m on table_01)",
+       "table_01"
+      ],
+      "notes": [
+       "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
+       "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
+       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+      ]
+     },
      "report_text": "ACTION  [proposed action act_move_center: move blue_cup_01]\n        concept=MOVE  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  -\n\nIMPACTED\n  blue_cup_01: is now in the point (x=0.80, y=0.40 m on table_01)\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  the point (x=0.80, y=0.40 m on table_01), table_01\n  the point (x=0.80, y=0.40 m on table_01): blue_cup_01 arrives; blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01); 'move' takes place here\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((self · move))\n    Self\n    Impacted\n      blue_cup_01\n        is now in the point x=0.80, y=0.40 m on table_01\n    Local environment: the point x=0.80, y=0.40 m on table_01, table_01\n      blue_cup_01 arrives\n      blue_cup_01 is in the point x=0.80, y=0.40 m on table_01\n      'move' takes place here\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
@@ -10629,6 +11331,22 @@
        "empty": "No supporting evidence"
       }
      ],
+     "rings": null,
+     "summary": {
+      "action": "(no action)",
+      "predicate": null,
+      "concept": null,
+      "actor": null,
+      "self_view": false,
+      "tense": null,
+      "certainty": 1.0,
+      "realized": true,
+      "condition": null,
+      "places": [],
+      "notes": [
+       "No action is taken: no rule applies, and the simulator predicts no change."
+      ]
+     },
      "report_text": "No action is taken: no rule applies, and the simulator predicts no change.",
      "mindmap": null,
      "acm_json": {
@@ -10975,6 +11693,203 @@
        "empty": "No supporting evidence"
       }
      ],
+     "rings": [
+      {
+       "key": "actor",
+       "title": "Actor",
+       "question": "who acts",
+       "extent": "pusher_01",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "impacted",
+       "title": "Impacted",
+       "question": "what · to whom",
+       "extent": null,
+       "rows": [
+        {
+         "about": "blue_cup_01",
+         "text": "is moved from where it was",
+         "basis": "rule",
+         "source": "rule:PUSH",
+         "direction": null,
+         "evidence": []
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "loses the support of table_01",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "is no longer in table_01",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "is now in floor_01",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "falls",
+         "basis": "simulation",
+         "source": "simulator:tabletop-kinematic@1.0",
+         "direction": null,
+         "evidence": [
+          "assumption: rigid bodies",
+          "assumption: centre of mass at footprint centre",
+          "assumption: falls iff centre of mass beyond the support boundary"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "damage: whether it breaks or is damaged is unknown",
+         "basis": "unknown",
+         "source": "simulation.yaml",
+         "needs": [
+          "material",
+          "fall height",
+          "impact surface"
+         ]
+        },
+        {
+         "about": "blue_cup_01",
+         "text": "spill: whether anything spills is unknown: its contents are unspecified",
+         "basis": "unknown",
+         "source": "simulation.yaml",
+         "needs": [
+          "contents"
+         ]
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "other_actors",
+       "title": "Other actors",
+       "question": "their goals and actions",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "environment",
+       "title": "Local environment",
+       "question": "where it happens",
+       "extent": "table_01, floor_01 (assumed)",
+       "rows": [
+        {
+         "about": "table_01",
+         "text": "no longer supports blue_cup_01",
+         "basis": "simulation",
+         "direction": null
+        },
+        {
+         "about": "table_01",
+         "text": "blue_cup_01 leaves",
+         "basis": "simulation",
+         "direction": null
+        },
+        {
+         "about": "floor_01 (assumed)",
+         "text": "blue_cup_01 arrives",
+         "basis": "simulation",
+         "direction": null
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "neighbour",
+       "title": "Neighbours",
+       "question": "places next to it",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "organization",
+       "title": "Organization",
+       "question": "business · enterprise · institution",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "city",
+       "title": "City",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "country",
+       "title": "Country",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "society",
+       "title": "Society",
+       "question": "economy · law · trust",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "earth",
+       "title": "Earth",
+       "question": "emissions · biodiversity · resources",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      }
+     ],
+     "summary": {
+      "action": "[proposed action act_push_edge: push blue_cup_01]",
+      "predicate": "push",
+      "concept": "PUSH",
+      "actor": "pusher_01",
+      "self_view": false,
+      "tense": "future",
+      "certainty": 0.8,
+      "realized": true,
+      "condition": null,
+      "places": [
+       "table_01",
+       "floor_01 (assumed)"
+      ],
+      "notes": [
+       "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
+       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+      ]
+     },
      "report_text": "ACTION  [proposed action act_push_edge: push blue_cup_01]\n        concept=PUSH  tense=future  certainty=0.80\n\nACTOR  pusher_01\n  -\n\nIMPACTED\n  blue_cup_01: is moved from where it was; loses the support of table_01; is no longer in table_01; is now in floor_01; falls\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  table_01, floor_01 (assumed)\n  table_01: no longer supports blue_cup_01; blue_cup_01 leaves\n  floor_01 (assumed): blue_cup_01 arrives\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((pusher_01 · push))\n    Actor: pusher_01\n    Impacted\n      blue_cup_01\n        is moved from where it was\n        loses the support of table_01\n        is no longer in table_01\n        is now in floor_01\n        falls\n    Local environment: table_01, floor_01 assumed\n      table_01: no longer supports blue_cup_01\n      table_01: blue_cup_01 leaves\n      floor_01 assumed: blue_cup_01 arrives\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
@@ -12562,6 +13477,136 @@
        "empty": "No supporting evidence"
       }
      ],
+     "rings": [
+      {
+       "key": "actor",
+       "title": "Actor",
+       "question": "who acts",
+       "extent": "pusher_01",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "impacted",
+       "title": "Impacted",
+       "question": "what · to whom",
+       "extent": null,
+       "rows": [
+        {
+         "about": "blue_cup_01",
+         "text": "is now in the point (x=0.80, y=0.40 m on table_01)",
+         "basis": "rule",
+         "source": "rule:MOVE",
+         "direction": null,
+         "evidence": []
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "other_actors",
+       "title": "Other actors",
+       "question": "their goals and actions",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "environment",
+       "title": "Local environment",
+       "question": "where it happens",
+       "extent": "the point (x=0.80, y=0.40 m on table_01), table_01",
+       "rows": [
+        {
+         "about": "the point (x=0.80, y=0.40 m on table_01)",
+         "text": "blue_cup_01 arrives",
+         "basis": "rule",
+         "direction": null
+        },
+        {
+         "about": "the point (x=0.80, y=0.40 m on table_01)",
+         "text": "blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01)",
+         "basis": "rule",
+         "direction": null
+        },
+        {
+         "about": "the point (x=0.80, y=0.40 m on table_01)",
+         "text": "'move' takes place here",
+         "basis": "rule",
+         "direction": null
+        }
+       ],
+       "empty": null
+      },
+      {
+       "key": "neighbour",
+       "title": "Neighbours",
+       "question": "places next to it",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "organization",
+       "title": "Organization",
+       "question": "business · enterprise · institution",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "city",
+       "title": "City",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "country",
+       "title": "Country",
+       "question": "",
+       "extent": "not known",
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "society",
+       "title": "Society",
+       "question": "economy · law · trust",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      },
+      {
+       "key": "earth",
+       "title": "Earth",
+       "question": "emissions · biodiversity · resources",
+       "extent": null,
+       "rows": [],
+       "empty": "No supporting evidence"
+      }
+     ],
+     "summary": {
+      "action": "[proposed action act_move_center: move blue_cup_01]",
+      "predicate": "move",
+      "concept": "MOVE",
+      "actor": "pusher_01",
+      "self_view": false,
+      "tense": "future",
+      "certainty": 0.8,
+      "realized": true,
+      "condition": null,
+      "places": [
+       "the point (x=0.80, y=0.40 m on table_01)",
+       "table_01"
+      ],
+      "notes": [
+       "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
+       "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
+       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+      ]
+     },
      "report_text": "ACTION  [proposed action act_move_center: move blue_cup_01]\n        concept=MOVE  tense=future  certainty=0.80\n\nACTOR  pusher_01\n  -\n\nIMPACTED\n  blue_cup_01: is now in the point (x=0.80, y=0.40 m on table_01)\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  the point (x=0.80, y=0.40 m on table_01), table_01\n  the point (x=0.80, y=0.40 m on table_01): blue_cup_01 arrives; blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01); 'move' takes place here\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((pusher_01 · move))\n    Actor: pusher_01\n    Impacted\n      blue_cup_01\n        is now in the point x=0.80, y=0.40 m on table_01\n    Local environment: the point x=0.80, y=0.40 m on table_01, table_01\n      blue_cup_01 arrives\n      blue_cup_01 is in the point x=0.80, y=0.40 m on table_01\n      'move' takes place here\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
@@ -20607,5 +21652,2769 @@
   "notes": [
    "Scripted synthetic outcome: this demonstrates the workflow, not independent validation."
   ]
- }
+ },
+ "phrases": [
+  {
+   "id": "phrase_01",
+   "text": "I will sell my car to Sarah to pay my debt.",
+   "context": [
+    "Mark wants to buy my car.",
+    "Sarah needs a car."
+   ],
+   "summary": {
+    "action": "I will sell my car to Sarah to pay my debt.",
+    "predicate": "sell",
+    "concept": "SALE",
+    "actor": "self",
+    "self_view": true,
+    "tense": "future",
+    "certainty": 0.9,
+    "realized": true,
+    "condition": null,
+    "places": [],
+    "notes": []
+   },
+   "rings": [
+    {
+     "key": "actor",
+     "title": "Actor",
+     "question": "who acts",
+     "extent": "self (I)",
+     "rows": [
+      {
+       "about": "self",
+       "text": "loses my car",
+       "basis": "rule",
+       "source": "rule:SALE",
+       "direction": null,
+       "evidence": []
+      },
+      {
+       "about": "self",
+       "text": "gains money",
+       "basis": "rule",
+       "source": "rule:SALE",
+       "direction": null,
+       "evidence": []
+      },
+      {
+       "about": "self",
+       "text": "own goal 'pay my debt': enabled",
+       "basis": "rule",
+       "source": "relation",
+       "reason": "provides what it needs: self has money"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "impacted",
+     "title": "Impacted",
+     "question": "what · to whom",
+     "extent": null,
+     "rows": [
+      {
+       "about": "Sarah",
+       "text": "gains my car",
+       "basis": "rule",
+       "source": "rule:SALE",
+       "direction": null,
+       "evidence": []
+      },
+      {
+       "about": "Sarah",
+       "text": "loses money",
+       "basis": "rule",
+       "source": "rule:SALE",
+       "direction": null,
+       "evidence": []
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "other_actors",
+     "title": "Other actors",
+     "question": "their goals and actions",
+     "extent": null,
+     "rows": [
+      {
+       "about": "Mark",
+       "text": "buy my car: blocked",
+       "basis": "rule",
+       "source": "relation",
+       "reason": "Sarah has my car, so 'Mark has my car' cannot hold"
+      },
+      {
+       "about": "Sarah",
+       "text": "have car: advanced",
+       "basis": "rule",
+       "source": "relation",
+       "reason": "makes 'Sarah has car' true"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "environment",
+     "title": "Local environment",
+     "question": "where it happens",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "neighbour",
+     "title": "Neighbours",
+     "question": "places next to it",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "organization",
+     "title": "Organization",
+     "question": "business · enterprise · institution",
+     "extent": "no place stated",
+     "rows": [
+      {
+       "about": "registration",
+       "text": "insurers and the vehicle registry must record the new owner",
+       "basis": "rule",
+       "direction": "0"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "city",
+     "title": "City",
+     "question": "",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "country",
+     "title": "Country",
+     "question": "",
+     "extent": "no place stated",
+     "rows": [
+      {
+       "about": "national economy",
+       "text": "a taxable transaction counts in national economic activity",
+       "basis": "rule",
+       "direction": "0"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "society",
+     "title": "Society",
+     "question": "economy · law · trust",
+     "extent": null,
+     "rows": [
+      {
+       "about": "economy",
+       "text": "money circulates through the economy",
+       "basis": "rule",
+       "direction": "0"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "earth",
+     "title": "Earth",
+     "question": "emissions · biodiversity · resources",
+     "extent": null,
+     "rows": [
+      {
+       "about": "resources",
+       "text": "an existing object is reused instead of a new one being made",
+       "basis": "rule",
+       "direction": "+"
+      }
+     ],
+     "empty": null
+    }
+   ],
+   "report_text": "ACTION  I will sell my car to Sarah to pay my debt.\n        concept=SALE  tense=future  certainty=0.90  SELF-VIEW\n\nACTOR  (self) self\n  loses my car\n  gains money\n  own goal 'pay my debt': ENABLED ➕ - provides what it needs: self has money\n\nIMPACTED\n  Sarah: gains my car; loses money\n\nOTHER ACTORS\n  Mark wants to buy my car - BLOCKED ❌  (Sarah has my car, so 'Mark has my car' cannot hold)\n  Sarah wants to have car - ADVANCED ✅  (makes 'Sarah has car' true)\n\nLOCAL ENVIRONMENT  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nNEIGHBOUR ENVIRONMENT  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  no place stated\n  registration: insurers and the vehicle registry must record the new owner (● changes)\n\nCITY  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  no place stated\n  national economy: a taxable transaction counts in national economic activity (● changes)\n\nSOCIETY\n  economy: money circulates through the economy (● changes)\n\nEARTH\n  resources: an existing object is reused instead of a new one being made (▲ helps)",
+   "mindmap": "mindmap\n  root((self · sell))\n    Self\n      loses my car\n      gains money\n      own goal pay my debt: ENABLED ➕\n    Impacted\n      Sarah\n        gains my car\n        loses money\n    Other actors\n      Mark wants to buy my car - BLOCKED ❌\n      Sarah wants to have car - ADVANCED ✅\n    Local environment: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Neighbour environment: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Organization: no place stated\n      registration: insurers and the vehicle registry must record the new owner ● changes\n    City: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Country: no place stated\n      national economy: a taxable transaction counts in national economic activity ● changes\n    Society\n      economy: money circulates through the economy ● changes\n    Earth\n      resources: an existing object is reused instead of a new one being made ▲ helps",
+   "acm_json": {
+    "action_text": "I will sell my car to Sarah to pay my debt.",
+    "language": "en",
+    "predicate": "sell",
+    "concept": "SALE",
+    "actor": "self",
+    "actor_label": "self",
+    "self_view": true,
+    "places": [],
+    "scopes": {
+     "neighbour": [],
+     "organization": [],
+     "city": [],
+     "country": []
+    },
+    "tense": "future",
+    "modality": "intention",
+    "certainty": 0.9,
+    "realized": true,
+    "condition": null,
+    "consequences": [
+     {
+      "fact": {
+       "state": "has",
+       "args": [
+        "sarah",
+        "car"
+       ],
+       "labels": [
+        "Sarah",
+        "my car"
+       ],
+       "value": true
+      },
+      "target": "impacted",
+      "about": "sarah",
+      "about_label": "Sarah",
+      "text": "gains my car",
+      "primary": true,
+      "direction": null,
+      "certainty": 0.9,
+      "source": "rule:SALE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "has",
+       "args": [
+        "self",
+        "car"
+       ],
+       "labels": [
+        "self",
+        "my car"
+       ],
+       "value": false
+      },
+      "target": "actor",
+      "about": "self",
+      "about_label": "self",
+      "text": "loses my car",
+      "primary": false,
+      "direction": null,
+      "certainty": 0.9,
+      "source": "rule:SALE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "has",
+       "args": [
+        "self",
+        "money"
+       ],
+       "labels": [
+        "self",
+        "money"
+       ],
+       "value": true
+      },
+      "target": "actor",
+      "about": "self",
+      "about_label": "self",
+      "text": "gains money",
+      "primary": false,
+      "direction": null,
+      "certainty": 0.9,
+      "source": "rule:SALE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "has",
+       "args": [
+        "sarah",
+        "money"
+       ],
+       "labels": [
+        "Sarah",
+        "money"
+       ],
+       "value": false
+      },
+      "target": "impacted",
+      "about": "sarah",
+      "about_label": "Sarah",
+      "text": "loses money",
+      "primary": false,
+      "direction": null,
+      "certainty": 0.9,
+      "source": "rule:SALE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "organization",
+      "about": "registration",
+      "about_label": "registration",
+      "text": "insurers and the vehicle registry must record the new owner",
+      "primary": false,
+      "direction": "0",
+      "certainty": 0.9,
+      "source": "impact:registration",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "country",
+      "about": "national economy",
+      "about_label": "national economy",
+      "text": "a taxable transaction counts in national economic activity",
+      "primary": false,
+      "direction": "0",
+      "certainty": 0.9,
+      "source": "impact:national economy",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "society",
+      "about": "economy",
+      "about_label": "economy",
+      "text": "money circulates through the economy",
+      "primary": false,
+      "direction": "0",
+      "certainty": 0.9,
+      "source": "impact:economy",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "earth",
+      "about": "resources",
+      "about_label": "resources",
+      "text": "an existing object is reused instead of a new one being made",
+      "primary": false,
+      "direction": "+",
+      "certainty": 0.9,
+      "source": "impact:resources",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     }
+    ],
+    "relations": [
+     {
+      "intention": {
+       "kind": "goal",
+       "owner": "mark",
+       "owner_label": "Mark",
+       "text": "buy my car",
+       "concept": "PURCHASE",
+       "outcome": [
+        {
+         "state": "has",
+         "args": [
+          "mark",
+          "car"
+         ],
+         "labels": [
+          "Mark",
+          "my car"
+         ],
+         "value": true
+        }
+       ],
+       "requires": [
+        {
+         "state": "has",
+         "args": [
+          "mark",
+          "money"
+         ],
+         "labels": [
+          "Mark",
+          "money"
+         ],
+         "value": true
+        }
+       ],
+       "sentence_index": 0
+      },
+      "status": "blocked",
+      "reason": "Sarah has my car, so 'Mark has my car' cannot hold",
+      "via": {
+       "state": "has",
+       "args": [
+        "sarah",
+        "car"
+       ],
+       "labels": [
+        "Sarah",
+        "my car"
+       ],
+       "value": true
+      }
+     },
+     {
+      "intention": {
+       "kind": "goal",
+       "owner": "sarah",
+       "owner_label": "Sarah",
+       "text": "have car",
+       "concept": null,
+       "outcome": [
+        {
+         "state": "has",
+         "args": [
+          "sarah",
+          "car"
+         ],
+         "labels": [
+          "Sarah",
+          "car"
+         ],
+         "value": true
+        }
+       ],
+       "requires": [],
+       "sentence_index": 1
+      },
+      "status": "advanced",
+      "reason": "makes 'Sarah has car' true",
+      "via": {
+       "state": "has",
+       "args": [
+        "sarah",
+        "car"
+       ],
+       "labels": [
+        "Sarah",
+        "my car"
+       ],
+       "value": true
+      }
+     },
+     {
+      "intention": {
+       "kind": "goal",
+       "owner": "self",
+       "owner_label": "self",
+       "text": "pay my debt",
+       "concept": "PAYMENT",
+       "outcome": [
+        {
+         "state": "owes",
+         "args": [
+          "self",
+          "debt"
+         ],
+         "labels": [
+          "self",
+          "my debt"
+         ],
+         "value": false
+        }
+       ],
+       "requires": [
+        {
+         "state": "has",
+         "args": [
+          "self",
+          "money"
+         ],
+         "labels": [
+          "self",
+          "money"
+         ],
+         "value": true
+        }
+       ],
+       "sentence_index": 2
+      },
+      "status": "enabled",
+      "reason": "provides what it needs: self has money",
+      "via": {
+       "state": "has",
+       "args": [
+        "self",
+        "money"
+       ],
+       "labels": [
+        "self",
+        "money"
+       ],
+       "value": true
+      }
+     }
+    ],
+    "unknowns": [],
+    "notes": []
+   },
+   "shows": "a self-view plan: ownership, payment, other people's goals (blocked / advanced)"
+  },
+  {
+   "id": "phrase_02",
+   "text": "John flew to London.",
+   "context": [],
+   "summary": {
+    "action": "John flew to London.",
+    "predicate": "fly",
+    "concept": "MOVE",
+    "actor": "John",
+    "self_view": false,
+    "tense": "past",
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "places": [
+     "London"
+    ],
+    "notes": []
+   },
+   "rings": [
+    {
+     "key": "actor",
+     "title": "Actor",
+     "question": "who acts",
+     "extent": "John",
+     "rows": [
+      {
+       "about": "John",
+       "text": "is now in London",
+       "basis": "rule",
+       "source": "rule:MOVE",
+       "direction": null,
+       "evidence": []
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "impacted",
+     "title": "Impacted",
+     "question": "what · to whom",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "other_actors",
+     "title": "Other actors",
+     "question": "their goals and actions",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "environment",
+     "title": "Local environment",
+     "question": "where it happens",
+     "extent": "London",
+     "rows": [
+      {
+       "about": "London",
+       "text": "John arrives",
+       "basis": "rule",
+       "direction": null
+      },
+      {
+       "about": "London",
+       "text": "'fly' takes place here",
+       "basis": "rule",
+       "direction": null
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "neighbour",
+     "title": "Neighbours",
+     "question": "places next to it",
+     "extent": "Croydon, Watford, Slough",
+     "rows": [
+      {
+       "about": "noise",
+       "text": "aircraft noise and fumes for people living near the airports",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "organization",
+     "title": "Organization",
+     "question": "business · enterprise · institution",
+     "extent": "Greater London Authority, City of London financial firms",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "city",
+     "title": "City",
+     "question": "",
+     "extent": "London",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "country",
+     "title": "Country",
+     "question": "",
+     "extent": "United Kingdom",
+     "rows": [
+      {
+       "about": "emissions inventory",
+       "text": "counts in the country's transport emissions",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "society",
+     "title": "Society",
+     "question": "economy · law · trust",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "earth",
+     "title": "Earth",
+     "question": "emissions · biodiversity · resources",
+     "extent": null,
+     "rows": [
+      {
+       "about": "emissions",
+       "text": "flying emits a large amount of CO2 per person",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    }
+   ],
+   "report_text": "ACTION  John flew to London.\n        concept=MOVE  tense=past  certainty=1.00\n\nACTOR  John\n  is now in London\n\nIMPACTED\n  -\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  London\n  London: John arrives; 'fly' takes place here\n\nNEIGHBOUR ENVIRONMENT  Croydon, Watford, Slough\n  noise: aircraft noise and fumes for people living near the airports (▼ harms)\n\nORGANIZATION  Greater London Authority, City of London financial firms\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  London\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  United Kingdom\n  emissions inventory: counts in the country's transport emissions (▼ harms)\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  emissions: flying emits a large amount of CO2 per person (▼ harms)",
+   "mindmap": "mindmap\n  root((John · fly))\n    Actor: John\n      is now in London\n    Local environment: London\n      John arrives\n      'fly' takes place here\n    Neighbour environment: Croydon, Watford, Slough\n      noise: aircraft noise and fumes for people living near the airports ▼ harms\n    Organization: Greater London Authority, City of London financial firms\n      no known impact - no rule matched, which is not evidence of none\n    City: London\n      no known impact - no rule matched, which is not evidence of none\n    Country: United Kingdom\n      emissions inventory: counts in the country's transport emissions ▼ harms\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      emissions: flying emits a large amount of CO2 per person ▼ harms",
+   "acm_json": {
+    "action_text": "John flew to London.",
+    "language": "en",
+    "predicate": "fly",
+    "concept": "MOVE",
+    "actor": "john",
+    "actor_label": "John",
+    "self_view": false,
+    "places": [
+     "London"
+    ],
+    "scopes": {
+     "neighbour": [
+      "Croydon",
+      "Watford",
+      "Slough"
+     ],
+     "organization": [
+      "Greater London Authority",
+      "City of London financial firms"
+     ],
+     "city": [
+      "London"
+     ],
+     "country": [
+      "United Kingdom"
+     ]
+    },
+    "tense": "past",
+    "modality": null,
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "consequences": [
+     {
+      "fact": {
+       "state": "at",
+       "args": [
+        "john",
+        "london"
+       ],
+       "labels": [
+        "John",
+        "London"
+       ],
+       "value": true
+      },
+      "target": "actor",
+      "about": "john",
+      "about_label": "John",
+      "text": "is now in London",
+      "primary": true,
+      "direction": null,
+      "certainty": 1.0,
+      "source": "rule:MOVE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "at",
+       "args": [
+        "john",
+        "london"
+       ],
+       "labels": [
+        "John",
+        "London"
+       ],
+       "value": true
+      },
+      "target": "environment",
+      "about": "london",
+      "about_label": "London",
+      "text": "John arrives",
+      "primary": true,
+      "direction": null,
+      "certainty": 1.0,
+      "source": "rule:MOVE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "occurs_at",
+       "args": [
+        "fly",
+        "london"
+       ],
+       "labels": [
+        "fly",
+        "London"
+       ],
+       "value": true
+      },
+      "target": "environment",
+      "about": "london",
+      "about_label": "London",
+      "text": "'fly' takes place here",
+      "primary": false,
+      "direction": null,
+      "certainty": 1.0,
+      "source": "frame",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "neighbour",
+      "about": "noise",
+      "about_label": "noise",
+      "text": "aircraft noise and fumes for people living near the airports",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:noise",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "country",
+      "about": "emissions inventory",
+      "about_label": "emissions inventory",
+      "text": "counts in the country's transport emissions",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:emissions inventory",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "earth",
+      "about": "emissions",
+      "about_label": "emissions",
+      "text": "flying emits a large amount of CO2 per person",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:emissions",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     }
+    ],
+    "relations": [],
+    "unknowns": [],
+    "notes": []
+   },
+   "shows": "travel: neighbours, country and earth layers"
+  },
+  {
+   "id": "phrase_03",
+   "text": "The engineer deleted the database in production.",
+   "context": [],
+   "summary": {
+    "action": "The engineer deleted the database in production.",
+    "predicate": "delete",
+    "concept": "DESTROY",
+    "actor": "engineer",
+    "self_view": false,
+    "tense": "past",
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "places": [
+     "production"
+    ],
+    "notes": []
+   },
+   "rings": [
+    {
+     "key": "actor",
+     "title": "Actor",
+     "question": "who acts",
+     "extent": "engineer",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "impacted",
+     "title": "Impacted",
+     "question": "what · to whom",
+     "extent": null,
+     "rows": [
+      {
+       "about": "database",
+       "text": "no longer exists",
+       "basis": "rule",
+       "source": "rule:DESTROY",
+       "direction": null,
+       "evidence": []
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "other_actors",
+     "title": "Other actors",
+     "question": "their goals and actions",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "environment",
+     "title": "Local environment",
+     "question": "where it happens",
+     "extent": "production",
+     "rows": [
+      {
+       "about": "production",
+       "text": "database no longer exists",
+       "basis": "rule",
+       "direction": null
+      },
+      {
+       "about": "production",
+       "text": "'delete' takes place here",
+       "basis": "rule",
+       "direction": null
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "neighbour",
+     "title": "Neighbours",
+     "question": "places next to it",
+     "extent": "staging and test environments",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "organization",
+     "title": "Organization",
+     "question": "business · enterprise · institution",
+     "extent": "the enterprise that runs it, its customers and users, services that call it",
+     "rows": [
+      {
+       "about": "dependent systems",
+       "text": "services and teams that rely on this data stop working",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "city",
+     "title": "City",
+     "question": "",
+     "extent": "not known",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "country",
+     "title": "Country",
+     "question": "",
+     "extent": "not known",
+     "rows": [
+      {
+       "about": "data protection",
+       "text": "losing personal data may have to be reported under data-protection law",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "society",
+     "title": "Society",
+     "question": "economy · law · trust",
+     "extent": null,
+     "rows": [
+      {
+       "about": "data",
+       "text": "information others may depend on is lost",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "earth",
+     "title": "Earth",
+     "question": "emissions · biodiversity · resources",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    }
+   ],
+   "report_text": "ACTION  The engineer deleted the database in production.\n        concept=DESTROY  tense=past  certainty=1.00\n\nACTOR  engineer\n  -\n\nIMPACTED\n  database: no longer exists\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  production\n  production: database no longer exists; 'delete' takes place here\n\nNEIGHBOUR ENVIRONMENT  staging and test environments\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  the enterprise that runs it, its customers and users, services that call it\n  dependent systems: services and teams that rely on this data stop working (▼ harms)\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  data protection: losing personal data may have to be reported under data-protection law (▼ harms)\n\nSOCIETY\n  data: information others may depend on is lost (▼ harms)\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none",
+   "mindmap": "mindmap\n  root((engineer · delete))\n    Actor: engineer\n    Impacted\n      database\n        no longer exists\n    Local environment: production\n      database no longer exists\n      'delete' takes place here\n    Neighbour environment: staging and test environments\n      no known impact - no rule matched, which is not evidence of none\n    Organization: the enterprise that runs it, its customers and users, services that call it\n      dependent systems: services and teams that rely on this data stop working ▼ harms\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      data protection: losing personal data may have to be reported under data-protection law ▼ harms\n    Society\n      data: information others may depend on is lost ▼ harms\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
+   "acm_json": {
+    "action_text": "The engineer deleted the database in production.",
+    "language": "en",
+    "predicate": "delete",
+    "concept": "DESTROY",
+    "actor": "engineer",
+    "actor_label": "engineer",
+    "self_view": false,
+    "places": [
+     "production"
+    ],
+    "scopes": {
+     "neighbour": [
+      "staging and test environments"
+     ],
+     "organization": [
+      "the enterprise that runs it",
+      "its customers and users",
+      "services that call it"
+     ],
+     "city": [],
+     "country": []
+    },
+    "tense": "past",
+    "modality": null,
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "consequences": [
+     {
+      "fact": {
+       "state": "exists",
+       "args": [
+        "database"
+       ],
+       "labels": [
+        "database"
+       ],
+       "value": false
+      },
+      "target": "impacted",
+      "about": "database",
+      "about_label": "database",
+      "text": "no longer exists",
+      "primary": true,
+      "direction": null,
+      "certainty": 1.0,
+      "source": "rule:DESTROY",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "exists",
+       "args": [
+        "database"
+       ],
+       "labels": [
+        "database"
+       ],
+       "value": false
+      },
+      "target": "environment",
+      "about": "production",
+      "about_label": "production",
+      "text": "database no longer exists",
+      "primary": true,
+      "direction": null,
+      "certainty": 1.0,
+      "source": "rule:DESTROY",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "occurs_at",
+       "args": [
+        "delete",
+        "production"
+       ],
+       "labels": [
+        "delete",
+        "production"
+       ],
+       "value": true
+      },
+      "target": "environment",
+      "about": "production",
+      "about_label": "production",
+      "text": "'delete' takes place here",
+      "primary": false,
+      "direction": null,
+      "certainty": 1.0,
+      "source": "frame",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "organization",
+      "about": "dependent systems",
+      "about_label": "dependent systems",
+      "text": "services and teams that rely on this data stop working",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:dependent systems",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "country",
+      "about": "data protection",
+      "about_label": "data protection",
+      "text": "losing personal data may have to be reported under data-protection law",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:data protection",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "society",
+      "about": "data",
+      "about_label": "data",
+      "text": "information others may depend on is lost",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:data",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     }
+    ],
+    "relations": [],
+    "unknowns": [],
+    "notes": []
+   },
+   "shows": "a system: organization and data-protection layers"
+  },
+  {
+   "id": "phrase_04",
+   "text": "The company destroyed the forest.",
+   "context": [],
+   "summary": {
+    "action": "The company destroyed the forest.",
+    "predicate": "destroy",
+    "concept": "DESTROY",
+    "actor": "company",
+    "self_view": false,
+    "tense": "past",
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "places": [],
+    "notes": []
+   },
+   "rings": [
+    {
+     "key": "actor",
+     "title": "Actor",
+     "question": "who acts",
+     "extent": "company",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "impacted",
+     "title": "Impacted",
+     "question": "what · to whom",
+     "extent": null,
+     "rows": [
+      {
+       "about": "forest",
+       "text": "no longer exists",
+       "basis": "rule",
+       "source": "rule:DESTROY",
+       "direction": null,
+       "evidence": []
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "other_actors",
+     "title": "Other actors",
+     "question": "their goals and actions",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "environment",
+     "title": "Local environment",
+     "question": "where it happens",
+     "extent": "no place stated",
+     "rows": [
+      {
+       "about": "landscape",
+       "text": "the local landscape and habitat are gone",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "neighbour",
+     "title": "Neighbours",
+     "question": "places next to it",
+     "extent": "no place stated",
+     "rows": [
+      {
+       "about": "protection",
+       "text": "nearby communities lose shade, clean air and flood protection",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "organization",
+     "title": "Organization",
+     "question": "business · enterprise · institution",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "city",
+     "title": "City",
+     "question": "",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "country",
+     "title": "Country",
+     "question": "",
+     "extent": "no place stated",
+     "rows": [
+      {
+       "about": "natural heritage",
+       "text": "the nation's natural heritage shrinks",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "society",
+     "title": "Society",
+     "question": "economy · law · trust",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "earth",
+     "title": "Earth",
+     "question": "emissions · biodiversity · resources",
+     "extent": null,
+     "rows": [
+      {
+       "about": "biodiversity",
+       "text": "habitat is lost and biodiversity declines",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    }
+   ],
+   "report_text": "ACTION  The company destroyed the forest.\n        concept=DESTROY  tense=past  certainty=1.00\n\nACTOR  company\n  -\n\nIMPACTED\n  forest: no longer exists\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  no place stated\n  landscape: the local landscape and habitat are gone (▼ harms)\n\nNEIGHBOUR ENVIRONMENT  no place stated\n  protection: nearby communities lose shade, clean air and flood protection (▼ harms)\n\nORGANIZATION  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  no place stated\n  natural heritage: the nation's natural heritage shrinks (▼ harms)\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  biodiversity: habitat is lost and biodiversity declines (▼ harms)",
+   "mindmap": "mindmap\n  root((company · destroy))\n    Actor: company\n    Impacted\n      forest\n        no longer exists\n    Local environment: no place stated\n      landscape: the local landscape and habitat are gone ▼ harms\n    Neighbour environment: no place stated\n      protection: nearby communities lose shade, clean air and flood protection ▼ harms\n    Organization: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    City: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Country: no place stated\n      natural heritage: the nation's natural heritage shrinks ▼ harms\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      biodiversity: habitat is lost and biodiversity declines ▼ harms",
+   "acm_json": {
+    "action_text": "The company destroyed the forest.",
+    "language": "en",
+    "predicate": "destroy",
+    "concept": "DESTROY",
+    "actor": "company",
+    "actor_label": "company",
+    "self_view": false,
+    "places": [],
+    "scopes": {
+     "neighbour": [],
+     "organization": [],
+     "city": [],
+     "country": []
+    },
+    "tense": "past",
+    "modality": null,
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "consequences": [
+     {
+      "fact": {
+       "state": "exists",
+       "args": [
+        "forest"
+       ],
+       "labels": [
+        "forest"
+       ],
+       "value": false
+      },
+      "target": "impacted",
+      "about": "forest",
+      "about_label": "forest",
+      "text": "no longer exists",
+      "primary": true,
+      "direction": null,
+      "certainty": 1.0,
+      "source": "rule:DESTROY",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "environment",
+      "about": "landscape",
+      "about_label": "landscape",
+      "text": "the local landscape and habitat are gone",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:landscape",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "neighbour",
+      "about": "protection",
+      "about_label": "protection",
+      "text": "nearby communities lose shade, clean air and flood protection",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:protection",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "country",
+      "about": "natural heritage",
+      "about_label": "natural heritage",
+      "text": "the nation's natural heritage shrinks",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:natural heritage",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "earth",
+      "about": "biodiversity",
+      "about_label": "biodiversity",
+      "text": "habitat is lost and biodiversity declines",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:biodiversity",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     }
+    ],
+    "relations": [],
+    "unknowns": [],
+    "notes": []
+   },
+   "shows": "nature: local, neighbour, country and earth impacts with no place named"
+  },
+  {
+   "id": "phrase_05",
+   "text": "John stole the car.",
+   "context": [],
+   "summary": {
+    "action": "John stole the car.",
+    "predicate": "steal",
+    "concept": "THEFT",
+    "actor": "John",
+    "self_view": false,
+    "tense": "past",
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "places": [],
+    "notes": []
+   },
+   "rings": [
+    {
+     "key": "actor",
+     "title": "Actor",
+     "question": "who acts",
+     "extent": "John",
+     "rows": [
+      {
+       "about": "John",
+       "text": "gains car",
+       "basis": "rule",
+       "source": "rule:THEFT",
+       "direction": null,
+       "evidence": []
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "impacted",
+     "title": "Impacted",
+     "question": "what · to whom",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "other_actors",
+     "title": "Other actors",
+     "question": "their goals and actions",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "environment",
+     "title": "Local environment",
+     "question": "where it happens",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "neighbour",
+     "title": "Neighbours",
+     "question": "places next to it",
+     "extent": "no place stated",
+     "rows": [
+      {
+       "about": "safety",
+       "text": "people nearby feel less safe",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "organization",
+     "title": "Organization",
+     "question": "business · enterprise · institution",
+     "extent": "no place stated",
+     "rows": [
+      {
+       "about": "insurance",
+       "text": "insurers and the police are drawn in",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "city",
+     "title": "City",
+     "question": "",
+     "extent": "no place stated",
+     "rows": [
+      {
+       "about": "crime",
+       "text": "adds to the city's recorded crime",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "country",
+     "title": "Country",
+     "question": "",
+     "extent": "no place stated",
+     "rows": [
+      {
+       "about": "national law",
+       "text": "a crime under national law",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "society",
+     "title": "Society",
+     "question": "economy · law · trust",
+     "extent": null,
+     "rows": [
+      {
+       "about": "law",
+       "text": "breaks the law and erodes trust in property",
+       "basis": "rule",
+       "direction": "-"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "earth",
+     "title": "Earth",
+     "question": "emissions · biodiversity · resources",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    }
+   ],
+   "report_text": "ACTION  John stole the car.\n        concept=THEFT  tense=past  certainty=1.00\n\nACTOR  John\n  gains car\n\nIMPACTED\n  -\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nNEIGHBOUR ENVIRONMENT  no place stated\n  safety: people nearby feel less safe (▼ harms)\n\nORGANIZATION  no place stated\n  insurance: insurers and the police are drawn in (▼ harms)\n\nCITY  no place stated\n  crime: adds to the city's recorded crime (▼ harms)\n\nCOUNTRY  no place stated\n  national law: a crime under national law (▼ harms)\n\nSOCIETY\n  law: breaks the law and erodes trust in property (▼ harms)\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none",
+   "mindmap": "mindmap\n  root((John · steal))\n    Actor: John\n      gains car\n    Local environment: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Neighbour environment: no place stated\n      safety: people nearby feel less safe ▼ harms\n    Organization: no place stated\n      insurance: insurers and the police are drawn in ▼ harms\n    City: no place stated\n      crime: adds to the city's recorded crime ▼ harms\n    Country: no place stated\n      national law: a crime under national law ▼ harms\n    Society\n      law: breaks the law and erodes trust in property ▼ harms\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
+   "acm_json": {
+    "action_text": "John stole the car.",
+    "language": "en",
+    "predicate": "steal",
+    "concept": "THEFT",
+    "actor": "john",
+    "actor_label": "John",
+    "self_view": false,
+    "places": [],
+    "scopes": {
+     "neighbour": [],
+     "organization": [],
+     "city": [],
+     "country": []
+    },
+    "tense": "past",
+    "modality": null,
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "consequences": [
+     {
+      "fact": {
+       "state": "has",
+       "args": [
+        "john",
+        "car"
+       ],
+       "labels": [
+        "John",
+        "car"
+       ],
+       "value": true
+      },
+      "target": "actor",
+      "about": "john",
+      "about_label": "John",
+      "text": "gains car",
+      "primary": true,
+      "direction": null,
+      "certainty": 1.0,
+      "source": "rule:THEFT",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "neighbour",
+      "about": "safety",
+      "about_label": "safety",
+      "text": "people nearby feel less safe",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:safety",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "organization",
+      "about": "insurance",
+      "about_label": "insurance",
+      "text": "insurers and the police are drawn in",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:insurance",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "city",
+      "about": "crime",
+      "about_label": "crime",
+      "text": "adds to the city's recorded crime",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:crime",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "country",
+      "about": "national law",
+      "about_label": "national law",
+      "text": "a crime under national law",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:national law",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "society",
+      "about": "law",
+      "about_label": "law",
+      "text": "breaks the law and erodes trust in property",
+      "primary": false,
+      "direction": "-",
+      "certainty": 1.0,
+      "source": "impact:law",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     }
+    ],
+    "relations": [],
+    "unknowns": [],
+    "notes": []
+   },
+   "shows": "crime: safety, insurance, city crime, national law, society"
+  },
+  {
+   "id": "phrase_06",
+   "text": "John traveled to Paris by train.",
+   "context": [],
+   "summary": {
+    "action": "John traveled to Paris by train.",
+    "predicate": "travel",
+    "concept": "MOVE",
+    "actor": "John",
+    "self_view": false,
+    "tense": "past",
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "places": [
+     "Paris"
+    ],
+    "notes": []
+   },
+   "rings": [
+    {
+     "key": "actor",
+     "title": "Actor",
+     "question": "who acts",
+     "extent": "John",
+     "rows": [
+      {
+       "about": "John",
+       "text": "is now in Paris",
+       "basis": "rule",
+       "source": "rule:MOVE",
+       "direction": null,
+       "evidence": []
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "impacted",
+     "title": "Impacted",
+     "question": "what · to whom",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "other_actors",
+     "title": "Other actors",
+     "question": "their goals and actions",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "environment",
+     "title": "Local environment",
+     "question": "where it happens",
+     "extent": "Paris",
+     "rows": [
+      {
+       "about": "Paris",
+       "text": "John arrives",
+       "basis": "rule",
+       "direction": null
+      },
+      {
+       "about": "Paris",
+       "text": "'travel' takes place here",
+       "basis": "rule",
+       "direction": null
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "neighbour",
+     "title": "Neighbours",
+     "question": "places next to it",
+     "extent": "Boulogne-Billancourt, Saint-Denis, Montreuil",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "organization",
+     "title": "Organization",
+     "question": "business · enterprise · institution",
+     "extent": "Paris city council, Île-de-France regional council, Paris businesses and employers",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "city",
+     "title": "City",
+     "question": "",
+     "extent": "Paris",
+     "rows": [
+      {
+       "about": "traffic",
+       "text": "uses public transport instead of road space",
+       "basis": "rule",
+       "direction": "+"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "country",
+     "title": "Country",
+     "question": "",
+     "extent": "France",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "society",
+     "title": "Society",
+     "question": "economy · law · trust",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "earth",
+     "title": "Earth",
+     "question": "emissions · biodiversity · resources",
+     "extent": null,
+     "rows": [
+      {
+       "about": "emissions",
+       "text": "travels with low emissions compared with driving or flying",
+       "basis": "rule",
+       "direction": "+"
+      }
+     ],
+     "empty": null
+    }
+   ],
+   "report_text": "ACTION  John traveled to Paris by train.\n        concept=MOVE  tense=past  certainty=1.00\n\nACTOR  John\n  is now in Paris\n\nIMPACTED\n  -\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  Paris\n  Paris: John arrives; 'travel' takes place here\n\nNEIGHBOUR ENVIRONMENT  Boulogne-Billancourt, Saint-Denis, Montreuil\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  Paris city council, Île-de-France regional council, Paris businesses and employers\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  Paris\n  traffic: uses public transport instead of road space (▲ helps)\n\nCOUNTRY  France\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  emissions: travels with low emissions compared with driving or flying (▲ helps)",
+   "mindmap": "mindmap\n  root((John · travel))\n    Actor: John\n      is now in Paris\n    Local environment: Paris\n      John arrives\n      'travel' takes place here\n    Neighbour environment: Boulogne-Billancourt, Saint-Denis, Montreuil\n      no known impact - no rule matched, which is not evidence of none\n    Organization: Paris city council, Île-de-France regional council, Paris businesses and employers\n      no known impact - no rule matched, which is not evidence of none\n    City: Paris\n      traffic: uses public transport instead of road space ▲ helps\n    Country: France\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      emissions: travels with low emissions compared with driving or flying ▲ helps",
+   "acm_json": {
+    "action_text": "John traveled to Paris by train.",
+    "language": "en",
+    "predicate": "travel",
+    "concept": "MOVE",
+    "actor": "john",
+    "actor_label": "John",
+    "self_view": false,
+    "places": [
+     "Paris"
+    ],
+    "scopes": {
+     "neighbour": [
+      "Boulogne-Billancourt",
+      "Saint-Denis",
+      "Montreuil"
+     ],
+     "organization": [
+      "Paris city council",
+      "Île-de-France regional council",
+      "Paris businesses and employers"
+     ],
+     "city": [
+      "Paris"
+     ],
+     "country": [
+      "France"
+     ]
+    },
+    "tense": "past",
+    "modality": null,
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "consequences": [
+     {
+      "fact": {
+       "state": "at",
+       "args": [
+        "john",
+        "paris"
+       ],
+       "labels": [
+        "John",
+        "Paris"
+       ],
+       "value": true
+      },
+      "target": "actor",
+      "about": "john",
+      "about_label": "John",
+      "text": "is now in Paris",
+      "primary": true,
+      "direction": null,
+      "certainty": 1.0,
+      "source": "rule:MOVE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "at",
+       "args": [
+        "john",
+        "paris"
+       ],
+       "labels": [
+        "John",
+        "Paris"
+       ],
+       "value": true
+      },
+      "target": "environment",
+      "about": "paris",
+      "about_label": "Paris",
+      "text": "John arrives",
+      "primary": true,
+      "direction": null,
+      "certainty": 1.0,
+      "source": "rule:MOVE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "occurs_at",
+       "args": [
+        "travel",
+        "paris"
+       ],
+       "labels": [
+        "travel",
+        "Paris"
+       ],
+       "value": true
+      },
+      "target": "environment",
+      "about": "paris",
+      "about_label": "Paris",
+      "text": "'travel' takes place here",
+      "primary": false,
+      "direction": null,
+      "certainty": 1.0,
+      "source": "frame",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "city",
+      "about": "traffic",
+      "about_label": "traffic",
+      "text": "uses public transport instead of road space",
+      "primary": false,
+      "direction": "+",
+      "certainty": 1.0,
+      "source": "impact:traffic",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "earth",
+      "about": "emissions",
+      "about_label": "emissions",
+      "text": "travels with low emissions compared with driving or flying",
+      "primary": false,
+      "direction": "+",
+      "certainty": 1.0,
+      "source": "impact:emissions",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     }
+    ],
+    "relations": [],
+    "unknowns": [],
+    "notes": []
+   },
+   "shows": "low-carbon travel: city and earth benefit"
+  },
+  {
+   "id": "phrase_07",
+   "text": "John will sell his car to Sarah in Paris tomorrow to pay his debt.",
+   "context": [
+    "Mark wants to buy John's car."
+   ],
+   "summary": {
+    "action": "John will sell his car to Sarah in Paris tomorrow to pay his debt.",
+    "predicate": "sell",
+    "concept": "SALE",
+    "actor": "John",
+    "self_view": false,
+    "tense": "future",
+    "certainty": 0.9,
+    "realized": true,
+    "condition": null,
+    "places": [
+     "Paris"
+    ],
+    "notes": []
+   },
+   "rings": [
+    {
+     "key": "actor",
+     "title": "Actor",
+     "question": "who acts",
+     "extent": "John",
+     "rows": [
+      {
+       "about": "John",
+       "text": "loses his car",
+       "basis": "rule",
+       "source": "rule:SALE",
+       "direction": null,
+       "evidence": []
+      },
+      {
+       "about": "John",
+       "text": "gains money",
+       "basis": "rule",
+       "source": "rule:SALE",
+       "direction": null,
+       "evidence": []
+      },
+      {
+       "about": "John",
+       "text": "own goal 'pay his debt': enabled",
+       "basis": "rule",
+       "source": "relation",
+       "reason": "provides what it needs: John has money"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "impacted",
+     "title": "Impacted",
+     "question": "what · to whom",
+     "extent": null,
+     "rows": [
+      {
+       "about": "Sarah",
+       "text": "gains his car",
+       "basis": "rule",
+       "source": "rule:SALE",
+       "direction": null,
+       "evidence": []
+      },
+      {
+       "about": "Sarah",
+       "text": "loses money",
+       "basis": "rule",
+       "source": "rule:SALE",
+       "direction": null,
+       "evidence": []
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "other_actors",
+     "title": "Other actors",
+     "question": "their goals and actions",
+     "extent": null,
+     "rows": [
+      {
+       "about": "Mark",
+       "text": "buy John's car: blocked",
+       "basis": "rule",
+       "source": "relation",
+       "reason": "Sarah has his car, so 'Mark has John's car' cannot hold"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "environment",
+     "title": "Local environment",
+     "question": "where it happens",
+     "extent": "Paris",
+     "rows": [
+      {
+       "about": "Paris",
+       "text": "'sell' takes place here",
+       "basis": "rule",
+       "direction": null
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "neighbour",
+     "title": "Neighbours",
+     "question": "places next to it",
+     "extent": "Boulogne-Billancourt, Saint-Denis, Montreuil",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "organization",
+     "title": "Organization",
+     "question": "business · enterprise · institution",
+     "extent": "Paris city council, Île-de-France regional council, Paris businesses and employers",
+     "rows": [
+      {
+       "about": "registration",
+       "text": "insurers and the vehicle registry must record the new owner",
+       "basis": "rule",
+       "direction": "0"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "city",
+     "title": "City",
+     "question": "",
+     "extent": "Paris",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "country",
+     "title": "Country",
+     "question": "",
+     "extent": "France",
+     "rows": [
+      {
+       "about": "national economy",
+       "text": "a taxable transaction counts in national economic activity",
+       "basis": "rule",
+       "direction": "0"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "society",
+     "title": "Society",
+     "question": "economy · law · trust",
+     "extent": null,
+     "rows": [
+      {
+       "about": "economy",
+       "text": "money circulates through the economy",
+       "basis": "rule",
+       "direction": "0"
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "earth",
+     "title": "Earth",
+     "question": "emissions · biodiversity · resources",
+     "extent": null,
+     "rows": [
+      {
+       "about": "resources",
+       "text": "an existing object is reused instead of a new one being made",
+       "basis": "rule",
+       "direction": "+"
+      }
+     ],
+     "empty": null
+    }
+   ],
+   "report_text": "ACTION  John will sell his car to Sarah in Paris tomorrow to pay his debt.\n        concept=SALE  tense=future  certainty=0.90\n\nACTOR  John\n  loses his car\n  gains money\n  own goal 'pay his debt': ENABLED ➕ - provides what it needs: John has money\n\nIMPACTED\n  Sarah: gains his car; loses money\n\nOTHER ACTORS\n  Mark wants to buy John's car - BLOCKED ❌  (Sarah has his car, so 'Mark has John's car' cannot hold)\n\nLOCAL ENVIRONMENT  Paris\n  Paris: 'sell' takes place here\n\nNEIGHBOUR ENVIRONMENT  Boulogne-Billancourt, Saint-Denis, Montreuil\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  Paris city council, Île-de-France regional council, Paris businesses and employers\n  registration: insurers and the vehicle registry must record the new owner (● changes)\n\nCITY  Paris\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  France\n  national economy: a taxable transaction counts in national economic activity (● changes)\n\nSOCIETY\n  economy: money circulates through the economy (● changes)\n\nEARTH\n  resources: an existing object is reused instead of a new one being made (▲ helps)",
+   "mindmap": "mindmap\n  root((John · sell))\n    Actor: John\n      loses his car\n      gains money\n      own goal pay his debt: ENABLED ➕\n    Impacted\n      Sarah\n        gains his car\n        loses money\n    Other actors\n      Mark wants to buy John's car - BLOCKED ❌\n    Local environment: Paris\n      'sell' takes place here\n    Neighbour environment: Boulogne-Billancourt, Saint-Denis, Montreuil\n      no known impact - no rule matched, which is not evidence of none\n    Organization: Paris city council, Île-de-France regional council, Paris businesses and employers\n      registration: insurers and the vehicle registry must record the new owner ● changes\n    City: Paris\n      no known impact - no rule matched, which is not evidence of none\n    Country: France\n      national economy: a taxable transaction counts in national economic activity ● changes\n    Society\n      economy: money circulates through the economy ● changes\n    Earth\n      resources: an existing object is reused instead of a new one being made ▲ helps",
+   "acm_json": {
+    "action_text": "John will sell his car to Sarah in Paris tomorrow to pay his debt.",
+    "language": "en",
+    "predicate": "sell",
+    "concept": "SALE",
+    "actor": "john",
+    "actor_label": "John",
+    "self_view": false,
+    "places": [
+     "Paris"
+    ],
+    "scopes": {
+     "neighbour": [
+      "Boulogne-Billancourt",
+      "Saint-Denis",
+      "Montreuil"
+     ],
+     "organization": [
+      "Paris city council",
+      "Île-de-France regional council",
+      "Paris businesses and employers"
+     ],
+     "city": [
+      "Paris"
+     ],
+     "country": [
+      "France"
+     ]
+    },
+    "tense": "future",
+    "modality": "intention",
+    "certainty": 0.9,
+    "realized": true,
+    "condition": null,
+    "consequences": [
+     {
+      "fact": {
+       "state": "has",
+       "args": [
+        "sarah",
+        "car"
+       ],
+       "labels": [
+        "Sarah",
+        "his car"
+       ],
+       "value": true
+      },
+      "target": "impacted",
+      "about": "sarah",
+      "about_label": "Sarah",
+      "text": "gains his car",
+      "primary": true,
+      "direction": null,
+      "certainty": 0.9,
+      "source": "rule:SALE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "has",
+       "args": [
+        "john",
+        "car"
+       ],
+       "labels": [
+        "John",
+        "his car"
+       ],
+       "value": false
+      },
+      "target": "actor",
+      "about": "john",
+      "about_label": "John",
+      "text": "loses his car",
+      "primary": false,
+      "direction": null,
+      "certainty": 0.9,
+      "source": "rule:SALE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "has",
+       "args": [
+        "john",
+        "money"
+       ],
+       "labels": [
+        "John",
+        "money"
+       ],
+       "value": true
+      },
+      "target": "actor",
+      "about": "john",
+      "about_label": "John",
+      "text": "gains money",
+      "primary": false,
+      "direction": null,
+      "certainty": 0.9,
+      "source": "rule:SALE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "has",
+       "args": [
+        "sarah",
+        "money"
+       ],
+       "labels": [
+        "Sarah",
+        "money"
+       ],
+       "value": false
+      },
+      "target": "impacted",
+      "about": "sarah",
+      "about_label": "Sarah",
+      "text": "loses money",
+      "primary": false,
+      "direction": null,
+      "certainty": 0.9,
+      "source": "rule:SALE",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "occurs_at",
+       "args": [
+        "sell",
+        "paris"
+       ],
+       "labels": [
+        "sell",
+        "Paris"
+       ],
+       "value": true
+      },
+      "target": "environment",
+      "about": "paris",
+      "about_label": "Paris",
+      "text": "'sell' takes place here",
+      "primary": false,
+      "direction": null,
+      "certainty": 0.9,
+      "source": "frame",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "organization",
+      "about": "registration",
+      "about_label": "registration",
+      "text": "insurers and the vehicle registry must record the new owner",
+      "primary": false,
+      "direction": "0",
+      "certainty": 0.9,
+      "source": "impact:registration",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "country",
+      "about": "national economy",
+      "about_label": "national economy",
+      "text": "a taxable transaction counts in national economic activity",
+      "primary": false,
+      "direction": "0",
+      "certainty": 0.9,
+      "source": "impact:national economy",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "society",
+      "about": "economy",
+      "about_label": "economy",
+      "text": "money circulates through the economy",
+      "primary": false,
+      "direction": "0",
+      "certainty": 0.9,
+      "source": "impact:economy",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": null,
+      "target": "earth",
+      "about": "resources",
+      "about_label": "resources",
+      "text": "an existing object is reused instead of a new one being made",
+      "primary": false,
+      "direction": "+",
+      "certainty": 0.9,
+      "source": "impact:resources",
+      "informative": true,
+      "basis": "rule",
+      "evidence": []
+     }
+    ],
+    "relations": [
+     {
+      "intention": {
+       "kind": "goal",
+       "owner": "mark",
+       "owner_label": "Mark",
+       "text": "buy John's car",
+       "concept": "PURCHASE",
+       "outcome": [
+        {
+         "state": "has",
+         "args": [
+          "mark",
+          "car"
+         ],
+         "labels": [
+          "Mark",
+          "John's car"
+         ],
+         "value": true
+        }
+       ],
+       "requires": [
+        {
+         "state": "has",
+         "args": [
+          "mark",
+          "money"
+         ],
+         "labels": [
+          "Mark",
+          "money"
+         ],
+         "value": true
+        }
+       ],
+       "sentence_index": 0
+      },
+      "status": "blocked",
+      "reason": "Sarah has his car, so 'Mark has John's car' cannot hold",
+      "via": {
+       "state": "has",
+       "args": [
+        "sarah",
+        "car"
+       ],
+       "labels": [
+        "Sarah",
+        "his car"
+       ],
+       "value": true
+      }
+     },
+     {
+      "intention": {
+       "kind": "goal",
+       "owner": "john",
+       "owner_label": "John",
+       "text": "pay his debt",
+       "concept": "PAYMENT",
+       "outcome": [
+        {
+         "state": "owes",
+         "args": [
+          "john",
+          "debt"
+         ],
+         "labels": [
+          "John",
+          "his debt"
+         ],
+         "value": false
+        }
+       ],
+       "requires": [
+        {
+         "state": "has",
+         "args": [
+          "john",
+          "money"
+         ],
+         "labels": [
+          "John",
+          "money"
+         ],
+         "value": true
+        }
+       ],
+       "sentence_index": 1
+      },
+      "status": "enabled",
+      "reason": "provides what it needs: John has money",
+      "via": {
+       "state": "has",
+       "args": [
+        "john",
+        "money"
+       ],
+       "labels": [
+        "John",
+        "money"
+       ],
+       "value": true
+      }
+     }
+    ],
+    "unknowns": [],
+    "notes": []
+   },
+   "shows": "a full blast radius: Paris's neighbours, organizations, city and country"
+  },
+  {
+   "id": "phrase_08",
+   "text": "John did not sell his car to Sarah.",
+   "context": [],
+   "summary": {
+    "action": "John did not sell his car to Sarah.",
+    "predicate": "sell",
+    "concept": "SALE",
+    "actor": "John",
+    "self_view": false,
+    "tense": "past",
+    "certainty": 1.0,
+    "realized": false,
+    "condition": null,
+    "places": [],
+    "notes": [
+     "The action is negated: none of its consequences follow."
+    ]
+   },
+   "rings": [
+    {
+     "key": "actor",
+     "title": "Actor",
+     "question": "who acts",
+     "extent": "John",
+     "rows": [],
+     "empty": "nothing changes"
+    },
+    {
+     "key": "impacted",
+     "title": "Impacted",
+     "question": "what · to whom",
+     "extent": null,
+     "rows": [],
+     "empty": "nothing changes"
+    },
+    {
+     "key": "other_actors",
+     "title": "Other actors",
+     "question": "their goals and actions",
+     "extent": null,
+     "rows": [],
+     "empty": "nothing changes"
+    },
+    {
+     "key": "environment",
+     "title": "Local environment",
+     "question": "where it happens",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "nothing changes"
+    },
+    {
+     "key": "neighbour",
+     "title": "Neighbours",
+     "question": "places next to it",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "nothing changes"
+    },
+    {
+     "key": "organization",
+     "title": "Organization",
+     "question": "business · enterprise · institution",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "nothing changes"
+    },
+    {
+     "key": "city",
+     "title": "City",
+     "question": "",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "nothing changes"
+    },
+    {
+     "key": "country",
+     "title": "Country",
+     "question": "",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "nothing changes"
+    },
+    {
+     "key": "society",
+     "title": "Society",
+     "question": "economy · law · trust",
+     "extent": null,
+     "rows": [],
+     "empty": "nothing changes"
+    },
+    {
+     "key": "earth",
+     "title": "Earth",
+     "question": "emissions · biodiversity · resources",
+     "extent": null,
+     "rows": [],
+     "empty": "nothing changes"
+    }
+   ],
+   "report_text": "ACTION  John did not sell his car to Sarah.\n        concept=SALE  tense=past  certainty=1.00  NEGATED\n\nACTOR  John\n  -\n\nIMPACTED\n  -\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  no place stated\n  nothing changes\n\nNEIGHBOUR ENVIRONMENT  no place stated\n  nothing changes\n\nORGANIZATION  no place stated\n  nothing changes\n\nCITY  no place stated\n  nothing changes\n\nCOUNTRY  no place stated\n  nothing changes\n\nSOCIETY\n  nothing changes\n\nEARTH\n  nothing changes\n\nNOTES\n  The action is negated: none of its consequences follow.",
+   "mindmap": "mindmap\n  root((John · NOT sell))\n    Actor: John\n    Local environment: no place stated\n      nothing changes\n    Neighbour environment: no place stated\n      nothing changes\n    Organization: no place stated\n      nothing changes\n    City: no place stated\n      nothing changes\n    Country: no place stated\n      nothing changes\n    Society\n      nothing changes\n    Earth\n      nothing changes",
+   "acm_json": {
+    "action_text": "John did not sell his car to Sarah.",
+    "language": "en",
+    "predicate": "sell",
+    "concept": "SALE",
+    "actor": "john",
+    "actor_label": "John",
+    "self_view": false,
+    "places": [],
+    "scopes": {
+     "neighbour": [],
+     "organization": [],
+     "city": [],
+     "country": []
+    },
+    "tense": "past",
+    "modality": null,
+    "certainty": 1.0,
+    "realized": false,
+    "condition": null,
+    "consequences": [],
+    "relations": [],
+    "unknowns": [],
+    "notes": [
+     "The action is negated: none of its consequences follow."
+    ]
+   },
+   "shows": "negation: nothing changes"
+  },
+  {
+   "id": "phrase_09",
+   "text": "John kicked the ball.",
+   "context": [],
+   "summary": {
+    "action": "John kicked the ball.",
+    "predicate": "kick",
+    "concept": null,
+    "actor": "John",
+    "self_view": false,
+    "tense": "past",
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "places": [],
+    "notes": [
+     "ACM has no concept for 'kick': consequences are generic and say nothing about anyone's goals."
+    ]
+   },
+   "rings": [
+    {
+     "key": "actor",
+     "title": "Actor",
+     "question": "who acts",
+     "extent": "John",
+     "rows": [
+      {
+       "about": "John",
+       "text": "performs 'kick'",
+       "basis": "generic",
+       "source": "generic",
+       "direction": null,
+       "evidence": []
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "impacted",
+     "title": "Impacted",
+     "question": "what · to whom",
+     "extent": null,
+     "rows": [
+      {
+       "about": "ball",
+       "text": "is affected by 'kick'",
+       "basis": "generic",
+       "source": "generic",
+       "direction": null,
+       "evidence": []
+      }
+     ],
+     "empty": null
+    },
+    {
+     "key": "other_actors",
+     "title": "Other actors",
+     "question": "their goals and actions",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "environment",
+     "title": "Local environment",
+     "question": "where it happens",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "neighbour",
+     "title": "Neighbours",
+     "question": "places next to it",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "organization",
+     "title": "Organization",
+     "question": "business · enterprise · institution",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "city",
+     "title": "City",
+     "question": "",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "country",
+     "title": "Country",
+     "question": "",
+     "extent": "no place stated",
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "society",
+     "title": "Society",
+     "question": "economy · law · trust",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    },
+    {
+     "key": "earth",
+     "title": "Earth",
+     "question": "emissions · biodiversity · resources",
+     "extent": null,
+     "rows": [],
+     "empty": "No supporting evidence"
+    }
+   ],
+   "report_text": "ACTION  John kicked the ball.\n        concept=unknown  tense=past  certainty=1.00\n\nACTOR  John\n  performs 'kick'\n\nIMPACTED\n  ball: is affected by 'kick'\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nNEIGHBOUR ENVIRONMENT  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  ACM has no concept for 'kick': consequences are generic and say nothing about anyone's goals.",
+   "mindmap": "mindmap\n  root((John · kick))\n    Actor: John\n      performs 'kick'\n    Impacted\n      ball\n        is affected by 'kick'\n    Local environment: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Neighbour environment: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Organization: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    City: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Country: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
+   "acm_json": {
+    "action_text": "John kicked the ball.",
+    "language": "en",
+    "predicate": "kick",
+    "concept": null,
+    "actor": "john",
+    "actor_label": "John",
+    "self_view": false,
+    "places": [],
+    "scopes": {
+     "neighbour": [],
+     "organization": [],
+     "city": [],
+     "country": []
+    },
+    "tense": "past",
+    "modality": null,
+    "certainty": 1.0,
+    "realized": true,
+    "condition": null,
+    "consequences": [
+     {
+      "fact": {
+       "state": "performed",
+       "args": [
+        "john",
+        "kick"
+       ],
+       "labels": [
+        "John",
+        "kick"
+       ],
+       "value": true
+      },
+      "target": "actor",
+      "about": "john",
+      "about_label": "John",
+      "text": "performs 'kick'",
+      "primary": true,
+      "direction": null,
+      "certainty": 0.5,
+      "source": "generic",
+      "informative": false,
+      "basis": "rule",
+      "evidence": []
+     },
+     {
+      "fact": {
+       "state": "affected",
+       "args": [
+        "ball",
+        "kick"
+       ],
+       "labels": [
+        "ball",
+        "kick"
+       ],
+       "value": true
+      },
+      "target": "impacted",
+      "about": "ball",
+      "about_label": "ball",
+      "text": "is affected by 'kick'",
+      "primary": false,
+      "direction": null,
+      "certainty": 0.5,
+      "source": "generic",
+      "informative": false,
+      "basis": "rule",
+      "evidence": []
+     }
+    ],
+    "relations": [],
+    "unknowns": [],
+    "notes": [
+     "ACM has no concept for 'kick': consequences are generic and say nothing about anyone's goals."
+    ]
+   },
+   "shows": "an unknown verb: generic, no verdict, no invented impact"
+  }
+ ]
 }
