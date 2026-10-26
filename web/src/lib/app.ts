@@ -30,6 +30,7 @@ export const PAGES =
   APP_MODE === "acm"
     ? [
         { href: "/acm", label: "ACM Demo" },
+        { href: "/acm/inference", label: "What happens next?" },
         { href: "/multimodal", label: "Text · Image · Video" },
         { href: "/mlm", label: "MLM Playground" },
         ...MLM_PAGES,
@@ -38,6 +39,7 @@ export const PAGES =
         { href: "/", label: "Playground" },
         ...MLM_PAGES.slice(0, 3),
         { href: "/acm", label: "ACM Demo" },
+        { href: "/acm/inference", label: "What happens next?" },
         { href: "/multimodal", label: "Multimodal → ACM" },
         ...MLM_PAGES.slice(3),
       ];

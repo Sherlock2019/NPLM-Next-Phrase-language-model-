@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // No floating dev-mode badge over the demo pages.
+  devIndicators: false,
   // `next dev` blocks its client resources for origins it does not know, which leaves
   // pages unhydrated (stuck on "Loading…") when opened as 127.0.0.1 or by public IP.
   // Extra hosts (e.g. an EC2 public IP) come from SPLM_ALLOWED_DEV_ORIGINS, comma-separated.

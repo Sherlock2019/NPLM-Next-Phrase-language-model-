@@ -1369,6 +1369,7 @@
       "consequences": [],
       "relations": [],
       "unknowns": [],
+      "trace": {},
       "notes": [
        "No action is taken: no rule applies, and the simulator predicts no change."
       ]
@@ -2235,6 +2236,93 @@
         ]
        }
       ],
+      "trace": {
+       "frame": {
+        "language": "en",
+        "predicate": {
+         "type": "ACTION",
+         "lemma": "push"
+        },
+        "subject": [
+         {
+          "text": "I",
+          "role": "AGENT"
+         }
+        ],
+        "objects": [
+         {
+          "text": "blue_cup_01",
+          "role": "PATIENT"
+         }
+        ],
+        "tense": "future",
+        "modality": "proposal",
+        "negation": false
+       },
+       "concept": "PUSH",
+       "bindings": [
+        {
+         "concept_role": "pusher",
+         "entity": "self",
+         "key": "self",
+         "mlm_role": "AGENT"
+        },
+        {
+         "concept_role": "thing",
+         "entity": "blue_cup_01",
+         "key": "blue_cup_01",
+         "mlm_role": "PATIENT"
+        }
+       ],
+       "unfilled_roles": [
+        "toward"
+       ],
+       "facts": [
+        {
+         "fact": "displaced(blue_cup_01)",
+         "state": "displaced",
+         "primary": true,
+         "source": "rule:PUSH",
+         "basis": "rule",
+         "informative": true
+        },
+        {
+         "fact": "not supported(blue_cup_01, table_01)",
+         "state": "supported",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        },
+        {
+         "fact": "not at(blue_cup_01, table_01)",
+         "state": "at",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        },
+        {
+         "fact": "at(blue_cup_01, floor_01)",
+         "state": "at",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        },
+        {
+         "fact": "fallen(blue_cup_01)",
+         "state": "fallen",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        }
+       ],
+       "negated": false,
+       "categories": [],
+       "rules": []
+      },
       "notes": [
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
        "ACM certainty scores are rule weights, not calibrated real-world probabilities."
@@ -3927,6 +4015,75 @@
        }
       ],
       "unknowns": [],
+      "trace": {
+       "frame": {
+        "language": "en",
+        "predicate": {
+         "type": "ACTION",
+         "lemma": "move"
+        },
+        "subject": [
+         {
+          "text": "I",
+          "role": "AGENT"
+         }
+        ],
+        "objects": [
+         {
+          "text": "blue_cup_01",
+          "role": "PATIENT"
+         }
+        ],
+        "destination": [
+         {
+          "text": "the point (x=0.80, y=0.40 m on table_01)",
+          "role": "DESTINATION"
+         }
+        ],
+        "tense": "future",
+        "modality": "proposal",
+        "negation": false
+       },
+       "concept": "MOVE",
+       "bindings": [
+        {
+         "concept_role": "mover",
+         "entity": "blue_cup_01",
+         "key": "blue_cup_01",
+         "mlm_role": "PATIENT"
+        },
+        {
+         "concept_role": "destination",
+         "entity": "the point (x=0.80, y=0.40 m on table_01)",
+         "key": "the point (x=0.80, y=0.40 m on table_01)",
+         "mlm_role": "DESTINATION"
+        }
+       ],
+       "unfilled_roles": [
+        "origin"
+       ],
+       "facts": [
+        {
+         "fact": "at(blue_cup_01, the point (x=0.80, y=0.40 m on table_01))",
+         "state": "at",
+         "primary": true,
+         "source": "rule:MOVE",
+         "basis": "rule",
+         "informative": true
+        },
+        {
+         "fact": "occurs_at(move, the point (x=0.80, y=0.40 m on table_01))",
+         "state": "occurs_at",
+         "primary": false,
+         "source": "frame",
+         "basis": "rule",
+         "informative": true
+        }
+       ],
+       "negated": false,
+       "categories": [],
+       "rules": []
+      },
       "notes": [
        "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
@@ -5762,6 +5919,7 @@
       "consequences": [],
       "relations": [],
       "unknowns": [],
+      "trace": {},
       "notes": [
        "No action is taken: no rule applies, and the simulator predicts no change."
       ]
@@ -6576,6 +6734,93 @@
         ]
        }
       ],
+      "trace": {
+       "frame": {
+        "language": "en",
+        "predicate": {
+         "type": "ACTION",
+         "lemma": "push"
+        },
+        "subject": [
+         {
+          "text": "I",
+          "role": "AGENT"
+         }
+        ],
+        "objects": [
+         {
+          "text": "blue_cup_01",
+          "role": "PATIENT"
+         }
+        ],
+        "tense": "future",
+        "modality": "proposal",
+        "negation": false
+       },
+       "concept": "PUSH",
+       "bindings": [
+        {
+         "concept_role": "pusher",
+         "entity": "self",
+         "key": "self",
+         "mlm_role": "AGENT"
+        },
+        {
+         "concept_role": "thing",
+         "entity": "blue_cup_01",
+         "key": "blue_cup_01",
+         "mlm_role": "PATIENT"
+        }
+       ],
+       "unfilled_roles": [
+        "toward"
+       ],
+       "facts": [
+        {
+         "fact": "displaced(blue_cup_01)",
+         "state": "displaced",
+         "primary": true,
+         "source": "rule:PUSH",
+         "basis": "rule",
+         "informative": true
+        },
+        {
+         "fact": "not supported(blue_cup_01, table_01)",
+         "state": "supported",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        },
+        {
+         "fact": "not at(blue_cup_01, table_01)",
+         "state": "at",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        },
+        {
+         "fact": "at(blue_cup_01, floor_01)",
+         "state": "at",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        },
+        {
+         "fact": "fallen(blue_cup_01)",
+         "state": "fallen",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        }
+       ],
+       "negated": false,
+       "categories": [],
+       "rules": []
+      },
       "notes": [
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
        "ACM certainty scores are rule weights, not calibrated real-world probabilities."
@@ -8123,6 +8368,75 @@
       ],
       "relations": [],
       "unknowns": [],
+      "trace": {
+       "frame": {
+        "language": "en",
+        "predicate": {
+         "type": "ACTION",
+         "lemma": "move"
+        },
+        "subject": [
+         {
+          "text": "I",
+          "role": "AGENT"
+         }
+        ],
+        "objects": [
+         {
+          "text": "blue_cup_01",
+          "role": "PATIENT"
+         }
+        ],
+        "destination": [
+         {
+          "text": "the point (x=0.80, y=0.40 m on table_01)",
+          "role": "DESTINATION"
+         }
+        ],
+        "tense": "future",
+        "modality": "proposal",
+        "negation": false
+       },
+       "concept": "MOVE",
+       "bindings": [
+        {
+         "concept_role": "mover",
+         "entity": "blue_cup_01",
+         "key": "blue_cup_01",
+         "mlm_role": "PATIENT"
+        },
+        {
+         "concept_role": "destination",
+         "entity": "the point (x=0.80, y=0.40 m on table_01)",
+         "key": "the point (x=0.80, y=0.40 m on table_01)",
+         "mlm_role": "DESTINATION"
+        }
+       ],
+       "unfilled_roles": [
+        "origin"
+       ],
+       "facts": [
+        {
+         "fact": "at(blue_cup_01, the point (x=0.80, y=0.40 m on table_01))",
+         "state": "at",
+         "primary": true,
+         "source": "rule:MOVE",
+         "basis": "rule",
+         "informative": true
+        },
+        {
+         "fact": "occurs_at(move, the point (x=0.80, y=0.40 m on table_01))",
+         "state": "occurs_at",
+         "primary": false,
+         "source": "frame",
+         "basis": "rule",
+         "informative": true
+        }
+       ],
+       "negated": false,
+       "categories": [],
+       "rules": []
+      },
       "notes": [
        "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
@@ -11367,6 +11681,7 @@
       "consequences": [],
       "relations": [],
       "unknowns": [],
+      "trace": {},
       "notes": [
        "No action is taken: no rule applies, and the simulator predicts no change."
       ]
@@ -12185,6 +12500,93 @@
         ]
        }
       ],
+      "trace": {
+       "frame": {
+        "language": "en",
+        "predicate": {
+         "type": "ACTION",
+         "lemma": "push"
+        },
+        "subject": [
+         {
+          "text": "pusher_01",
+          "role": "AGENT"
+         }
+        ],
+        "objects": [
+         {
+          "text": "blue_cup_01",
+          "role": "PATIENT"
+         }
+        ],
+        "tense": "future",
+        "modality": "proposal",
+        "negation": false
+       },
+       "concept": "PUSH",
+       "bindings": [
+        {
+         "concept_role": "pusher",
+         "entity": "pusher_01",
+         "key": "pusher_01",
+         "mlm_role": "AGENT"
+        },
+        {
+         "concept_role": "thing",
+         "entity": "blue_cup_01",
+         "key": "blue_cup_01",
+         "mlm_role": "PATIENT"
+        }
+       ],
+       "unfilled_roles": [
+        "toward"
+       ],
+       "facts": [
+        {
+         "fact": "displaced(blue_cup_01)",
+         "state": "displaced",
+         "primary": true,
+         "source": "rule:PUSH",
+         "basis": "rule",
+         "informative": true
+        },
+        {
+         "fact": "not supported(blue_cup_01, table_01)",
+         "state": "supported",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        },
+        {
+         "fact": "not at(blue_cup_01, table_01)",
+         "state": "at",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        },
+        {
+         "fact": "at(blue_cup_01, floor_01)",
+         "state": "at",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        },
+        {
+         "fact": "fallen(blue_cup_01)",
+         "state": "fallen",
+         "primary": false,
+         "source": "simulator:tabletop-kinematic@1.0",
+         "basis": "simulation",
+         "informative": true
+        }
+       ],
+       "negated": false,
+       "categories": [],
+       "rules": []
+      },
       "notes": [
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
        "ACM certainty scores are rule weights, not calibrated real-world probabilities."
@@ -13736,6 +14138,75 @@
       ],
       "relations": [],
       "unknowns": [],
+      "trace": {
+       "frame": {
+        "language": "en",
+        "predicate": {
+         "type": "ACTION",
+         "lemma": "move"
+        },
+        "subject": [
+         {
+          "text": "pusher_01",
+          "role": "AGENT"
+         }
+        ],
+        "objects": [
+         {
+          "text": "blue_cup_01",
+          "role": "PATIENT"
+         }
+        ],
+        "destination": [
+         {
+          "text": "the point (x=0.80, y=0.40 m on table_01)",
+          "role": "DESTINATION"
+         }
+        ],
+        "tense": "future",
+        "modality": "proposal",
+        "negation": false
+       },
+       "concept": "MOVE",
+       "bindings": [
+        {
+         "concept_role": "mover",
+         "entity": "blue_cup_01",
+         "key": "blue_cup_01",
+         "mlm_role": "PATIENT"
+        },
+        {
+         "concept_role": "destination",
+         "entity": "the point (x=0.80, y=0.40 m on table_01)",
+         "key": "the point (x=0.80, y=0.40 m on table_01)",
+         "mlm_role": "DESTINATION"
+        }
+       ],
+       "unfilled_roles": [
+        "origin"
+       ],
+       "facts": [
+        {
+         "fact": "at(blue_cup_01, the point (x=0.80, y=0.40 m on table_01))",
+         "state": "at",
+         "primary": true,
+         "source": "rule:MOVE",
+         "basis": "rule",
+         "informative": true
+        },
+        {
+         "fact": "occurs_at(move, the point (x=0.80, y=0.40 m on table_01))",
+         "state": "occurs_at",
+         "primary": false,
+         "source": "frame",
+         "basis": "rule",
+         "informative": true
+        }
+       ],
+       "negated": false,
+       "categories": [],
+       "rules": []
+      },
       "notes": [
        "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
@@ -15944,6 +16415,193 @@
      }
     ],
     "unknowns": [],
+    "trace": {
+     "frame": {
+      "language": "en",
+      "predicate": {
+       "type": "ACTION",
+       "lemma": "sell"
+      },
+      "subject": [
+       {
+        "text": "I",
+        "role": "AGENT"
+       }
+      ],
+      "objects": [
+       {
+        "text": "my car",
+        "role": "PATIENT"
+       }
+      ],
+      "destination": [
+       {
+        "text": "Sarah",
+        "role": "DESTINATION"
+       }
+      ],
+      "goal": [
+       {
+        "text": "pay my debt",
+        "role": "PURPOSE",
+        "frame": {
+         "language": "en",
+         "predicate": {
+          "type": "ACTION",
+          "lemma": "pay"
+         },
+         "objects": [
+          {
+           "text": "my debt",
+           "role": "PATIENT"
+          }
+         ],
+         "voice": "active",
+         "negation": false,
+         "unresolved_slots": [
+          "subject",
+          "recipients",
+          "location",
+          "destination",
+          "time",
+          "manner",
+          "instrument",
+          "goal",
+          "cause"
+         ]
+        }
+       }
+      ],
+      "tense": "future",
+      "modality": "intention",
+      "voice": "active",
+      "negation": false,
+      "certainty": 0.9,
+      "unresolved_slots": [
+       "recipients",
+       "location",
+       "time",
+       "manner",
+       "instrument",
+       "cause"
+      ]
+     },
+     "concept": "SALE",
+     "bindings": [
+      {
+       "concept_role": "seller",
+       "entity": "self",
+       "key": "self",
+       "mlm_role": "AGENT"
+      },
+      {
+       "concept_role": "buyer",
+       "entity": "Sarah",
+       "key": "sarah",
+       "mlm_role": "DESTINATION"
+      },
+      {
+       "concept_role": "thing",
+       "entity": "my car",
+       "key": "car",
+       "mlm_role": "PATIENT"
+      }
+     ],
+     "unfilled_roles": [],
+     "facts": [
+      {
+       "fact": "has(Sarah, my car)",
+       "state": "has",
+       "primary": true,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "not has(self, my car)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "has(self, money)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "not has(Sarah, money)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      }
+     ],
+     "negated": false,
+     "categories": [
+      "fossil_vehicle",
+      "vehicle"
+     ],
+     "rules": [
+      {
+       "scope": "organization",
+       "aspect": "registration",
+       "direction": "0",
+       "effect": "insurers and the vehicle registry must record the new owner",
+       "when_concepts": [
+        "GIFT",
+        "SALE"
+       ],
+       "when_categories": [
+        "fossil_vehicle",
+        "vehicle"
+       ]
+      },
+      {
+       "scope": "country",
+       "aspect": "national economy",
+       "direction": "0",
+       "effect": "a taxable transaction counts in national economic activity",
+       "when_concepts": [
+        "PAYMENT",
+        "PURCHASE",
+        "SALE"
+       ],
+       "when_categories": []
+      },
+      {
+       "scope": "society",
+       "aspect": "economy",
+       "direction": "0",
+       "effect": "money circulates through the economy",
+       "when_concepts": [
+        "PAYMENT",
+        "PURCHASE",
+        "SALE"
+       ],
+       "when_categories": []
+      },
+      {
+       "scope": "earth",
+       "aspect": "resources",
+       "direction": "+",
+       "effect": "an existing object is reused instead of a new one being made",
+       "when_concepts": [
+        "GIFT",
+        "SALE"
+       ],
+       "when_categories": [
+        "fossil_vehicle",
+        "vehicle"
+       ]
+      }
+     ]
+    },
     "notes": []
    },
    "note": "Ownership and payment changes are rule-derived consequences (packs/universal/concepts.yaml: SALE)."
@@ -22166,6 +22824,193 @@
      }
     ],
     "unknowns": [],
+    "trace": {
+     "frame": {
+      "language": "en",
+      "predicate": {
+       "type": "ACTION",
+       "lemma": "sell"
+      },
+      "subject": [
+       {
+        "text": "I",
+        "role": "AGENT"
+       }
+      ],
+      "objects": [
+       {
+        "text": "my car",
+        "role": "PATIENT"
+       }
+      ],
+      "destination": [
+       {
+        "text": "Sarah",
+        "role": "DESTINATION"
+       }
+      ],
+      "goal": [
+       {
+        "text": "pay my debt",
+        "role": "PURPOSE",
+        "frame": {
+         "language": "en",
+         "predicate": {
+          "type": "ACTION",
+          "lemma": "pay"
+         },
+         "objects": [
+          {
+           "text": "my debt",
+           "role": "PATIENT"
+          }
+         ],
+         "voice": "active",
+         "negation": false,
+         "unresolved_slots": [
+          "subject",
+          "recipients",
+          "location",
+          "destination",
+          "time",
+          "manner",
+          "instrument",
+          "goal",
+          "cause"
+         ]
+        }
+       }
+      ],
+      "tense": "future",
+      "modality": "intention",
+      "voice": "active",
+      "negation": false,
+      "certainty": 0.9,
+      "unresolved_slots": [
+       "recipients",
+       "location",
+       "time",
+       "manner",
+       "instrument",
+       "cause"
+      ]
+     },
+     "concept": "SALE",
+     "bindings": [
+      {
+       "concept_role": "seller",
+       "entity": "self",
+       "key": "self",
+       "mlm_role": "AGENT"
+      },
+      {
+       "concept_role": "buyer",
+       "entity": "Sarah",
+       "key": "sarah",
+       "mlm_role": "DESTINATION"
+      },
+      {
+       "concept_role": "thing",
+       "entity": "my car",
+       "key": "car",
+       "mlm_role": "PATIENT"
+      }
+     ],
+     "unfilled_roles": [],
+     "facts": [
+      {
+       "fact": "has(Sarah, my car)",
+       "state": "has",
+       "primary": true,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "not has(self, my car)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "has(self, money)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "not has(Sarah, money)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      }
+     ],
+     "negated": false,
+     "categories": [
+      "fossil_vehicle",
+      "vehicle"
+     ],
+     "rules": [
+      {
+       "scope": "organization",
+       "aspect": "registration",
+       "direction": "0",
+       "effect": "insurers and the vehicle registry must record the new owner",
+       "when_concepts": [
+        "GIFT",
+        "SALE"
+       ],
+       "when_categories": [
+        "fossil_vehicle",
+        "vehicle"
+       ]
+      },
+      {
+       "scope": "country",
+       "aspect": "national economy",
+       "direction": "0",
+       "effect": "a taxable transaction counts in national economic activity",
+       "when_concepts": [
+        "PAYMENT",
+        "PURCHASE",
+        "SALE"
+       ],
+       "when_categories": []
+      },
+      {
+       "scope": "society",
+       "aspect": "economy",
+       "direction": "0",
+       "effect": "money circulates through the economy",
+       "when_concepts": [
+        "PAYMENT",
+        "PURCHASE",
+        "SALE"
+       ],
+       "when_categories": []
+      },
+      {
+       "scope": "earth",
+       "aspect": "resources",
+       "direction": "+",
+       "effect": "an existing object is reused instead of a new one being made",
+       "when_concepts": [
+        "GIFT",
+        "SALE"
+       ],
+       "when_categories": [
+        "fossil_vehicle",
+        "vehicle"
+       ]
+      }
+     ]
+    },
     "notes": []
    },
    "shows": "a self-view plan: ownership, payment, other people's goals (blocked / advanced)"
@@ -22470,6 +23315,118 @@
     ],
     "relations": [],
     "unknowns": [],
+    "trace": {
+     "frame": {
+      "language": "en",
+      "predicate": {
+       "type": "ACTION",
+       "lemma": "fly"
+      },
+      "subject": [
+       {
+        "text": "John",
+        "role": "AGENT"
+       }
+      ],
+      "destination": [
+       {
+        "text": "London",
+        "role": "DESTINATION"
+       }
+      ],
+      "tense": "past",
+      "voice": "active",
+      "negation": false,
+      "unresolved_slots": [
+       "objects",
+       "recipients",
+       "location",
+       "time",
+       "manner",
+       "instrument",
+       "goal",
+       "cause"
+      ]
+     },
+     "concept": "MOVE",
+     "bindings": [
+      {
+       "concept_role": "mover",
+       "entity": "John",
+       "key": "john",
+       "mlm_role": "AGENT"
+      },
+      {
+       "concept_role": "destination",
+       "entity": "London",
+       "key": "london",
+       "mlm_role": "DESTINATION"
+      }
+     ],
+     "unfilled_roles": [
+      "origin"
+     ],
+     "facts": [
+      {
+       "fact": "at(John, London)",
+       "state": "at",
+       "primary": true,
+       "source": "rule:MOVE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "occurs_at(fly, London)",
+       "state": "occurs_at",
+       "primary": false,
+       "source": "frame",
+       "basis": "rule",
+       "informative": true
+      }
+     ],
+     "negated": false,
+     "categories": [
+      "aircraft"
+     ],
+     "rules": [
+      {
+       "scope": "neighbour",
+       "aspect": "noise",
+       "direction": "-",
+       "effect": "aircraft noise and fumes for people living near the airports",
+       "when_concepts": [
+        "MOVE"
+       ],
+       "when_categories": [
+        "aircraft"
+       ]
+      },
+      {
+       "scope": "country",
+       "aspect": "emissions inventory",
+       "direction": "-",
+       "effect": "counts in the country's transport emissions",
+       "when_concepts": [
+        "MOVE"
+       ],
+       "when_categories": [
+        "aircraft"
+       ]
+      },
+      {
+       "scope": "earth",
+       "aspect": "emissions",
+       "direction": "-",
+       "effect": "flying emits a large amount of CO2 per person",
+       "when_concepts": [
+        "MOVE"
+       ],
+       "when_categories": [
+        "aircraft"
+       ]
+      }
+     ]
+    },
     "notes": []
    },
    "shows": "travel: neighbours, country and earth layers"
@@ -22765,6 +23722,121 @@
     ],
     "relations": [],
     "unknowns": [],
+    "trace": {
+     "frame": {
+      "language": "en",
+      "predicate": {
+       "type": "ACTION",
+       "lemma": "delete"
+      },
+      "subject": [
+       {
+        "text": "engineer",
+        "role": "AGENT"
+       }
+      ],
+      "objects": [
+       {
+        "text": "database",
+        "role": "PATIENT"
+       }
+      ],
+      "location": [
+       {
+        "text": "production",
+        "role": "LOCATION"
+       }
+      ],
+      "tense": "past",
+      "voice": "active",
+      "negation": false,
+      "unresolved_slots": [
+       "recipients",
+       "destination",
+       "time",
+       "manner",
+       "instrument",
+       "goal",
+       "cause"
+      ]
+     },
+     "concept": "DESTROY",
+     "bindings": [
+      {
+       "concept_role": "destroyer",
+       "entity": "engineer",
+       "key": "engineer",
+       "mlm_role": "AGENT"
+      },
+      {
+       "concept_role": "thing",
+       "entity": "database",
+       "key": "database",
+       "mlm_role": "PATIENT"
+      }
+     ],
+     "unfilled_roles": [],
+     "facts": [
+      {
+       "fact": "not exists(database)",
+       "state": "exists",
+       "primary": true,
+       "source": "rule:DESTROY",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "occurs_at(delete, production)",
+       "state": "occurs_at",
+       "primary": false,
+       "source": "frame",
+       "basis": "rule",
+       "informative": true
+      }
+     ],
+     "negated": false,
+     "categories": [
+      "data"
+     ],
+     "rules": [
+      {
+       "scope": "organization",
+       "aspect": "dependent systems",
+       "direction": "-",
+       "effect": "services and teams that rely on this data stop working",
+       "when_concepts": [
+        "DESTROY"
+       ],
+       "when_categories": [
+        "data"
+       ]
+      },
+      {
+       "scope": "country",
+       "aspect": "data protection",
+       "direction": "-",
+       "effect": "losing personal data may have to be reported under data-protection law",
+       "when_concepts": [
+        "DESTROY"
+       ],
+       "when_categories": [
+        "data"
+       ]
+      },
+      {
+       "scope": "society",
+       "aspect": "data",
+       "direction": "-",
+       "effect": "information others may depend on is lost",
+       "when_concepts": [
+        "DESTROY"
+       ],
+       "when_categories": [
+        "data"
+       ]
+      }
+     ]
+    },
     "notes": []
    },
    "shows": "a system: organization and data-protection layers"
@@ -23010,6 +24082,124 @@
     ],
     "relations": [],
     "unknowns": [],
+    "trace": {
+     "frame": {
+      "language": "en",
+      "predicate": {
+       "type": "ACTION",
+       "lemma": "destroy"
+      },
+      "subject": [
+       {
+        "text": "company",
+        "role": "AGENT"
+       }
+      ],
+      "objects": [
+       {
+        "text": "forest",
+        "role": "PATIENT"
+       }
+      ],
+      "tense": "past",
+      "voice": "active",
+      "negation": false,
+      "unresolved_slots": [
+       "recipients",
+       "location",
+       "destination",
+       "time",
+       "manner",
+       "instrument",
+       "goal",
+       "cause"
+      ]
+     },
+     "concept": "DESTROY",
+     "bindings": [
+      {
+       "concept_role": "destroyer",
+       "entity": "company",
+       "key": "company",
+       "mlm_role": "AGENT"
+      },
+      {
+       "concept_role": "thing",
+       "entity": "forest",
+       "key": "forest",
+       "mlm_role": "PATIENT"
+      }
+     ],
+     "unfilled_roles": [],
+     "facts": [
+      {
+       "fact": "not exists(forest)",
+       "state": "exists",
+       "primary": true,
+       "source": "rule:DESTROY",
+       "basis": "rule",
+       "informative": true
+      }
+     ],
+     "negated": false,
+     "categories": [
+      "ecosystem"
+     ],
+     "rules": [
+      {
+       "scope": "environment",
+       "aspect": "landscape",
+       "direction": "-",
+       "effect": "the local landscape and habitat are gone",
+       "when_concepts": [
+        "DAMAGE",
+        "DESTROY"
+       ],
+       "when_categories": [
+        "ecosystem"
+       ]
+      },
+      {
+       "scope": "neighbour",
+       "aspect": "protection",
+       "direction": "-",
+       "effect": "nearby communities lose shade, clean air and flood protection",
+       "when_concepts": [
+        "DAMAGE",
+        "DESTROY"
+       ],
+       "when_categories": [
+        "ecosystem"
+       ]
+      },
+      {
+       "scope": "country",
+       "aspect": "natural heritage",
+       "direction": "-",
+       "effect": "the nation's natural heritage shrinks",
+       "when_concepts": [
+        "DAMAGE",
+        "DESTROY"
+       ],
+       "when_categories": [
+        "ecosystem"
+       ]
+      },
+      {
+       "scope": "earth",
+       "aspect": "biodiversity",
+       "direction": "-",
+       "effect": "habitat is lost and biodiversity declines",
+       "when_concepts": [
+        "DAMAGE",
+        "DESTROY"
+       ],
+       "when_categories": [
+        "ecosystem"
+       ]
+      }
+     ]
+    },
     "notes": []
    },
    "shows": "nature: local, neighbour, country and earth impacts with no place named"
@@ -23278,6 +24468,125 @@
     ],
     "relations": [],
     "unknowns": [],
+    "trace": {
+     "frame": {
+      "language": "en",
+      "predicate": {
+       "type": "ACTION",
+       "lemma": "steal"
+      },
+      "subject": [
+       {
+        "text": "John",
+        "role": "AGENT"
+       }
+      ],
+      "objects": [
+       {
+        "text": "car",
+        "role": "PATIENT"
+       }
+      ],
+      "tense": "past",
+      "voice": "active",
+      "negation": false,
+      "unresolved_slots": [
+       "recipients",
+       "location",
+       "destination",
+       "time",
+       "manner",
+       "instrument",
+       "goal",
+       "cause"
+      ]
+     },
+     "concept": "THEFT",
+     "bindings": [
+      {
+       "concept_role": "thief",
+       "entity": "John",
+       "key": "john",
+       "mlm_role": "AGENT"
+      },
+      {
+       "concept_role": "thing",
+       "entity": "car",
+       "key": "car",
+       "mlm_role": "PATIENT"
+      }
+     ],
+     "unfilled_roles": [
+      "victim"
+     ],
+     "facts": [
+      {
+       "fact": "has(John, car)",
+       "state": "has",
+       "primary": true,
+       "source": "rule:THEFT",
+       "basis": "rule",
+       "informative": true
+      }
+     ],
+     "negated": false,
+     "categories": [
+      "fossil_vehicle",
+      "vehicle"
+     ],
+     "rules": [
+      {
+       "scope": "neighbour",
+       "aspect": "safety",
+       "direction": "-",
+       "effect": "people nearby feel less safe",
+       "when_concepts": [
+        "THEFT"
+       ],
+       "when_categories": []
+      },
+      {
+       "scope": "organization",
+       "aspect": "insurance",
+       "direction": "-",
+       "effect": "insurers and the police are drawn in",
+       "when_concepts": [
+        "THEFT"
+       ],
+       "when_categories": []
+      },
+      {
+       "scope": "city",
+       "aspect": "crime",
+       "direction": "-",
+       "effect": "adds to the city's recorded crime",
+       "when_concepts": [
+        "THEFT"
+       ],
+       "when_categories": []
+      },
+      {
+       "scope": "country",
+       "aspect": "national law",
+       "direction": "-",
+       "effect": "a crime under national law",
+       "when_concepts": [
+        "THEFT"
+       ],
+       "when_categories": []
+      },
+      {
+       "scope": "society",
+       "aspect": "law",
+       "direction": "-",
+       "effect": "breaks the law and erodes trust in property",
+       "when_concepts": [
+        "THEFT"
+       ],
+       "when_categories": []
+      }
+     ]
+    },
     "notes": []
    },
    "shows": "crime: safety, insurance, city crime, national law, society"
@@ -23562,6 +24871,112 @@
     ],
     "relations": [],
     "unknowns": [],
+    "trace": {
+     "frame": {
+      "language": "en",
+      "predicate": {
+       "type": "ACTION",
+       "lemma": "travel"
+      },
+      "subject": [
+       {
+        "text": "John",
+        "role": "AGENT"
+       }
+      ],
+      "destination": [
+       {
+        "text": "Paris",
+        "role": "DESTINATION"
+       }
+      ],
+      "manner": [
+       {
+        "text": "train",
+        "role": "MANNER"
+       }
+      ],
+      "tense": "past",
+      "voice": "active",
+      "negation": false,
+      "unresolved_slots": [
+       "objects",
+       "recipients",
+       "location",
+       "time",
+       "instrument",
+       "goal",
+       "cause"
+      ]
+     },
+     "concept": "MOVE",
+     "bindings": [
+      {
+       "concept_role": "mover",
+       "entity": "John",
+       "key": "john",
+       "mlm_role": "AGENT"
+      },
+      {
+       "concept_role": "destination",
+       "entity": "Paris",
+       "key": "paris",
+       "mlm_role": "DESTINATION"
+      }
+     ],
+     "unfilled_roles": [
+      "origin"
+     ],
+     "facts": [
+      {
+       "fact": "at(John, Paris)",
+       "state": "at",
+       "primary": true,
+       "source": "rule:MOVE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "occurs_at(travel, Paris)",
+       "state": "occurs_at",
+       "primary": false,
+       "source": "frame",
+       "basis": "rule",
+       "informative": true
+      }
+     ],
+     "negated": false,
+     "categories": [
+      "low_carbon_transport",
+      "vehicle"
+     ],
+     "rules": [
+      {
+       "scope": "city",
+       "aspect": "traffic",
+       "direction": "+",
+       "effect": "uses public transport instead of road space",
+       "when_concepts": [
+        "MOVE"
+       ],
+       "when_categories": [
+        "low_carbon_transport"
+       ]
+      },
+      {
+       "scope": "earth",
+       "aspect": "emissions",
+       "direction": "+",
+       "effect": "travels with low emissions compared with driving or flying",
+       "when_concepts": [
+        "MOVE"
+       ],
+       "when_categories": [
+        "low_carbon_transport"
+       ]
+      }
+     ]
+    },
     "notes": []
    },
    "shows": "low-carbon travel: city and earth benefit"
@@ -24079,6 +25494,211 @@
      }
     ],
     "unknowns": [],
+    "trace": {
+     "frame": {
+      "language": "en",
+      "predicate": {
+       "type": "ACTION",
+       "lemma": "sell"
+      },
+      "subject": [
+       {
+        "text": "John",
+        "role": "AGENT"
+       }
+      ],
+      "objects": [
+       {
+        "text": "his car",
+        "role": "PATIENT"
+       }
+      ],
+      "location": [
+       {
+        "text": "Paris",
+        "role": "LOCATION"
+       }
+      ],
+      "destination": [
+       {
+        "text": "Sarah",
+        "role": "DESTINATION"
+       }
+      ],
+      "time": [
+       {
+        "text": "tomorrow",
+        "role": "TIME"
+       }
+      ],
+      "goal": [
+       {
+        "text": "pay his debt",
+        "role": "PURPOSE",
+        "frame": {
+         "language": "en",
+         "predicate": {
+          "type": "ACTION",
+          "lemma": "pay"
+         },
+         "objects": [
+          {
+           "text": "his debt",
+           "role": "PATIENT"
+          }
+         ],
+         "voice": "active",
+         "negation": false,
+         "unresolved_slots": [
+          "subject",
+          "recipients",
+          "location",
+          "destination",
+          "time",
+          "manner",
+          "instrument",
+          "goal",
+          "cause"
+         ]
+        }
+       }
+      ],
+      "tense": "future",
+      "modality": "intention",
+      "voice": "active",
+      "negation": false,
+      "certainty": 0.9,
+      "unresolved_slots": [
+       "recipients",
+       "manner",
+       "instrument",
+       "cause"
+      ]
+     },
+     "concept": "SALE",
+     "bindings": [
+      {
+       "concept_role": "seller",
+       "entity": "John",
+       "key": "john",
+       "mlm_role": "AGENT"
+      },
+      {
+       "concept_role": "buyer",
+       "entity": "Sarah",
+       "key": "sarah",
+       "mlm_role": "DESTINATION"
+      },
+      {
+       "concept_role": "thing",
+       "entity": "his car",
+       "key": "car",
+       "mlm_role": "PATIENT"
+      }
+     ],
+     "unfilled_roles": [],
+     "facts": [
+      {
+       "fact": "has(Sarah, his car)",
+       "state": "has",
+       "primary": true,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "not has(John, his car)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "has(John, money)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "not has(Sarah, money)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "occurs_at(sell, Paris)",
+       "state": "occurs_at",
+       "primary": false,
+       "source": "frame",
+       "basis": "rule",
+       "informative": true
+      }
+     ],
+     "negated": false,
+     "categories": [
+      "fossil_vehicle",
+      "vehicle"
+     ],
+     "rules": [
+      {
+       "scope": "organization",
+       "aspect": "registration",
+       "direction": "0",
+       "effect": "insurers and the vehicle registry must record the new owner",
+       "when_concepts": [
+        "GIFT",
+        "SALE"
+       ],
+       "when_categories": [
+        "fossil_vehicle",
+        "vehicle"
+       ]
+      },
+      {
+       "scope": "country",
+       "aspect": "national economy",
+       "direction": "0",
+       "effect": "a taxable transaction counts in national economic activity",
+       "when_concepts": [
+        "PAYMENT",
+        "PURCHASE",
+        "SALE"
+       ],
+       "when_categories": []
+      },
+      {
+       "scope": "society",
+       "aspect": "economy",
+       "direction": "0",
+       "effect": "money circulates through the economy",
+       "when_concepts": [
+        "PAYMENT",
+        "PURCHASE",
+        "SALE"
+       ],
+       "when_categories": []
+      },
+      {
+       "scope": "earth",
+       "aspect": "resources",
+       "direction": "+",
+       "effect": "an existing object is reused instead of a new one being made",
+       "when_concepts": [
+        "GIFT",
+        "SALE"
+       ],
+       "when_categories": [
+        "fossil_vehicle",
+        "vehicle"
+       ]
+      }
+     ]
+    },
     "notes": []
    },
    "shows": "a full blast radius: Paris's neighbours, organizations, city and country"
@@ -24209,6 +25829,102 @@
     "consequences": [],
     "relations": [],
     "unknowns": [],
+    "trace": {
+     "frame": {
+      "language": "en",
+      "predicate": {
+       "type": "ACTION",
+       "lemma": "sell"
+      },
+      "subject": [
+       {
+        "text": "John",
+        "role": "AGENT"
+       }
+      ],
+      "objects": [
+       {
+        "text": "his car",
+        "role": "PATIENT"
+       }
+      ],
+      "destination": [
+       {
+        "text": "Sarah",
+        "role": "DESTINATION"
+       }
+      ],
+      "tense": "past",
+      "voice": "active",
+      "negation": true,
+      "unresolved_slots": [
+       "recipients",
+       "location",
+       "time",
+       "manner",
+       "instrument",
+       "goal",
+       "cause"
+      ]
+     },
+     "concept": "SALE",
+     "bindings": [
+      {
+       "concept_role": "seller",
+       "entity": "John",
+       "key": "john",
+       "mlm_role": "AGENT"
+      },
+      {
+       "concept_role": "buyer",
+       "entity": "Sarah",
+       "key": "sarah",
+       "mlm_role": "DESTINATION"
+      },
+      {
+       "concept_role": "thing",
+       "entity": "his car",
+       "key": "car",
+       "mlm_role": "PATIENT"
+      }
+     ],
+     "unfilled_roles": [],
+     "facts": [
+      {
+       "fact": "has(Sarah, his car)",
+       "state": "has",
+       "primary": true,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "not has(John, his car)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "has(John, money)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      },
+      {
+       "fact": "not has(Sarah, money)",
+       "state": "has",
+       "primary": false,
+       "source": "rule:SALE",
+       "basis": "rule",
+       "informative": true
+      }
+     ],
+     "negated": true
+    },
     "notes": [
      "The action is negated: none of its consequences follow."
     ]
@@ -24410,6 +26126,64 @@
     ],
     "relations": [],
     "unknowns": [],
+    "trace": {
+     "frame": {
+      "language": "en",
+      "predicate": {
+       "type": "ACTION",
+       "lemma": "kick"
+      },
+      "subject": [
+       {
+        "text": "John",
+        "role": "AGENT"
+       }
+      ],
+      "objects": [
+       {
+        "text": "ball",
+        "role": "PATIENT"
+       }
+      ],
+      "tense": "past",
+      "voice": "active",
+      "negation": false,
+      "unresolved_slots": [
+       "recipients",
+       "location",
+       "destination",
+       "time",
+       "manner",
+       "instrument",
+       "goal",
+       "cause"
+      ]
+     },
+     "concept": null,
+     "bindings": [],
+     "unfilled_roles": [],
+     "facts": [
+      {
+       "fact": "performed(John, kick)",
+       "state": "performed",
+       "primary": true,
+       "source": "generic",
+       "basis": "rule",
+       "informative": false
+      },
+      {
+       "fact": "affected(ball, kick)",
+       "state": "affected",
+       "primary": false,
+       "source": "generic",
+       "basis": "rule",
+       "informative": false
+      }
+     ],
+     "negated": false,
+     "categories": [],
+     "rules": []
+    },
     "notes": [
      "ACM has no concept for 'kick': consequences are generic and say nothing about anyone's goals."
     ]

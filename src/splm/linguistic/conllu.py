@@ -72,8 +72,15 @@ def parse_conllu_sentence(
             ner = None
 
         form = fields[1]
-        start, end = offset, offset + len(form)
-        offset = end + 1
+        # Locate the form in the sentence's own text when it is known, so punctuation
+        # written without a space ("refuses, John") does not shift every later offset.
+        found = text.find(form, offset) if text is not None else -1
+        if found >= 0:
+            start, end = found, found + len(form)
+            offset = end
+        else:
+            start, end = offset, offset + len(form)
+            offset = end + 1
 
         entity_type = None
         if ner and entity_normalizer is not None:

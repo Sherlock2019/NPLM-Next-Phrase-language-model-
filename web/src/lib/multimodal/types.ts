@@ -157,6 +157,47 @@ export interface PhraseResult {
   shows: string;
 }
 
+export interface InferenceAnswer {
+  subject: string;
+  kind: "actor" | "impacted" | "goal" | "place" | "layer" | "limits" | "negated" | "state" | "none";
+  question: string;
+  answer: string;
+  why: string[];
+  status?: string;
+  layer?: string;
+}
+
+export interface InferenceItem {
+  id: string;
+  theme: string;
+  shows: string;
+  context: string[];
+  action: string;
+  summary: ReportSummary;
+  answers: InferenceAnswer[];
+  reasoning: { step: string; detail: string }[];
+  graph: {
+    nodes: { id: string; label: string; kind: string; concept?: string | null }[];
+    edges: { from: string; to: string; label: string; basis: string; direction?: string | null; status?: string }[];
+  };
+  rings: Ring[];
+  report_text: string;
+  trace: Record<string, unknown>;
+}
+
+export interface InferenceSuite {
+  stats: {
+    scenarios: number;
+    questions: number;
+    themes: Record<string, number>;
+    concepts: string[];
+    relations: Record<string, number>;
+    layers_reached: Record<string, number>;
+  };
+  items: InferenceItem[];
+  parse: string;
+}
+
 export interface DemoBundle {
   mode: "demo";
   badge: string;

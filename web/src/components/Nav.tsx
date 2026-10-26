@@ -44,8 +44,10 @@ export function Nav() {
 
         <nav className="order-3 -mx-1 flex w-full items-center gap-0.5 overflow-x-auto sm:order-2 sm:mx-0 sm:w-auto">
           {PAGES.map((page) => {
-            const active =
-              page.href === "/" ? pathname === "/" : pathname.startsWith(page.href);
+            // The longest matching link wins: /acm/inference highlights only "What happens next?".
+            const best = PAGES.filter((p) => (p.href === "/" ? pathname === "/" : pathname === p.href || pathname.startsWith(`${p.href}/`)))
+              .sort((a, b) => b.href.length - a.href.length)[0];
+            const active = best?.href === page.href;
             return (
               <Link
                 key={page.href}
