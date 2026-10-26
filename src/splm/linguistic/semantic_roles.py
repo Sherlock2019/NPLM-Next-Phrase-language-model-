@@ -195,7 +195,9 @@ class SemanticRoleEngine:
 
         hypotheses = [
             RoleHypothesis(role=role, probability=round(prob, 4), evidence=evidence.get(role, []))
-            for role, prob in sorted(distribution.items(), key=lambda kv: kv[1], reverse=True)
+            # Ties (at the reported precision) break by role name, so equal runner-ups
+            # come out in the same order on every run.
+            for role, prob in sorted(distribution.items(), key=lambda kv: (-round(kv[1], 4), kv[0]))
             if prob > 0.0
         ]
 

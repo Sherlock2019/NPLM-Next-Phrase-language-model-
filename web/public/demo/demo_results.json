@@ -588,7 +588,7 @@
            "probability": 0.0107
           },
           {
-           "role": "SOURCE",
+           "role": "MANNER",
            "probability": 0.0089
           }
          ],
@@ -846,11 +846,11 @@
          },
          "alternatives": [
           {
-           "role": "THEME",
+           "role": "EXPERIENCER",
            "probability": 0.1
           },
           {
-           "role": "EXPERIENCER",
+           "role": "THEME",
            "probability": 0.1
           },
           {
@@ -1010,7 +1010,7 @@
               "probability": 0.0312
              },
              {
-              "role": "SOURCE",
+              "role": "MANNER",
               "probability": 0.0156
              }
             ],
@@ -13944,11 +13944,11 @@
            "probability": 0.0255
           },
           {
-           "role": "RECIPIENT",
+           "role": "AGENT",
            "probability": 0.0227
           },
           {
-           "role": "AGENT",
+           "role": "RECIPIENT",
            "probability": 0.0227
           }
          ],
@@ -14176,11 +14176,11 @@
          },
          "alternatives": [
           {
-           "role": "THEME",
+           "role": "EXPERIENCER",
            "probability": 0.1
           },
           {
-           "role": "EXPERIENCER",
+           "role": "THEME",
            "probability": 0.1
           },
           {
@@ -14258,11 +14258,11 @@
            "probability": 0.3666
           },
           {
-           "role": "SOURCE",
+           "role": "MANNER",
            "probability": 0.0172
           },
           {
-           "role": "MANNER",
+           "role": "SOURCE",
            "probability": 0.0172
           }
          ],
