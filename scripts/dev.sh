@@ -19,13 +19,17 @@ PYTHON="${SPLM_PYTHON:-$ROOT/.venv/bin/python}"
 start() {
   mkdir -p "$ROOT/data/raw/hf" logs
 
+  # setsid: each server gets its own session, so it keeps running after the shell that
+  # started it exits (nohup alone does not keep `next dev` alive under WSL or ssh).
   echo "starting API on :$API_PORT"
-  HF_HOME="$ROOT/data/raw/hf" nohup "$PYTHON" -m splm.api.main \
-    > logs/api.log 2>&1 &
+  HF_HOME="$ROOT/data/raw/hf" setsid nohup "$PYTHON" -m splm.api.main \
+    > logs/api.log 2>&1 < /dev/null &
   echo $! > logs/api.pid
 
   echo "starting dashboard on 0.0.0.0:$WEB_PORT (reachable on this host's public IP if the firewall allows)"
-  (cd web && SPLM_API_URL="${SPLM_API_URL:-http://127.0.0.1:$API_PORT}" PORT="$WEB_PORT" nohup npx next dev -H 0.0.0.0 -p "$WEB_PORT" > "$ROOT/logs/web.log" 2>&1 & echo $! > "$ROOT/logs/web.pid")
+  (cd web && SPLM_API_URL="${SPLM_API_URL:-http://127.0.0.1:$API_PORT}" PORT="$WEB_PORT" \
+    setsid nohup node_modules/.bin/next dev -H 0.0.0.0 -p "$WEB_PORT" > "$ROOT/logs/web.log" 2>&1 < /dev/null &
+    echo $! > "$ROOT/logs/web.pid")
 
   for _ in $(seq 1 180); do
     api_up=$(curl -s -o /dev/null --max-time 5 -w '%{http_code}' "http://127.0.0.1:$API_PORT/health")
