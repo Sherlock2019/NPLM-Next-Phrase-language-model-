@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "media": "tabletop_scene.svg",
+  "recorded_backend": {
+    "name": "hand-authored fixture",
+    "note": "Written to match the generated synthetic media. Not the output of a live model."
+  },
+  "image_size": {
+    "width": 800,
+    "height": 500
+  },
+  "calibration": {
+    "id": "synthetic_topdown_01",
+    "homography": [
+      [
+        1.6,
+        0,
+        -0.2
+      ],
+      [
+        0,
+        1.0,
+        -0.2
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "plane": "table_01 top surface",
+    "source": "known by construction of the synthetic image (500 px per metre, origin at 100 px)",
+    "reference_point": "centre"
+  },
+  "entities": [
+    {
+      "id": "table_01",
+      "class": "table",
+      "attributes": {},
+      "box_px": [
+        100.0,
+        100.0,
+        700.0,
+        500.0
+      ]
+    },
+    {
+      "id": "blue_cup_01",
+      "class": "cup",
+      "attributes": {
+        "color": "blue"
+      },
+      "box_px": [
+        605.0,
+        280.0,
+        645.0,
+        320.0
+      ],
+      "detection_confidence": null
+    },
+    {
+      "id": "red_cup_01",
+      "class": "cup",
+      "attributes": {
+        "color": "red"
+      },
+      "box_px": [
+        355.0,
+        305.0,
+        395.0,
+        345.0
+      ],
+      "detection_confidence": null
+    }
+  ],
+  "relations": [
+    {
+      "subject": "blue_cup_01",
+      "relation": "on",
+      "object": "table_01"
+    },
+    {
+      "subject": "blue_cup_01",
+      "relation": "near_edge",
+      "object": "table_01",
+      "value": "right"
+    },
+    {
+      "subject": "red_cup_01",
+      "relation": "on",
+      "object": "table_01"
+    },
+    {
+      "subject": "red_cup_01",
+      "relation": "far_from_edge",
+      "object": "table_01"
+    }
+  ],
+  "event_hypotheses": [],
+  "claims": [
+    {
+      "type": "past_action",
+      "text": "someone pushed the blue cup"
+    },
+    {
+      "type": "ownership",
+      "text": "the blue cup belongs to the person at the table"
+    },
+    {
+      "type": "intent",
+      "text": "someone intends to knock the cup over"
+    }
+  ],
+  "text_in_image": [
+    "Schematic top-down view - synthetic illustration"
+  ]
+}

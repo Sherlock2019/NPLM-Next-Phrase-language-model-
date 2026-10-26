@@ -22,6 +22,7 @@ tooling says so.
 - [Installation](#installation)
 - [AWS EC2 deployment](#aws-ec2-deployment)
 - [Running it](#running-it)
+- [Multimodal meaning: text, image, video → MLM → ACM](#multimodal-meaning-text-image-video--mlm--acm)
 - [Measured results](#measured-results)
 - [Universal Phrase DNA](#universal-phrase-dna)
 - [Language packs](#language-packs)
@@ -250,6 +251,13 @@ git pull --ff-only
 SPLM_SKIP_RESOURCES=1 ./scripts/ec2_service.sh deploy
 ```
 
+The multimodal demo is served by the same dashboard at
+`http://EC2-PUBLIC-IP:3010/multimodal` and works in Demo mode with nothing else
+installed: its materials are static files under `web/public/demo`. For Live text,
+clone [ACM](https://github.com/Sherlock2019/ACM) next to this repository (or set
+`SPLM_ACM_DIR`) before running the installer; it is then installed into the same
+virtual environment.
+
 Set `SPLM_WEB_PORT` during installation to use a different public port. If the EC2
 instance is stopped and started, its auto-assigned public IPv4 address can change;
 associate an Elastic IP when the address must remain stable.
@@ -293,7 +301,7 @@ Useful flags: `--profile tiny|small|medium|research` selects a base model from
 ### Tests and benchmarks
 
 ```bash
-pytest                                       # 139 tests, no model downloads needed
+pytest                                       # 154 tests, no model downloads needed
 python scripts/demo.py --stage all           # walk the whole pipeline
 python scripts/benchmark.py                  # writes results/*.json and *.csv
 python scripts/benchmark.py --ablation-ladder
@@ -303,6 +311,83 @@ Tests run against committed CoNLL-U fixtures, so they are fast and deterministic
 not require a parser model. Regenerate them deliberately with
 `python scripts/make_fixtures.py` and review the diff — a change there changes the
 tests' premises.
+
+---
+
+## Multimodal meaning: text, image, video → MLM → ACM
+
+Start with one scene: *"A blue cup is near the right edge of a table. A red cup is
+farther from the edge. I plan to push the blue cup toward the right edge."* The same
+scene also exists as an image and as a short video. MLM turns all three into **one
+shared meaning representation**, and [ACM](https://github.com/Sherlock2019/ACM) reads
+that meaning to predict consequences:
+
+```mermaid
+flowchart LR
+  T[TEXT] -->|MLM parser| M
+  I[IMAGE] -->|VLM extraction or fixture replay| M
+  V[VIDEO] -->|track · segment · interpret, or replay| M
+  M[(MLM meaning<br/>splm.meaning)] --> A[ACM consequences] --> R[visual outcome · prediction vs actual]
+```
+
+`splm.meaning` extends Universal Phrase DNA compatibly; it does not replace it.
+
+- **Entities and states.** Entities have stable ids (`blue_cup_01`, `red_cup_01`,
+  `table_01`; two cups are never merged by class). Observations carry evidence and an
+  `observed` / `inferred` status.
+- **Time and actions.** Scene states form a timeline. Events use MLM's semantic roles.
+  Proposed actions, predicted outcomes and goals are kept separate from events.
+- **Coordinates.** Pixel, normalized-image and calibrated-world coordinates carry their
+  frame and unit. Pixels are never metres without a calibration.
+- **Into ACM.** Events and proposals become `UniversalPhraseFrame`s directly
+  (`splm.meaning.frames`), with no prose in between.
+- **Adapters.**
+  - *Text:* the existing parser.
+  - *Image:* rejects claims a still image cannot support (a past push, an intent,
+    ownership).
+  - *Video:* keeps event order and frame links, deduplicates overlapping descriptions,
+    marks causes it cannot see as *uncertain*. `available_at(T)` cuts the timeline so
+    later frames can never reach a prediction.
+- **Live backends.** A Qwen3-VL client (any OpenAI-compatible endpoint) and an
+  Ultralytics YOLO tracker are optional, lazily loaded, and never download anything.
+
+### The interactive demo
+
+Open **`/multimodal`** in the dashboard (`./start.sh`, then
+http://127.0.0.1:3010/multimodal; on EC2, `http://EC2-PUBLIC-IP:3010/multimodal`). It
+has three tabs, each with its own Run button:
+
+- **Text** — editable text, three selectable actions (do nothing / push toward the
+  edge / move toward the center), and a second example with ACM's car-sale
+  consequence graph.
+- **Image** — a bundled SVG scene and an annotated version labelled *Demo fixture*.
+  The proposed action is chosen separately from what the image shows. You can upload
+  your own image.
+- **Video** — a bundled synthetic MP4/WebM (*Synthetic demonstration — scripted
+  motion*) with an event timeline. Playback stops at T = 2.0 s, before the push.
+  **Predict Consequences** uses only frames up to T. **Reveal Scripted Outcome** then
+  plays on and compares prediction with outcome.
+
+Each run shows five stages: **A** input, **B** MLM meaning (WHO, ACTION, WHAT, TO WHOM,
+WHERE, WHEN, HOW, WHY — WHY only when stated — with status labels and JSON), **C** ACM's
+six circles ("No supporting evidence" where nothing supports a consequence), **D** an
+animated initial vs predicted scene labelled *Illustrative simulation*, and **E** the
+three alternatives from the same initial state.
+
+**Demo mode** (always available, no API keys, GPU or downloads) replays bundled
+fixtures through results computed by the real MLM + ACM pipeline. A permanent badge
+says so. Uploaded media is previewed only, never described as analysed; you can type
+scene facts by hand, and they are labelled *manually supplied*. **Live** is enabled per
+tab only when `/api/multimodal/status` reports it working. Today that is text, when ACM
+and the Stanza model are installed.
+
+Materials live in `web/public/demo/` and are generated from one scenario by
+`python scripts/make_tabletop_demo.py`: SVGs, extraction fixtures, MP4/WebM, text and
+the animation script. The results bundle comes from ACM's
+`python -m acm.cli demo --json web/public/demo/demo_results.json`. The browser's
+simulator is checked against the Python one with `node web/scripts/check-tabletop.mts`.
+Details, verified model facts, licences and limitations:
+[ACM docs/multimodal.md](https://github.com/Sherlock2019/ACM/blob/main/docs/multimodal.md).
 
 ---
 
@@ -577,6 +662,15 @@ Stated plainly, because the project's value depends on knowing what it has not s
 - **No hard grammatical rules.** The scorer only re-weights, so the UI says "less
   compatible", never "impossible".
 
+**Multimodal**
+
+- **No vision model has been run.** The image and video extractions bundled with the
+  demo are hand-authored replays matched to synthetic media and labelled as such. The
+  Qwen3-VL and YOLO clients exist but were not exercised.
+- **Narrow simulator.** The consequence demo uses a constrained tabletop simulator
+  (rigid discs, one table), not physical understanding. Its one evaluation episode is
+  scripted, so its perfect scores validate the workflow, not accuracy.
+
 **Substitution from the original spec:** the debugging UI is a Next.js dashboard rather
 than a Gradio app, and graphs are hand-drawn SVG rather than React Flow — fewer
 dependencies and full control over layout. Every panel the spec asked for is present.
@@ -592,6 +686,8 @@ src/splm/
   language/        detection, locale, pack loading
   linguistic/      parser interface + Stanza backend, CoNLL-U, lexicon, morphology, roles
   phrase/          Phrase DNA schema, builder, slot predictor, serialisation
+  meaning/         shared multimodal meaning: schemas, geometry, frames, adapters
+                   (text, image, video, optional Qwen3-VL / YOLO), bundled demo fixtures
   graph/           context graph and coreference
   model/           base LLM, word/token tracking, features, scorer, logits processor,
                    advantage metrics, engine
@@ -599,15 +695,16 @@ src/splm/
   evaluation/      datasets, metrics with real statistics, baseline arm, benchmark runner
   api/             FastAPI service
   cli.py           command line
-web/               Next.js dashboard (9 pages)
-scripts/           download_resources, make_fixtures, demo, benchmark, dev, smoke
-tests/             139 tests over committed CoNLL-U fixtures
+web/               Next.js dashboard (10 pages, incl. /multimodal); demo materials in web/public/demo
+scripts/           download_resources, make_fixtures, make_tabletop_demo, demo, benchmark, dev, smoke
+tests/             154 tests over committed CoNLL-U and meaning fixtures
 results/           benchmark output (JSON + CSV)
 ```
 
 The [Actions Consequential Model (ACM)](https://github.com/Sherlock2019/ACM)
 builds on MLM to predict what an action changes for the actor, other actors, the
-environment, society and the earth. It lives in its own repository and depends on
+environment (local, neighbours, organization, city, country), society and the earth,
+from text, images and video. It lives in its own repository and depends on
 this one as the `splm` package.
 
 ## Licence

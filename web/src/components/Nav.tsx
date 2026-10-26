@@ -9,6 +9,7 @@ const PAGES = [
   { href: "/phrase-dna", label: "Phrase DNA" },
   { href: "/inspector", label: "Inspector" },
   { href: "/context", label: "Context Graph" },
+  { href: "/multimodal", label: "Multimodal → ACM" },
   { href: "/multilingual", label: "Multilingual" },
   { href: "/benchmark", label: "Benchmark" },
   { href: "/ablation", label: "Ablation" },

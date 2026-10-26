@@ -143,6 +143,10 @@ def create_app(config: Config | None = None) -> FastAPI:
     def health() -> dict[str, Any]:
         return {"status": "ok", "engine_loaded": state["engine"] is not None}
 
+    from splm.api.multimodal import register as register_multimodal
+
+    register_multimodal(app, API_PREFIX)
+
     @app.get(f"{API_PREFIX}/system")
     def system() -> dict[str, Any]:
         """Model, device, versions and knowledge-base status (UI spec section 32)."""

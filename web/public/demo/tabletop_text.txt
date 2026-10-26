@@ -1,0 +1,6 @@
+A blue cup is near the right edge of a table. A red cup is farther from the edge. I plan to push the blue cup toward the right edge.
+
+Second example (context, then action):
+Mark wants to buy my car.
+Sarah needs a car.
+I will sell my car to Sarah to pay my debt.

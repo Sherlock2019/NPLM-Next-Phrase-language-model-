@@ -91,6 +91,16 @@ prepare_application() {
     SPLM_TORCH_INDEX_URL="${SPLM_TORCH_INDEX_URL:-}" \
     "$ROOT/scripts/install_runtime.sh"
 
+  # Optional: ACM (a separate repository) enables Live text on the Multimodal page.
+  # Without it the page still works fully in Demo mode and says why Live is off.
+  local acm_dir="${SPLM_ACM_DIR:-$ROOT/../ACM}"
+  if [ -f "$acm_dir/pyproject.toml" ]; then
+    echo "installing ACM from $acm_dir (enables Live text on /multimodal)"
+    as_service_user "$python" -m pip install --quiet -e "$acm_dir"
+  else
+    echo "ACM not found at $acm_dir; /multimodal runs in Demo mode (set SPLM_ACM_DIR to enable Live text)"
+  fi
+
   echo "installing and building dashboard"
   as_service_user env SPLM_API_URL="http://127.0.0.1:$API_PORT" \
     npm --prefix "$ROOT/web" ci
@@ -191,6 +201,7 @@ wait_until_ready() {
       echo
       echo "MLM is running in the background and will start after reboot."
       echo "Open: http://<EC2-PUBLIC-IP>:$WEB_PORT"
+      echo "Multimodal demo: http://<EC2-PUBLIC-IP>:$WEB_PORT/multimodal"
       echo "Allow inbound TCP $WEB_PORT in the instance security group; do not expose $API_PORT."
       return 0
     fi

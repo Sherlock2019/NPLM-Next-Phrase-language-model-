@@ -21,9 +21,10 @@ export default function RootLayout({
           </main>
           <footer className="hairline border-t px-4 py-4 sm:px-6">
             <p className="faint mx-auto max-w-[1600px] text-xs leading-relaxed">
-              Every figure shown is measured at request time from the running system.
-              MLM is a hypothesis under test, not a proven improvement: where the
-              evidence does not support a claim, this dashboard says so.
+              Every figure shown is measured at request time from the running system,
+              except on the Multimodal page in Demo mode, which replays bundled examples
+              and says so. MLM is a hypothesis under test, not a proven improvement: where
+              the evidence does not support a claim, this dashboard says so.
             </p>
           </footer>
         </div>

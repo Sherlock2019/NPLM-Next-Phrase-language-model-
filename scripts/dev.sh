@@ -24,8 +24,8 @@ start() {
     > logs/api.log 2>&1 &
   echo $! > logs/api.pid
 
-  echo "starting dashboard on :$WEB_PORT"
-  (cd web && SPLM_API_URL="${SPLM_API_URL:-http://127.0.0.1:$API_PORT}" PORT="$WEB_PORT" nohup npx next dev -p "$WEB_PORT" > "$ROOT/logs/web.log" 2>&1 & echo $! > "$ROOT/logs/web.pid")
+  echo "starting dashboard on 0.0.0.0:$WEB_PORT (reachable on this host's public IP if the firewall allows)"
+  (cd web && SPLM_API_URL="${SPLM_API_URL:-http://127.0.0.1:$API_PORT}" PORT="$WEB_PORT" nohup npx next dev -H 0.0.0.0 -p "$WEB_PORT" > "$ROOT/logs/web.log" 2>&1 & echo $! > "$ROOT/logs/web.pid")
 
   for _ in $(seq 1 180); do
     api_up=$(curl -s -o /dev/null --max-time 5 -w '%{http_code}' "http://127.0.0.1:$API_PORT/health")

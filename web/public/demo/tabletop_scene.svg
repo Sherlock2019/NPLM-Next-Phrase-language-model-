@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-label="Schematic top-down tabletop scene">
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<rect x="700.0" y="0" width="100.0" height="500" fill="#e2e8f0"/>
+<text x="708.0" y="24" font-family="sans-serif" font-size="13" fill="#475569">floor</text>
+<rect x="100.0" y="100.0" width="600.0" height="400.0" fill="#d6b88a" stroke="#7c5a2a" stroke-width="4"/>
+<text x="110.0" y="124.0" font-family="sans-serif" font-size="15" fill="#5b3f17">table_01 (support boundary)</text>
+<circle cx="625.0" cy="300.0" r="20.0" fill="#2563eb" stroke="#0f172a" stroke-width="2"/>
+<text x="625.0" y="338.0" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#0f172a">blue_cup_01</text>
+<circle cx="375.0" cy="325.0" r="20.0" fill="#dc2626" stroke="#0f172a" stroke-width="2"/>
+<text x="375.0" y="363.0" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#0f172a">red_cup_01</text>
+<line x1="100.0" y1="500.0" x2="100.0" y2="508.0" stroke="#334155"/>
+<text x="100.0" y="524.0" text-anchor="middle" font-family="monospace" font-size="12" fill="#334155">x=0.0 m</text>
+<line x1="250.0" y1="500.0" x2="250.0" y2="508.0" stroke="#334155"/>
+<text x="250.0" y="524.0" text-anchor="middle" font-family="monospace" font-size="12" fill="#334155">x=0.3 m</text>
+<line x1="400.0" y1="500.0" x2="400.0" y2="508.0" stroke="#334155"/>
+<text x="400.0" y="524.0" text-anchor="middle" font-family="monospace" font-size="12" fill="#334155">x=0.6 m</text>
+<line x1="550.0" y1="500.0" x2="550.0" y2="508.0" stroke="#334155"/>
+<text x="550.0" y="524.0" text-anchor="middle" font-family="monospace" font-size="12" fill="#334155">x=0.9 m</text>
+<line x1="700.0" y1="500.0" x2="700.0" y2="508.0" stroke="#334155"/>
+<text x="700.0" y="524.0" text-anchor="middle" font-family="monospace" font-size="12" fill="#334155">x=1.2 m</text>
+<text x="12" y="550" font-family="sans-serif" font-size="13" fill="#334155">Schematic top-down view - synthetic illustration, 500 px = 1 m (schematic coordinates)</text>
+</svg>

@@ -1,0 +1,663 @@
+{
+  "version": 1,
+  "media": "tabletop_push_synthetic.json",
+  "recorded_backend": {
+    "name": "hand-authored fixture",
+    "note": "Written to match the generated synthetic media. Not the output of a live model."
+  },
+  "duration_s": 6.0,
+  "tracking_session": "synthetic_session_01",
+  "track_ids": {
+    "1": "blue_cup_01",
+    "2": "red_cup_01",
+    "3": "pusher_01"
+  },
+  "static_entities": [
+    {
+      "id": "table_01",
+      "class": "table",
+      "box_normalized": [
+        0.125,
+        0.2,
+        0.875,
+        1.0
+      ],
+      "extent_m": [
+        0.0,
+        0.0,
+        1.2,
+        0.8
+      ]
+    }
+  ],
+  "calibration": {
+    "id": "synthetic_topdown_01",
+    "homography": [
+      [
+        1.6,
+        0,
+        -0.2
+      ],
+      [
+        0,
+        1.0,
+        -0.2
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "plane": "table_01 top surface",
+    "source": "known by construction of the synthetic image (500 px per metre, origin at 100 px)",
+    "reference_point": "centre"
+  },
+  "frames": [
+    {
+      "t": 0.0,
+      "frame_index": 0,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.75625,
+            0.56,
+            0.80625,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.63125,
+            0.55,
+            0.68125,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 0.5,
+      "frame_index": 12,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.75625,
+            0.56,
+            0.80625,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.63125,
+            0.55,
+            0.68125,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 1.0,
+      "frame_index": 25,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.75625,
+            0.56,
+            0.80625,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.63125,
+            0.55,
+            0.68125,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 1.5,
+      "frame_index": 38,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.75625,
+            0.56,
+            0.80625,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.66875,
+            0.55,
+            0.71875,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 2.0,
+      "frame_index": 50,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.75625,
+            0.56,
+            0.80625,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.70625,
+            0.55,
+            0.75625,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 2.5,
+      "frame_index": 62,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.81875,
+            0.56,
+            0.86875,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.76875,
+            0.55,
+            0.81875,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 3.0,
+      "frame_index": 75,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.88125,
+            0.56,
+            0.93125,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.83125,
+            0.55,
+            0.88125,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 3.5,
+      "frame_index": 88,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.9125,
+            0.56,
+            0.9625,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.7875,
+            0.55,
+            0.8375,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 4.0,
+      "frame_index": 100,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.925,
+            0.56,
+            0.975,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.725,
+            0.55,
+            0.775,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 4.5,
+      "frame_index": 112,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.925,
+            0.56,
+            0.975,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.70937,
+            0.55,
+            0.75938,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 5.0,
+      "frame_index": 125,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.925,
+            0.56,
+            0.975,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.69375,
+            0.55,
+            0.74375,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 5.5,
+      "frame_index": 138,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.925,
+            0.56,
+            0.975,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.67812,
+            0.55,
+            0.72813,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "t": 6.0,
+      "frame_index": 150,
+      "detections": [
+        {
+          "track_id": 1,
+          "class": "cup",
+          "attributes": {
+            "color": "blue"
+          },
+          "box_normalized": [
+            0.925,
+            0.56,
+            0.975,
+            0.64
+          ]
+        },
+        {
+          "track_id": 2,
+          "class": "cup",
+          "attributes": {
+            "color": "red"
+          },
+          "box_normalized": [
+            0.44375,
+            0.61,
+            0.49375,
+            0.69
+          ]
+        },
+        {
+          "track_id": 3,
+          "class": "pusher",
+          "attributes": {},
+          "box_normalized": [
+            0.6625,
+            0.55,
+            0.7125,
+            0.65
+          ]
+        }
+      ]
+    }
+  ],
+  "segments": [
+    {
+      "start_s": 2.0,
+      "end_s": 2.5,
+      "events": [
+        {
+          "predicate": "push",
+          "roles": {
+            "AGENT": "track:3",
+            "PATIENT": "track:1",
+            "DESTINATION": "right edge"
+          },
+          "causal": "supported"
+        }
+      ]
+    },
+    {
+      "start_s": 2.5,
+      "end_s": 3.0,
+      "events": [
+        {
+          "predicate": "push",
+          "roles": {
+            "AGENT": "track:3",
+            "PATIENT": "track:1",
+            "DESTINATION": "right edge"
+          },
+          "causal": "supported"
+        }
+      ]
+    },
+    {
+      "start_s": 3.0,
+      "end_s": 4.0,
+      "events": [
+        {
+          "predicate": "fall",
+          "roles": {
+            "THEME": "track:1",
+            "SOURCE": "table_01"
+          },
+          "causal": "uncertain"
+        }
+      ]
+    }
+  ]
+}

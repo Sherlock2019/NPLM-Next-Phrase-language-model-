@@ -23,6 +23,9 @@ llm = ["torch>=2.1", "transformers>=4.40", "tokenizers>=0.19", "accelerate>=0.30
 api = ["fastapi>=0.110", "uvicorn>=0.29"]
 ui = ["gradio>=4.0"]
 data = ["sqlalchemy>=2.0", "pandas>=2.0"]
+# Live image/video extraction. Optional: the demo and the tests replay fixtures instead.
+# Ultralytics is AGPL-3.0 (or Enterprise-licensed) - check before redistributing.
+vision = ["opencv-python-headless>=4.9", "ultralytics>=8.3"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
@@ -32,7 +35,7 @@ splm = "splm.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-splm = ["py.typed"]
+splm = ["py.typed", "meaning/demo/*.json", "meaning/demo/*.conllu"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
