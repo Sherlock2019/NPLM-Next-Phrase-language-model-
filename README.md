@@ -353,7 +353,7 @@ flowchart LR
 
 ### The ACM demo and ACM mode
 
-`/acm` is the ACM demo: a phrase, an image and a video, each predicting the
+The tour (`/acm/tour`, the home page in ACM mode) explains ACM in four chapters, including a side-by-side with a real local language model; `/acm/inference` answers 280+ "what happens next to …?" questions with their reasoning. `/acm` is the ACM demo: a phrase, an image and a video, each predicting the
 consequences of an action across the whole blast radius, with one **Run Demo** button.
 Started from ACM's `./start.sh`, the dashboard runs in **ACM mode**
 (`NEXT_PUBLIC_APP_MODE=acm`). It carries ACM branding, `/` opens `/acm`, and the MLM

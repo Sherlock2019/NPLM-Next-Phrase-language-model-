@@ -1,0 +1,321 @@
+{
+ "model": "HuggingFaceTB/SmolLM2-135M",
+ "kind": "base language model (no instruction tuning), local CPU",
+ "settings": {
+  "max_new_tokens": 40,
+  "greedy": "do_sample=False",
+  "samples": "temperature=0.9, top_p=0.95, seeds [1, 2, 3]"
+ },
+ "recorded": "2026-10-26",
+ "pairs": [
+  {
+   "action": "John sold his car to Sarah.",
+   "context": [
+    "Mark wants to buy John's car.",
+    "Sarah needs a car."
+   ],
+   "subject": "Mark",
+   "prompt": "Mark wants to buy John's car. Sarah needs a car. John sold his car to Sarah.\nQuestion: What happens next to Mark?\nAnswer:",
+   "greedy": "Mark buys a car.",
+   "samples": [
+    "Mark and Sarah don't know about the transaction until they see the car John sold to Sarah. Mark doesn't see the car, and so he doesn't know about John's sale. Mark does see",
+    "Mark gets a car.",
+    "Mary bought a car. Mary sold a car to Mark."
+   ],
+   "seconds": 5.7,
+   "scenario": "s01",
+   "acm": {
+    "subject": "Mark",
+    "kind": "goal",
+    "question": "What happens to Mark's plan (wants to buy John's car)?",
+    "answer": "Mark's plan is blocked.",
+    "status": "blocked",
+    "why": [
+     "Sarah has his car, so 'Mark has John's car' cannot hold"
+    ]
+   },
+   "llm_distinct_answers": 4
+  },
+  {
+   "action": "John sold his car to Sarah.",
+   "context": [
+    "Mark wants to buy John's car.",
+    "Sarah needs a car."
+   ],
+   "subject": "Sarah",
+   "prompt": "Mark wants to buy John's car. Sarah needs a car. John sold his car to Sarah.\nQuestion: What happens next to Sarah?\nAnswer:",
+   "greedy": "Sarah buys John's car.",
+   "samples": [
+    "The car is sold.\nHow do we know? Because John and Sarah are partners.",
+    "Sarah asks John to buy her a new car.",
+    "Sarah buys John's car."
+   ],
+   "seconds": 5.53,
+   "scenario": "s01",
+   "acm": {
+    "subject": "Sarah",
+    "kind": "impacted",
+    "question": "What happens next to Sarah?",
+    "answer": "Sarah gains his car and loses money.",
+    "why": [
+     "SALE rule: Sarah is the buyer (MLM DESTINATION) → has(Sarah, his car)",
+     "SALE rule: Sarah is the buyer (MLM DESTINATION) → not has(Sarah, money)"
+    ]
+   },
+   "llm_distinct_answers": 3
+  },
+  {
+   "action": "John sold his car to Sarah.",
+   "context": [
+    "Mark wants to buy John's car.",
+    "Sarah needs a car."
+   ],
+   "subject": "John",
+   "prompt": "Mark wants to buy John's car. Sarah needs a car. John sold his car to Sarah.\nQuestion: What happens next to John?\nAnswer:",
+   "greedy": "John buys a new car.",
+   "samples": [
+    "John gets a car.\nHow do we know?",
+    "John sells his car to Sarah",
+    "John leaves his car."
+   ],
+   "seconds": 5.64,
+   "scenario": "s01",
+   "acm": {
+    "subject": "John",
+    "kind": "actor",
+    "question": "What happens next to John?",
+    "answer": "John loses his car and gains money.",
+    "why": [
+     "SALE rule: John is the seller (MLM AGENT) → not has(John, his car)",
+     "SALE rule: John is the seller (MLM AGENT) → has(John, money)"
+    ]
+   },
+   "llm_distinct_answers": 4
+  },
+  {
+   "action": "John flew to London.",
+   "context": [],
+   "subject": "the people living near the airport",
+   "prompt": "John flew to London.\nQuestion: What happens next to the people living near the airport?\nAnswer:",
+   "greedy": "The people living near the airport are evacuated.",
+   "samples": [
+    "The air is cleared and all flights are allowed to go in and out of the airport.",
+    "They are told to stop for a month or two, then they can continue to the airport.",
+    "The people in the city are happy."
+   ],
+   "seconds": 5.14,
+   "scenario": "s18",
+   "acm": {
+    "subject": "the neighbours (Croydon, Watford, Slough)",
+    "kind": "layer",
+    "question": "What happens to the neighbours (Croydon, Watford, Slough)?",
+    "answer": "Aircraft noise and fumes for people living near the airports (harms).",
+    "why": [
+     "impact rule (neighbour: noise) fires when MOVE is one of MOVE and something involved is aircraft"
+    ],
+    "layer": "neighbour"
+   },
+   "llm_distinct_answers": 4
+  },
+  {
+   "action": "John flew to London.",
+   "context": [],
+   "subject": "the earth",
+   "prompt": "John flew to London.\nQuestion: What happens next to the earth?\nAnswer:",
+   "greedy": "The earth is moved.",
+   "samples": [
+    "The earth is pulled out of the sea by a giant force known as the\nearth's gravity.",
+    "It becomes dry land.",
+    "The earth is taken by an iron horse."
+   ],
+   "seconds": 5.11,
+   "scenario": "s18",
+   "acm": {
+    "subject": "the earth",
+    "kind": "layer",
+    "question": "What happens to the earth?",
+    "answer": "Flying emits a large amount of CO2 per person (harms).",
+    "why": [
+     "impact rule (earth: emissions) fires when MOVE is one of MOVE and something involved is aircraft"
+    ],
+    "layer": "earth"
+   },
+   "llm_distinct_answers": 4
+  },
+  {
+   "action": "The engineer deleted the database in production.",
+   "context": [],
+   "subject": "the company's customers",
+   "prompt": "The engineer deleted the database in production.\nQuestion: What happens next to the company's customers?\nAnswer:",
+   "greedy": "The company's customers will be able to access the database in production.",
+   "samples": [
+    "The company's customers will be notified that there will be no more \"Franchise\" business operations.",
+    "It will receive an update for the product back up, which should resolve the issue for that customer.",
+    "The company would lose all its customers."
+   ],
+   "seconds": 5.2,
+   "scenario": "s29",
+   "acm": {
+    "subject": "the organization (the enterprise that runs it, its customers and users, services that call it)",
+    "kind": "layer",
+    "question": "What happens to the organization (the enterprise that runs it, its customers and users, services that call it)?",
+    "answer": "Services and teams that rely on this data stop working (harms).",
+    "why": [
+     "impact rule (organization: dependent systems) fires when DESTROY is one of DESTROY and something involved is data"
+    ],
+    "layer": "organization"
+   },
+   "llm_distinct_answers": 4
+  },
+  {
+   "action": "The engineer deleted the database in production.",
+   "context": [],
+   "subject": "the database",
+   "prompt": "The engineer deleted the database in production.\nQuestion: What happens next to the database?\nAnswer:",
+   "greedy": "The database is deleted.",
+   "samples": [
+    "The database is deleted and all the data is removed from the SQL server.",
+    "It becomes redundant as there are many other databases.",
+    "The system crashes and all applications stop running."
+   ],
+   "seconds": 5.13,
+   "scenario": "s29",
+   "acm": {
+    "subject": "the database",
+    "kind": "impacted",
+    "question": "What happens next to the database?",
+    "answer": "The database no longer exists.",
+    "why": [
+     "DESTROY rule: database is the thing (MLM PATIENT) → not exists(database)"
+    ]
+   },
+   "llm_distinct_answers": 4
+  },
+  {
+   "action": "The company destroyed the forest.",
+   "context": [],
+   "subject": "the forest",
+   "prompt": "The company destroyed the forest.\nQuestion: What happens next to the forest?\nAnswer:",
+   "greedy": "The forest is destroyed.",
+   "samples": [
+    "The forest is cleared and all the vegetation is removed.",
+    "It becomes dry land.",
+    "The forest is not destroyed, but the ground is covered."
+   ],
+   "seconds": 5.11,
+   "scenario": "s28",
+   "acm": {
+    "subject": "the forest",
+    "kind": "impacted",
+    "question": "What happens next to the forest?",
+    "answer": "The forest no longer exists.",
+    "why": [
+     "DESTROY rule: forest is the thing (MLM PATIENT) → not exists(forest)"
+    ]
+   },
+   "llm_distinct_answers": 4
+  },
+  {
+   "action": "The company destroyed the forest.",
+   "context": [],
+   "subject": "the earth",
+   "prompt": "The company destroyed the forest.\nQuestion: What happens next to the earth?\nAnswer:",
+   "greedy": "The earth is destroyed.",
+   "samples": [
+    "The earth is destroyed.",
+    "It becomes dry land.",
+    "The earth is covered by an oily layer of oil that acts as a shield to protect the atmosphere."
+   ],
+   "seconds": 5.26,
+   "scenario": "s28",
+   "acm": {
+    "subject": "the earth",
+    "kind": "layer",
+    "question": "What happens to the earth?",
+    "answer": "Habitat is lost and biodiversity declines (harms).",
+    "why": [
+     "impact rule (earth: biodiversity) fires when DESTROY is one of DAMAGE/DESTROY and something involved is ecosystem"
+    ],
+    "layer": "earth"
+   },
+   "llm_distinct_answers": 3
+  },
+  {
+   "action": "Tom gave all his money to Maria.",
+   "context": [
+    "Tom wants to buy a bike."
+   ],
+   "subject": "Tom's plan to buy a bike",
+   "prompt": "Tom wants to buy a bike. Tom gave all his money to Maria.\nQuestion: What happens next to Tom's plan to buy a bike?\nAnswer:",
+   "greedy": "Tom's plan to buy a bike is not successful.",
+   "samples": [
+    "The plan changes. Tom gives all his money to Maria.",
+    "Tom's plan to buy a bike fails because Maria did not want Tom to own the bike. So, she takes Tom into a restaurant. He becomes a customer. Tom is now able to go to",
+    "Tom leaves his plan to Maria and goes to Mexico City."
+   ],
+   "seconds": 5.34,
+   "scenario": "s15",
+   "acm": {
+    "subject": "Tom",
+    "kind": "actor",
+    "question": "What happens next to Tom?",
+    "answer": "Tom loses his money. Their own aim ('buy a bike') becomes harder.",
+    "why": [
+     "GIFT rule: Tom is the giver (MLM AGENT) → not has(Tom, his money)",
+     "takes away what it needs: Maria has his money"
+    ]
+   },
+   "llm_distinct_answers": 4
+  },
+  {
+   "action": "John kicked the ball.",
+   "context": [],
+   "subject": "the ball",
+   "prompt": "John kicked the ball.\nQuestion: What happens next to the ball?\nAnswer:",
+   "greedy": "The ball is thrown into the air.",
+   "samples": [
+    "The ball travels past two\nstudents and falls to the ground.",
+    "It flies up into the air",
+    "The ball lands in a box and the owner takes it."
+   ],
+   "seconds": 5.22,
+   "scenario": "s51",
+   "acm": {
+    "subject": "the ball",
+    "kind": "impacted",
+    "question": "What happens next to the ball?",
+    "answer": "The ball is affected by 'kick'. (Generic: ACM knows no concept for this verb, so it gives no verdict.)",
+    "why": [
+     "ACM has no concept for 'kick': generic, no verdict"
+    ]
+   },
+   "llm_distinct_answers": 4
+  },
+  {
+   "action": "John did not sell his car to Sarah.",
+   "context": [
+    "Mark wants to buy John's car."
+   ],
+   "subject": "Sarah",
+   "prompt": "Mark wants to buy John's car. John did not sell his car to Sarah.\nQuestion: What happens next to Sarah?\nAnswer:",
+   "greedy": "Sarah buys John's car.",
+   "samples": [
+    "The story changes. Sarah does not find out that John bought the car. Instead, they will now decide whether or not they want to buy John's car.",
+    "Sarah asks John to buy John a new car.",
+    "Sarah buys John's car."
+   ],
+   "seconds": 5.33,
+   "scenario": "s03",
+   "acm": {
+    "subject": "John",
+    "kind": "negated",
+    "question": "What happens next?",
+    "answer": "Nothing. The sentence says John does not sell, so none of the consequences follow — for anyone.",
+    "why": [
+     "negation in MLM's frame cancels every state change and every effect on goals"
+    ]
+   },
+   "llm_distinct_answers": 3
+  }
+ ]
+}

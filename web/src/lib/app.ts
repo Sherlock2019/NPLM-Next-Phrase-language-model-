@@ -29,6 +29,7 @@ const MLM_PAGES = [
 export const PAGES =
   APP_MODE === "acm"
     ? [
+        { href: "/acm/tour", label: "Tour" },
         { href: "/acm", label: "ACM Demo" },
         { href: "/acm/inference", label: "What happens next?" },
         { href: "/multimodal", label: "Text · Image · Video" },

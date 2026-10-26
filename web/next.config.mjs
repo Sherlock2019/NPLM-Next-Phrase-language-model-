@@ -14,10 +14,10 @@ const nextConfig = {
   // The Python API runs separately. Proxying it under /api keeps the browser on one
   // origin, so no CORS preflight in development and no origin config in production.
   // In ACM mode (NEXT_PUBLIC_APP_MODE=acm, set by ACM's ./start.sh) the home page is the
-  // ACM demo; the MLM Playground stays available at /mlm.
+  // ACM tour; the MLM Playground stays available at /mlm.
   async redirects() {
     return process.env.NEXT_PUBLIC_APP_MODE === "acm"
-      ? [{ source: "/", destination: "/acm", permanent: false }]
+      ? [{ source: "/", destination: "/acm/tour", permanent: false }]
       : [];
   },
   async rewrites() {

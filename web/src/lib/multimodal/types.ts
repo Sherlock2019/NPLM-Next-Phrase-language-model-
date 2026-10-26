@@ -198,6 +198,27 @@ export interface InferenceSuite {
   parse: string;
 }
 
+export interface LlmPair {
+  action: string;
+  context: string[];
+  subject: string;
+  prompt: string;
+  greedy: string;
+  samples: string[];
+  seconds: number;
+  scenario: string;
+  acm: InferenceAnswer;
+  llm_distinct_answers: number;
+}
+
+export interface LlmVsAcm {
+  model: string;
+  kind: string;
+  settings: Record<string, string | number>;
+  recorded: string;
+  pairs: LlmPair[];
+}
+
 export interface DemoBundle {
   mode: "demo";
   badge: string;
