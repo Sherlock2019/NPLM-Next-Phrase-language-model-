@@ -318,6 +318,14 @@ class ContextGraph:
                 mention=element.text, sentence_index=index, confidence=0.0
             )
 
+        # An untyped noun survives the animacy filter above, so in "John owns a car.
+        # He sold it." both John and the car are candidates for "he". A gendered
+        # pronoun refers to a known person whenever one is available.
+        if wanted_gender in {"masculine", "feminine"}:
+            people = [node for node in candidates if node.entity_type == "PERSON"]
+            if people:
+                candidates = people
+
         # Prefer the most recently mentioned surviving candidate.
         candidates.sort(key=lambda n: (n.sentence_index, n.id), reverse=True)
         best = candidates[0]
