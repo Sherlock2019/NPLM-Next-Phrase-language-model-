@@ -30,7 +30,7 @@ const STAGES: Stage[] = [
     answers: "What was written?",
     contributes: "The raw text, unchanged.",
     detail:
-      "SPLM never rewrites the prompt. The base model sees exactly the string the user typed, which is what makes the two arms comparable.",
+      "MLM never rewrites the prompt. The base model sees exactly the string the user typed, which is what makes the two arms comparable.",
     honest: "No preprocessing means no opportunity to help the model by cleaning input.",
     module: "splm/pipeline.py",
   },
@@ -142,7 +142,7 @@ const STAGES: Stage[] = [
     detail:
       "Language-pack priors combined with evidence from a dangling marker and from which slots are already filled. The trainable version learns the same mapping from data.",
     honest:
-      "This is where SPLM's distinctive claim lives, and it has no base-model counterpart to compare against — so it is reported as a capability measurement, not as a win.",
+      "This is where MLM's distinctive claim lives, and it has no base-model counterpart to compare against — so it is reported as a capability measurement, not as a win.",
     module: "splm/phrase/slot_predictor.py",
   },
   {
@@ -154,7 +154,7 @@ const STAGES: Stage[] = [
     detail:
       "Any Hugging Face causal LM; the model id lives in config and is never hard-coded. The same forward pass feeds both arms of every comparison.",
     honest:
-      "The standard model is not semantics-free — it encodes meaning implicitly in its hidden states. SPLM adds an explicit representation that can be inspected and measured, which is a different claim from adding semantics.",
+      "The standard model is not semantics-free — it encodes meaning implicitly in its hidden states. MLM adds an explicit representation that can be inspected and measured, which is a different claim from adding semantics.",
     module: "splm/model/base_llm.py",
   },
   {
@@ -219,7 +219,7 @@ export default function ArchitecturePage() {
           </div>
 
           <div className="rounded-lg border border-splm-500/25 bg-splm-500/5 p-4">
-            <h3 className="eyebrow text-splm-400">Smart Phrase Language Model</h3>
+            <h3 className="eyebrow text-splm-400">Meaning Language Model</h3>
             <p className="mt-2 text-xs leading-relaxed">
               What is happening? What is already known? What meaning is missing? Which
               semantic role comes next? Which candidates satisfy it? Combine that with

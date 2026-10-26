@@ -2,7 +2,7 @@
   "name": "splm-dashboard",
   "version": "0.1.0",
   "private": true,
-  "description": "Research dashboard for the Smart Phrase Language Model",
+  "description": "Research dashboard for the Meaning Language Model",
   "engines": {
     "node": ">=20.9.0"
   },

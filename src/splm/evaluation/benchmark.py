@@ -257,7 +257,7 @@ class Benchmark:
             report.slot_accuracy = {
                 **Proportion(successes=slot_correct, total=slot_total).summary(),
                 "note": (
-                    "SPLM-only capability. A plain language model makes no semantic-slot "
+                    "MLM-only capability. A plain language model makes no semantic-slot "
                     "prediction, so there is no base-model figure to compare against."
                 ),
             }
@@ -430,14 +430,14 @@ class Benchmark:
             lines.append(
                 f"expected-slot accuracy: {report.slot_accuracy['percent']:.1f}% "
                 f"({report.slot_accuracy['successes']}/{report.slot_accuracy['total']}), "
-                "an SPLM-only capability with no base-model counterpart"
+                "an MLM-only capability with no base-model counterpart"
             )
 
         for entry in report.continuous:
             if entry["metric"].startswith("semantic focus"):
                 lines.append(
                     f"semantic focus: base {entry['base_mean'] * 100:.1f}% -> "
-                    f"SPLM {entry['splm_mean'] * 100:.1f}% "
+                    f"MLM {entry['splm_mean'] * 100:.1f}% "
                     f"({(entry['splm_mean'] - entry['base_mean']) * 100:+.1f} pp "
                     f"over {entry['samples']} predictions)"
                 )
@@ -445,7 +445,7 @@ class Benchmark:
                 overhead = entry["splm_mean"] - entry["base_mean"]
                 lines.append(
                     f"latency: base forward pass {entry['base_mean']:.1f} ms, "
-                    f"SPLM {entry['splm_mean']:.1f} ms "
+                    f"MLM {entry['splm_mean']:.1f} ms "
                     f"({overhead:+.1f} ms of structural overhead per prediction)"
                 )
 

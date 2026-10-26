@@ -98,7 +98,7 @@ export default function SystemPage() {
           )}
         </Panel>
 
-        <Panel title="SPLM configuration">
+        <Panel title="MLM configuration">
           <div className="flex flex-col gap-3">
             <Rows
               rows={[
@@ -224,7 +224,7 @@ export default function SystemPage() {
                 <li>
                   With no lexicon, every lexical feature reports &ldquo;no
                   evidence&rdquo; and contributes exactly zero. It does not penalise
-                  unknown words — a token is never invalid merely because SPLM has no
+                  unknown words — a token is never invalid merely because MLM has no
                   dictionary to check it against.
                 </li>
               )}

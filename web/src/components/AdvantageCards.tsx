@@ -8,7 +8,7 @@ import { Stat } from "./ui";
  * The four headline observations for a single prediction, plus its cost.
  *
  * These are per-prediction *observations*, not benchmark results. One prompt cannot
- * establish that SPLM helps, so nothing here is worded as a win — the Benchmark page
+ * establish that MLM helps, so nothing here is worded as a win — the Benchmark page
  * is where aggregated evidence and significance live.
  */
 export function AdvantageCards({ result }: { result: ComparisonResponse }) {
@@ -95,7 +95,7 @@ export function AdvantageCards({ result }: { result: ComparisonResponse }) {
       />
 
       <Stat
-        label="SPLM overhead"
+        label="MLM overhead"
         value={ms(result.splm_overhead_ms)}
         tone={result.splm_overhead_ms > result.total_latency_ms / 2 ? "warn" : "neutral"}
         sub={

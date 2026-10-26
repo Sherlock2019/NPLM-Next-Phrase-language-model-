@@ -244,7 +244,7 @@ def cmd_config(args: argparse.Namespace, config: Config) -> int:
 def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="splm",
-        description="Smart Phrase Language Model - explicit structure over a Transformer.",
+        description="Meaning Language Model - explicit structure over a Transformer.",
     )
     parser.add_argument("--version", action="version", version=f"splm {__version__}")
     parser.add_argument("--log-level", default=None, help="DEBUG, INFO, WARNING, ERROR")
@@ -282,12 +282,12 @@ def build_argument_parser() -> argparse.ArgumentParser:
     slots_cmd = add_text_command("slots", "predict the next semantic slot", cmd_slots)
     slots_cmd.add_argument("--top", type=int, default=6)
 
-    predict_cmd = add_text_command("predict", "base model vs SPLM next-token", cmd_predict)
+    predict_cmd = add_text_command("predict", "base model vs MLM next-token", cmd_predict)
     predict_cmd.add_argument("--top", type=int, default=8, help="rows to display")
     predict_cmd.add_argument("--top-k", type=int, default=None, help="candidates to re-score")
     predict_cmd.add_argument("--detail", action="store_true", help="per-feature score table")
 
-    generate_cmd = add_text_command("generate", "continue text with and without SPLM", cmd_generate)
+    generate_cmd = add_text_command("generate", "continue text with and without MLM", cmd_generate)
     generate_cmd.add_argument("--max-new-tokens", type=int, default=None)
 
     languages_cmd = subparsers.add_parser("languages", help="list packs and parser models")

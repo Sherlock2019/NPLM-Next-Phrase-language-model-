@@ -170,7 +170,7 @@ class Comparison(BaseModel):
                 f"({delta:+.2f} pp over {self.splm.total} samples)."
             )
         return (
-            f"{self.metric}: SPLM scored higher on this dataset by "
+            f"{self.metric}: MLM scored higher on this dataset by "
             f"{abs(delta):.2f} percentage points over {self.splm.total} samples."
         )
 

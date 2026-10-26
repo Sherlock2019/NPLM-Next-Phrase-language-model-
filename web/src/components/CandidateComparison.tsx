@@ -5,7 +5,7 @@ import type { Candidate } from "@/lib/types";
 import { Bar, Empty } from "./ui";
 
 /**
- * Base model versus SPLM, side by side (UI spec sections 4, 9).
+ * Base model versus MLM, side by side (UI spec sections 4, 9).
  *
  * Both columns come from one forward pass, so the difference between them is the
  * re-scoring layer alone. Rank movement is shown per row; clicking a row opens the
@@ -43,7 +43,7 @@ export function CandidateComparison({
         onSelect={onSelect}
       />
       <Column
-        title="SPLM"
+        title="MLM"
         subtitle="phrase-aware, re-scored"
         tone="splm"
         candidates={splm.slice(0, limit)}
@@ -127,7 +127,7 @@ function Column({
                   className={`num shrink-0 text-[10.5px] font-semibold ${
                     candidate.rank_change > 0 ? "text-ok-400" : "text-danger-400"
                   }`}
-                  title={`base #${candidate.base_rank} → SPLM #${candidate.splm_rank}`}
+                  title={`base #${candidate.base_rank} → MLM #${candidate.splm_rank}`}
                 >
                   {candidate.rank_change > 0 ? "↑" : "↓"}
                   {Math.abs(candidate.rank_change)}

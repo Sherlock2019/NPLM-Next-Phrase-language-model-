@@ -5,7 +5,7 @@ import type { PhraseFrame, SlotPrediction } from "@/lib/types";
 import { Bar, Empty, Pill } from "./ui";
 
 /**
- * "What does SPLM expect next?" - the prediction that has no base-model equivalent.
+ * "What does MLM expect next?" - the prediction that has no base-model equivalent.
  *
  * Confidence is shown alongside entropy, and an ambiguous distribution is labelled as
  * such. Pretending to certainty when two slots score alike would be the easiest way
@@ -157,7 +157,7 @@ function Why({
       {interpretation.length > 0 && (
         <div className="flex flex-col gap-1">
           <span className="faint text-[10.5px] uppercase tracking-wide">
-            SPLM interpretation
+            MLM interpretation
           </span>
           <div className="flex flex-wrap gap-1.5">
             {interpretation.map((item, index) => (

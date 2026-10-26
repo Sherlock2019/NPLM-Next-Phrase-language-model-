@@ -120,7 +120,7 @@ class PredictionResult(BaseModel):
         base = self.top_base(limit)
         splm = self.top_splm(limit)
         lines = [
-            f"{'BASE MODEL':<28}   {'SPLM':<28}",
+            f"{'BASE MODEL':<28}   {'MLM':<28}",
             f"{'-' * 28}   {'-' * 28}",
         ]
         for left, right in zip(base, splm):

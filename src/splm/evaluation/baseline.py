@@ -127,7 +127,7 @@ class Baseline:
 
         value = math.exp(-total_log_probability / total_tokens)
         note = (
-            "Base model only. SPLM re-scores the top-K candidates rather than the whole "
+            "Base model only. MLM re-scores the top-K candidates rather than the whole "
             "vocabulary, so its adjusted scores are not a normalised distribution and a "
             "comparable perplexity cannot be computed without full-vocabulary rescoring."
         )

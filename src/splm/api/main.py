@@ -89,7 +89,7 @@ def create_app(config: Config | None = None) -> FastAPI:
     setup_logging(config)
 
     app = FastAPI(
-        title="Smart Phrase Language Model",
+        title="Meaning Language Model",
         version="0.1.0",
         description=(
             "Explicit linguistic structure over a pretrained Transformer. "

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "splm"
 version = "0.1.0"
-description = "Smart Phrase Language Model - explicit linguistic structure on top of a Transformer LM"
+description = "Meaning Language Model - explicit linguistic structure on top of a Transformer LM"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }

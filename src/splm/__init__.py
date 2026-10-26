@@ -1,4 +1,4 @@
-"""Smart Phrase Language Model (SPLM).
+"""Meaning Language Model (MLM).
 
 An explicit linguistic and semantic layer wrapped around a pretrained causal
 Transformer. SPLM converts text into a language-independent

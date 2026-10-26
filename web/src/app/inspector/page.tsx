@@ -140,7 +140,7 @@ function TargetPanel({ result }: { result: ComparisonResponse }) {
       <Panel title="Expected word">
         <p className="text-[11px] leading-relaxed text-warn-400">
           &ldquo;{target.target}&rdquo; was not among the {result.splm.candidates.length}{" "}
-          re-scored candidates, so no rank can be reported. SPLM only re-scores the
+          re-scored candidates, so no rank can be reported. MLM only re-scores the
           top-K; a word outside that set is unaffected either way.
         </p>
       </Panel>
@@ -166,7 +166,7 @@ function TargetPanel({ result }: { result: ComparisonResponse }) {
             →
           </span>
           <div>
-            <div className="eyebrow">SPLM rank</div>
+            <div className="eyebrow">MLM rank</div>
             <div className="num mt-0.5 text-lg text-splm-300">#{target.splm_rank}</div>
           </div>
         </div>
@@ -192,7 +192,7 @@ function TargetPanel({ result }: { result: ComparisonResponse }) {
         </div>
       </div>
       <Caveat>
-        One prompt cannot establish that SPLM helps. Aggregate evidence, with sample
+        One prompt cannot establish that MLM helps. Aggregate evidence, with sample
         counts and significance, lives on the Benchmark page.
       </Caveat>
     </Panel>
@@ -222,7 +222,7 @@ function CandidateTable({
               Base
             </th>
             <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wide">
-              SPLM
+              MLM
             </th>
             <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wide">
               Δ
@@ -362,7 +362,7 @@ function MassByCategory({ result }: { result: ComparisonResponse }) {
 
       {(mass.unclassified_base > 0 || mass.unclassified_splm > 0) && (
         <Caveat>
-          {percent(mass.unclassified_splm, 0)} of SPLM&apos;s probability mass sits on
+          {percent(mass.unclassified_splm, 0)} of MLM&apos;s probability mass sits on
           candidates no slot could be determined for. The classifier runs on seed
           gazetteers, so unclassified means &ldquo;unknown&rdquo;, not
           &ldquo;irrelevant&rdquo;.

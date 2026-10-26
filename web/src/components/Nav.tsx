@@ -49,7 +49,7 @@ export function Nav() {
           </span>
           <span className="flex flex-col leading-none">
             <span className="text-[13px] font-semibold tracking-tight">
-              Smart Phrase Language Model
+              Meaning Language Model
             </span>
             <span className="faint mt-0.5 text-[10.5px]">
               Understand meaning before predicting language

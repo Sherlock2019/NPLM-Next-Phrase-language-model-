@@ -120,7 +120,7 @@ export function SearchFunnel({
 
       <Caveat>
         Stages after retrieval re-score candidates; they do not remove them. This is
-        semantic down-ranking, not filtering — a candidate SPLM scores poorly can still
+        semantic down-ranking, not filtering — a candidate MLM scores poorly can still
         be selected if the base model is confident enough.
       </Caveat>
 

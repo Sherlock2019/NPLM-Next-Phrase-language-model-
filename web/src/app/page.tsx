@@ -63,7 +63,7 @@ export default function Playground() {
         });
         if (id !== requestId.current) return;
         setResult(data);
-        // Default the inspector to the candidate SPLM ranks first, which is the one
+        // Default the inspector to the candidate MLM ranks first, which is the one
         // the reader is most likely asking about.
         setSelected(data.splm.candidates[0] ?? null);
       } catch (cause) {
@@ -246,7 +246,7 @@ export default function Playground() {
 
             <Panel
               title="Expected next meaning"
-              hint="Which kind of information SPLM expects next. A standard language model makes no such prediction."
+              hint="Which kind of information MLM expects next. A standard language model makes no such prediction."
             >
               <ExpectedSlot
                 slots={result.expected_slots}
@@ -258,7 +258,7 @@ export default function Playground() {
 
           <div className="grid gap-4 xl:grid-cols-[1.15fr_1fr]">
             <Panel
-              title="Standard LLM vs SPLM"
+              title="Standard LLM vs MLM"
               hint="One forward pass, two rankings. Click any candidate to see how it was scored."
               actions={
                 <div className="flex items-center gap-1.5">
@@ -279,7 +279,7 @@ export default function Playground() {
               />
               {!result.changed_selection && (
                 <Caveat>
-                  SPLM re-ranked the candidates but did not change the top choice here.
+                  MLM re-ranked the candidates but did not change the top choice here.
                   That is a real outcome, not a failure to display one — the structural
                   effect shows in the ranking and in semantic focus.
                 </Caveat>
@@ -301,7 +301,7 @@ export default function Playground() {
             <div className="grid gap-4 xl:grid-cols-[1.15fr_1fr]">
               <Panel
                 title="Next-word search"
-                hint="How much of the vocabulary SPLM reasoned over, and at which stages."
+                hint="How much of the vocabulary MLM reasoned over, and at which stages."
               >
                 <SearchFunnel search={result.search_space} focus={result.semantic_focus} />
               </Panel>
@@ -339,7 +339,7 @@ function Hero() {
           </h1>
           <p className="dim mt-1.5 max-w-2xl text-xs leading-relaxed">
             A standard language model asks which token is statistically likely next.
-            SPLM first asks what is happening, who is involved, and which kind of
+            MLM first asks what is happening, who is involved, and which kind of
             information is missing — then scores the same Transformer&apos;s candidates
             against that. Same model, same prompt, same hardware; only the structural
             layer differs.
@@ -379,7 +379,7 @@ function FlowDiagram() {
         ))}
       </div>
       <div className="flex flex-col gap-1">
-        <span className="eyebrow text-splm-400">SPLM</span>
+        <span className="eyebrow text-splm-400">MLM</span>
         {splmSteps.map((step, index) => (
           <span
             key={step}

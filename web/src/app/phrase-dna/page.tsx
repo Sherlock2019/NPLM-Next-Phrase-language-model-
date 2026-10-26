@@ -133,7 +133,7 @@ export default function PhraseDnaPage() {
 
               <Panel
                 title="Morphology"
-                hint="Parser features normalised onto SPLM's universal categories."
+                hint="Parser features normalised onto MLM's universal categories."
               >
                 <MorphologyTable data={data} />
               </Panel>

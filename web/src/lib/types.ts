@@ -1,5 +1,5 @@
 /**
- * Types mirroring the SPLM API responses.
+ * Types mirroring the MLM API responses.
  *
  * Fields are optional wherever the backend can legitimately return nothing -
  * an unbuilt lexicon, an unparsed sentence, a metric with too little coverage

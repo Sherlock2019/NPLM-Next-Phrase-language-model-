@@ -1,8 +1,8 @@
-# Smart Phrase Language Model (SPLM)
+# Meaning Language Model (MLM)
 
 **Understand meaning before predicting language.**
 
-A conventional language model asks *which token statistically comes next?* SPLM first
+A conventional language model asks *which token statistically comes next?* MLM first
 asks *what is happening, who is involved, and what kind of information is missing?* —
 then scores the **same** Transformer's candidates against that structure.
 
@@ -16,7 +16,7 @@ tooling says so.
 
 ## Contents
 
-- [What SPLM adds](#what-splm-adds)
+- [What MLM adds](#what-mlm-adds)
 - [Architecture](#architecture)
 - [Quick start](#quick-start)
 - [Installation](#installation)
@@ -27,13 +27,13 @@ tooling says so.
 - [Language packs](#language-packs)
 - [Data sources and licences](#data-sources-and-licences)
 - [Evaluation and honesty rules](#evaluation-and-honesty-rules)
-- [Extending SPLM](#extending-splm)
+- [Extending MLM](#extending-mlm)
 - [Current limitations](#current-limitations)
 - [Project layout](#project-layout)
 
 ---
 
-## What SPLM adds
+## What MLM adds
 
 ```mermaid
 flowchart LR
@@ -42,7 +42,7 @@ flowchart LR
     b1[Previous tokens] --> b2[Transformer] --> b3[Probability over vocabulary] --> b4[Next token]
   end
 
-  subgraph splm["SPLM"]
+  subgraph splm["MLM"]
     direction TB
     s1[Previous tokens] --> s2[Language · lexicon · grammar · morphology · syntax]
     s2 --> s3[Universal Phrase DNA]
@@ -63,7 +63,7 @@ EXPECTED PHRASE SLOT
   location    81.6%      <- a standard model makes no such prediction
   time        13.8%
 
-BASE MODEL                     SPLM
+BASE MODEL                     MLM
 ----------------------------   ----------------------------
 the               38.3%   the               46.3%
 a                  5.4%   a                  6.5%
@@ -72,7 +72,7 @@ his                2.1%   her                3.9% v1
 ```
 
 `Paris`, `London` and `Boston` each gain **+2.05 logits** because they are compatible
-with the expected LOCATION slot; the newline token is demoted. Note that SPLM did *not*
+with the expected LOCATION slot; the newline token is demoted. Note that MLM did *not*
 change the top choice here — that is the honest result with a 135M model, and it is
 reported as such rather than hidden.
 
@@ -187,7 +187,7 @@ is logged and added to the same manifest.
 
 > **On GPUs.** Device selection confirms CUDA by *running a kernel*, not by trusting
 > `torch.cuda.is_available()`. A GPU whose compute capability the installed torch build
-> has no kernels for reports as unusable and SPLM falls back to CPU with a warning,
+> has no kernels for reports as unusable and MLM falls back to CPU with a warning,
 > instead of failing deep inside a model load.
 
 Dashboard:
@@ -281,7 +281,7 @@ NOT STATED: WHAT, TO WHOM, WHERE TO, USING WHAT, WHY
 ```bash
 python -m splm.cli slots    "John will meet Sarah in"      # expected next slot
 python -m splm.cli predict  "John will meet Sarah in" --detail
-python -m splm.cli generate "John will meet Sarah in"      # base vs SPLM, same settings
+python -m splm.cli generate "John will meet Sarah in"      # base vs MLM, same settings
 python -m splm.cli detect   "Ngày mai John sẽ gặp Sarah ở Paris."
 python -m splm.cli languages
 python -m splm.cli config model.model.model_id
@@ -312,10 +312,10 @@ From `python scripts/benchmark.py` on this machine (SmolLM2-135M, CPU, 61 items 
 hand-authored diagnostic suite). **These are real measurements of a small model on a
 small suite, not a benchmark of record** — see the caveats below.
 
-| Metric | Base | SPLM | Difference | Verdict |
+| Metric | Base | MLM | Difference | Verdict |
 |---|---|---|---|---|
-| Expected slot accuracy (top-1) | — | **73.8%** (45/61) | n/a | SPLM-only capability |
-| Expected slot accuracy (top-3) | — | **83.6%** (51/61) | n/a | SPLM-only capability |
+| Expected slot accuracy (top-1) | — | **73.8%** (45/61) | n/a | MLM-only capability |
+| Expected slot accuracy (top-3) | — | **83.6%** (51/61) | n/a | MLM-only capability |
 | Next-word accuracy (top-1) | 63.6% | 72.7% | +9.1 pp | **insufficient data** (n=11) |
 | Mean rank of correct answer | 2.55 | 1.82 | −0.73 | — |
 | Mean reciprocal rank | 0.739 | 0.809 | +0.070 | — |
@@ -341,9 +341,9 @@ Cross-language structural consistency (same meaning, three languages):
   no slot prediction, so there is nothing to compare against and it is reported as a
   capability measurement, not a win.
 - The diagnostic suite was hand-authored alongside the rules it exercises. A good score
-  shows the mechanism works and localises failures; it is **not** evidence that SPLM
+  shows the mechanism works and localises failures; it is **not** evidence that MLM
   helps on natural text. For that, run against Universal Dependencies.
-- SPLM costs about **4× the latency** of the base forward pass here, dominated by
+- MLM costs about **4× the latency** of the base forward pass here, dominated by
   parsing on CPU.
 
 Slot accuracy is far from uniform, and the variation is the useful part:
@@ -444,7 +444,7 @@ symptom would be a subtly wrong role somewhere downstream.
 
 ## Data sources and licences
 
-SPLM commits **no** third-party linguistic data. Resources are fetched on request and
+MLM commits **no** third-party linguistic data. Resources are fetched on request and
 recorded in `data/MANIFEST.json`.
 
 | Resource | Used for | Licence | Fetched by |
@@ -473,10 +473,10 @@ These are enforced in code, not left to the reader.
 masquerade as support, and the dashboard prints "no evidence" rather than a
 neutral-looking 0.50.
 
-**Re-ranking is not filtering.** SPLM re-scores the top-K; it does not delete
+**Re-ranking is not filtering.** MLM re-scores the top-K; it does not delete
 candidates. Only two funnel stages are marked as genuine restrictions (top-K retrieval,
 and the final selection). Everything else is labelled *scored / down-ranked*. A
-candidate SPLM scores poorly can still win if the base model is confident enough.
+candidate MLM scores poorly can still win if the base model is confident enough.
 
 **Coverage is always reported.** The slot-compatibility classifier runs on seed
 gazetteers of a few hundred entries. Every metric derived from it reports how many
@@ -484,7 +484,7 @@ candidates it could actually judge, and "no evidence" is never counted as
 "incompatible".
 
 **Verdicts come from evidence, not point estimates.** Comparisons have four outcomes —
-*SPLM improved*, *no meaningful difference*, *base model better*, *insufficient data* —
+*MLM improved*, *no meaningful difference*, *base model better*, *insufficient data* —
 decided from a Wilson confidence interval and an exact McNemar test on the paired
 outcomes. Below 20 samples, no verdict is offered at all.
 
@@ -496,13 +496,13 @@ anything.
 anything is timed, because a first call otherwise carries seconds of one-off loading
 that would be reported as per-prediction cost. Cold results are flagged `warm: false`.
 
-**Perplexity is reported for the base model only.** SPLM re-scores the top-K rather than
+**Perplexity is reported for the base model only.** MLM re-scores the top-K rather than
 the whole vocabulary, so its adjusted scores are not a normalised distribution and
 calling the result a perplexity would be a category error.
 
 ---
 
-## Extending SPLM
+## Extending MLM
 
 ### Add a language
 
@@ -547,7 +547,7 @@ Stated plainly, because the project's value depends on knowing what it has not s
 
 **Not yet demonstrated**
 
-- **No evidence SPLM improves next-word prediction on natural text.** The favourable
+- **No evidence MLM improves next-word prediction on natural text.** The favourable
   numbers come from a small hand-authored suite, at sample sizes too low for a verdict.
   The UD-based evaluation is the missing piece.
 - **No trained scorer or slot predictor.** Both trainable backends are wired in behind
@@ -604,6 +604,11 @@ scripts/           download_resources, make_fixtures, demo, benchmark, dev, smok
 tests/             139 tests over committed CoNLL-U fixtures
 results/           benchmark output (JSON + CSV)
 ```
+
+The [Actions Consequential Model (ACM)](https://github.com/Sherlock2019/ACM)
+builds on MLM to predict what an action changes for the actor, other actors, the
+environment, society and the earth. It lives in its own repository and depends on
+this one as the `splm` package.
 
 ## Licence
 

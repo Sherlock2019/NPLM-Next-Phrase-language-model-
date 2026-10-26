@@ -17,7 +17,7 @@ import {
 import type { BenchmarkReport, BenchmarkSummary, MetricSummary } from "@/lib/types";
 
 const VERDICTS: Record<string, { label: string; tone: "ok" | "neutral" | "danger" | "warn" }> = {
-  splm_improved: { label: "SPLM improved", tone: "ok" },
+  splm_improved: { label: "MLM improved", tone: "ok" },
   no_meaningful_difference: { label: "No meaningful difference", tone: "neutral" },
   base_better: { label: "Base model better", tone: "danger" },
   insufficient_data: { label: "Insufficient data", tone: "warn" },
@@ -193,7 +193,7 @@ export default function BenchmarkPage() {
                 label="Expected slot accuracy"
                 value={`${report.slot_accuracy.percent.toFixed(1)}%`}
                 tone="splm"
-                sub={`${report.slot_accuracy.successes}/${report.slot_accuracy.total} · SPLM-only, no base equivalent`}
+                sub={`${report.slot_accuracy.successes}/${report.slot_accuracy.total} · MLM-only, no base equivalent`}
               />
             )}
             {report.slot_accuracy_top3 && (
@@ -256,7 +256,7 @@ export default function BenchmarkPage() {
           {/* Verdicts --------------------------------------------------- */}
           {report.comparisons.length > 0 && (
             <Panel
-              title="Base model vs SPLM"
+              title="Base model vs MLM"
               hint="Verdicts come from the confidence interval and a paired test, not from the point estimate."
             >
               <div className="flex flex-col gap-3">
@@ -350,7 +350,7 @@ export default function BenchmarkPage() {
           {/* Per-item browser ------------------------------------------ */}
           <Panel
             title="Individual tests"
-            hint="Including the ones SPLM gets wrong."
+            hint="Including the ones MLM gets wrong."
             actions={
               <select
                 value={slotFilter}
@@ -400,7 +400,7 @@ function ComparisonRow({ comparison }: { comparison: MetricSummary }) {
 
       <div className="mt-2 flex flex-col gap-1.5">
         <ArmBar label="Base" stats={comparison.base} tone="base" />
-        <ArmBar label="SPLM" stats={comparison.splm} tone="splm" />
+        <ArmBar label="MLM" stats={comparison.splm} tone="splm" />
       </div>
 
       <p className="dim mt-2 text-[11px] leading-relaxed">{comparison.statement}</p>

@@ -24,7 +24,7 @@ from splm.config import Config  # noqa: E402
 from splm.logging_utils import setup_logging  # noqa: E402
 
 VERDICT_LABELS = {
-    "splm_improved": "SPLM IMPROVED",
+    "splm_improved": "MLM IMPROVED",
     "no_meaningful_difference": "NO MEANINGFUL DIFFERENCE",
     "base_better": "BASE MODEL BETTER",
     "insufficient_data": "INSUFFICIENT DATA",
@@ -34,7 +34,7 @@ VERDICT_LABELS = {
 def print_report(report) -> None:
     line = "=" * 74
     print(line)
-    print(f"SPLM BENCHMARK  {report.run_id}")
+    print(f"MLM BENCHMARK  {report.run_id}")
     print(line)
     print(f"model      : {report.model.get('model_id')}")
     print(f"device     : {report.model.get('device')}  dtype {report.model.get('dtype')}")
@@ -45,7 +45,7 @@ def print_report(report) -> None:
 
     if report.slot_accuracy:
         print()
-        print("EXPECTED SEMANTIC SLOT ACCURACY  (SPLM-only capability)")
+        print("EXPECTED SEMANTIC SLOT ACCURACY  (MLM-only capability)")
         print("-" * 74)
         accuracy = report.slot_accuracy
         print(
@@ -76,7 +76,7 @@ def print_report(report) -> None:
 
     if report.comparisons:
         print()
-        print("BASE MODEL vs SPLM")
+        print("BASE MODEL vs MLM")
         print("-" * 74)
         for comparison in report.comparisons:
             base, splm = comparison["base"], comparison["splm"]
@@ -110,7 +110,7 @@ def print_report(report) -> None:
         print(f"PER-ITEM OUTCOME  (criterion: {report.win_loss['criterion']})")
         print("-" * 74)
         print(
-            f"  SPLM better {report.win_loss['wins']}   "
+            f"  MLM better {report.win_loss['wins']}   "
             f"tie {report.win_loss['ties']}   "
             f"base better {report.win_loss['losses']}"
         )

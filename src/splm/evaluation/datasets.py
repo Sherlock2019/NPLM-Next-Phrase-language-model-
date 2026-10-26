@@ -306,7 +306,7 @@ VIETNAMESE_SLOT_TESTS: list[TestCase] = [
 DIAGNOSTIC_NOTE = (
     "Hand-authored diagnostic suite. The items were written alongside the rules they "
     "exercise, so a favourable result here demonstrates that the mechanism works and "
-    "localises failures - it is NOT evidence that SPLM helps on natural text. For that, "
+    "localises failures - it is NOT evidence that MLM helps on natural text. For that, "
     "run against Universal Dependencies (scripts/download_resources.py)."
 )
 

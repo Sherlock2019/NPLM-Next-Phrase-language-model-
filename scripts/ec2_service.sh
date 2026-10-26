@@ -119,7 +119,7 @@ install_units() {
 
   cat > "$temp_dir/$API_SERVICE" <<EOF
 [Unit]
-Description=SPLM private API
+Description=MLM private API
 Wants=network-online.target
 After=network-online.target
 
@@ -148,7 +148,7 @@ EOF
 
   cat > "$temp_dir/$WEB_SERVICE" <<EOF
 [Unit]
-Description=SPLM public dashboard
+Description=MLM public dashboard
 Wants=network-online.target
 After=network-online.target $API_SERVICE
 Requires=$API_SERVICE
@@ -189,7 +189,7 @@ wait_until_ready() {
     if curl -fsS --max-time 3 "http://127.0.0.1:$API_PORT/health" > /dev/null \
       && curl -fsS --max-time 3 "http://127.0.0.1:$WEB_PORT/" > /dev/null; then
       echo
-      echo "SPLM is running in the background and will start after reboot."
+      echo "MLM is running in the background and will start after reboot."
       echo "Open: http://<EC2-PUBLIC-IP>:$WEB_PORT"
       echo "Allow inbound TCP $WEB_PORT in the instance security group; do not expose $API_PORT."
       return 0

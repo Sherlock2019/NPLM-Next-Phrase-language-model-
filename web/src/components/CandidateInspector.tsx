@@ -22,7 +22,7 @@ export function CandidateInspector({
   expectedSlot?: string | null;
 }) {
   if (!candidate) {
-    return <Empty>Select a candidate to see how SPLM scored it.</Empty>;
+    return <Empty>Select a candidate to see how MLM scored it.</Empty>;
   }
 
   const contributions = candidate.contributions.filter((c) => c.enabled);
@@ -40,7 +40,7 @@ export function CandidateInspector({
           <div className="faint mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px]">
             <span>token id {candidate.token_id}</span>
             <span>
-              base #{candidate.base_rank} → SPLM #{candidate.splm_rank}
+              base #{candidate.base_rank} → MLM #{candidate.splm_rank}
             </span>
             {candidate.pos_estimate.pos && (
               <span title={candidate.pos_estimate.basis ?? undefined}>
@@ -70,7 +70,7 @@ export function CandidateInspector({
           </div>
         </div>
         <div className="panel-raised px-2.5 py-2">
-          <div className="eyebrow">SPLM</div>
+          <div className="eyebrow">MLM</div>
           <div className="num mt-0.5 text-sm text-splm-300">
             {percent(candidate.splm_probability, 2)}
           </div>
@@ -113,7 +113,7 @@ export function CandidateInspector({
         <h3 className="eyebrow">Contribution to the adjustment</h3>
         {contributions.filter((c) => Math.abs(c.contribution) > 0.001).length === 0 ? (
           <p className="faint text-[11px] leading-snug">
-            No feature had evidence about this candidate, so SPLM left its logit
+            No feature had evidence about this candidate, so MLM left its logit
             unchanged. Its ranking here is the base model&apos;s alone.
           </p>
         ) : (
@@ -182,7 +182,7 @@ export function CandidateInspector({
         {negative.length > 0 && (
           <p className="faint mt-1 text-[11px] leading-snug">
             Lower compatibility means a weaker fit for the expected meaning, not an
-            impossible continuation — SPLM applies no hard rules, only scoring.
+            impossible continuation — MLM applies no hard rules, only scoring.
           </p>
         )}
 
@@ -201,7 +201,7 @@ export function CandidateInspector({
   );
 }
 
-/** Left-to-right waterfall from the base logit to the final SPLM logit. */
+/** Left-to-right waterfall from the base logit to the final MLM logit. */
 function Waterfall({
   contributions,
   total,

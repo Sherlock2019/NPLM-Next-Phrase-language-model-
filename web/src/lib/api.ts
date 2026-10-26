@@ -1,5 +1,5 @@
 /**
- * Typed client for the SPLM API.
+ * Typed client for the MLM API.
  *
  * Requests go to a relative /api path, which next.config.mjs proxies to the Python
  * service. Errors carry the backend's own detail message: a research tool must say
@@ -37,7 +37,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     });
   } catch (cause) {
     throw new ApiError(
-      "Cannot reach the SPLM API. Start it with `python -m splm.api.main`.",
+      "Cannot reach the MLM API. Start it with `python -m splm.api.main`.",
       0,
     );
   }

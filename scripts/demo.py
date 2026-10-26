@@ -149,7 +149,7 @@ def show_predictions(config: Config, prefixes: list[str], top: int) -> int:
             print()
             print(
                 f"semantic focus on {focus.slot.upper()}: "
-                f"base {focus.base_mass * 100:.1f}% -> SPLM {focus.splm_mass * 100:.1f}% "
+                f"base {focus.base_mass * 100:.1f}% -> MLM {focus.splm_mass * 100:.1f}% "
                 f"({focus.delta_percentage_points:+.1f} pp, "
                 f"{focus.evaluated}/{focus.total} candidates classified)"
             )
@@ -161,7 +161,7 @@ def show_predictions(config: Config, prefixes: list[str], top: int) -> int:
         print()
         print(
             f"latency (warm): total {result.total_latency_ms:.1f} ms, "
-            f"SPLM overhead {result.splm_overhead_ms:.1f} ms"
+            f"MLM overhead {result.splm_overhead_ms:.1f} ms"
         )
         print()
     return 0

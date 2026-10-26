@@ -8,7 +8,7 @@ import { Empty, Pill } from "./ui";
  * The Universal Phrase DNA as cards.
  *
  * Filled slots show what the text said. Slots the predicate plausibly takes but the
- * text has not filled show "?" - never a guess. That distinction is the point: SPLM
+ * text has not filled show "?" - never a guess. That distinction is the point: MLM
  * knows what it does not know, and the next-slot prediction is built on it.
  */
 export function PhraseDna({

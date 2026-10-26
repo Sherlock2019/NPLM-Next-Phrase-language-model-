@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 /*
- * SPLM dashboard design tokens.
+ * MLM dashboard design tokens.
  *
  * A research console: dense, calm, monospaced where numbers need aligning. Two
- * accents carry the whole comparison - one for the base model, one for SPLM - so
+ * accents carry the whole comparison - one for the base model, one for MLM - so
  * that any chart is readable without a legend. Dark by default, light supported.
  */
 
@@ -26,7 +26,7 @@
   --color-base-500: #6b86b3;
   --color-base-600: #51689180;
 
-  /* SPLM: warm, the thing under test. */
+  /* MLM: warm, the thing under test. */
   --color-splm-300: #7fd6c1;
   --color-splm-400: #45c3a6;
   --color-splm-500: #21a98c;

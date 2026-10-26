@@ -48,7 +48,7 @@ else
   echo "PyTorch is already installed; keeping the existing build"
 fi
 
-echo "installing minimal SPLM runtime dependencies"
+echo "installing minimal MLM runtime dependencies"
 "$PYTHON" -m pip install -e "$ROOT[parse,llm,api]"
 
 "$PYTHON" - <<'PY'
