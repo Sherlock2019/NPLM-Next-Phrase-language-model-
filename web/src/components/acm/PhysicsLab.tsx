@@ -186,6 +186,59 @@ function ObjAnswerView({ a, llm, onReplay }: { a: ObjAnswer; llm: LlmAnswer; onR
   );
 }
 
+// -- intro --------------------------------------------------------------------------------------
+
+/** How the image/video stage works: identify → library properties → simulate + ACM → ask. */
+function LabIntro({ mode, env }: { mode: "image" | "video"; env: string }) {
+  const steps = [
+    {
+      title: "Identify each object",
+      text: `An AI vision model recognises every object on screen${mode === "video" ? " and tracks it from frame to frame" : ""}, then classifies it with the object library of the environment it sees: kitchen, house, garden, street or mountain.`,
+      note: `This scene is recognised as: ${env}.`,
+    },
+    {
+      title: "Look up its physical properties",
+      text: "Every library object comes with its properties: mass, shape, texture and material, plus what the physics engine needs (friction, bounce, how fragile it is, whether it holds liquid) and the rules that apply to it.",
+      note: "Kitchen: mug, plate, glass, pan, knife, table · street: car, bicycle, person, cone, bin · mountain: rock, log, backpack, snowball, tree.",
+    },
+    {
+      title: "Simulate and predict the outcome",
+      text: "The proposed action is run in the physics engine (slides, tips, falls, collides). ACM then turns those events into consequences, ring by ring, and marks what it cannot know (did it break? did it spill?) as unknown.",
+      note: "e.g. push the mug 20 cm toward the edge → it crosses the edge, falls, hits the floor at 3.7 m/s → may break.",
+    },
+    {
+      title: "Ask about any object",
+      text: "The local LLM reads your question (which object, which action, how far), the engine runs it, and the LLM answers from the simulated events and the library properties only.",
+      note: "e.g. “Will the red mug survive if someone knocks it hard to the right?”",
+    },
+  ];
+  return (
+    <div className="panel-raised flex flex-col gap-2.5 p-3">
+      <p className="text-[13px] leading-relaxed">
+        <b>How the {mode} stage works:</b> each object is identified, given its physical properties from a library of objects, and the
+        action is simulated so ACM can predict the outcome.
+      </p>
+      <ol className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+        {steps.map((s, i) => (
+          <li key={s.title} className="hairline flex flex-col gap-1 rounded-lg border p-2.5">
+            <span className="flex items-center gap-2">
+              <span className="grid size-5 shrink-0 place-items-center rounded-full bg-fuchsia-500 text-[10.5px] font-bold text-white">{i + 1}</span>
+              <span className="text-[12.5px] font-semibold">{s.title}</span>
+            </span>
+            <span className="text-[11.5px] leading-snug">{s.text}</span>
+            <span className="faint text-[10.5px] leading-snug">{s.note}</span>
+          </li>
+        ))}
+      </ol>
+      <p className="text-[11px] text-warn-400">
+        Prototype: recognition is mocked (the objects come from the demo scene, and the environment is the library that matches them best),
+        object properties are typical values for the class, not measurements, and only the demo&apos;s own objects (mug, table, floor, hand) can
+        be simulated so far — the other library objects are listed but not yet simulated.
+      </p>
+    </div>
+  );
+}
+
 // -- the lab ------------------------------------------------------------------------------------
 
 const ACTIONS = [
@@ -286,6 +339,8 @@ export const PhysicsLab = forwardRef<LabHandle, { scene: SceneData; mode: "image
           <span className="rounded bg-fuchsia-600 px-1.5 py-0.5 text-[10px] font-bold uppercase text-white">mockup</span>
           <span className="faint text-[11px]">{ENGINE_NAME}</span>
         </div>
+
+        <LabIntro mode={mode} env={envLib.label} />
 
         <div className="grid gap-3 lg:grid-cols-[minmax(280px,1fr)_minmax(260px,360px)]">
           <div className="panel-raised flex flex-col gap-1.5 p-2">
