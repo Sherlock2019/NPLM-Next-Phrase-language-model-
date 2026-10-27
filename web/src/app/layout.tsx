@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { APP_MODE } from "@/lib/app";
 
 export const metadata: Metadata =
   APP_MODE === "acm"
     ? {
-        title: "Actions Consequential Model",
+        title: "ARM — Action Reaction Model",
         description:
-          "See what an action changes before taking it: ACM predicts the consequences of an action, from the actor out to the earth, built on the Meaning Language Model.",
+          "Every action has consequences: ARM explores possible reactions and outcomes across human decisions, objects, images and videos, built on ACM and the Meaning Language Model.",
       }
     : {
         title: "Meaning Language Model",
@@ -28,7 +29,8 @@ export default function RootLayout({
             {children}
           </main>
           <footer className="hairline border-t px-4 py-4 sm:px-6">
-            <p className="faint mx-auto max-w-[1600px] text-xs leading-relaxed">
+            <div className="mx-auto flex max-w-[1600px] items-start gap-4">
+            <p className="faint flex-1 text-xs leading-relaxed">
               {APP_MODE === "acm" ? (
                 <>
                   ACM predicts consequences from rules (its knowledge packs), a constrained tabletop simulator and declared
@@ -45,6 +47,8 @@ export default function RootLayout({
                 </>
               )}
             </p>
+            <ThemeToggle />
+            </div>
           </footer>
         </div>
       </body>

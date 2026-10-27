@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ACM home: "Every action has consequences." A hero, what ACM is and why, and four ways in:
+ * ARM home: "Every action has consequences." A hero, what ARM is and why, and four ways in:
  * actions (phrase), object images, object videos, and (concept) objects & human behaviour.
  * Pictures are cropped from the design (public/acm/home-*.webp).
  */
@@ -93,24 +93,16 @@ export default function HomePage() {
           <p className="max-w-xl text-[17px] leading-relaxed text-slate-200 sm:text-[20px]">
             Explore possible reactions and outcomes across human decisions, objects, images, and videos.
           </p>
-          <div className="flex flex-wrap gap-3 pt-1">
-            <Link href="/acm" className="rounded-lg bg-cyan-400 px-5 py-2.5 text-[15px] font-semibold text-[#0b1b2e] transition-colors hover:bg-cyan-300">
-              Try a Demo
-            </Link>
-            <Link href="/acm/tour" className="rounded-lg border border-white/30 px-5 py-2.5 text-[15px] font-semibold text-white transition-colors hover:bg-white/10">
-              How it works
-            </Link>
-          </div>
         </div>
       </section>
 
       {/* what / why */}
       <div className="grid gap-4 md:grid-cols-2">
         {[
-          { mark: "?", title: "What is ACM?", text: "The Actions Consequential Model: a framework for modelling actions, reactions and consequences in human and physical scenarios — from the one acting out to the earth." },
-          { mark: "✦", title: "Why ACM?", text: "Language fluency alone does not guarantee a reliable world model. ACM grounds predictions in explicit context, rules and simulation, with a reason for every claim." },
+          { id: "what", mark: "?", title: "What is ARM?", text: "A proposed framework for modeling actions, reactions, and consequences in human and physical scenarios." },
+          { id: "why", mark: "✦", title: "Why ARM?", text: "Language fluency alone does not guarantee a reliable world model. ARM aims to ground predictions in explicit context, rules, and simulation." },
         ].map((c) => (
-          <section key={c.title} className="panel flex items-start gap-4 p-5">
+          <section key={c.title} id={c.id} className="panel flex scroll-mt-[calc(var(--nav-h,72px)+16px)] items-start gap-4 p-5">
             <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-full bg-cyan-400/15 text-[22px] font-bold text-cyan-500">{c.mark}</span>
             <div>
               <h2 className="text-[19px] font-bold">{c.title}</h2>
@@ -121,7 +113,7 @@ export default function HomePage() {
       </div>
 
       {/* modes */}
-      <section className="flex flex-col gap-4">
+      <section id="modes" className="flex scroll-mt-[calc(var(--nav-h,72px)+16px)] flex-col gap-4">
         <h2 className="text-[30px] font-extrabold tracking-tight">Choose what you want to explore</h2>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {MODES.map((m) => (
