@@ -25,15 +25,19 @@ const MLM_PAGES = [
   { href: "/system", label: "System" },
 ];
 
+/** The header menu's second row starts at this page. */
+export const SECOND_ROW_FROM = "/context";
+
 export const PAGES =
   APP_MODE === "acm"
     ? [
         { href: "/acm/tour", label: "Tour" },
         { href: "/acm", label: "ACM Demo" },
         { href: "/acm/inference", label: "What happens next?" },
-        { href: "/multimodal", label: "Text · Image · Video" },
         { href: "/mlm", label: "MLM Playground" },
-        ...MLM_PAGES,
+        ...MLM_PAGES.slice(0, 3),
+        { href: "/multimodal", label: "Text · Image · Video" },
+        ...MLM_PAGES.slice(3),
       ]
     : [
         { href: "/", label: "Playground" },

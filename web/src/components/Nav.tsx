@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { BRAND, PAGES } from "@/lib/app";
+import { BRAND, PAGES, SECOND_ROW_FROM } from "@/lib/app";
 
 /** Falling dominoes: one action knocking on to the next — what ACM traces. */
 function DominoMark() {
@@ -52,6 +52,9 @@ export function Nav() {
     return () => observer.disconnect();
   }, []);
 
+  const at = PAGES.findIndex((p) => p.href === SECOND_ROW_FROM);
+  const split = at > 0 ? at : Math.ceil(PAGES.length / 2);
+
   function toggleTheme() {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
@@ -72,9 +75,9 @@ export function Nav() {
           </span>
         </Link>
 
-        {/* Links at 2x size, split over two rows (first half, second half); a row wraps only on narrow screens. */}
+        {/* Links at 2x size, split over two rows at SECOND_ROW_FROM; a row wraps only on narrow screens. */}
         <nav className="order-3 -mx-1 flex w-full flex-col gap-1">
-          {[PAGES.slice(0, Math.ceil(PAGES.length / 2)), PAGES.slice(Math.ceil(PAGES.length / 2))].map((row, r) => (
+          {[PAGES.slice(0, split), PAGES.slice(split)].map((row, r) => (
           <div key={r} className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
           {row.map((page) => {
             // The longest matching link wins: /acm/inference highlights only "What happens next?".
