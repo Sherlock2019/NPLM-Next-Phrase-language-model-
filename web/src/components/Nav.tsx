@@ -72,7 +72,7 @@ export function Nav() {
           </span>
         </Link>
 
-        {/* Links at 5x size: one full-width row that scrolls sideways instead of wrapping. */}
+        {/* Links at 3x size: one full-width row that scrolls sideways instead of wrapping. */}
         <nav className="order-3 -mx-1 flex w-full items-center gap-2 overflow-x-auto pb-1">
           {PAGES.map((page) => {
             // The longest matching link wins: /acm/inference highlights only "What happens next?".
@@ -83,7 +83,7 @@ export function Nav() {
               <Link
                 key={page.href}
                 href={page.href}
-                className={`shrink-0 rounded-xl px-5 py-2 text-[36px] font-semibold leading-tight tracking-tight transition-colors sm:text-[60px] ${
+                className={`shrink-0 rounded-xl px-5 py-2 text-[24px] font-semibold leading-tight tracking-tight transition-colors sm:text-[36px] ${
                   active
                     ? "bg-splm-500/12 text-splm-300"
                     : "dim hover:bg-white/5 hover:text-[var(--text)]"
