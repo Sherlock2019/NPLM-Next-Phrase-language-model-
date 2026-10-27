@@ -4,8 +4,9 @@
 
 import type { PageKind } from "./HowItWorks";
 
-const WHERE: Record<PageKind, string | null> = {
+const WHERE: Record<PageKind | "tour", string | null> = {
   demo: null,
+  tour: "Try both chats on the ACM Demo page.",
   inference: "The chats are on the ACM Demo page. On this page every answer is put together by ACM from its own trace; no LLM writes it.",
   multimodal: "The chats and the physics lab are on the ACM Demo page. This page shows the meaning and consequence stages in detail.",
 };
@@ -18,7 +19,7 @@ export const INFOGRAPHIC_ALT =
   "properties, 4 the LLM explains the simulated events; assumptions and events stay visible. " +
   "MLM does not rely on an LLM. Unknown causes are marked UNKNOWN. Object detection is mocked and object properties are assumptions.";
 
-export function Intro({ page }: { page: PageKind }) {
+export function Intro({ page }: { page: PageKind | "tour" }) {
   const where = WHERE[page];
   return (
     <section className="panel flex flex-col gap-2 p-3" aria-label="How the chats answer">
