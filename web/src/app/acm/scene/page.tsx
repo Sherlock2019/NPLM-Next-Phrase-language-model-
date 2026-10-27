@@ -25,6 +25,8 @@ export default function SceneChatPage() {
   const [source, setSource] = useState<SourceKey>("image");
 
   useEffect(() => {
+    // /acm/scene?source=video opens on the video (the home page links here)
+    if (new URLSearchParams(window.location.search).get("source") === "video") setSource("video");
     fetch("/demo/demo_results.json")
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`demo_results.json ${r.status}`))))
       .then(setDemo)

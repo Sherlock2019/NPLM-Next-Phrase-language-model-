@@ -31,6 +31,7 @@ export const SECOND_ROW_FROM = "/context";
 export const PAGES =
   APP_MODE === "acm"
     ? [
+        { href: "/acm/home", label: "Home" },
         { href: "/acm/tour", label: "Tour" },
         { href: "/acm", label: "ACM Demo" },
         { href: "/acm/inference", label: "What happens next?" },
