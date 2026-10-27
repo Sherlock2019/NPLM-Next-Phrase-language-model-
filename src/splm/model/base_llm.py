@@ -11,6 +11,7 @@ and generation. That small surface is what keeps the structural layers portable.
 from __future__ import annotations
 
 import logging
+import threading
 import time
 from dataclasses import dataclass
 from typing import Any, Iterable
@@ -18,6 +19,9 @@ from typing import Any, Iterable
 from splm.device import resolve_device, resolve_dtype
 
 logger = logging.getLogger(__name__)
+
+#: One model load at a time in this process: transformers' loader is not thread-safe.
+_LOAD_LOCK = threading.Lock()
 
 
 @dataclass(frozen=True)
@@ -126,10 +130,20 @@ class BaseLanguageModel:
         return self._model is not None
 
     def load(self) -> "BaseLanguageModel":
-        """Load the tokenizer and weights. Idempotent."""
+        """Load the tokenizer and weights. Idempotent and thread-safe.
+
+        The model is kept only once it is fully loaded, tied and on its device: a load
+        that fails half-way (e.g. concurrent loads, which transformers does not support)
+        must never leave a half-initialised model behind to serve predictions.
+        """
         if self._model is not None:
             return self
+        with _LOAD_LOCK:
+            if self._model is not None:
+                return self
+            return self._load()
 
+    def _load(self) -> "BaseLanguageModel":
         try:
             import torch
             from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -150,18 +164,20 @@ class BaseLanguageModel:
             "loading base model %s on %s (%s)", self.model_id, self._device, self._dtype
         )
         try:
-            self._tokenizer = AutoTokenizer.from_pretrained(self.model_id, **kwargs)
-            self._model = AutoModelForCausalLM.from_pretrained(
-                self.model_id, dtype=self._dtype, **kwargs
-            )
+            tokenizer = AutoTokenizer.from_pretrained(self.model_id, **kwargs)
+            model = AutoModelForCausalLM.from_pretrained(self.model_id, dtype=self._dtype, **kwargs)
+            model.to(self._device)
+            model.eval()
         except Exception as exc:
             raise ModelUnavailable(f"could not load {self.model_id!r}: {exc}") from exc
+        if getattr(model.config, "tie_word_embeddings", False):
+            output = model.get_output_embeddings()
+            if output is not None and output.weight.data_ptr() != model.get_input_embeddings().weight.data_ptr():
+                raise ModelUnavailable(f"{self.model_id!r} loaded with untied output embeddings; refusing a corrupt model")
 
-        self._model.to(self._device)
-        self._model.eval()
-
-        if self._tokenizer.pad_token_id is None:
-            self._tokenizer.pad_token = self._tokenizer.eos_token
+        if tokenizer.pad_token_id is None:
+            tokenizer.pad_token = tokenizer.eos_token
+        self._tokenizer, self._model = tokenizer, model
 
         self.load_time_ms = (time.perf_counter() - started) * 1000
         logger.info("loaded %s in %.0f ms", self.model_id, self.load_time_ms)

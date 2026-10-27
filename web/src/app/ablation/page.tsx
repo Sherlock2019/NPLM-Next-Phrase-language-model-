@@ -82,6 +82,25 @@ export default function AblationPage() {
 
   return (
     <div className="flex flex-col gap-4">
+      <section className="panel flex flex-col gap-2 p-4" aria-label="What this page is for">
+        <h1 className="text-[17px] font-semibold">What is the Ablation page for?</h1>
+        <p className="text-[13px] leading-relaxed">
+          It checks <b>which parts of MLM actually help</b>. MLM sits on top of a small language model and re-scores its next-word
+          guesses with layers of linguistic knowledge: the Phrase DNA slot it expects next (WHO, WHERE, WHEN…), grammar, syntax,
+          morphology, semantic roles, the lexicon, style and context. “Ablation” means switching those layers off, one at a time or
+          cumulatively, and comparing the results on the <b>same prompt, same model and same forward pass</b>, so any difference comes
+          from the layer alone.
+        </p>
+        <ul className="dim flex list-disc flex-col gap-0.5 pl-5 text-[12.5px] leading-snug">
+          <li><b>The ladder</b> (default): language model only → + grammar → + syntax → + Phrase DNA → + Phrase DNA and grammar → everything.
+            Read it top to bottom: where does the expected word (e.g. “Paris” after “John will meet Sarah in”) start ranking higher?</li>
+          <li><b>Manual switches</b>: turn single features on or off to probe one of them.</li>
+          <li>If a layer changes nothing, the page shows that too: MLM is a hypothesis under test, and this is where it is tested.</li>
+        </ul>
+        <p className="faint text-[11.5px]">
+          ACM does not need this page: ACM uses MLM&apos;s meaning (Phrase DNA), not its next-word predictions. It is kept for checking MLM itself.
+        </p>
+      </section>
       <Panel
         title="Ablation"
         hint="Same prompt, same model, same forward pass — only the scoring layers differ."

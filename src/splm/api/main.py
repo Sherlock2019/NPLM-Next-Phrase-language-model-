@@ -13,6 +13,7 @@ Run with::
 from __future__ import annotations
 
 import logging
+import threading
 from typing import Any, Literal
 
 from fastapi import FastAPI, HTTPException
@@ -107,18 +108,26 @@ def create_app(config: Config | None = None) -> FastAPI:
     )
 
     state: dict[str, Any] = {"config": config, "engine": None}
+    engine_lock = threading.Lock()
 
     def engine() -> Any:
-        """The shared engine, warmed on first use."""
-        if state["engine"] is None:
-            from splm.model.engine import SPLMEngine
+        """The shared engine, warmed on first use.
 
-            instance = SPLMEngine(state["config"])
-            try:
-                instance.warmup()
-            except Exception as exc:
-                logger.warning("warmup incomplete: %s", exc)
-            state["engine"] = instance
+        A page opening fires several requests at once; without the lock each one built
+        its own engine and loaded the model concurrently, which transformers does not
+        support (one load came out half-initialised and served garbage predictions).
+        """
+        if state["engine"] is None:
+            with engine_lock:
+                if state["engine"] is None:
+                    from splm.model.engine import SPLMEngine
+
+                    instance = SPLMEngine(state["config"])
+                    try:
+                        instance.warmup()
+                    except Exception as exc:
+                        logger.warning("warmup incomplete: %s", exc)
+                    state["engine"] = instance
         return state["engine"]
 
     def engine_with(overrides: Config) -> Any:

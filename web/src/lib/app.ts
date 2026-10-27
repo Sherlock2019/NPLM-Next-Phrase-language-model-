@@ -17,7 +17,6 @@ export const BRAND =
 
 const MLM_PAGES = [
   { href: "/phrase-dna", label: "Phrase DNA" },
-  { href: "/inspector", label: "Inspector" },
   { href: "/context", label: "Context Graph" },
   { href: "/multilingual", label: "Multilingual" },
   { href: "/benchmark", label: "Benchmark" },
