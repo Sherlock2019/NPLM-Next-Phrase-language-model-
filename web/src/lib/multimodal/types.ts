@@ -155,6 +155,60 @@ export interface PhraseResult {
   mindmap: string;
   acm_json: unknown;
   shows: string;
+  suggestions?: string[];
+}
+
+/** One consequence written as its own phrase: WHO · DOES · WHAT · WHERE · WHEN · WITH WHOM · WHY. */
+export interface AskChain {
+  ring: string;
+  ring_title: string;
+  subject: string;
+  kind: "status" | "action" | "impact" | "goal";
+  text: string;
+  basis: string;
+  direction?: string | null;
+  status?: string;
+  certainty: number;
+  dna: { who: string | null; does: string; what: string | null; where: string | null; with_whom: string | null; when: string; why: string; rule: string };
+}
+
+export interface ActionDna {
+  text: string;
+  who: string | null;
+  does: string | null;
+  concept: string | null;
+  what: string | null;
+  to_whom: string | null;
+  with_whom: string | null;
+  where: string | null;
+  from_where: string | null;
+  when: string | null;
+  how: string | null;
+  why: string | null;
+  condition: string | null;
+  negated: boolean;
+  certainty: number;
+}
+
+/** Shape of POST /api/acm/ask (acm/ask.py). */
+export interface AskResult {
+  question: {
+    text: string;
+    wh: string | null;
+    parsed: boolean;
+    predicate: string | null;
+    slots: { slot: string; text: string; role: string; head: string }[];
+    tense: string | null;
+    negated: boolean;
+    note: string | null;
+  };
+  intent: "subject" | "who" | "why" | "where" | "when" | "certainty" | "what_if";
+  action: ActionDna;
+  answer: string;
+  why: string[];
+  chains: AskChain[];
+  unknowns: { subject: string; aspect: string; text: string; needs: string[] }[];
+  counterfactual?: { text: string; action: ActionDna; added: AskChain[]; removed: AskChain[]; kept: AskChain[] };
 }
 
 export interface InferenceAnswer {

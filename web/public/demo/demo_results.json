@@ -23013,7 +23013,18 @@
     },
     "notes": []
    },
-   "shows": "a self-view plan: ownership, payment, other people's goals (blocked / advanced)"
+   "shows": "a self-view plan: ownership, payment, other people's goals (blocked / advanced)",
+   "suggestions": [
+    "What happens next to me (the model, judging its own plan)?",
+    "What happens next to Sarah?",
+    "What happens to Mark's plan (wants to buy my car)?",
+    "What happens to Sarah's plan (wants to have car)?",
+    "What happens to the organization?",
+    "Who is harmed?",
+    "Why?",
+    "Where do the effects reach?",
+    "What if I did not sell?"
+   ]
   },
   {
    "id": "phrase_02",
@@ -23429,7 +23440,18 @@
     },
     "notes": []
    },
-   "shows": "travel: neighbours, country and earth layers"
+   "shows": "travel: neighbours, country and earth layers",
+   "suggestions": [
+    "What happens next to John?",
+    "What happens in London?",
+    "What happens to the neighbours (Croydon, Watford, Slough)?",
+    "What happens to the country (United Kingdom)?",
+    "What happens to the earth?",
+    "Who is harmed?",
+    "Why?",
+    "Where do the effects reach?",
+    "What if John did not fly?"
+   ]
   },
   {
    "id": "phrase_03",
@@ -23839,7 +23861,18 @@
     },
     "notes": []
    },
-   "shows": "a system: organization and data-protection layers"
+   "shows": "a system: organization and data-protection layers",
+   "suggestions": [
+    "What happens next to the engineer?",
+    "What happens next to the database?",
+    "What happens at production?",
+    "What happens to the organization (the enterprise that runs it, its customers and users, services that call it)?",
+    "What happens to the country?",
+    "Who is harmed?",
+    "Why?",
+    "Where do the effects reach?",
+    "What if engineer did not delete?"
+   ]
   },
   {
    "id": "phrase_04",
@@ -24202,7 +24235,18 @@
     },
     "notes": []
    },
-   "shows": "nature: local, neighbour, country and earth impacts with no place named"
+   "shows": "nature: local, neighbour, country and earth impacts with no place named",
+   "suggestions": [
+    "What happens next to the company?",
+    "What happens next to the forest?",
+    "What happens to the neighbours?",
+    "What happens to the country?",
+    "What happens to the earth?",
+    "Who is harmed?",
+    "Why?",
+    "Where do the effects reach?",
+    "What if company did not destroy?"
+   ]
   },
   {
    "id": "phrase_05",
@@ -24589,7 +24633,18 @@
     },
     "notes": []
    },
-   "shows": "crime: safety, insurance, city crime, national law, society"
+   "shows": "crime: safety, insurance, city crime, national law, society",
+   "suggestions": [
+    "What happens next to John?",
+    "What happens to the neighbours?",
+    "What happens to the organization?",
+    "What happens to the city?",
+    "What happens to the country?",
+    "Who is harmed?",
+    "Why?",
+    "Where do the effects reach?",
+    "What if John did not steal?"
+   ]
   },
   {
    "id": "phrase_06",
@@ -24979,7 +25034,17 @@
     },
     "notes": []
    },
-   "shows": "low-carbon travel: city and earth benefit"
+   "shows": "low-carbon travel: city and earth benefit",
+   "suggestions": [
+    "What happens next to John?",
+    "What happens in Paris?",
+    "What happens to the city (Paris)?",
+    "What happens to the earth?",
+    "Who is harmed?",
+    "Why?",
+    "Where do the effects reach?",
+    "What if John did not travel?"
+   ]
   },
   {
    "id": "phrase_07",
@@ -25701,7 +25766,18 @@
     },
     "notes": []
    },
-   "shows": "a full blast radius: Paris's neighbours, organizations, city and country"
+   "shows": "a full blast radius: Paris's neighbours, organizations, city and country",
+   "suggestions": [
+    "What happens next to John?",
+    "What happens next to Sarah?",
+    "What happens to Mark's plan (wants to buy John's car)?",
+    "What happens in Paris?",
+    "What happens to the organization (Paris city council, Île-de-France regional council, Paris businesses and employers)?",
+    "Who is harmed?",
+    "Why?",
+    "Where do the effects reach?",
+    "What if John did not sell?"
+   ]
   },
   {
    "id": "phrase_08",
@@ -25929,7 +26005,13 @@
      "The action is negated: none of its consequences follow."
     ]
    },
-   "shows": "negation: nothing changes"
+   "shows": "negation: nothing changes",
+   "suggestions": [
+    "What happens next?",
+    "Who is harmed?",
+    "Why?",
+    "Where do the effects reach?"
+   ]
   },
   {
    "id": "phrase_09",
@@ -26188,7 +26270,15 @@
      "ACM has no concept for 'kick': consequences are generic and say nothing about anyone's goals."
     ]
    },
-   "shows": "an unknown verb: generic, no verdict, no invented impact"
+   "shows": "an unknown verb: generic, no verdict, no invented impact",
+   "suggestions": [
+    "What happens next to John?",
+    "What happens next to the ball?",
+    "Who is harmed?",
+    "Why?",
+    "Where do the effects reach?",
+    "What if John did not kick?"
+   ]
   }
  ]
 }

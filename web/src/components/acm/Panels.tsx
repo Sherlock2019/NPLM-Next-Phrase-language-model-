@@ -15,6 +15,8 @@ import { simulate } from "@/lib/multimodal/tabletop";
 import type { ActionKey, DemoBundle, PhraseResult, Scenario } from "@/lib/multimodal/types";
 import { ACTION_KEYS } from "@/lib/multimodal/types";
 import { BlastRadius } from "./BlastRadius";
+import { PhraseChat } from "./Chat";
+import { PhysicsLab, type LabHandle } from "./PhysicsLab";
 
 export interface PanelHandle {
   run: () => Promise<void>;
@@ -208,6 +210,7 @@ export const PhrasePanel = forwardRef<
             )}
           </div>
         </div>
+        {result && <PhraseChat result={result} live={live} liveReason={liveReason} />}
       </PanelShell>
     );
   },
@@ -242,7 +245,8 @@ export const ImagePanel = forwardRef<PanelHandle, { demo: DemoBundle; running: b
   const [action, setAction] = useState<ActionKey>("push_edge");
   const [shown, setShown] = useState<ActionKey | null>(null);
   const [busy, setBusy] = useState(false);
-  const s = useSteps(["MLM reads the scene", "Simulate the action", "ACM predicts the consequences"]);
+  const s = useSteps(["MLM reads the scene", "Simulate the action", "ACM predicts the consequences", "Physics lab: detect + simulate"]);
+  const lab = useRef<LabHandle>(null);
 
   async function run() {
     if (busy) return;
@@ -256,6 +260,9 @@ export const ImagePanel = forwardRef<PanelHandle, { demo: DemoBundle; running: b
       if (i === 0) setShown("none"); // reveal the meaning first
     }
     setShown(action);
+    s.set(3, "running");
+    await lab.current?.run();
+    s.set(3, "done");
     setBusy(false);
   }
   useImperativeHandle(ref, () => ({ run }));
@@ -305,6 +312,7 @@ export const ImagePanel = forwardRef<PanelHandle, { demo: DemoBundle; running: b
           )}
         </div>
       </div>
+      <PhysicsLab ref={lab} scene={flow.scene} mode="image" defaultTarget="blue_cup_01" actor="you (proposed action)" />
     </PanelShell>
   );
 });
@@ -320,7 +328,8 @@ export const VideoPanel = forwardRef<PanelHandle, { demo: DemoBundle; checkpoint
   const [phase, setPhase] = useState<"idle" | "watching" | "predicted" | "revealed">("idle");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const s = useSteps([`Watch until T = ${T}s`, "MLM reads the scene at T", "Simulate + ACM consequences", "Reveal what happened next"]);
+  const s = useSteps([`Watch until T = ${T}s`, "MLM reads the scene at T", "Simulate + ACM consequences", "Reveal what happened next", "Physics lab: detect + simulate"]);
+  const lab = useRef<LabHandle>(null);
 
   function playUntil(limit: number | null): Promise<void> {
     const el = video.current;
@@ -370,6 +379,9 @@ export const VideoPanel = forwardRef<PanelHandle, { demo: DemoBundle; checkpoint
       await playUntil(null);
       setPhase("revealed");
       s.set(3, "done");
+      s.set(4, "running");
+      await lab.current?.run();
+      s.set(4, "done");
     } catch (e) {
       setError(`Playback failed: ${(e as Error).message}. Press Run video again.`);
     } finally {
@@ -439,6 +451,7 @@ export const VideoPanel = forwardRef<PanelHandle, { demo: DemoBundle; checkpoint
           )}
         </div>
       </div>
+      <PhysicsLab ref={lab} scene={flow.scene} mode="video" defaultTarget="blue_cup_01" actor="pusher_01" />
     </PanelShell>
   );
 });
