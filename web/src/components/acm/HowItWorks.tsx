@@ -126,7 +126,23 @@ const PAGE_NOTE: Record<PageKind, Partial<Record<InputKind, string>>> = {
   },
 };
 
-const LABEL: Record<InputKind, string> = { phrase: "Phrase", image: "Image", video: "Video" };
+/** The matching row of the "MLM → ACM" infographic, cropped from public/acm/how-chat-works.webp. */
+const CHAT_IMAGE: Record<InputKind, { src: string; h: number; alt: string }> = {
+  phrase: {
+    src: "/acm/how-chat-phrase.webp", h: 376,
+    alt: "Phrase chat: 1 question, 2 MLM parses it (Stanza and its own rules) into Phrase DNA, 3 ACM's rule packs compute the consequences, " +
+      "4 the LLM phrases ACM's facts in plain language; ACM's sentence and supporting rows stay visible as evidence.",
+  },
+  image: {
+    src: "/acm/how-chat-image-video.webp", h: 368,
+    alt: "Image/video chat: 1 question and scene, 2 the LLM plans the object, question, action and force, 3 matter.js simulates it with " +
+      "library properties, 4 the LLM explains the simulated events; object assumptions and simulation events stay visible.",
+  },
+  video: { src: "/acm/how-chat-image-video.webp", h: 368, alt: "" },
+};
+CHAT_IMAGE.video.alt = CHAT_IMAGE.image.alt;
+
+const LABEL: Record<InputKind, string> ={ phrase: "Phrase", image: "Image", video: "Video" };
 const PAGE_NAME: Record<PageKind, string> = { demo: "ACM Demo", inference: "What happens next?", multimodal: "Text · Image · Video" };
 
 function BadgeTag({ b }: { b: Badge }) {
@@ -156,6 +172,10 @@ export function HowItWorks({ inputs = ["phrase", "image", "video"], page, initia
         <span className="faint text-[11px] font-normal">{flow.lead}</span>
       </summary>
       <div className="mt-3 flex flex-col gap-3">
+        <a href={CHAT_IMAGE[shown].src} target="_blank" rel="noreferrer" title="Open full size">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={CHAT_IMAGE[shown].src} alt={CHAT_IMAGE[shown].alt} width={1568} height={CHAT_IMAGE[shown].h} className="block h-auto w-full rounded-md" />
+        </a>
         {inputs.length > 1 && (
           <div role="tablist" aria-label="Input type" className="flex gap-1">
             {inputs.map((k) => (
