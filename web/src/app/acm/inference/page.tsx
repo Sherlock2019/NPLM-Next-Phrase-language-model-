@@ -15,6 +15,7 @@ import { buttonClass, buttonGhostClass, inputClass, ErrorBox, Loading } from "@/
 import { BlastRadius } from "@/components/acm/BlastRadius";
 import { AnswerCard, EntityGraph, ReasoningChain } from "@/components/acm/Inference";
 import { HowItWorks } from "@/components/acm/HowItWorks";
+import { Intro } from "@/components/acm/Intro";
 import type { InferenceItem, InferenceSuite } from "@/lib/multimodal/types";
 
 type View = "reasoning" | "graph" | "rings" | "report";
@@ -116,6 +117,7 @@ export default function InferencePage() {
 
   return (
     <div className="flex flex-col gap-4">
+      <Intro page="inference" />
       <header className="panel flex flex-col gap-3 p-5">
         <div className="flex flex-wrap items-start gap-3">
           <div className="min-w-0 flex-1">

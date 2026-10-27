@@ -14,6 +14,7 @@ import { ImageTab } from "@/components/multimodal/ImageTab";
 import { TextTab } from "@/components/multimodal/TextTab";
 import { VideoTab } from "@/components/multimodal/VideoTab";
 import { HowItWorks } from "@/components/acm/HowItWorks";
+import { Intro } from "@/components/acm/Intro";
 import type { DemoBundle, LiveStatus, VideoScript } from "@/lib/multimodal/types";
 
 const TABS = [
@@ -76,6 +77,8 @@ export default function MultimodalPage() {
         )}
         <span className="ml-auto font-normal opacity-90">Fixture playback is not live YOLO, Qwen or MLM inference.</span>
       </div>
+
+      <Intro page="multimodal" />
 
       <header className="flex flex-wrap items-end gap-4">
         <div className="min-w-0 flex-1">

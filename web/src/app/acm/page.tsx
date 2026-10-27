@@ -8,6 +8,7 @@
 import { useEffect, useRef, useState } from "react";
 import { buttonClass, ErrorBox, Loading } from "@/components/ui";
 import { ImagePanel, PhrasePanel, VideoPanel, type PanelHandle } from "@/components/acm/Panels";
+import { Intro } from "@/components/acm/Intro";
 import type { DemoBundle, LiveStatus, VideoScript } from "@/lib/multimodal/types";
 
 const STAGES = ["phrase", "image", "video"] as const;
@@ -61,6 +62,8 @@ export default function AcmDemoPage() {
           {live ? "Phrase: your own sentences run live (MLM parser + ACM)" : "Image/video extractions are replayed fixtures, not live model inference."}
         </span>
       </div>
+
+      <Intro page="demo" />
 
       <header className="panel flex flex-col gap-4 p-5 sm:p-6">
         <div className="flex flex-wrap items-start gap-4">
