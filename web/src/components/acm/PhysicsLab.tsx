@@ -2,8 +2,10 @@
 
 /**
  * Physics lab (mockup) for image and video input:
- *   1. detect the objects on screen (mock YOLO-style detector; mock tracker for video)
- *   2. look each class up in the object behaviour library (material, mass, rules)
+ *   1. an AI vision model recognises the objects on screen and classifies them with the object
+ *      library of the recognised environment (kitchen, house, garden, street, mountain); each
+ *      library object has mass, shape, texture and material (mock detector; mock tracker for video)
+ *   2. look each class up in the behaviour library (friction, fragility, physics rules)
  *   3. simulate a proposed action with a rigid-body engine (matter.js, standing in for Unreal)
  *   4. ask questions about any object; answers are simulation events + library rules
  */
@@ -12,7 +14,7 @@ import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState }
 import { buttonClass, buttonGhostClass, inputClass, Caveat } from "@/components/ui";
 import { StatusTag } from "@/components/multimodal/Stages";
 import type { SceneData } from "@/lib/multimodal/types";
-import { behaviourFor, ENGINE_NAME, RULES } from "@/lib/acm/behaviours";
+import { behaviourFor, ENGINE_NAME, ENVIRONMENTS, environmentFor, RULES, type Environment } from "@/lib/acm/behaviours";
 import { simulateLab, type LabAction, type LabResult, type LabScene } from "@/lib/acm/physics";
 import {
   actionLabel, answerObjectQuestion, detect, eventChain, objectFacts, objectPresets, toLabScene,
@@ -211,6 +213,8 @@ export const PhysicsLab = forwardRef<LabHandle, { scene: SceneData; mode: "image
     const scene = useMemo(() => toLabScene(sceneData), [sceneData]);
     const detections = useMemo(() => detect(sceneData, mode === "video"), [sceneData, mode]);
     const movers = scene.objects.filter((o) => behaviourFor(o.cls).movable === "dynamic");
+    const env = useMemo(() => environmentFor(detections.map((d) => d.cls)), [detections]);
+    const envLib = ENVIRONMENTS[env];
     const [scan, setScan] = useState(0);
     const [selected, setSelected] = useState(defaultTarget);
     const [target, setTarget] = useState(defaultTarget);
@@ -278,21 +282,44 @@ export const PhysicsLab = forwardRef<LabHandle, { scene: SceneData; mode: "image
     return (
       <section className="hairline flex flex-col gap-3 rounded-lg border p-3" aria-label="Physics lab">
         <div className="flex flex-wrap items-baseline gap-x-3">
-          <h3 className="text-[14px] font-semibold">Physics lab — detect · behaviours · simulate · ask</h3>
+          <h3 className="text-[14px] font-semibold">Physics lab — recognise + classify · properties · simulate · ask</h3>
           <span className="rounded bg-fuchsia-600 px-1.5 py-0.5 text-[10px] font-bold uppercase text-white">mockup</span>
           <span className="faint text-[11px]">{ENGINE_NAME}</span>
         </div>
 
         <div className="grid gap-3 lg:grid-cols-[minmax(280px,1fr)_minmax(260px,360px)]">
           <div className="panel-raised flex flex-col gap-1.5 p-2">
-            <span className="eyebrow">1 · Object detection {mode === "video" ? "+ tracking (frame at T)" : ""}</span>
+            <span className="eyebrow">1 · Recognise + classify objects {mode === "video" ? "+ track them (frame at T)" : ""}</span>
             <DetectorView scene={scene} detections={detections} scan={scan} selected={selected} onPick={setSelected} />
-            <span className="faint text-[10.5px]">
-              Mock {mode === "video" ? "detector + tracker (YOLO + ByteTrack style)" : "detector (YOLO style)"}: boxes come from the fixture scene, not a model. Click a box to pick an object.
+            <span className="text-[11.5px]">
+              Environment recognised: <b>{envLib.label}</b> <span className="faint">({envLib.cues})</span> → objects classified with the{" "}
+              <b>{envLib.label.toLowerCase()} library</b> ({envLib.objects.length} object types, each with mass, shape, texture, material).
             </span>
+            <span className="faint text-[10.5px]">
+              Mock {mode === "video" ? "recognition model + tracker (YOLO + ByteTrack style)" : "recognition model (YOLO style)"}: boxes and classes come from the fixture scene, not a model. Click a box to pick an object.
+            </span>
+            <details className="text-[11px]">
+              <summary className="faint cursor-pointer">Object libraries per environment</summary>
+              <div className="mt-1.5 flex flex-col gap-2">
+                {(Object.entries(ENVIRONMENTS) as [Environment, (typeof ENVIRONMENTS)[Environment]][]).map(([key, lib]) => (
+                  <div key={key}>
+                    <span className={`font-semibold ${key === env ? "text-fuchsia-300" : ""}`}>{lib.label}{key === env ? " (this scene)" : ""}</span>
+                    <span className="faint"> — {lib.cues}</span>
+                    <table className="mt-0.5 w-full text-[10.5px]">
+                      <thead className="faint text-left"><tr><th>object</th><th>mass</th><th>shape</th><th>texture</th><th>material</th></tr></thead>
+                      <tbody>
+                        {lib.objects.map((o) => (
+                          <tr key={o.cls}><td>{o.label}</td><td>{o.massKg === null ? "static" : `${o.massKg} kg`}</td><td>{o.shape}</td><td>{o.texture}</td><td>{o.material}</td></tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </div>
+            </details>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="eyebrow">2 · Behaviour library</span>
+            <span className="eyebrow">2 · Library properties + behaviour</span>
             <ul className="flex flex-col gap-1">
               {detections.map((d) => (
                 <li key={d.id}>
@@ -309,6 +336,7 @@ export const PhysicsLab = forwardRef<LabHandle, { scene: SceneData; mode: "image
             {sel && (
               <div className="panel-raised flex flex-col gap-1 p-2 text-[11.5px]">
                 <span className="font-semibold">{sel.id} → class “{beh.cls}”</span>
+                <span className="dim">shape: {beh.shape} · texture: {beh.texture}</span>
                 <span className="dim">{beh.material} · {beh.massKg ? `${beh.massKg} kg` : "static"} · μ {beh.friction} · e {beh.restitution}
                   {beh.fragile ? ` · fragile (break > ${beh.breakSpeed} m/s)` : ""}{beh.container ? " · container" : ""}</span>
                 <ul className="flex flex-col gap-0.5">

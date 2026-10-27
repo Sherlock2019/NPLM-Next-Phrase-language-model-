@@ -1,7 +1,11 @@
 /**
  * Mockups for image/video inference, as the pipeline would run with real models:
- *   detect objects (YOLO-style detector; a tracker for video)  ->  look up each class in the
- *   behaviour library  ->  simulate the proposed action  ->  answer questions per object.
+ *   1. an AI vision model recognises the objects on screen (a tracker follows them in video)
+ *      and classifies each one with the object library of the recognised environment —
+ *      kitchen, house, garden, street, mountain — whose entries carry mass, shape, texture
+ *      and material (behaviours.ts: ENVIRONMENTS)
+ *   2. each class's behaviour profile adds friction, fragility and the physics rules
+ *   3. simulate the proposed action  ->  4. answer questions per object.
  *
  * The detector is a MOCK: boxes and confidences come from the fixture scene, not from a
  * model. Questions are read by a keyword parser (a live version would use MLM's parser).

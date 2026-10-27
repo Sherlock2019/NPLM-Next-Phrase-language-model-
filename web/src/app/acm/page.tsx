@@ -56,7 +56,7 @@ export default function AcmDemoPage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="sticky top-[60px] z-30 flex flex-wrap items-center gap-2 rounded-lg bg-fuchsia-700 px-3 py-2 text-xs font-semibold text-white shadow" role="status">
+      <div className="sticky top-[var(--nav-h,60px)] z-30 flex flex-wrap items-center gap-2 rounded-lg bg-fuchsia-700 px-3 py-2 text-xs font-semibold text-white shadow" role="status">
         <span>Demo mode — example extraction and simulated consequences</span>
         <span className="ml-auto font-normal opacity-90">
           {live ? "Phrase: your own sentences run live (MLM parser + ACM)" : "Image/video extractions are replayed fixtures, not live model inference."}

@@ -26,19 +26,20 @@ const MLM_PAGES = [
   { href: "/system", label: "System" },
 ];
 
-export const PAGES =
+/** `primary` pages sit in the header's top row, the rest in the second row. */
+export const PAGES: { href: string; label: string; primary?: boolean }[] =
   APP_MODE === "acm"
     ? [
-        { href: "/acm/tour", label: "Tour" },
-        { href: "/acm", label: "ACM Demo" },
-        { href: "/acm/inference", label: "What happens next?" },
-        { href: "/multimodal", label: "Text · Image · Video" },
+        { href: "/acm/tour", label: "Tour", primary: true },
+        { href: "/acm", label: "ACM Demo", primary: true },
+        { href: "/acm/inference", label: "What happens next?", primary: true },
+        { href: "/multimodal", label: "Text · Image · Video", primary: true },
         { href: "/mlm", label: "MLM Playground" },
         ...MLM_PAGES,
       ]
     : [
-        { href: "/", label: "Playground" },
-        ...MLM_PAGES.slice(0, 3),
+        { href: "/", label: "Playground", primary: true },
+        ...MLM_PAGES.slice(0, 3).map((p) => ({ ...p, primary: true })),
         { href: "/acm", label: "ACM Demo" },
         { href: "/acm/inference", label: "What happens next?" },
         { href: "/multimodal", label: "Multimodal → ACM" },

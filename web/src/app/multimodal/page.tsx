@@ -67,7 +67,7 @@ export default function MultimodalPage() {
   return (
     <div className="flex flex-col gap-5">
       <div
-        className="sticky top-[60px] z-30 flex flex-wrap items-center gap-2 rounded-lg bg-fuchsia-700 px-3 py-2 text-xs font-semibold text-white shadow"
+        className="sticky top-[var(--nav-h,60px)] z-30 flex flex-wrap items-center gap-2 rounded-lg bg-fuchsia-700 px-3 py-2 text-xs font-semibold text-white shadow"
         role="status"
       >
         {mode === "demo" || !liveFor(tab) ? (

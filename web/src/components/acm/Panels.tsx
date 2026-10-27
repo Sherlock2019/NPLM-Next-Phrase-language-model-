@@ -53,7 +53,7 @@ function useSteps(labels: string[]) {
 
 function PanelShell({ id, title, subtitle, children }: { id: string; title: string; subtitle: string; children: React.ReactNode }) {
   return (
-    <section id={id} className="panel scroll-mt-28">
+    <section id={id} className="panel scroll-mt-[calc(var(--nav-h,60px)+52px)]">
       <header className="hairline flex flex-wrap items-baseline gap-x-3 border-b px-4 py-3">
         <h2 className="text-[15px] font-semibold">{title}</h2>
         <p className="dim text-[12px]">{subtitle}</p>
