@@ -72,7 +72,8 @@ export function Nav() {
           </span>
         </Link>
 
-        <nav className="order-3 -mx-1 flex w-full items-center gap-0.5 overflow-x-auto sm:order-2 sm:mx-0 sm:w-auto">
+        {/* Links at 5x size: one full-width row that scrolls sideways instead of wrapping. */}
+        <nav className="order-3 -mx-1 flex w-full items-center gap-2 overflow-x-auto pb-1">
           {PAGES.map((page) => {
             // The longest matching link wins: /acm/inference highlights only "What happens next?".
             const best = PAGES.filter((p) => (p.href === "/" ? pathname === "/" : pathname === p.href || pathname.startsWith(`${p.href}/`)))
@@ -82,7 +83,7 @@ export function Nav() {
               <Link
                 key={page.href}
                 href={page.href}
-                className={`shrink-0 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
+                className={`shrink-0 rounded-xl px-5 py-2 text-[36px] font-semibold leading-tight tracking-tight transition-colors sm:text-[60px] ${
                   active
                     ? "bg-splm-500/12 text-splm-300"
                     : "dim hover:bg-white/5 hover:text-[var(--text)]"
@@ -97,7 +98,7 @@ export function Nav() {
         <button
           type="button"
           onClick={toggleTheme}
-          className="dim hairline order-2 ml-auto shrink-0 rounded-md border px-2.5 py-1.5 text-[11px] font-medium transition-colors hover:text-[var(--text)] sm:order-3"
+          className="dim hairline order-2 ml-auto shrink-0 rounded-md border px-2.5 py-1.5 text-[11px] font-medium transition-colors hover:text-[var(--text)]"
           aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
         >
           {theme === "dark" ? "Light" : "Dark"}
