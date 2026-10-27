@@ -200,7 +200,7 @@ function LabIntro({ mode, env }: { mode: "image" | "video"; env: string }) {
         matches it to a library of objects with their physical properties; a physics engine then simulates the action and outputs what
         would happen next, and ACM predicts its consequences. This scene is recognised as <b>{env}</b>.
       </p>
-      <SceneFlow compact />
+      <SceneFlow />
       <p className="text-[11px] text-warn-400">
         Prototype: recognition is mocked (the objects come from the demo scene, and the environment is the library that matches them best),
         object properties are typical values for the class, not measurements, and only the demo&apos;s own objects (mug, table, floor, hand) can
