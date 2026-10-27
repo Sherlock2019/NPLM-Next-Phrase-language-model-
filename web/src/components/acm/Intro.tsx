@@ -1,8 +1,14 @@
 "use client";
 
-/** Top-of-page intro: the "MLM → ACM: from questions to consequences" infographic (public/acm/how-chat-works.webp). */
+/**
+ * Top-of-page intro: the "MLM → ACM: from questions to consequences" infographic.
+ * Its title + phrase-chat row and its footer are images (public/acm/how-chat-top.webp,
+ * how-chat-footer.webp); the image/video row in between is <SceneFlow />, so its stages
+ * can be kept in step with the app.
+ */
 
 import type { PageKind } from "./HowItWorks";
+import { SceneFlow } from "./SceneFlow";
 
 const WHERE: Record<PageKind | "tour", string | null> = {
   demo: null,
@@ -11,22 +17,23 @@ const WHERE: Record<PageKind | "tour", string | null> = {
   multimodal: "The chats and the physics lab are on the ACM Demo page. This page shows the meaning and consequence stages in detail.",
 };
 
-export const INFOGRAPHIC_ALT =
+const TOP_ALT =
   "MLM to ACM, from questions to consequences: rules determine outcomes, the LLM plans or explains. " +
   "Phrase chat: 1 question, 2 MLM parses it with Stanza and its own rules into Phrase DNA, 3 ACM's rule packs compute the consequences, " +
-  "4 the LLM phrases ACM's facts in plain language; ACM's sentence and supporting rows stay visible. " +
-  "Image/video chat: 1 question and scene, 2 the LLM plans the object, question, action and force, 3 matter.js simulates it with library " +
-  "properties, 4 the LLM explains the simulated events; assumptions and events stay visible. " +
-  "MLM does not rely on an LLM. Unknown causes are marked UNKNOWN. Object detection is mocked and object properties are assumptions.";
+  "4 the LLM phrases ACM's facts in plain language; ACM's sentence and supporting rows stay visible.";
+const FOOTER_ALT =
+  "MLM does not rely on an LLM. Honest unknowns: a missing cause is marked UNKNOWN, never invented. " +
+  "Prototype limits: object detection is mocked and object properties are assumptions; without the LLM, ACM's sentence and a keyword parser are used.";
 
 export function Intro({ page }: { page: PageKind | "tour" }) {
   const where = WHERE[page];
   return (
     <section className="panel flex flex-col gap-2 p-3" aria-label="How the chats answer">
-      <a href="/acm/how-chat-works.webp" target="_blank" rel="noreferrer" title="Open full size">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/acm/how-chat-works.webp" alt={INFOGRAPHIC_ALT} width={1601} height={982} className="block h-auto w-full rounded-md" />
-      </a>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/acm/how-chat-top.webp" alt={TOP_ALT} width={1601} height={492} className="block h-auto w-full rounded-md" />
+      <SceneFlow />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/acm/how-chat-footer.webp" alt={FOOTER_ALT} width={1568} height={114} className="block h-auto w-full rounded-md" />
       {where && (
         <p className="text-[12px] text-sky-300">
           {where} <a className="underline" href="/acm">Go to the ACM Demo →</a>
