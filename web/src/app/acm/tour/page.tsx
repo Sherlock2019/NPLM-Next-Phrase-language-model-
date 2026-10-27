@@ -14,6 +14,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { buttonClass, buttonGhostClass, ErrorBox, Loading } from "@/components/ui";
 import { RingDiagram } from "@/components/acm/BlastRadius";
 import { ReasoningChain } from "@/components/acm/Inference";
+import { Intro } from "@/components/acm/Intro";
 import { StatusTag } from "@/components/multimodal/Stages";
 import type { DemoBundle, InferenceSuite, LlmVsAcm } from "@/lib/multimodal/types";
 
@@ -299,6 +300,7 @@ export default function TourPage() {
 
   return (
     <div className="flex flex-col gap-5">
+      <Intro page="tour" />
       <header className="panel flex flex-col gap-3 p-6">
         <h1 className="text-3xl font-semibold tracking-tight">See what an action changes — before taking it.</h1>
         <p className="dim max-w-4xl text-[14px] leading-relaxed">
