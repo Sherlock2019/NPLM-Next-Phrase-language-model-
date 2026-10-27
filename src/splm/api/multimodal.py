@@ -3,7 +3,10 @@
     GET  /api/multimodal/status   which flows can run live, and what is missing
     POST /api/multimodal/text     live: MLM parser -> meaning -> ACM (needs a parser model and ACM)
     POST /api/acm/phrase          live: any action sentence (+ context) -> ACM's full blast radius
-    POST /api/acm/ask             live: a question about that action -> ACM's answer in Phrase DNA
+    POST /api/acm/ask             live: a question about that action -> ACM's answer in Phrase DNA,
+                                  worded by the local LLM from ACM's facts (acm.llm)
+    POST /api/acm/llm/plan        LLM: a physics question -> object, intent and hypothetical action
+    POST /api/acm/llm/answer      LLM: question + simulator/library facts -> answer in Phrase DNA
 
 The dashboard's Demo mode never calls these for results - it replays bundled
 fixtures. Live mode is enabled only for the flows this status reports as
@@ -30,6 +33,18 @@ class LivePhraseRequest(BaseModel):
 
 class AskRequest(LivePhraseRequest):
     question: str = Field(min_length=1, max_length=500, description="A question about the action")
+    llm: bool = Field(default=True, description="Also have the local LLM word the answer from ACM's facts")
+
+
+class PlanRequest(BaseModel):
+    question: str = Field(min_length=1, max_length=500)
+    objects: list[dict[str, Any]] = Field(max_length=20)
+    selected: str = Field(min_length=1, max_length=80)
+
+
+class FactsRequest(BaseModel):
+    question: str = Field(min_length=1, max_length=500)
+    facts: dict[str, Any]
 
 
 class LiveTextRequest(BaseModel):
@@ -70,13 +85,21 @@ def register(app: FastAPI, prefix: str) -> None:
         parser_ok, parser_reason = parser_status()
         vlm = bool(os.environ.get("SPLM_VLM_ENDPOINT"))
         missing_media = "Live image/video analysis is not wired into the dashboard yet"
+        try:
+            from acm import llm
+
+            llm_ok, llm_reason = llm.status()
+        except ImportError as exc:
+            llm_ok, llm_reason = False, f"ACM is not installed ({exc})"
         return {
             "live": {
                 "text": acm_ok and parser_ok,
                 "image": False,
                 "video": False,
+                "llm": llm_ok,
             },
             "reasons": {
+                "llm": llm_reason,
                 "text": "ready" if acm_ok and parser_ok else "; ".join(r for ok, r in ((acm_ok, acm_reason), (parser_ok, parser_reason)) if not ok),
                 "image": f"{missing_media}; VLM endpoint {'configured' if vlm else 'not configured (SPLM_VLM_ENDPOINT)'}. "
                          "Use splm.meaning.adapters.ImageAdapter with OpenAICompatibleVLM from Python.",
@@ -121,9 +144,35 @@ def register(app: FastAPI, prefix: str) -> None:
                 reports.pop(next(iter(reports)))
             reports[key] = engine.analyze(request.text, context=context)
         try:
-            return ask(request.text, context, request.question, pipeline(), engine=engine, report=reports[key])
+            result = ask(request.text, context, request.question, pipeline(), engine=engine, report=reports[key])
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
+        if request.llm:
+            from acm import llm
+
+            try:
+                result["llm"] = llm.answer(request.question, llm.phrase_facts(result), kind="phrase")
+            except llm.LLMUnavailable as exc:
+                result["llm"] = {"error": str(exc)}  # ACM's own answer still stands
+        return result
+
+    @app.post(f"{prefix}/acm/llm/plan")
+    def acm_llm_plan(request: PlanRequest) -> dict[str, Any]:
+        from acm import llm
+
+        try:
+            return llm.physics_plan(request.question, request.objects, request.selected)
+        except llm.LLMUnavailable as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    @app.post(f"{prefix}/acm/llm/answer")
+    def acm_llm_answer(request: FactsRequest) -> dict[str, Any]:
+        from acm import llm
+
+        try:
+            return llm.answer(request.question, request.facts, kind="physics")
+        except llm.LLMUnavailable as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
 
     @app.post(f"{prefix}/multimodal/text")
     def multimodal_text(request: LiveTextRequest) -> dict[str, Any]:

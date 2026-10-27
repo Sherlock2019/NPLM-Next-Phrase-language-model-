@@ -209,7 +209,12 @@ export interface AskResult {
   chains: AskChain[];
   unknowns: { subject: string; aspect: string; text: string; needs: string[] }[];
   counterfactual?: { text: string; action: ActionDna; added: AskChain[]; removed: AskChain[]; kept: AskChain[] };
+  llm?: LlmAnswer;
 }
+
+/** The local LLM's answer, worded only from ACM's / the simulator's facts (acm/llm.py). */
+export type LlmPhrase = { who: string | null; does: string | null; what: string | null; where: string | null; when: string | null; with_whom: string | null; why: string | null };
+export type LlmAnswer = { text: string; phrases: LlmPhrase[]; model: string; seconds: number; error?: undefined } | { error: string };
 
 export interface InferenceAnswer {
   subject: string;
@@ -289,8 +294,8 @@ export interface VideoScript {
 }
 
 export interface LiveStatus {
-  live: { text: boolean; image: boolean; video: boolean };
-  reasons: { text: string; image: string; video: string };
+  live: { text: boolean; image: boolean; video: boolean; llm?: boolean };
+  reasons: { text: string; image: string; video: string; llm?: string };
 }
 
 export const ACTION_KEYS = ["none", "push_edge", "move_center"] as const;

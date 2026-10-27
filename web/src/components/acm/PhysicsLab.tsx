@@ -15,10 +15,11 @@ import type { SceneData } from "@/lib/multimodal/types";
 import { behaviourFor, ENGINE_NAME, RULES } from "@/lib/acm/behaviours";
 import { simulateLab, type LabAction, type LabResult, type LabScene } from "@/lib/acm/physics";
 import {
-  actionLabel, answerObjectQuestion, detect, eventChain, objectPresets, toLabScene,
-  type Detection, type ObjAnswer, type ObjChain,
+  actionLabel, answerObjectQuestion, detect, eventChain, objectFacts, objectPresets, toLabScene,
+  type Detection, type LlmPlan, type ObjAnswer, type ObjChain,
 } from "@/lib/acm/objects";
-import { ChatShell, DnaChips } from "./Chat";
+import type { LlmAnswer } from "@/lib/multimodal/types";
+import { ChatShell, DnaChips, LlmAnswerView } from "./Chat";
 
 export interface LabHandle {
   run: () => Promise<void>;
@@ -134,7 +135,15 @@ function ObjChainRow({ c }: { c: ObjChain }) {
   );
 }
 
-function ObjAnswerView({ a, onReplay }: { a: ObjAnswer; onReplay: (action: LabAction) => void }) {
+async function postJson<T>(url: string, body: unknown): Promise<T> {
+  const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(data?.detail ?? `${url} ${response.status}`);
+  return data as T;
+}
+
+function ObjAnswerView({ a, llm, onReplay }: { a: ObjAnswer; llm: LlmAnswer; onReplay: (action: LabAction) => void }) {
+  const worded = llm.error === undefined;
   return (
     <>
       <div className="flex flex-col gap-1">
@@ -142,9 +151,10 @@ function ObjAnswerView({ a, onReplay }: { a: ObjAnswer; onReplay: (action: LabAc
         <DnaChips items={a.reading} />
         <span className="faint text-[10.5px]">{a.parser}</span>
       </div>
+      <LlmAnswerView llm={llm} step="2" />
       <div className="flex flex-col gap-1">
-        <span className="eyebrow">2 · Answer</span>
-        <p className="text-[13px] leading-relaxed">{a.answer}</p>
+        <span className="eyebrow">{worded ? "3 · Facts (simulation + library)" : "2 · Answer (simulation + library)"}</span>
+        <p className={worded ? "dim text-[12px] leading-relaxed" : "text-[13px] leading-relaxed"}>{a.answer}</p>
       </div>
       {a.props && (
         <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 text-[11.5px]">
@@ -369,8 +379,20 @@ export const PhysicsLab = forwardRef<LabHandle, { scene: SceneData; mode: "image
           presets={objectPresets(selected, sel?.cls ?? "cup")}
           placeholder="e.g. What if I push the blue cup 15 cm toward the edge? · Can the red cup break?"
           ask={async (q) => {
-            const a = answerObjectQuestion(q, scene, selected, shownAction ?? action, actor);
-            return <ObjAnswerView a={a} onReplay={(next) => play(next)} />;
+            // 1. the LLM reads the question into a plan (falls back to the keyword parser)
+            const objects = [...scene.objects.map((o) => ({ id: o.id, cls: o.cls, color: o.color ?? null })), { id: "table_01", cls: "table", color: null }];
+            let plan: LlmPlan | undefined;
+            try {
+              plan = await postJson<LlmPlan>("/api/acm/llm/plan", { question: q, objects, selected });
+            } catch { plan = undefined; }
+            // 2. the simulator + library compute the facts
+            const a = answerObjectQuestion(q, scene, selected, shownAction ?? action, actor, plan);
+            // 3. the LLM words the answer from those facts only
+            let llm: LlmAnswer;
+            try {
+              llm = await postJson<LlmAnswer>("/api/acm/llm/answer", { question: q, facts: objectFacts(a) });
+            } catch (e) { llm = { error: (e as Error).message }; }
+            return <ObjAnswerView a={a} llm={llm} onReplay={(next) => play(next)} />;
           }}
         />
         <Caveat>

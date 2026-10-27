@@ -147,21 +147,56 @@ function sentence(events: LabEvent[], id: string): string {
   }).join(", ")}.`;
 }
 
-export function answerObjectQuestion(q: string, scene: LabScene, selected: string, current: LabAction, actor: string): ObjAnswer {
+/** What the LLM read from a physics question (POST /api/acm/llm/plan). */
+export interface LlmPlan {
+  target: string;
+  intent: "what_happens" | "will_fall" | "fracture" | "spill" | "properties" | "why";
+  action: null | { kind: "push" | "flick" | "drop" | "remove_support"; dir: 1 | -1; distance_m: number; speed_mps: number; height_m: number };
+  model: string;
+  seconds: number;
+}
+
+const PLAN_INTENT: Record<LlmPlan["intent"], string> = {
+  what_happens: "what happens", will_fall: "fall?", fracture: "fracture", spill: "spill", properties: "properties", why: "why",
+};
+
+function planAction(plan: LlmPlan, target: string): LabAction | null {
+  const a = plan.action;
+  if (!a) return null;
+  if (a.kind === "remove_support") return { kind: "remove_support" };
+  if (a.kind === "flick") return { kind: "flick", target, dir: a.dir, speedMps: a.speed_mps };
+  if (a.kind === "drop") return { kind: "drop", target, heightM: a.height_m };
+  return { kind: "push", target, dir: a.dir, distanceM: a.distance_m };
+}
+
+/** The facts the LLM may word an answer from: the action, the simulated events, the library values. */
+export function objectFacts(a: ObjAnswer): Record<string, unknown> {
+  return {
+    action: a.actionDna ? Object.fromEntries(a.actionDna.filter(([, v]) => v)) : null,
+    deterministic_answer: a.answer,
+    events: a.chains.map((c) => ({ who: c.who, does: c.does, detail: c.what, where: c.where, when: c.when, with_whom: c.with_whom, rule: c.why, basis: c.basis })),
+    properties_assumed_from_library: a.props,
+  };
+}
+
+export function answerObjectQuestion(q: string, scene: LabScene, selected: string, current: LabAction, actor: string, plan?: LlmPlan): ObjAnswer {
   const s = q.toLowerCase();
-  const target = findTarget(q, scene, selected);
+  const target = plan?.target ?? findTarget(q, scene, selected);
   const beh = behaviourFor(scene.objects.find((o) => o.id === target)?.cls ?? (target === "table_01" ? "table" : "cup"));
   // the table and the hand are not pushed themselves: an action on them acts on the current target
   const dynamic = (id: string) => scene.objects.some((o) => o.id === id && behaviourFor(o.cls).movable === "dynamic");
   const fallback = "target" in current ? current.target : scene.objects.find((o) => dynamic(o.id))?.id ?? selected;
-  const parsed = parseAction(q, dynamic(target) ? target : fallback);
-  const asksProps = /\b(weigh|weight|mass|heavy|material|made of|friction|fragile|propert|what is it|what kind)\b/.test(s);
-  const intent = parsed ? "what-if (simulate)" : asksProps ? "properties" : /\bwhy\b/.test(s) ? "why" :
+  const actionTarget = dynamic(target) ? target : fallback;
+  const parsed = plan ? planAction(plan, actionTarget) : parseAction(q, actionTarget);
+  const asksProps = plan ? plan.intent === "properties" : /\b(weigh|weight|mass|heavy|material|made of|friction|fragile|propert|what is it|what kind)\b/.test(s);
+  const intent = plan ? (parsed && plan.intent === "what_happens" ? "what-if (simulate)" : PLAN_INTENT[plan.intent]) :
+    parsed ? "what-if (simulate)" : asksProps ? "properties" : /\bwhy\b/.test(s) ? "why" :
     /\b(break|shatter|damage|survive|crack)\b/.test(s) ? "fracture" : /\b(spill|liquid|contents|coffee|water)\b/.test(s) ? "spill" :
     /\b(fall|falls|drop off|tip|tips|topple)\b/.test(s) ? "fall?" : "what happens";
   const reading: ObjAnswer["reading"] = [["WHO", target], ["ASKS", intent], ["DOES", parsed ? parsed.kind.replace("_", " ") : null],
     ["HOW", parsed && parsed.kind === "push" ? `${parsed.distanceM} m ${parsed.dir > 0 ? "+x" : "−x"}` : null]];
-  const parser = "keyword parser (mock — the live version would read the question with MLM)";
+  const parser = plan ? `read by the LLM (${plan.model}, ${plan.seconds}s), then run in the simulator`
+    : "keyword parser (fallback: the LLM was not reachable)";
 
   if (asksProps && !parsed) {
     return {

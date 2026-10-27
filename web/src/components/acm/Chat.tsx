@@ -13,7 +13,34 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { buttonClass, inputClass, ErrorBox } from "@/components/ui";
 import { StatusTag } from "@/components/multimodal/Stages";
-import type { ActionDna, AskChain, AskResult, PhraseResult } from "@/lib/multimodal/types";
+import type { ActionDna, AskChain, AskResult, LlmAnswer, PhraseResult } from "@/lib/multimodal/types";
+
+/** The LLM's answer and its Phrase DNA; on failure, says that ACM's own answer is shown instead. */
+export function LlmAnswerView({ llm, step }: { llm: LlmAnswer | null | undefined; step: string }) {
+  if (!llm) return null;
+  if (llm.error !== undefined)
+    return <p className="text-[11px] text-warn-400">LLM unavailable ({llm.error}). ACM&apos;s own answer is shown below.</p>;
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="flex flex-wrap items-center gap-1.5">
+        <span className="eyebrow">{step} · LLM answer</span>
+        <span className="rounded bg-sky-500/20 px-1.5 py-0.5 text-[10px] font-bold text-sky-300">{llm.model} · {llm.seconds}s</span>
+        <span className="faint text-[10.5px]">worded only from the facts below</span>
+      </span>
+      <p className="text-[13.5px] leading-relaxed">{llm.text}</p>
+      {llm.phrases.length > 0 && (
+        <ol className="flex flex-col gap-1">
+          {llm.phrases.map((p, i) => (
+            <li key={i} className="flex items-start gap-1.5">
+              <span aria-hidden className="text-sky-300">→</span>
+              <DnaChips items={[["WHO", p.who], ["DOES", p.does], ["WHAT", p.what], ["WHERE", p.where], ["WHEN", p.when], ["WITH", p.with_whom], ["WHY", p.why]]} tone="bg-sky-500/10" />
+            </li>
+          ))}
+        </ol>
+      )}
+    </div>
+  );
+}
 
 export type Dna = [label: string, value: string | null | undefined][];
 
@@ -175,12 +202,13 @@ function AskAnswer({ r }: { r: AskResult }) {
         ]} />
         <span className="faint text-[10.5px]">{q.parsed ? "parsed by MLM" : q.note} · intent: {INTENT_WORD[r.intent]}</span>
       </div>
+      <LlmAnswerView llm={r.llm} step="2" />
       <div className="flex flex-col gap-1">
-        <span className="eyebrow">2 · ACM answers</span>
-        <p className="text-[13px] leading-relaxed">{r.answer}</p>
+        <span className="eyebrow">3 · ACM&apos;s facts (rule engine)</span>
+        <p className={r.llm && r.llm.error === undefined ? "dim text-[12px] leading-relaxed" : "text-[13px] leading-relaxed"}>{r.answer}</p>
       </div>
       <div className="flex flex-col gap-1">
-        <span className="eyebrow">3 · Original action → consequence (Phrase DNA)</span>
+        <span className="eyebrow">4 · Original action → consequence (Phrase DNA, from ACM)</span>
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="rounded bg-splm-500/20 px-1.5 py-0.5 text-[10px] font-bold uppercase">action</span>
           <DnaChips items={actionChips(cf ? cf.action : r.action)} tone="bg-splm-500/10" />
@@ -226,7 +254,7 @@ export function PhraseChat({ result, live, liveReason }: { result: PhraseResult;
     <ChatShell
       key={`${result.text}|${result.context.join("|")}`}
       title="Ask ACM about this action"
-      hint={<>live: MLM parses your question, ACM answers from its report of <b>“{result.text}”</b></>}
+      hint={<>live: MLM parses your question, ACM computes the answer from its report of <b>“{result.text}”</b>, the local LLM words it</>}
       presets={presets}
       disabled={!live}
       disabledReason={`Chat needs Live mode (MLM parser + ACM): ${liveReason}`}
