@@ -72,9 +72,11 @@ export function Nav() {
           </span>
         </Link>
 
-        {/* Links at 2x size: one full-width row that scrolls sideways instead of wrapping. */}
-        <nav className="order-3 -mx-1 flex w-full items-center gap-2 overflow-x-auto pb-1">
-          {PAGES.map((page) => {
+        {/* Links at 2x size, split over two rows (first half, second half); a row wraps only on narrow screens. */}
+        <nav className="order-3 -mx-1 flex w-full flex-col gap-1">
+          {[PAGES.slice(0, Math.ceil(PAGES.length / 2)), PAGES.slice(Math.ceil(PAGES.length / 2))].map((row, r) => (
+          <div key={r} className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          {row.map((page) => {
             // The longest matching link wins: /acm/inference highlights only "What happens next?".
             const best = PAGES.filter((p) => (p.href === "/" ? pathname === "/" : pathname === p.href || pathname.startsWith(`${p.href}/`)))
               .sort((a, b) => b.href.length - a.href.length)[0];
@@ -93,6 +95,8 @@ export function Nav() {
               </Link>
             );
           })}
+          </div>
+          ))}
         </nav>
 
         <button
