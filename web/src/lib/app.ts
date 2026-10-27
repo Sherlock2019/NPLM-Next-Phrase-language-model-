@@ -37,6 +37,7 @@ export const PAGES =
         { href: "/mlm", label: "MLM Playground" },
         ...MLM_PAGES.slice(0, 3),
         { href: "/multimodal", label: "Text · Image · Video" },
+        { href: "/acm/scene", label: "Image / Video Chat" },
         ...MLM_PAGES.slice(3),
       ]
     : [
