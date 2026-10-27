@@ -16,6 +16,7 @@ import type { ActionKey, DemoBundle, PhraseResult, Scenario } from "@/lib/multim
 import { ACTION_KEYS } from "@/lib/multimodal/types";
 import { BlastRadius } from "./BlastRadius";
 import { PhraseChat } from "./Chat";
+import { HowItWorks } from "./HowItWorks";
 import { PhysicsLab, type LabHandle } from "./PhysicsLab";
 
 export interface PanelHandle {
@@ -145,6 +146,7 @@ export const PhrasePanel = forwardRef<
 
     return (
       <PanelShell id="phrase" title="1 · Start with a phrase" subtitle="An action sentence (+ context) → what that action changes, ring by ring">
+        <HowItWorks inputs={["phrase"]} page="demo" />
         <div className="grid gap-4 lg:grid-cols-[minmax(300px,420px)_1fr]">
           <div className="flex flex-col gap-2.5">
             <label className="flex flex-col gap-1">
@@ -270,6 +272,7 @@ export const ImagePanel = forwardRef<PanelHandle, { demo: DemoBundle; running: b
 
   return (
     <PanelShell id="image" title="2 · An image" subtitle="A picture of a scene + a proposed action → the consequences of that action">
+      <HowItWorks inputs={["image"]} page="demo" />
       <div className="grid gap-4 lg:grid-cols-[minmax(300px,420px)_1fr]">
         <div className="flex flex-col gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -394,6 +397,7 @@ export const VideoPanel = forwardRef<PanelHandle, { demo: DemoBundle; checkpoint
 
   return (
     <PanelShell id="video" title="3 · A video" subtitle="A clip of events → predict at T, then compare with what happened">
+      <HowItWorks inputs={["video"]} page="demo" />
       <div className="grid gap-4 lg:grid-cols-[minmax(300px,420px)_1fr]">
         <div className="flex flex-col gap-2.5">
           <div className="panel-raised overflow-hidden">

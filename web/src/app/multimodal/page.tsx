@@ -13,6 +13,7 @@ import { ErrorBox, Loading } from "@/components/ui";
 import { ImageTab } from "@/components/multimodal/ImageTab";
 import { TextTab } from "@/components/multimodal/TextTab";
 import { VideoTab } from "@/components/multimodal/VideoTab";
+import { HowItWorks } from "@/components/acm/HowItWorks";
 import type { DemoBundle, LiveStatus, VideoScript } from "@/lib/multimodal/types";
 
 const TABS = [
@@ -138,6 +139,8 @@ export default function MultimodalPage() {
           </button>
         ))}
       </div>
+
+      <HowItWorks key={tab} inputs={[tab === "text" ? "phrase" : tab]} page="multimodal" />
 
       {loadError && <ErrorBox error={loadError} />}
       {!demo || !script ? (

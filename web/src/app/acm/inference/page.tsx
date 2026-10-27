@@ -14,6 +14,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { buttonClass, buttonGhostClass, inputClass, ErrorBox, Loading } from "@/components/ui";
 import { BlastRadius } from "@/components/acm/BlastRadius";
 import { AnswerCard, EntityGraph, ReasoningChain } from "@/components/acm/Inference";
+import { HowItWorks } from "@/components/acm/HowItWorks";
 import type { InferenceItem, InferenceSuite } from "@/lib/multimodal/types";
 
 type View = "reasoning" | "graph" | "rings" | "report";
@@ -148,6 +149,7 @@ export default function InferencePage() {
           Parses: {suite.parse}. Answers are assembled from ACM&apos;s own trace (rules, roles, goal comparisons) — no language model writes them.
           Certainty values are rule weights, not probabilities.
         </p>
+        <HowItWorks inputs={["phrase"]} page="inference" />
       </header>
 
       <div className="grid gap-4 lg:grid-cols-[320px_1fr]">
