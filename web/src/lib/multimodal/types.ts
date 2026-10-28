@@ -1,6 +1,6 @@
 /**
  * Shape of public/demo/demo_results.json, produced by `acm demo --json` from the
- * real pipeline (MLM schemas + adapters replaying fixtures, ACM's simulator and
+ * real pipeline (MLM schemas + adapters replaying fixtures, ARM's simulator and
  * engine). Only the fields the page reads are typed.
  */
 
@@ -212,7 +212,7 @@ export interface AskResult {
   llm?: LlmAnswer;
 }
 
-/** The local LLM's answer, worded only from ACM's / the simulator's facts (acm/llm.py). */
+/** The local LLM's answer, worded only from ARM's / the simulator's facts (acm/llm.py). */
 export type LlmPhrase = { who: string | null; does: string | null; what: string | null; where: string | null; when: string | null; with_whom: string | null; why: string | null };
 export type LlmAnswer = { text: string; phrases: LlmPhrase[]; model: string; seconds: number; error?: undefined } | { error: string };
 

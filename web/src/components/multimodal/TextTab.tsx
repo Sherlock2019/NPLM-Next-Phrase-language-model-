@@ -83,7 +83,7 @@ export function TextTab({ demo, live, liveReason }: { demo: DemoBundle; live: bo
             Load Example: tabletop push
           </button>
           <button type="button" className={buttonGhostClass} aria-pressed={example === "sale"} onClick={() => load("sale")}>
-            Load Example: car sale (ACM rules)
+            Load Example: car sale (ARM rules)
           </button>
         </div>
         <label className="flex flex-col gap-1">
@@ -132,11 +132,11 @@ export function TextTab({ demo, live, liveReason }: { demo: DemoBundle; live: bo
           </a>
         </div>
         {live ? (
-          <Caveat>Live: the MLM parser and ACM run on your text. Positions are still assumed — text gives no geometry.</Caveat>
+          <Caveat>Live: the MLM parser and ARM run on your text. Positions are still assumed — text gives no geometry.</Caveat>
         ) : (
           <Caveat>
             Demo: frames are built by MLM&apos;s phrase builder from hand-written parse trees; consequences come from
-            ACM and the tabletop simulator. {liveReason && `Live text: ${liveReason}`}
+            ARM and the tabletop simulator. {liveReason && `Live text: ${liveReason}`}
           </Caveat>
         )}
         {error && <ErrorBox error={error} />}
@@ -162,10 +162,10 @@ export function TextTab({ demo, live, liveReason }: { demo: DemoBundle; live: bo
           <p className="faint text-[11px]">
             {isSale
               ? sale.note
-              : `For: ${scenario?.label}. Simulated changes come from the constrained tabletop simulator; rule-derived ones from ACM's packs.`}
+              : `For: ${scenario?.label}. Simulated changes come from the constrained tabletop simulator; rule-derived ones from ARM's packs.`}
           </p>
         }
-        noScene={isSale ? "No physical scene: this example shows ACM's rule-derived ownership and payment consequences, not tabletop physics." : undefined}
+        noScene={isSale ? "No physical scene: this example shows ARM's rule-derived ownership and payment consequences, not tabletop physics." : undefined}
       />
     </div>
   );

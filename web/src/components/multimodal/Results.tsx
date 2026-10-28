@@ -2,7 +2,7 @@
 
 /**
  * Stages A-E shared by the Text, Image and Video tabs:
- * A input · B MLM meaning · C ACM consequences · D visual outcome · E alternatives.
+ * A input · B MLM meaning · C ARM consequences · D visual outcome · E alternatives.
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
@@ -146,14 +146,14 @@ export function Results({
 
       <StageCard
         letter="C"
-        title="ACM — consequences (six circles)"
+        title="ARM — consequences (six circles)"
         state={stages.C}
-        note={<JsonInspect label="Inspect ACM JSON" data={acmJson} />}
+        note={<JsonInspect label="Inspect ARM JSON" data={acmJson} />}
       >
         {circles ? (
           <CirclesView circles={circles} caption={circlesCaption} />
         ) : (
-          <div className="text-xs">{circlesCaption ?? "No ACM result for this input."}</div>
+          <div className="text-xs">{circlesCaption ?? "No ARM result for this input."}</div>
         )}
       </StageCard>
 

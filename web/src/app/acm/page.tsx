@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ACM demo: a phrase, an image and a video, each predicting the consequences of
+ * ARM demo: a phrase, an image and a video, each predicting the consequences of
  * an action, as the tool is meant to be used. One "Run Demo" runs all three.
  */
 
@@ -59,7 +59,7 @@ export default function AcmDemoPage() {
       <div className="sticky top-[var(--nav-h,60px)] z-30 flex flex-wrap items-center gap-2 rounded-lg bg-fuchsia-700 px-3 py-2 text-xs font-semibold text-white shadow" role="status">
         <span>Demo mode — example extraction and simulated consequences</span>
         <span className="ml-auto font-normal opacity-90">
-          {live ? "Phrase: your own sentences run live (MLM parser + ACM)" : "Image/video extractions are replayed fixtures, not live model inference."}
+          {live ? "Phrase: your own sentences run live (MLM parser + ARM)" : "Image/video extractions are replayed fixtures, not live model inference."}
         </span>
       </div>
 
@@ -68,7 +68,7 @@ export default function AcmDemoPage() {
       <header className="panel flex flex-col gap-4 p-5 sm:p-6">
         <div className="flex flex-wrap items-start gap-4">
           <div className="min-w-0 flex-1">
-            <h1 className="text-2xl font-semibold tracking-tight">Actions Consequential Model (ACM)</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">Action Reaction Model (ARM)</h1>
             <p className="mt-1 text-[15px] font-semibold text-splm-300">See what an action changes before taking it.</p>
           </div>
           <div className="flex flex-col items-end gap-1">
@@ -81,14 +81,14 @@ export default function AcmDemoPage() {
         <blockquote className="border-l-2 border-splm-500/60 pl-4 text-[13.5px] leading-relaxed">
           A language model predicts the next word. MLM first works out what a sentence means.{" "}
           <b>
-            ACM goes one step further: it predicts what an action <i>does</i>. It traces the consequences for the one acting,
+            ARM goes one step further: it predicts what an action <i>does</i>. It traces the consequences for the one acting,
             for those it lands on, for other actors&apos; goals, and then across its whole blast radius, layer by layer: the place
             it happens, its neighbours, the organization it belongs to, its city, its country, society, and the earth.
           </b>
         </blockquote>
         <p className="dim max-w-4xl text-[13px] leading-relaxed">
-          ACM is built on the Meaning Language Model (MLM), which turns a phrase into Universal Phrase DNA: who does what, to
-          whom, where, when, how and why. ACM turns that structure into a graph of the full action in its context and predicts
+          ARM is built on the Meaning Language Model (MLM), which turns a phrase into Universal Phrase DNA: who does what, to
+          whom, where, when, how and why. ARM turns that structure into a graph of the full action in its context and predicts
           the consequences circle by circle (who is affected) and across the blast radius, layer by layer (where the effects
           reach). When the actor is <b>&quot;I&quot;</b>, the report is the model&apos;s view of its <b>own</b> planned action. The same
           works from an <b>image</b> plus a proposed action, and from a <b>video</b>.
@@ -127,8 +127,8 @@ export default function AcmDemoPage() {
       )}
 
       <p className="faint text-[11px] leading-relaxed">
-        How to read it: <b>rule-derived</b> rows come from ACM&apos;s knowledge packs, <b>simulated</b> rows from a constrained tabletop
-        simulator, <b>unknown</b> rows say what ACM cannot know and what it would need. “No supporting evidence” means no rule
+        How to read it: <b>rule-derived</b> rows come from ARM&apos;s knowledge packs, <b>simulated</b> rows from a constrained tabletop
+        simulator, <b>unknown</b> rows say what ARM cannot know and what it would need. “No supporting evidence” means no rule
         matched — never “no impact”. Certainty values are rule weights, not calibrated probabilities. The full step-by-step view is on
         the <a className="underline" href="/multimodal">Multimodal</a> page.
       </p>

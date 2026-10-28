@@ -1,5 +1,5 @@
 /**
- * Manually supplied scene facts: the browser simulator gives the outcome; ACM's
+ * Manually supplied scene facts: the browser simulator gives the outcome; ARM's
  * circles are taken from the Python engine's result for the same action and the
  * same outcome type - and labelled as such, never as an analysis of the upload.
  */
@@ -23,12 +23,12 @@ export function manualCircles(
     return {
       circles: built.circles,
       note:
-        "ACM result computed by the Python engine for the built-in scene with the same action and the same outcome " +
+        "ARM result computed by the Python engine for the built-in scene with the same action and the same outcome " +
         "type. Your manually supplied positions change the geometry, not which consequences follow.",
     };
   return {
     circles: null,
-    note: `This outcome (${mine || "no change"}) differs from the built-in example's (${theirs || "no change"}). ACM consequences for it need the Python engine (Live mode).`,
+    note: `This outcome (${mine || "no change"}) differs from the built-in example's (${theirs || "no change"}). ARM consequences for it need the Python engine (Live mode).`,
   };
 }
 

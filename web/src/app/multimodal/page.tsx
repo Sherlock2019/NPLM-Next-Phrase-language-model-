@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * TEXT / IMAGE / VIDEO -> MLM -> ACM -> VISUAL CONSEQUENCES.
+ * TEXT / IMAGE / VIDEO -> MLM -> ARM -> VISUAL CONSEQUENCES.
  *
  * Demo mode replays bundled fixtures through results computed by the real
  * pipeline (`acm demo --json`). Live mode is offered per tab only when
@@ -18,9 +18,9 @@ import { Intro } from "@/components/acm/Intro";
 import type { DemoBundle, LiveStatus, VideoScript } from "@/lib/multimodal/types";
 
 const TABS = [
-  { key: "text", title: "Text → MLM → ACM", blurb: "A sentence states a plan." },
-  { key: "image", title: "Image → MLM → ACM", blurb: "A picture shows a scene." },
-  { key: "video", title: "Video → MLM → ACM", blurb: "A clip shows events over time." },
+  { key: "text", title: "Text → MLM → ARM", blurb: "A sentence states a plan." },
+  { key: "image", title: "Image → MLM → ARM", blurb: "A picture shows a scene." },
+  { key: "video", title: "Video → MLM → ARM", blurb: "A clip shows events over time." },
 ] as const;
 type TabKey = (typeof TABS)[number]["key"];
 
@@ -73,7 +73,7 @@ export default function MultimodalPage() {
         {mode === "demo" || !liveFor(tab) ? (
           <span>Demo mode — example extraction and simulated consequences</span>
         ) : (
-          <span>Live mode — MLM parser and ACM running on your input (positions still assumed)</span>
+          <span>Live mode — MLM parser and ARM running on your input (positions still assumed)</span>
         )}
         <span className="ml-auto font-normal opacity-90">Fixture playback is not live YOLO, Qwen or MLM inference.</span>
       </div>
@@ -84,8 +84,8 @@ export default function MultimodalPage() {
         <div className="min-w-0 flex-1">
           <h1 className="text-xl font-semibold tracking-tight">Multimodal consequences</h1>
           <p className="dim mt-1 text-[13px]">
-            Observe → Understand meaning (MLM) → Evaluate consequences (ACM) → Visualize. Text, images and video become
-            one shared MLM meaning; ACM reads that meaning, not a vision model&apos;s prose.
+            Observe → Understand meaning (MLM) → Evaluate consequences (ARM) → Visualize. Text, images and video become
+            one shared MLM meaning; ARM reads that meaning, not a vision model&apos;s prose.
           </p>
         </div>
         <div className="flex flex-col items-end gap-1">

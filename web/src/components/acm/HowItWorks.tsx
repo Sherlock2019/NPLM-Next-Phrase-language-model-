@@ -17,7 +17,7 @@ type Badge = "real" | "rules" | "sim" | "llm" | "mock" | "fixture" | "assumed" |
 const BADGE: Record<Badge, { word: string; tone: string; means: string }> = {
   input: { word: "input", tone: "bg-white/8 text-[var(--text-dim)] ring-white/15", means: "what you give it" },
   real: { word: "real", tone: "bg-ok-400/12 text-ok-400 ring-ok-400/30", means: "runs live on your input" },
-  rules: { word: "rules", tone: "bg-splm-500/15 text-splm-300 ring-splm-500/30", means: "ACM's knowledge packs: deterministic, every row has a reason" },
+  rules: { word: "rules", tone: "bg-splm-500/15 text-splm-300 ring-splm-500/30", means: "ARM's knowledge packs: deterministic, every row has a reason" },
   sim: { word: "simulated", tone: "bg-fuchsia-500/12 text-fuchsia-400 ring-fuchsia-500/30", means: "computed by a physics simulator" },
   llm: { word: "LLM", tone: "bg-sky-500/15 text-sky-300 ring-sky-500/30", means: "local qwen2.5:7b — words answers and reads questions, never decides consequences" },
   mock: { word: "mock", tone: "bg-warn-400/12 text-warn-400 ring-warn-400/30", means: "a stand-in for a model that is not wired in yet" },
@@ -41,25 +41,25 @@ const STEPS: Record<InputKind, { lead: string; steps: Step[] }> = {
     lead: "A sentence (plus earlier sentences as context) → what it means → what the action changes, ring by ring → answers to your questions.",
     steps: [
       { title: "Phrase + context", badges: ["input"], engine: "you", pages: ALL,
-        does: "An action sentence. Earlier sentences tell ACM what other people want or did.",
+        does: "An action sentence. Earlier sentences tell ARM what other people want or did.",
         example: "context “Mark wants to buy my car.” · action “I will sell my car to Sarah to pay my debt.”" },
       { title: "MLM reads the meaning", badges: ["real"], engine: "Stanza parser + MLM frame builder (no LLM)", pages: ALL,
         does: "Turns the sentence into Universal Phrase DNA: who does what, to whom, where, when, how and why, plus tense and negation.",
         example: "WHO=I · DOES=sell · WHAT=my car · TO WHOM=Sarah · WHY=to pay my debt · WHEN=future" },
-      { title: "Concept + roles", badges: ["rules"], engine: "ACM packs: actions → concepts", pages: ALL,
+      { title: "Concept + roles", badges: ["rules"], engine: "ARM packs: actions → concepts", pages: ALL,
         does: "Maps the verb to a concept and binds its roles to the people and things in the sentence.",
         example: "sell → SALE · seller=I · buyer=Sarah · thing=my car" },
-      { title: "State changes per ring", badges: ["rules"], engine: "ACM engine", pages: ALL,
+      { title: "State changes per ring", badges: ["rules"], engine: "ARM engine", pages: ALL,
         does: "Applies the concept's effects and lands each change on a ring: actor, impacted, local place, then the impact rules out to neighbours, organization, city, country, society and earth.",
         example: "Actor: I lose my car, gain money · Impacted: Sarah gains my car · Organization: registry records the new owner" },
-      { title: "Other people's goals", badges: ["rules"], engine: "ACM relation check", pages: ALL,
+      { title: "Other people's goals", badges: ["rules"], engine: "ARM relation check", pages: ALL,
         does: "Compares every change with the goals and actions from the context: advanced, enabled, blocked, at risk, hindered.",
         example: "Mark wants to buy my car → blocked (Sarah has it) · my own aim ‘pay my debt’ → enabled" },
       { title: "Ask a question", badges: ["real", "rules"], engine: "MLM parses the question · acm/ask.py", pages: ["demo"],
-        does: "MLM reads your question; ACM picks the subjects, rings or intent it names (who, why, where, when, what-if) and answers from its report. A what-if re-runs ACM on the new clause and lists what changes.",
+        does: "MLM reads your question; ARM picks the subjects, rings or intent it names (who, why, where, when, what-if) and answers from its report. A what-if re-runs ARM on the new clause and lists what changes.",
         example: "“What happens to Mark?” → Other actors / goal: buy my car — blocked" },
       { title: "LLM words the answer", badges: ["llm"], engine: "qwen2.5:7b on Ollama (local)", pages: ["demo"],
-        does: "Writes the answer in plain sentences plus one Phrase DNA line per consequence, using only ACM's facts. ACM's own rows stay underneath as evidence; without the LLM, ACM's sentence is shown.",
+        does: "Writes the answer in plain sentences plus one Phrase DNA line per consequence, using only ARM's facts. ARM's own rows stay underneath as evidence; without the LLM, ARM's sentence is shown.",
         example: "“Mark's plan to buy the car is blocked, because Sarah now has it.” → WHO=Mark · DOES=goal blocked · WHY=because: I will sell my car to Sarah" },
     ],
   },
@@ -78,10 +78,10 @@ const STEPS: Record<InputKind, { lead: string; steps: Step[] }> = {
       { title: "Properties + behaviour", badges: ["assumed"], engine: "library entry → mass, shape, texture + friction, fragility, rules", pages: ["demo"],
         does: "From the classified library entry come the object's properties (mass, shape, texture, material) and, like a game engine's physical materials, what physics needs: friction, bounce, fragility, container, and the rules that apply.",
         example: "mug → ceramic, 0.3 kg, cylinder, smooth glaze, μ 0.35, breaks above 2.5 m/s, container (contents unknown)" },
-      { title: "Simulate the action", badges: ["sim"], engine: "tabletop simulator (ACM) · matter.js rigid bodies (physics lab)", pages: ["demo", "multimodal"],
+      { title: "Simulate the action", badges: ["sim"], engine: "tabletop simulator (ARM) · matter.js rigid bodies (physics lab)", pages: ["demo", "multimodal"],
         does: "Runs the action: sliding friction, support, tipping at the edge, falling, collisions. The physics lab shows it in side view with a timeline.",
         example: "crosses the edge t=0.31 s → falls → hits the floor 3.7 m/s → may break" },
-      { title: "ACM consequences", badges: ["rules", "sim"], engine: "ACM engine", pages: ["demo", "multimodal"],
+      { title: "ARM consequences", badges: ["rules", "sim"], engine: "ARM engine", pages: ["demo", "multimodal"],
         does: "Places simulated changes and rule-derived ones on the rings. What cannot be known (damage, spill) is marked unknown with what it would need.",
         example: "Impacted: blue cup loses the table's support, is on the floor · spill: unknown — needs contents" },
       { title: "Ask about an object", badges: ["llm", "sim"], engine: "LLM reads the question → simulator → LLM words the events", pages: ["demo"],
@@ -104,8 +104,8 @@ const STEPS: Record<InputKind, { lead: string; steps: Step[] }> = {
       { title: "Properties + behaviour", badges: ["assumed"], engine: "library entry → mass, shape, texture + friction, fragility, rules", pages: ["demo"],
         does: "The same libraries as for images; the hand is an agent that moves as the action says.",
         example: "pusher → agent, rule: contact push" },
-      { title: "Predict from T", badges: ["sim", "rules"], engine: "tabletop simulator + ACM · matter.js (physics lab)", pages: ["demo", "multimodal"],
-        does: "Simulates the proposed action from the state at T and lets ACM place the consequences on the rings.",
+      { title: "Predict from T", badges: ["sim", "rules"], engine: "tabletop simulator + ARM · matter.js (physics lab)", pages: ["demo", "multimodal"],
+        does: "Simulates the proposed action from the state at T and lets ARM place the consequences on the rings.",
         example: "push 0.20 m +x → crosses the edge → falls · landing position: unknown" },
       { title: "Compare with what happened", badges: ["fixture"], engine: "scripted outcome + metrics", pages: ["demo", "multimodal"],
         does: "Plays the rest of the clip and scores the prediction: fall predicted and observed, support state, position error.",
@@ -119,23 +119,23 @@ const STEPS: Record<InputKind, { lead: string; steps: Step[] }> = {
 
 const PAGE_NOTE: Record<PageKind, Partial<Record<InputKind, string>>> = {
   demo: {},
-  inference: { phrase: "On this page the parses are frozen real MLM parses and every answer is assembled by ACM; no LLM writes them. Ask your own questions (with the LLM) on the ACM Demo page." },
+  inference: { phrase: "On this page the parses are frozen real MLM parses and every answer is assembled by ARM; no LLM writes them. Ask your own questions (with the LLM) on the ARM Demo page." },
   multimodal: {
-    phrase: "Here the sentence states a tabletop plan: MLM reads it, the positions are assumed (text has no geometry) and the tabletop simulator predicts the motion before ACM.",
-    image: "This page shows the meaning and ACM stages in detail. Detection, the behaviour library, the physics lab and the object chat are on the ACM Demo page.",
-    video: "This page shows the meaning and ACM stages in detail. Tracking, the physics lab and the object chat are on the ACM Demo page.",
+    phrase: "Here the sentence states a tabletop plan: MLM reads it, the positions are assumed (text has no geometry) and the tabletop simulator predicts the motion before ARM.",
+    image: "This page shows the meaning and ARM stages in detail. Detection, the behaviour library, the physics lab and the object chat are on the ARM Demo page.",
+    video: "This page shows the meaning and ARM stages in detail. Tracking, the physics lab and the object chat are on the ARM Demo page.",
   },
 };
 
-/** The phrase row of the "MLM → ACM" infographic (cropped image); image and video use <SceneFlow />. */
+/** The phrase row of the "MLM → ARM" infographic (cropped image); image and video use <SceneFlow />. */
 const PHRASE_IMAGE = {
   src: "/acm/how-chat-phrase.webp", h: 376,
-  alt: "Phrase chat: 1 question, 2 MLM parses it (Stanza and its own rules) into Phrase DNA, 3 ACM's rule packs compute the consequences, " +
-    "4 the LLM phrases ACM's facts in plain language; ACM's sentence and supporting rows stay visible as evidence.",
+  alt: "Phrase chat: 1 question, 2 MLM parses it (Stanza and its own rules) into Phrase DNA, 3 ARM's rule packs compute the consequences, " +
+    "4 the LLM phrases ARM's facts in plain language; ARM's sentence and supporting rows stay visible as evidence.",
 };
 
 const LABEL: Record<InputKind, string> ={ phrase: "Phrase", image: "Image", video: "Video" };
-const PAGE_NAME: Record<PageKind, string> = { demo: "ACM Demo", inference: "What happens next?", multimodal: "Text · Image · Video" };
+const PAGE_NAME: Record<PageKind, string> = { demo: "ARM Demo", inference: "What happens next?", multimodal: "Text · Image · Video" };
 
 function BadgeTag({ b }: { b: Badge }) {
   return (

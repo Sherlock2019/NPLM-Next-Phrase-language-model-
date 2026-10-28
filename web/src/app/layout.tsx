@@ -9,7 +9,7 @@ export const metadata: Metadata =
     ? {
         title: "ARM — Action Reaction Model",
         description:
-          "Every action has consequences: ARM explores possible reactions and outcomes across human decisions, objects, images and videos, built on ACM and the Meaning Language Model.",
+          "Every action has consequences: ARM explores possible reactions and outcomes across human decisions, objects, images and videos, built on ARM and the Meaning Language Model.",
       }
     : {
         title: "Meaning Language Model",
@@ -33,7 +33,7 @@ export default function RootLayout({
             <p className="faint flex-1 text-xs leading-relaxed">
               {APP_MODE === "acm" ? (
                 <>
-                  ACM predicts consequences from rules (its knowledge packs), a constrained tabletop simulator and declared
+                  ARM predicts consequences from rules (its knowledge packs), a constrained tabletop simulator and declared
                   assumptions, on meaning read by MLM. &quot;No supporting evidence&quot; means no rule matched, never &quot;no impact&quot;;
                   certainty values are rule weights, not calibrated probabilities. Demo results replay bundled examples and
                   say so.

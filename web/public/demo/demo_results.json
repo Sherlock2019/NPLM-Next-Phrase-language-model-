@@ -1902,10 +1902,10 @@
       ],
       "notes": [
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
-     "report_text": "ACTION  [proposed action act_push_edge: push blue_cup_01]\n        concept=PUSH  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  own goal 'push the blue cup toward the right edge': ADVANCED ✅ - makes 'blue cup is moved from where it was' true\n\nIMPACTED\n  blue_cup_01: is moved from where it was; loses the support of table_01; is no longer in table_01; is now in floor_01; falls\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  table_01, floor_01 (assumed)\n  table_01: no longer supports blue_cup_01; blue_cup_01 leaves\n  floor_01 (assumed): blue_cup_01 arrives\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
+     "report_text": "ACTION  [proposed action act_push_edge: push blue_cup_01]\n        concept=PUSH  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  own goal 'push the blue cup toward the right edge': ADVANCED ✅ - makes 'blue cup is moved from where it was' true\n\nIMPACTED\n  blue_cup_01: is moved from where it was; loses the support of table_01; is no longer in table_01; is now in floor_01; falls\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  table_01, floor_01 (assumed)\n  table_01: no longer supports blue_cup_01; blue_cup_01 leaves\n  floor_01 (assumed): blue_cup_01 arrives\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ARM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((self · push))\n    Self\n      own goal push the blue cup toward the right edge: ADVANCED ✅\n    Impacted\n      blue_cup_01\n        is moved from where it was\n        loses the support of table_01\n        is no longer in table_01\n        is now in floor_01\n        falls\n    Local environment: table_01, floor_01 assumed\n      table_01: no longer supports blue_cup_01\n      table_01: blue_cup_01 leaves\n      floor_01 assumed: blue_cup_01 arrives\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
       "action_text": "[proposed action act_push_edge: push blue_cup_01]",
@@ -2325,7 +2325,7 @@
       },
       "notes": [
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
      "graph": {
@@ -3856,10 +3856,10 @@
       "notes": [
        "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
-     "report_text": "ACTION  [proposed action act_move_center: move blue_cup_01]\n        concept=MOVE  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  own goal 'push the blue cup toward the right edge': unaffected - none of the action's changes touch it\n\nIMPACTED\n  blue_cup_01: is now in the point (x=0.80, y=0.40 m on table_01)\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  the point (x=0.80, y=0.40 m on table_01), table_01\n  the point (x=0.80, y=0.40 m on table_01): blue_cup_01 arrives; blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01); 'move' takes place here\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
+     "report_text": "ACTION  [proposed action act_move_center: move blue_cup_01]\n        concept=MOVE  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  own goal 'push the blue cup toward the right edge': unaffected - none of the action's changes touch it\n\nIMPACTED\n  blue_cup_01: is now in the point (x=0.80, y=0.40 m on table_01)\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  the point (x=0.80, y=0.40 m on table_01), table_01\n  the point (x=0.80, y=0.40 m on table_01): blue_cup_01 arrives; blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01); 'move' takes place here\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ARM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((self · move))\n    Self\n      own goal push the blue cup toward the right edge: unaffected\n    Impacted\n      blue_cup_01\n        is now in the point x=0.80, y=0.40 m on table_01\n    Local environment: the point x=0.80, y=0.40 m on table_01, table_01\n      blue_cup_01 arrives\n      blue_cup_01 is in the point x=0.80, y=0.40 m on table_01\n      'move' takes place here\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
       "action_text": "[proposed action act_move_center: move blue_cup_01]",
@@ -4087,7 +4087,7 @@
       "notes": [
        "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
      "graph": {
@@ -6436,10 +6436,10 @@
       ],
       "notes": [
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
-     "report_text": "ACTION  [proposed action act_push_edge: push blue_cup_01]\n        concept=PUSH  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  -\n\nIMPACTED\n  blue_cup_01: is moved from where it was; loses the support of table_01; is no longer in table_01; is now in floor_01; falls\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  table_01, floor_01 (assumed)\n  table_01: no longer supports blue_cup_01; blue_cup_01 leaves\n  floor_01 (assumed): blue_cup_01 arrives\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
+     "report_text": "ACTION  [proposed action act_push_edge: push blue_cup_01]\n        concept=PUSH  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  -\n\nIMPACTED\n  blue_cup_01: is moved from where it was; loses the support of table_01; is no longer in table_01; is now in floor_01; falls\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  table_01, floor_01 (assumed)\n  table_01: no longer supports blue_cup_01; blue_cup_01 leaves\n  floor_01 (assumed): blue_cup_01 arrives\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ARM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((self · push))\n    Self\n    Impacted\n      blue_cup_01\n        is moved from where it was\n        loses the support of table_01\n        is no longer in table_01\n        is now in floor_01\n        falls\n    Local environment: table_01, floor_01 assumed\n      table_01: no longer supports blue_cup_01\n      table_01: blue_cup_01 leaves\n      floor_01 assumed: blue_cup_01 arrives\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
       "action_text": "[proposed action act_push_edge: push blue_cup_01]",
@@ -6823,7 +6823,7 @@
       },
       "notes": [
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
      "graph": {
@@ -8236,10 +8236,10 @@
       "notes": [
        "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
-     "report_text": "ACTION  [proposed action act_move_center: move blue_cup_01]\n        concept=MOVE  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  -\n\nIMPACTED\n  blue_cup_01: is now in the point (x=0.80, y=0.40 m on table_01)\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  the point (x=0.80, y=0.40 m on table_01), table_01\n  the point (x=0.80, y=0.40 m on table_01): blue_cup_01 arrives; blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01); 'move' takes place here\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
+     "report_text": "ACTION  [proposed action act_move_center: move blue_cup_01]\n        concept=MOVE  tense=future  certainty=0.80  SELF-VIEW\n\nACTOR  (self) self\n  -\n\nIMPACTED\n  blue_cup_01: is now in the point (x=0.80, y=0.40 m on table_01)\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  the point (x=0.80, y=0.40 m on table_01), table_01\n  the point (x=0.80, y=0.40 m on table_01): blue_cup_01 arrives; blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01); 'move' takes place here\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ARM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((self · move))\n    Self\n    Impacted\n      blue_cup_01\n        is now in the point x=0.80, y=0.40 m on table_01\n    Local environment: the point x=0.80, y=0.40 m on table_01, table_01\n      blue_cup_01 arrives\n      blue_cup_01 is in the point x=0.80, y=0.40 m on table_01\n      'move' takes place here\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
       "action_text": "[proposed action act_move_center: move blue_cup_01]",
@@ -8440,7 +8440,7 @@
       "notes": [
        "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
      "graph": {
@@ -12202,10 +12202,10 @@
       ],
       "notes": [
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
-     "report_text": "ACTION  [proposed action act_push_edge: push blue_cup_01]\n        concept=PUSH  tense=future  certainty=0.80\n\nACTOR  pusher_01\n  -\n\nIMPACTED\n  blue_cup_01: is moved from where it was; loses the support of table_01; is no longer in table_01; is now in floor_01; falls\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  table_01, floor_01 (assumed)\n  table_01: no longer supports blue_cup_01; blue_cup_01 leaves\n  floor_01 (assumed): blue_cup_01 arrives\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
+     "report_text": "ACTION  [proposed action act_push_edge: push blue_cup_01]\n        concept=PUSH  tense=future  certainty=0.80\n\nACTOR  pusher_01\n  -\n\nIMPACTED\n  blue_cup_01: is moved from where it was; loses the support of table_01; is no longer in table_01; is now in floor_01; falls\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  table_01, floor_01 (assumed)\n  table_01: no longer supports blue_cup_01; blue_cup_01 leaves\n  floor_01 (assumed): blue_cup_01 arrives\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ARM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((pusher_01 · push))\n    Actor: pusher_01\n    Impacted\n      blue_cup_01\n        is moved from where it was\n        loses the support of table_01\n        is no longer in table_01\n        is now in floor_01\n        falls\n    Local environment: table_01, floor_01 assumed\n      table_01: no longer supports blue_cup_01\n      table_01: blue_cup_01 leaves\n      floor_01 assumed: blue_cup_01 arrives\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
       "action_text": "[proposed action act_push_edge: push blue_cup_01]",
@@ -12589,7 +12589,7 @@
       },
       "notes": [
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
      "graph": {
@@ -14006,10 +14006,10 @@
       "notes": [
        "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
-     "report_text": "ACTION  [proposed action act_move_center: move blue_cup_01]\n        concept=MOVE  tense=future  certainty=0.80\n\nACTOR  pusher_01\n  -\n\nIMPACTED\n  blue_cup_01: is now in the point (x=0.80, y=0.40 m on table_01)\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  the point (x=0.80, y=0.40 m on table_01), table_01\n  the point (x=0.80, y=0.40 m on table_01): blue_cup_01 arrives; blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01); 'move' takes place here\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ACM certainty scores are rule weights, not calibrated real-world probabilities.",
+     "report_text": "ACTION  [proposed action act_move_center: move blue_cup_01]\n        concept=MOVE  tense=future  certainty=0.80\n\nACTOR  pusher_01\n  -\n\nIMPACTED\n  blue_cup_01: is now in the point (x=0.80, y=0.40 m on table_01)\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  the point (x=0.80, y=0.40 m on table_01), table_01\n  the point (x=0.80, y=0.40 m on table_01): blue_cup_01 arrives; blue_cup_01 is in the point (x=0.80, y=0.40 m on table_01); 'move' takes place here\n\nNEIGHBOUR ENVIRONMENT  not known\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  not known\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.\n  Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).\n  ARM certainty scores are rule weights, not calibrated real-world probabilities.",
      "mindmap": "mindmap\n  root((pusher_01 · move))\n    Actor: pusher_01\n    Impacted\n      blue_cup_01\n        is now in the point x=0.80, y=0.40 m on table_01\n    Local environment: the point x=0.80, y=0.40 m on table_01, table_01\n      blue_cup_01 arrives\n      blue_cup_01 is in the point x=0.80, y=0.40 m on table_01\n      'move' takes place here\n    Neighbour environment: not known\n      no known impact - no rule matched, which is not evidence of none\n    Organization: not known\n      no known impact - no rule matched, which is not evidence of none\n    City: not known\n      no known impact - no rule matched, which is not evidence of none\n    Country: not known\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
      "acm_json": {
       "action_text": "[proposed action act_move_center: move blue_cup_01]",
@@ -14210,7 +14210,7 @@
       "notes": [
        "'the point (x=0.80, y=0.40 m on table_01)' is not in the place gazetteer: its neighbours, connections, city and country are unknown.",
        "Predicted changes come from tabletop-kinematic@1.0 (a constrained simulator, not general physical understanding).",
-       "ACM certainty scores are rule weights, not calibrated real-world probabilities."
+       "ARM certainty scores are rule weights, not calibrated real-world probabilities."
       ]
      },
      "graph": {
@@ -26029,7 +26029,7 @@
     "condition": null,
     "places": [],
     "notes": [
-     "ACM has no concept for 'kick': consequences are generic and say nothing about anyone's goals."
+     "ARM has no concept for 'kick': consequences are generic and say nothing about anyone's goals."
     ]
    },
    "rings": [
@@ -26132,7 +26132,7 @@
      "empty": "No supporting evidence"
     }
    ],
-   "report_text": "ACTION  John kicked the ball.\n        concept=unknown  tense=past  certainty=1.00\n\nACTOR  John\n  performs 'kick'\n\nIMPACTED\n  ball: is affected by 'kick'\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nNEIGHBOUR ENVIRONMENT  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  ACM has no concept for 'kick': consequences are generic and say nothing about anyone's goals.",
+   "report_text": "ACTION  John kicked the ball.\n        concept=unknown  tense=past  certainty=1.00\n\nACTOR  John\n  performs 'kick'\n\nIMPACTED\n  ball: is affected by 'kick'\n\nOTHER ACTORS\n  -\n\nLOCAL ENVIRONMENT  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nNEIGHBOUR ENVIRONMENT  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nORGANIZATION  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nCITY  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nCOUNTRY  no place stated\n  no known impact - no rule matched, which is not evidence of none\n\nSOCIETY\n  no known impact - no rule matched, which is not evidence of none\n\nEARTH\n  no known impact - no rule matched, which is not evidence of none\n\nNOTES\n  ARM has no concept for 'kick': consequences are generic and say nothing about anyone's goals.",
    "mindmap": "mindmap\n  root((John · kick))\n    Actor: John\n      performs 'kick'\n    Impacted\n      ball\n        is affected by 'kick'\n    Local environment: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Neighbour environment: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Organization: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    City: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Country: no place stated\n      no known impact - no rule matched, which is not evidence of none\n    Society\n      no known impact - no rule matched, which is not evidence of none\n    Earth\n      no known impact - no rule matched, which is not evidence of none",
    "acm_json": {
     "action_text": "John kicked the ball.",
@@ -26267,7 +26267,7 @@
      "rules": []
     },
     "notes": [
-     "ACM has no concept for 'kick': consequences are generic and say nothing about anyone's goals."
+     "ARM has no concept for 'kick': consequences are generic and say nothing about anyone's goals."
     ]
    },
    "shows": "an unknown verb: generic, no verdict, no invented impact",

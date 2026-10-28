@@ -1,13 +1,13 @@
 "use client";
 
 /**
- * "What happens next?" - the ACM inference explorer.
+ * "What happens next?" - the ARM inference explorer.
  *
- * 53 scenarios, each answered by ACM subject by subject (the actor, the people and
+ * 53 scenarios, each answered by ARM subject by subject (the actor, the people and
  * things it lands on, other people's goals, the place, the wider layers, and what
- * ACM cannot tell), with the reasoning it actually followed and three visual views.
+ * ARM cannot tell), with the reasoning it actually followed and three visual views.
  * Answers are assembled from the engine's own records; the parses are real MLM
- * (Stanza) parses frozen in ACM's examples/inference_suite.conllu.
+ * (Stanza) parses frozen in ARM's examples/inference_suite.conllu.
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -19,7 +19,7 @@ import { Intro } from "@/components/acm/Intro";
 import type { InferenceItem, InferenceSuite } from "@/lib/multimodal/types";
 
 type View = "reasoning" | "graph" | "rings" | "report";
-const VIEWS: [View, string][] = [["reasoning", "Reasoning chain"], ["graph", "Who is affected"], ["rings", "Blast radius"], ["report", "ACM report"]];
+const VIEWS: [View, string][] = [["reasoning", "Reasoning chain"], ["graph", "Who is affected"], ["rings", "Blast radius"], ["report", "ARM report"]];
 
 export default function InferencePage() {
   const [suite, setSuite] = useState<InferenceSuite | null>(null);
@@ -38,7 +38,7 @@ export default function InferencePage() {
     fetch("/demo/inference_suite.json")
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`inference_suite.json ${r.status}`))))
       .then(setSuite)
-      .catch((e: Error) => setError(`The inference suite could not be loaded: ${e.message}. Run ACM's ./start.sh to generate it.`));
+      .catch((e: Error) => setError(`The inference suite could not be loaded: ${e.message}. Run ARM's ./start.sh to generate it.`));
   }, []);
 
   const items = useMemo(() => {
@@ -58,7 +58,7 @@ export default function InferencePage() {
     timers.current = [];
   };
 
-  /** Show one scenario the way ACM works through it: reasoning step by step, then each answer. */
+  /** Show one scenario the way ARM works through it: reasoning step by step, then each answer. */
   const present = useCallback((index: number, animate: boolean) => {
     clearTimers();
     setCurrent(index);
@@ -123,7 +123,7 @@ export default function InferencePage() {
           <div className="min-w-0 flex-1">
             <h1 className="text-2xl font-semibold tracking-tight">What happens next?</h1>
             <p className="dim mt-1 max-w-4xl text-[13px] leading-relaxed">
-              {stats.scenarios} actions, {stats.questions} questions. For each one ACM answers what happens next to everyone and
+              {stats.scenarios} actions, {stats.questions} questions. For each one ARM answers what happens next to everyone and
               everything the action touches — the actor, the people and things it lands on, other people&apos;s plans, the place,
               its neighbours, organization, city and country, society and the earth — and shows the reasoning behind every answer.
             </p>
@@ -148,7 +148,7 @@ export default function InferencePage() {
           <span className="panel-raised px-2 py-0.5"><b>{stats.concepts.length}</b> concepts</span>
         </div>
         <p className="faint text-[10.5px]">
-          Parses: {suite.parse}. Answers are assembled from ACM&apos;s own trace (rules, roles, goal comparisons) — no language model writes them.
+          Parses: {suite.parse}. Answers are assembled from ARM&apos;s own trace (rules, roles, goal comparisons) — no language model writes them.
           Certainty values are rule weights, not probabilities.
         </p>
         <HowItWorks inputs={["phrase"]} page="inference" />
@@ -205,7 +205,7 @@ export default function InferencePage() {
             <div className="grid gap-4 xl:grid-cols-2">
               <section className="panel p-4">
                 <div className="mb-2 flex items-center gap-2">
-                  <h2 className="eyebrow flex-1">Ask ACM</h2>
+                  <h2 className="eyebrow flex-1">Ask ARM</h2>
                   <button type="button" className="dim text-[11px] underline" onClick={() => { setTyping(false); setOpen(new Set(item.answers.map((_, i) => i))); }}>
                     answer all
                   </button>

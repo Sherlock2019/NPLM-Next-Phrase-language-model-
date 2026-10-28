@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * The three ACM demo panels. Each one shows the tool as intended:
- *   input  ->  MLM meaning  ->  (prediction, for physical scenes)  ->  ACM blast radius
+ * The three ARM demo panels. Each one shows the tool as intended:
+ *   input  ->  MLM meaning  ->  (prediction, for physical scenes)  ->  ARM blast radius
  * and exposes run(): Promise<void> so the page's "Run Demo" can drive all three.
  */
 
@@ -92,7 +92,7 @@ export const PhrasePanel = forwardRef<
     const [result, setResult] = useState<PhraseResult | null>(autoShow ? examples[0] : null);
     const [error, setError] = useState<string | null>(null);
     const [busy, setBusy] = useState(false);
-    const s = useSteps(["MLM reads the meaning", "ACM predicts the consequences"]);
+    const s = useSteps(["MLM reads the meaning", "ARM predicts the consequences"]);
     const example = examples[index];
     const edited = text.trim() !== example.text || context.trim() !== example.context.join("\n");
 
@@ -198,14 +198,14 @@ export const PhrasePanel = forwardRef<
                   ]}
                 />
                 {sum && !sum.realized && <p className="text-xs text-warn-400">The action is negated: none of its consequences follow.</p>}
-                <BlastRadius rings={result.rings} caption="Ownership, payment and layer impacts are rule-derived (ACM packs). Certainty is a rule weight, not a probability." />
+                <BlastRadius rings={result.rings} caption="Ownership, payment and layer impacts are rule-derived (ARM packs). Certainty is a rule weight, not a probability." />
                 {sum && sum.notes.length > 0 && (
                   <ul className="faint flex flex-col gap-0.5 text-[11px]">
                     {sum.notes.map((n) => <li key={n}>• {n}</li>)}
                   </ul>
                 )}
                 <details className="panel-raised px-3 py-2 text-xs">
-                  <summary className="cursor-pointer font-medium">ACM text report</summary>
+                  <summary className="cursor-pointer font-medium">ARM text report</summary>
                   <pre className="num mt-2 max-h-80 overflow-auto text-[11px] leading-relaxed">{result.report_text}</pre>
                 </details>
               </>
@@ -247,7 +247,7 @@ export const ImagePanel = forwardRef<PanelHandle, { demo: DemoBundle; running: b
   const [action, setAction] = useState<ActionKey>("push_edge");
   const [shown, setShown] = useState<ActionKey | null>(null);
   const [busy, setBusy] = useState(false);
-  const s = useSteps(["MLM reads the scene", "Simulate the action", "ACM predicts the consequences", "Physics lab: detect + simulate"]);
+  const s = useSteps(["MLM reads the scene", "Simulate the action", "ARM predicts the consequences", "Physics lab: detect + simulate"]);
   const lab = useRef<LabHandle>(null);
 
   async function run() {
@@ -331,7 +331,7 @@ export const VideoPanel = forwardRef<PanelHandle, { demo: DemoBundle; checkpoint
   const [phase, setPhase] = useState<"idle" | "watching" | "predicted" | "revealed">("idle");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const s = useSteps([`Watch until T = ${T}s`, "MLM reads the scene at T", "Simulate + ACM consequences", "Reveal what happened next", "Physics lab: detect + simulate"]);
+  const s = useSteps([`Watch until T = ${T}s`, "MLM reads the scene at T", "Simulate + ARM consequences", "Reveal what happened next", "Physics lab: detect + simulate"]);
   const lab = useRef<LabHandle>(null);
 
   function playUntil(limit: number | null): Promise<void> {

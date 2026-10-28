@@ -98,7 +98,7 @@ export default function AblationPage() {
           <li>If a layer changes nothing, the page shows that too: MLM is a hypothesis under test, and this is where it is tested.</li>
         </ul>
         <p className="faint text-[11.5px]">
-          ACM does not need this page: ACM uses MLM&apos;s meaning (Phrase DNA), not its next-word predictions. It is kept for checking MLM itself.
+          ARM does not need this page: ARM uses MLM&apos;s meaning (Phrase DNA), not its next-word predictions. It is kept for checking MLM itself.
         </p>
       </section>
       <Panel

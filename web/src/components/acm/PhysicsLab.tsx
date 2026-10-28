@@ -8,7 +8,7 @@
  *      material, friction, fragility, rules; the environment goes into the physics engine
  *      (mock detector / tracker; matter.js stands in for a game engine such as Unreal Engine 5)
  *   3. the action: stated in text or seen in the image / video (e.g. a collision)
- *   4. the physics engine simulates the consequences; ACM places them on its rings
+ *   4. the physics engine simulates the consequences; ARM places them on its rings
  *   5. the output: predicted frames (a side-view replay) + events; questions about any object
  */
 
@@ -198,7 +198,7 @@ function LabIntro({ mode, env }: { mode: "image" | "video"; env: string }) {
       <p className="text-[13px] leading-relaxed">
         <b>How the {mode} stage works:</b> computer vision identifies each object{mode === "video" ? " (and tracks it over time)" : ""} and
         matches it to a library of objects with their physical properties; a physics engine then simulates the action and outputs what
-        would happen next, and ACM predicts its consequences. This scene is recognised as <b>{env}</b>.
+        would happen next, and ARM predicts its consequences. This scene is recognised as <b>{env}</b>.
       </p>
       <SceneFlow />
       <p className="text-[11px] text-warn-400">

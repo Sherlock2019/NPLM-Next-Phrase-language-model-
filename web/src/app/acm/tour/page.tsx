@@ -1,10 +1,10 @@
 "use client";
 
 /**
- * The ACM tour: how ACM works, how it differs from a language model, and how it
+ * The ARM tour: how ARM works, how it differs from a language model, and how it
  * stays one meaning across text, image and video. Every number and answer on this
  * page comes from bundled, real outputs:
- *   inference_suite.json  ACM on parses by MLM's real parser
+ *   inference_suite.json  ARM on parses by MLM's real parser
  *   llm_vs_acm.json       a real local language model asked the same questions
  *   demo_results.json     the multimodal pipeline (fixture-replayed extraction)
  */
@@ -33,7 +33,7 @@ function Chapter({ n, title, lead, children, id }: { n: number; title: string; l
   );
 }
 
-// -- 1. how ACM thinks ---------------------------------------------------------------
+// -- 1. how ARM thinks ---------------------------------------------------------------
 
 function HowItThinks({ suite }: { suite: InferenceSuite }) {
   const item = suite.items.find((i) => i.action === "John sold his car to Sarah.") ?? suite.items[0];
@@ -56,14 +56,14 @@ function HowItThinks({ suite }: { suite: InferenceSuite }) {
           <p className="mt-1 text-[20px] font-semibold">“{item.action}”</p>
         </div>
         <div className="flex gap-2">
-          <button type="button" className={buttonClass} onClick={play}>▶ Watch ACM think</button>
+          <button type="button" className={buttonClass} onClick={play}>▶ Watch ARM think</button>
           <button type="button" className={buttonGhostClass} onClick={() => setStep((s) => Math.min(s + 1, 8))}>next step</button>
           <button type="button" className={buttonGhostClass} onClick={() => setStep(8)}>show all</button>
         </div>
         <ReasoningChain item={item} active={step} />
       </div>
       <div className={`flex flex-col gap-3 transition-opacity ${step >= 8 ? "opacity-100" : "opacity-30"}`} aria-live="polite">
-        <span className="eyebrow">…so ACM answers</span>
+        <span className="eyebrow">…so ARM answers</span>
         <ul className="flex flex-col gap-2">
           {highlights.map((a) => (
             <li key={a.question} className="panel-raised px-3 py-2">
@@ -81,7 +81,7 @@ function HowItThinks({ suite }: { suite: InferenceSuite }) {
   );
 }
 
-// -- 2. ACM vs a language model -----------------------------------------------------------
+// -- 2. ARM vs a language model -----------------------------------------------------------
 
 function VsLlm({ data, suite }: { data: LlmVsAcm; suite: InferenceSuite }) {
   const [index, setIndex] = useState(0);
@@ -134,7 +134,7 @@ function VsLlm({ data, suite }: { data: LlmVsAcm; suite: InferenceSuite }) {
 
         <div className="panel-raised flex flex-col gap-2 p-4 ring-1 ring-splm-500/30">
           <div className="flex items-center gap-2">
-            <span className="text-[13px] font-semibold text-splm-300">ACM</span>
+            <span className="text-[13px] font-semibold text-splm-300">ARM</span>
             <span className="faint text-[11px]">rules over MLM&apos;s meaning · deterministic</span>
           </div>
           <div>
@@ -148,7 +148,7 @@ function VsLlm({ data, suite }: { data: LlmVsAcm; suite: InferenceSuite }) {
             </ul>
           </div>
           <p className="faint text-[11px]">Same answer on every run · every claim traceable to a rule, a role or a goal comparison.</p>
-          <Link href={`/acm/inference`} className="text-[11px] underline">see all {suite.stats.questions} ACM answers →</Link>
+          <Link href={`/acm/inference`} className="text-[11px] underline">see all {suite.stats.questions} ARM answers →</Link>
         </div>
       </div>
 
@@ -158,7 +158,7 @@ function VsLlm({ data, suite }: { data: LlmVsAcm; suite: InferenceSuite }) {
             <tr className="hairline border-b">
               <th className="eyebrow py-2 pr-3">What you can check</th>
               <th className="eyebrow py-2 pr-3">This language model</th>
-              <th className="eyebrow py-2">ACM</th>
+              <th className="eyebrow py-2">ARM</th>
             </tr>
           </thead>
           <tbody className="align-top">
@@ -177,10 +177,10 @@ function VsLlm({ data, suite }: { data: LlmVsAcm; suite: InferenceSuite }) {
 
       <div className="rounded-lg border border-warn-400/30 bg-warn-400/8 p-4 text-[12.5px] leading-relaxed">
         <b className="text-warn-400">Where a language model is better — honestly.</b> This is a small base model ({data.model});
-        large chat models answer these questions far more sensibly. Any LLM knows about far more of the world than ACM&apos;s 18 concepts
-        and seed rules, writes fluently, and copes with verbs ACM has never seen (ACM then says “no verdict”). ACM is not a
+        large chat models answer these questions far more sensibly. Any LLM knows about far more of the world than ARM&apos;s 18 concepts
+        and seed rules, writes fluently, and copes with verbs ARM has never seen (ARM then says “no verdict”). ARM is not a
         replacement for an LLM: it is the part that turns meaning into <b>checkable consequences</b> — explicit, repeatable, and honest
-        about what it doesn&apos;t know. The natural design is both: the LLM talks, ACM checks what an action does.
+        about what it doesn&apos;t know. The natural design is both: the LLM talks, ARM checks what an action does.
       </div>
     </div>
   );
@@ -230,7 +230,7 @@ function ThreeSenses({ demo }: { demo: DemoBundle }) {
                   ) : null;
                 })}
               </ul>
-              <span className="eyebrow">ACM predicts (push toward the edge)</span>
+              <span className="eyebrow">ARM predicts (push toward the edge)</span>
               <ul className="text-[12.5px]">{outcome(f).map((o) => <li key={o}>• {o} <span className="faint">(simulated)</span></li>)}</ul>
               <span className="faint text-[11px]">damage and spill: unknown · society and earth: no supporting evidence</span>
             </div>
@@ -239,7 +239,7 @@ function ThreeSenses({ demo }: { demo: DemoBundle }) {
       </div>
       <div className={`rounded-lg p-3 text-[13px] ${same ? "bg-ok-400/10 text-ok-400" : "bg-warn-400/10 text-warn-400"}`}>
         {same
-          ? "Same meaning, same consequence: from the sentence, the picture and the clip, ACM reaches the same prediction — blue_cup_01 crosses the edge and falls."
+          ? "Same meaning, same consequence: from the sentence, the picture and the clip, ARM reaches the same prediction — blue_cup_01 crosses the edge and falls."
           : "The three inputs lead to different predictions here."}{" "}
         <span className="dim">What differs is kept: the text <i>states</i> a plan (positions assumed), the image <i>shows</i> a scene (it cannot show a push),
         the video <i>shows</i> events (it cannot show why). A text-only LLM sees none of the picture or the clip.</span>
@@ -268,7 +268,7 @@ function RealityCheck({ demo }: { demo: DemoBundle }) {
         ))}
       </div>
       <p className="dim text-[12.5px]">
-        ACM&apos;s prediction is a set of explicit state changes, so it can be <b>scored</b> against what happens next — frames after T are
+        ARM&apos;s prediction is a set of explicit state changes, so it can be <b>scored</b> against what happens next — frames after T are
         used only for checking, never as input. Here the outcome is a scripted animation, so this shows the workflow, not real-world
         accuracy.
       </p>
@@ -291,7 +291,7 @@ export default function TourPage() {
     const get = (f: string) => fetch(`/demo/${f}`).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${f} ${r.status}`))));
     Promise.all([get("inference_suite.json"), get("llm_vs_acm.json"), get("demo_results.json")])
       .then(([s, l, d]) => { setSuite(s); setLlm(l); setDemo(d); })
-      .catch((e: Error) => setError(`Tour material could not be loaded: ${e.message}. Run ACM's ./start.sh.`));
+      .catch((e: Error) => setError(`Tour material could not be loaded: ${e.message}. Run ARM's ./start.sh.`));
   }, []);
 
   const ready = useMemo(() => suite && llm && demo, [suite, llm, demo]);
@@ -304,26 +304,26 @@ export default function TourPage() {
       <header className="panel flex flex-col gap-3 p-6">
         <h1 className="text-3xl font-semibold tracking-tight">See what an action changes — before taking it.</h1>
         <p className="dim max-w-4xl text-[14px] leading-relaxed">
-          A language model predicts the next word. <b>ACM predicts what an action does</b>: for the one acting, for those it lands on, for
+          A language model predicts the next word. <b>ARM predicts what an action does</b>: for the one acting, for those it lands on, for
           other people&apos;s plans, and outward to the place, the city, the country, society and the earth — from a sentence, a picture or a
           video, with a reason for every claim.
         </p>
         <nav className="flex flex-wrap gap-2 text-[12px]" aria-label="Chapters">
-          {[["how", "1 · How ACM thinks"], ["llm", "2 · ACM vs a language model"], ["senses", "3 · One meaning, three senses"], ["reality", "4 · Checked against reality"]].map(([id, label]) => (
+          {[["how", "1 · How ARM thinks"], ["llm", "2 · ARM vs a language model"], ["senses", "3 · One meaning, three senses"], ["reality", "4 · Checked against reality"]].map(([id, label]) => (
             <a key={id} href={`#${id}`} className="panel-raised px-3 py-1.5 hover:text-splm-300">{label}</a>
           ))}
         </nav>
       </header>
 
-      <Chapter id="how" n={1} title="How ACM thinks" lead="One sentence, eight explicit steps: MLM reads who does what to whom; ACM binds it to a concept, works out the state changes, places each one, checks other people's goals, applies its layer rules — and only then answers.">
+      <Chapter id="how" n={1} title="How ARM thinks" lead="One sentence, eight explicit steps: MLM reads who does what to whom; ARM binds it to a concept, works out the state changes, places each one, checks other people's goals, applies its layer rules — and only then answers.">
         <HowItThinks suite={suite!} />
       </Chapter>
 
-      <Chapter id="llm" n={2} title="ACM vs a language model" lead="The same questions, asked to a real language model running locally and to ACM. Read the answers yourself; the table only counts what is on screen.">
+      <Chapter id="llm" n={2} title="ARM vs a language model" lead="The same questions, asked to a real language model running locally and to ARM. Read the answers yourself; the table only counts what is on screen.">
         <VsLlm data={llm!} suite={suite!} />
       </Chapter>
 
-      <Chapter id="senses" n={3} title="One meaning, three senses" lead="A sentence, a picture and a video of the same tabletop. MLM turns each into the same kind of meaning; ACM predicts from that meaning — not from a vision model's prose.">
+      <Chapter id="senses" n={3} title="One meaning, three senses" lead="A sentence, a picture and a video of the same tabletop. MLM turns each into the same kind of meaning; ARM predicts from that meaning — not from a vision model's prose.">
         <ThreeSenses demo={demo!} />
       </Chapter>
 

@@ -2,8 +2,8 @@
  * Which product this dashboard presents.
  *
  *   mlm (default)  the Meaning Language Model console; "/" is the Playground
- *   acm            ARM, the Action Reaction Model (built on ACM); "/" opens the ARM home page
- *                  and the MLM Playground moves to /mlm. ACM's ./start.sh sets this.
+ *   acm            ARM, the Action Reaction Model (built on ARM); "/" opens the ARM home page
+ *                  and the MLM Playground moves to /mlm. ARM's ./start.sh sets this.
  *
  * Set with NEXT_PUBLIC_APP_MODE when the dashboard starts (it is read at build/dev time).
  */
@@ -36,7 +36,7 @@ const MLM_PAGES: MenuLink[] = [
   { href: "/system", label: "System" },
 ];
 
-/** The header menu. ACM mode follows the ARM design; every page stays reachable from it. */
+/** The header menu. ARM mode follows the ARM design; every page stays reachable from it. */
 export const MENU: MenuEntry[] =
   APP_MODE === "acm"
     ? [
@@ -52,6 +52,7 @@ export const MENU: MenuEntry[] =
           ],
         },
         { href: "/acm/tour", label: "How It Works" },
+        { href: "/acm/definitions", label: "Definitions" },
         {
           label: "Research",
           items: [
@@ -65,11 +66,11 @@ export const MENU: MenuEntry[] =
     : [
         { href: "/", label: "Playground" },
         ...MLM_PAGES.slice(0, 3),
-        { href: "/acm", label: "ACM Demo" },
+        { href: "/acm", label: "ARM Demo" },
         { href: "/acm/inference", label: "What happens next?" },
-        { href: "/multimodal", label: "Multimodal → ACM" },
+        { href: "/multimodal", label: "Multimodal → ARM" },
         ...MLM_PAGES.slice(3),
       ];
 
-/** The header's call to action (ACM mode). */
+/** The header's call to action (ARM mode). */
 export const CTA: MenuLink | null = APP_MODE === "acm" ? { href: "/acm", label: "Try a Demo" } : null;

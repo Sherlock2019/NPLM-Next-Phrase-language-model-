@@ -55,7 +55,7 @@ export function AnswerCard({ qa, open, onToggle, typing }: { qa: InferenceAnswer
           </p>
           {qa.why.length > 0 && (
             <details className="mt-1.5" open>
-              <summary className="faint cursor-pointer text-[11px]">why ACM says this</summary>
+              <summary className="faint cursor-pointer text-[11px]">why ARM says this</summary>
               <ul className="mt-1 flex flex-col gap-0.5">
                 {qa.why.map((w, i) => (
                   <li key={i} className="num dim text-[11px] leading-snug">↳ {w}</li>

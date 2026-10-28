@@ -3,7 +3,7 @@
 /**
  * Image / Video Chat: the image/video workflow on its own page.
  *   scene (image or video)  ->  recognise objects + build the world from the object libraries
- *   ->  the action  ->  simulate the consequences  ->  replay + ACM + chat about any object.
+ *   ->  the action  ->  simulate the consequences  ->  replay + ARM + chat about any object.
  * The physics lab does the work (components/acm/PhysicsLab.tsx); this page gives it full width
  * and lets you switch between the demo image and the demo video.
  */

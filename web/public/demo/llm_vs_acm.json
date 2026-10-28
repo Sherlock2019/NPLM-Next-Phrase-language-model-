@@ -284,9 +284,9 @@
     "subject": "the ball",
     "kind": "impacted",
     "question": "What happens next to the ball?",
-    "answer": "The ball is affected by 'kick'. (Generic: ACM knows no concept for this verb, so it gives no verdict.)",
+    "answer": "The ball is affected by 'kick'. (Generic: ARM knows no concept for this verb, so it gives no verdict.)",
     "why": [
-     "ACM has no concept for 'kick': generic, no verdict"
+     "ARM has no concept for 'kick': generic, no verdict"
     ]
    },
    "llm_distinct_answers": 4

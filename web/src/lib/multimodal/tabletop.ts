@@ -1,5 +1,5 @@
 /**
- * Browser port of ACM's constrained tabletop simulator (acm/world/tabletop.py).
+ * Browser port of ARM's constrained tabletop simulator (acm/world/tabletop.py).
  *
  * Same declared rules, same numbers: a pushed disc slides in a straight line and
  * stops at contact; an object whose centre ends beyond the support boundary

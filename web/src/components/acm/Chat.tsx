@@ -1,12 +1,12 @@
 "use client";
 
 /**
- * Chat boxes for the ACM demo. Each answer shows how it was reached:
+ * Chat boxes for the ARM demo. Each answer shows how it was reached:
  *   1. how the question was read (its Phrase DNA)
  *   2. the answer, then each consequence as its own phrase chained to the action:
  *      original action  →  WHO · DOES · WHAT · WHERE · WHEN · WITH WHOM · WHY
  *
- * PhraseChat asks the live MLM parser + ACM backend (POST /api/acm/ask).
+ * PhraseChat asks the live MLM parser + ARM backend (POST /api/acm/ask).
  * The object chat for image/video reuses ChatShell, DnaChips and ChainRow.
  */
 
@@ -15,11 +15,11 @@ import { buttonClass, inputClass, ErrorBox } from "@/components/ui";
 import { StatusTag } from "@/components/multimodal/Stages";
 import type { ActionDna, AskChain, AskResult, LlmAnswer, PhraseResult } from "@/lib/multimodal/types";
 
-/** The LLM's answer and its Phrase DNA; on failure, says that ACM's own answer is shown instead. */
+/** The LLM's answer and its Phrase DNA; on failure, says that ARM's own answer is shown instead. */
 export function LlmAnswerView({ llm, step }: { llm: LlmAnswer | null | undefined; step: string }) {
   if (!llm) return null;
   if (llm.error !== undefined)
-    return <p className="text-[11px] text-warn-400">LLM unavailable ({llm.error}). ACM&apos;s own answer is shown below.</p>;
+    return <p className="text-[11px] text-warn-400">LLM unavailable ({llm.error}). ARM&apos;s own answer is shown below.</p>;
   return (
     <div className="flex flex-col gap-1">
       <span className="flex flex-wrap items-center gap-1.5">
@@ -176,8 +176,8 @@ export function ChatShell({ title, hint, presets, disabled, disabledReason, ask,
 
 const INTENT_WORD: Record<AskResult["intent"], string> = {
   subject: "asks what happens to a subject", who: "asks who is affected", why: "asks for the reason",
-  where: "asks where the effects reach", when: "asks when", certainty: "asks how sure ACM is",
-  what_if: "asks a what-if: ACM re-runs the action",
+  where: "asks where the effects reach", when: "asks when", certainty: "asks how sure ARM is",
+  what_if: "asks a what-if: ARM re-runs the action",
 };
 
 /** Extra what-ifs for the bundled examples, so the counterfactual is one click away. */
@@ -204,11 +204,11 @@ function AskAnswer({ r }: { r: AskResult }) {
       </div>
       <LlmAnswerView llm={r.llm} step="2" />
       <div className="flex flex-col gap-1">
-        <span className="eyebrow">3 · ACM&apos;s facts (rule engine)</span>
+        <span className="eyebrow">3 · ARM&apos;s facts (rule engine)</span>
         <p className={r.llm && r.llm.error === undefined ? "dim text-[12px] leading-relaxed" : "text-[13px] leading-relaxed"}>{r.answer}</p>
       </div>
       <div className="flex flex-col gap-1">
-        <span className="eyebrow">4 · Original action → consequence (Phrase DNA, from ACM)</span>
+        <span className="eyebrow">4 · Original action → consequence (Phrase DNA, from ARM)</span>
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="rounded bg-splm-500/20 px-1.5 py-0.5 text-[10px] font-bold uppercase">action</span>
           <DnaChips items={actionChips(cf ? cf.action : r.action)} tone="bg-splm-500/10" />
@@ -222,12 +222,12 @@ function AskAnswer({ r }: { r: AskResult }) {
         ) : r.chains.length ? (
           <ol className="flex flex-col gap-1">{r.chains.map((c, i) => <ChainRow key={i} chain={c} />)}</ol>
         ) : (
-          <p className="faint text-[11.5px] italic">No supporting evidence — ACM&apos;s rules record nothing here (never read as “no impact”).</p>
+          <p className="faint text-[11.5px] italic">No supporting evidence — ARM&apos;s rules record nothing here (never read as “no impact”).</p>
         )}
       </div>
       {r.why.length > 0 && (
         <details className="text-[11px]">
-          <summary className="faint cursor-pointer">why ACM says this</summary>
+          <summary className="faint cursor-pointer">why ARM says this</summary>
           <ul className="mt-1 flex flex-col gap-0.5">{r.why.map((w, i) => <li key={i} className="num dim">↳ {w}</li>)}</ul>
         </details>
       )}
@@ -247,17 +247,17 @@ export function PhraseChat({ result, live, liveReason }: { result: PhraseResult;
       body: JSON.stringify({ text: result.text, context: result.context, question }),
     });
     const body = await response.json().catch(() => null);
-    if (!response.ok) throw new Error(body?.detail ?? `ACM ask failed (${response.status})`);
+    if (!response.ok) throw new Error(body?.detail ?? `ARM ask failed (${response.status})`);
     return <AskAnswer r={body as AskResult} />;
   }
   return (
     <ChatShell
       key={`${result.text}|${result.context.join("|")}`}
-      title="Ask ACM about this action"
-      hint={<>live: MLM parses your question, ACM computes the answer from its report of <b>“{result.text}”</b>, the local LLM words it</>}
+      title="Ask ARM about this action"
+      hint={<>live: MLM parses your question, ARM computes the answer from its report of <b>“{result.text}”</b>, the local LLM words it</>}
       presets={presets}
       disabled={!live}
-      disabledReason={`Chat needs Live mode (MLM parser + ACM): ${liveReason}`}
+      disabledReason={`Chat needs Live mode (MLM parser + ARM): ${liveReason}`}
       placeholder="e.g. What happens to Sarah? · Who benefits? · What if John took the train?"
       ask={ask}
     />

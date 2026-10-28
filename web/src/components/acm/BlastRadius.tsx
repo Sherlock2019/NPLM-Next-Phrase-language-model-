@@ -1,9 +1,9 @@
 "use client";
 
 /**
- * ACM's blast radius: concentric rings from the actor out to the earth.
+ * ARM's blast radius: concentric rings from the actor out to the earth.
  *
- * A ring is filled only when ACM reported something there. An empty ring reads
+ * A ring is filled only when ARM reported something there. An empty ring reads
  * "No supporting evidence" - it is never drawn as "no impact". Every row carries
  * its basis as a word (rule-derived, simulated, unknown, generic).
  */
@@ -77,7 +77,7 @@ export function BlastRadius({ rings, caption }: { rings: Ring[]; caption?: strin
       <div className="flex flex-col gap-2">
         <RingDiagram rings={rings} highlight={pick} onPick={(k) => setPick(pick === k ? null : k)} />
         <p className="faint text-center text-[10.5px]">
-          Filled ring = ACM predicted something there · dashed = no supporting evidence. Click a ring to focus it.
+          Filled ring = ARM predicted something there · dashed = no supporting evidence. Click a ring to focus it.
         </p>
         {caption && <p className="faint text-center text-[10.5px]">{caption}</p>}
       </div>

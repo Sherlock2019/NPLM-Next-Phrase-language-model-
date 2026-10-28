@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * The image / video → ACM workflow, as one picture (public/acm/image-video-workflow.webp):
+ * The image / video → ARM workflow, as one picture (public/acm/image-video-workflow.webp):
  *   1 scene input  ->  2 recognise objects and build the world (object library: geometry, mass,
  *   friction, restitution; environment: gravity, surfaces, collisions)  ->  3 define the action
  *   (text instruction or visual event)  ->  4 simulate consequences in a physics engine
@@ -10,13 +10,13 @@
  */
 
 const ALT =
-  "ACM image / video chat, from scene understanding to simulated consequences (proposed workflow). " +
+  "ARM image / video chat, from scene understanding to simulated consequences (proposed workflow). " +
   "1 Scene input: an image or video; extract a frame and establish the scene. " +
   "2 Recognise and build the world: computer vision identifies the objects (plant, mug, table); an object library gives geometry, mass, " +
   "friction and restitution; the environment adds gravity, surfaces and collisions; a 3D scene is reconstructed for simulation. " +
   "3 Define the action: a text instruction such as “push the mug to the right”, or a visual event; infer collision direction and motion. " +
   "4 Simulate consequences in a physics engine, e.g. Unreal Engine 5 / Chaos: apply forces and step through time — the mug slides, tips, falls. " +
-  "5 Render and explain: output frames or video; the ACM chat explains the simulated outcome. " +
+  "5 Render and explain: output frames or video; the ARM chat explains the simulated outcome. " +
   "Property sources are measured, library or estimated; unknown values need assumptions or confirmation; " +
   "the simulation predicts outcomes under stated assumptions, not guaranteed real-world results.";
 
