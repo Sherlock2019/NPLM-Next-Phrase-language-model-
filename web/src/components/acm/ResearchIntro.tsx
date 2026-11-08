@@ -12,6 +12,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ConsequenceRings } from "./ConsequenceRings";
 
 const SCROLL = "scroll-mt-[calc(var(--nav-h,72px)+16px)]";
 
@@ -42,20 +43,6 @@ function Card({ title, children, tone = "plain" }: { title: string; children: Re
     </div>
   );
 }
-
-/* ---------- 01 what -------------------------------------------------------------------- */
-
-const RINGS: { group: "who" | "where"; name: string; finding: string }[] = [
-  { group: "who", name: "Self (I)", finding: "loses my car · gains money · own goal “pay my debt”: ENABLED ➕" },
-  { group: "who", name: "Impacted (Sarah)", finding: "gains my car · loses money" },
-  { group: "who", name: "Other actors", finding: "Mark wants my car: BLOCKED ❌ · Sarah needs a car: ADVANCED ✅" },
-  { group: "where", name: "Local (Paris)", finding: "the sale takes place here" },
-  { group: "where", name: "Neighbours", finding: "no known impact (no rule matched, which is not evidence of none)" },
-  { group: "where", name: "Organization", finding: "insurers and the vehicle registry must record the new owner ●" },
-  { group: "where", name: "Country (France)", finding: "a taxable transaction counts in national economic activity ●" },
-  { group: "where", name: "Society", finding: "money circulates through the economy ●" },
-  { group: "where", name: "Earth", finding: "an existing car is reused instead of a new one being made ▲" },
-];
 
 /* ---------- 02 why --------------------------------------------------------------------- */
 
@@ -140,33 +127,18 @@ export function ResearchIntro() {
           traces the consequences for the one acting, for those it lands on and for other actors' goals, and then across its whole <b className="text-[var(--text)]">blast radius</b>,
           from the place where it happens out to the earth.
         </>}>
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
-          <div className="flex flex-col gap-3">
-            <blockquote className="rounded-lg border-l-4 border-cyan-400 bg-cyan-400/10 p-4 text-[16px] font-semibold leading-snug">
-              “I will sell my car to Sarah in Paris tomorrow to pay my debt.”
-              <span className="dim mt-2 block text-[13px] font-normal">Context: “Mark wants to buy my car.” “Sarah needs a car.”</span>
-            </blockquote>
-            <p className="dim text-[13.5px] leading-relaxed">
-              One sentence in, one structured report out, ring by ring. Three circles say <b>who</b> is affected. Seven layers say <b>where</b> the effects land.
-              When the actor is <b>“I”</b>, the report is the model's view of its <b>own</b> planned action.
-            </p>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[420px] border-collapse text-[13px]">
-              <tbody>
-                {RINGS.map((r) => (
-                  <tr key={r.name} className="hairline border-b last:border-0">
-                    <td className="py-1.5 pr-2 align-top">
-                      <span className={`rounded px-1.5 py-0.5 text-[10.5px] font-bold uppercase ${r.group === "who" ? "bg-violet-400/15 text-violet-400" : "bg-cyan-400/15 text-cyan-500"}`}>{r.group}</span>
-                    </td>
-                    <td className="whitespace-nowrap py-1.5 pr-3 align-top font-semibold">{r.name}</td>
-                    <td className="dim py-1.5 align-top">{r.finding}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <blockquote className="rounded-lg border-l-4 border-cyan-400 bg-cyan-400/10 p-4 text-[16px] font-semibold leading-snug">
+            “I will sell my car to Sarah in Paris tomorrow to pay my debt.”
+            <span className="dim mt-2 block text-[13px] font-normal">Context: “Mark wants to buy my car.” “Sarah needs a car.”</span>
+          </blockquote>
+          <p className="dim self-center text-[13.5px] leading-relaxed">
+            One sentence in, one structured report out, ring by ring: from the actor, to the other participants and their goals, to the local physical world,
+            the neighbourhood, the city, society, the economy and countries, and the world.
+            When the actor is <b>“I”</b>, the report is the model's view of its <b>own</b> planned action.
+          </p>
         </div>
+        <ConsequenceRings />
       </Chapter>
 
       {/* 02 WHY */}
