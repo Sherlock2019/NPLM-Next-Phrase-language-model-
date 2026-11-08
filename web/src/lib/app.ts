@@ -51,7 +51,16 @@ export const MENU: MenuEntry[] =
             { href: "/acm/home#modes", label: "Objects & Human Behavior", hint: "People, objects, images and video combined — concept" },
           ],
         },
-        { href: "/acm/tour", label: "How It Works" },
+        {
+          label: "How It Works",
+          items: [
+            { href: "/acm/home#so-what", label: "So what?", hint: "What ARM gives you that an LLM does not" },
+            { href: "/acm/home#how", label: "How it works", hint: "Seven explicit steps, from a sentence to its blast radius" },
+            { href: "/acm/home#unreal", label: "Physical world · Unreal Engine 5", hint: "Simulate an action's physical consequences before acting" },
+            { href: "/acm/home#next", label: "What next", hint: "The research roadmap" },
+            { href: "/acm/tour", label: "Step-by-step tour", hint: "Real outputs, ARM vs a language model" },
+          ],
+        },
         { href: "/acm/definitions", label: "Definitions" },
         {
           label: "Research",

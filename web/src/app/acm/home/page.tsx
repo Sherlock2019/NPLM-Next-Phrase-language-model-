@@ -1,12 +1,14 @@
 "use client";
 
 /**
- * ARM home: "Every action has consequences." A hero, what ARM is and why, and four ways in:
+ * ARM home: "Every action has consequences." A hero, the researcher intro (<ResearchIntro />:
+ * what · why · so what · how · Unreal Engine for the physical world · what next), and four ways in:
  * actions (phrase), object images, object videos, and (concept) objects & human behaviour.
  * Pictures are cropped from the design (public/acm/home-*.webp).
  */
 
 import Link from "next/link";
+import { ResearchIntro } from "@/components/acm/ResearchIntro";
 
 const svg = { fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
 
@@ -96,21 +98,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* what / why */}
-      <div className="grid gap-4 md:grid-cols-2">
-        {[
-          { id: "what", mark: "?", title: "What is ARM?", text: "A proposed framework for modeling actions, reactions, and consequences in human and physical scenarios." },
-          { id: "why", mark: "✦", title: "Why ARM?", text: "Language fluency alone does not guarantee a reliable world model. ARM aims to ground predictions in explicit context, rules, and simulation." },
-        ].map((c) => (
-          <section key={c.title} id={c.id} className="panel flex scroll-mt-[calc(var(--nav-h,72px)+16px)] items-start gap-4 p-5">
-            <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-full bg-cyan-400/15 text-[22px] font-bold text-cyan-500">{c.mark}</span>
-            <div>
-              <h2 className="text-[19px] font-bold">{c.title}</h2>
-              <p className="dim mt-1 text-[14px] leading-relaxed">{c.text}</p>
-            </div>
-          </section>
-        ))}
-      </div>
+      {/* researcher intro: what · why · so what · how · physical world (Unreal) · what next */}
+      <ResearchIntro />
 
       {/* modes */}
       <section id="modes" className="flex scroll-mt-[calc(var(--nav-h,72px)+16px)] flex-col gap-4">
