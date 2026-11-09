@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * The site header, after the ARM design: domino mark + ARM / Action Reaction Model, the menu
- * (What is ARM? · Why ARM? · Prediction Modes ▾ · How It Works · Research ▾) and "Try a Demo".
+ * The site header, after the ACM design: domino mark + ACM / Action–Consequence Model, the menu
+ * (What is ACM? · Why ACM? · Prediction Modes ▾ · How It Works · Research ▾) and "Try a Demo".
  * Dropdowns open on click or hover and close on Escape or a click outside. On narrow screens
  * the menu folds into a "Menu" button.
  */

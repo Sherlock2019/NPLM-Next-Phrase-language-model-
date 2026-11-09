@@ -1,9 +1,9 @@
 "use client";
 
 /**
- * "The radius of consequences": ARM's blast radius as eight concentric rings around the
+ * "The radius of consequences": ACM's blast radius as eight concentric rings around the
  * action, from the actor out to the world. Hover or click a ring (or its legend row) to see
- * what ARM reports there for the example "I will sell my car to Sarah in Paris tomorrow to pay
+ * what ACM reports there for the example "I will sell my car to Sarah in Paris tomorrow to pay
  * my debt." (context: Mark wants to buy my car; Sarah needs a car).
  *
  * The eight rings are the presentation grouping; each names the engine layer(s) it shows
@@ -58,9 +58,9 @@ export function ConsequenceRings() {
   return (
     <figure className="flex flex-col gap-4">
       <figcaption>
-        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-500">Action–Reaction Model</p>
+        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-500">Action–Consequence Model</p>
         <h3 className="text-[22px] font-extrabold tracking-tight sm:text-[26px]">The radius of consequences</h3>
-        <p className="dim text-[14px]">One action can create effects across people, places and systems. Point at a ring to see what ARM finds there for the example.</p>
+        <p className="dim text-[14px]">One action can create effects across people, places and systems. Point at a ring to see what ACM finds there for the example.</p>
       </figcaption>
 
       <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
@@ -119,7 +119,7 @@ export function ConsequenceRings() {
           </>
         ) : (
           <p className="dim text-[13.5px]">
-            <b className="text-[var(--text)]">“I will sell my car to Sarah in Paris tomorrow to pay my debt.”</b> Choose a ring to see what ARM reports there,
+            <b className="text-[var(--text)]">“I will sell my car to Sarah in Paris tomorrow to pay my debt.”</b> Choose a ring to see what ACM reports there,
             and which engine layer it comes from. A ring with no matching rule says <i>no known impact</i>, never <i>no impact</i>.
           </p>
         )}

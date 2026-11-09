@@ -1,6 +1,6 @@
 "use client";
 
-/** Light / dark switch (lives in the footer; the header follows the ARM design). */
+/** Light / dark switch (lives in the footer; the header follows the ACM design). */
 
 import { useEffect, useState } from "react";
 

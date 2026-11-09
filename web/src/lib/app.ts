@@ -2,8 +2,8 @@
  * Which product this dashboard presents.
  *
  *   mlm (default)  the Meaning Language Model console; "/" is the Playground
- *   acm            ARM, the Action Reaction Model (built on ARM); "/" opens the ARM home page
- *                  and the MLM Playground moves to /mlm. ARM's ./start.sh sets this.
+ *   acm            ACM, the Action–Consequence Model (built on MLM); "/" opens the ACM home page
+ *                  and the MLM Playground moves to /mlm. ACM's ./start.sh sets this.
  *
  * Set with NEXT_PUBLIC_APP_MODE when the dashboard starts (it is read at build/dev time).
  */
@@ -12,7 +12,7 @@ export const APP_MODE: "mlm" | "acm" = process.env.NEXT_PUBLIC_APP_MODE === "acm
 
 export const BRAND =
   APP_MODE === "acm"
-    ? { mark: "ARM", name: "Action Reaction Model", tagline: "Every action has consequences" }
+    ? { mark: "ACM", name: "Action–Consequence Model", tagline: "Every action has consequences" }
     : { mark: "SP", name: "Meaning Language Model", tagline: "Understand meaning before predicting language" };
 
 export interface MenuLink {
@@ -36,16 +36,17 @@ const MLM_PAGES: MenuLink[] = [
   { href: "/system", label: "System" },
 ];
 
-/** The header menu. ARM mode follows the ARM design; every page stays reachable from it. */
+/** The header menu. ACM mode follows the ACM design; every page stays reachable from it. */
 export const MENU: MenuEntry[] =
   APP_MODE === "acm"
     ? [
-        { href: "/acm/home#what", label: "What is ARM?" },
-        { href: "/acm/home#why", label: "Why ARM?" },
+        { href: "/acm/home#what", label: "What is ACM?" },
+        { href: "/acm/home#why", label: "Why ACM?" },
         {
           label: "Prediction Modes",
           items: [
-            { href: "/acm#phrase", label: "Action–Reaction Prediction", hint: "Consequences and reactions to human actions" },
+            { href: "/acm/scenario", label: "Scene engine: The Car Sale", hint: "A scene as a script: actions, consequences, next scenes" },
+            { href: "/acm#phrase", label: "Action–Consequence Prediction", hint: "Consequences of one action sentence (rule engine)" },
             { href: "/acm/scene?source=image", label: "Object Image Prediction", hint: "Physical consequences from a scene" },
             { href: "/acm/scene?source=video", label: "Object Video Prediction", hint: "Outcomes from motion and interactions" },
             { href: "/acm/home#modes", label: "Objects & Human Behavior", hint: "People, objects, images and video combined — concept" },
@@ -54,11 +55,11 @@ export const MENU: MenuEntry[] =
         {
           label: "How It Works",
           items: [
-            { href: "/acm/home#so-what", label: "So what?", hint: "What ARM gives you that an LLM does not" },
+            { href: "/acm/home#so-what", label: "So what?", hint: "What ACM gives you that an LLM does not" },
             { href: "/acm/home#how", label: "How it works", hint: "Seven explicit steps, from a sentence to its blast radius" },
             { href: "/acm/home#unreal", label: "Physical world · Unreal Engine 5", hint: "Simulate an action's physical consequences before acting" },
             { href: "/acm/home#next", label: "What next", hint: "The research roadmap" },
-            { href: "/acm/tour", label: "Step-by-step tour", hint: "Real outputs, ARM vs a language model" },
+            { href: "/acm/tour", label: "Step-by-step tour", hint: "Real outputs, ACM vs a language model" },
           ],
         },
         { href: "/acm/definitions", label: "Definitions" },
@@ -67,7 +68,7 @@ export const MENU: MenuEntry[] =
           items: [
             { href: "/acm/inference", label: "What happens next?", hint: "53 actions answered with their reasoning" },
             { href: "/multimodal", label: "Text · Image · Video", hint: "One meaning from three kinds of evidence" },
-            { href: "/mlm", label: "MLM Playground", hint: "The meaning layer under ARM" },
+            { href: "/mlm", label: "MLM Playground", hint: "The meaning layer under ACM" },
             ...MLM_PAGES,
           ],
         },
@@ -75,11 +76,11 @@ export const MENU: MenuEntry[] =
     : [
         { href: "/", label: "Playground" },
         ...MLM_PAGES.slice(0, 3),
-        { href: "/acm", label: "ARM Demo" },
+        { href: "/acm", label: "ACM Demo" },
         { href: "/acm/inference", label: "What happens next?" },
-        { href: "/multimodal", label: "Multimodal → ARM" },
+        { href: "/multimodal", label: "Multimodal → ACM" },
         ...MLM_PAGES.slice(3),
       ];
 
-/** The header's call to action (ARM mode). */
+/** The header's call to action (ACM mode). */
 export const CTA: MenuLink | null = APP_MODE === "acm" ? { href: "/acm", label: "Try a Demo" } : null;

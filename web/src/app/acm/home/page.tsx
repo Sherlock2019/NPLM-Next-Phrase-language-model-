@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ARM home: "Every action has consequences." A hero, the researcher intro (<ResearchIntro />:
+ * ACM home: "Every action has consequences." A hero, the researcher intro (<ResearchIntro />:
  * what · why · so what · how · Unreal Engine for the physical world · what next), and four ways in:
  * actions (phrase), object images, object videos, and (concept) objects & human behaviour.
  * Pictures are cropped from the design (public/acm/home-*.webp).
@@ -53,10 +53,10 @@ const ICONS = {
 
 const MODES = [
   {
-    n: "01", icon: ICONS.actions, title: "Action–Reaction", sub: "Human actions & consequences",
+    n: "01", icon: ICONS.actions, title: "Scene engine", sub: "A situation as a script: actions & consequences",
     text: "Explore how a decision could affect people and situations.",
-    example: "A manager changes a deadline. What could follow?",
-    href: "/acm#phrase", cta: "Explore Actions",
+    example: "Mark sells Sarah’s car to Florence to repay a debt. Sarah does not agree. What could follow?",
+    href: "/acm/scenario", cta: "Explore the Car Sale",
   },
   {
     n: "02", icon: ICONS.image, title: "Object Image", sub: "Physical outcomes from a scene",
@@ -88,7 +88,7 @@ export default function HomePage() {
           className="absolute inset-y-0 right-0 hidden h-full w-auto max-w-none object-cover md:block" />
         <div aria-hidden className="absolute inset-0 hidden bg-gradient-to-r from-[#0b1b2e] via-[#0b1b2e]/85 to-transparent md:block" />
         <div className="relative flex flex-col gap-4 px-6 py-10 sm:px-10 sm:py-14 md:max-w-[62%]">
-          <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-cyan-400">Action → Reaction → Consequence</p>
+          <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-cyan-400">Action → Consequence</p>
           <h1 className="text-[44px] font-extrabold leading-[1.02] tracking-tight sm:text-[64px]">
             Every action has <span className="text-cyan-400">consequences.</span>
           </h1>

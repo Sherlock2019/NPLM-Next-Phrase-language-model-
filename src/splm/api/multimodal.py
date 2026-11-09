@@ -7,6 +7,9 @@
                                   worded by the local LLM from ACM's facts (acm.llm)
     POST /api/acm/llm/plan        LLM: a physics question -> object, intent and hypothetical action
     POST /api/acm/llm/answer      LLM: question + simulator/library facts -> answer in Phrase DNA
+    GET  /api/acm/scene/status    scene ids, and whether the model provider (local LLM) is available
+    POST /api/acm/scene/branches  LLM: next scenes for a scene (acm.scene.ModelProvider), validated;
+                                  503 when the model is unavailable or returns nothing valid
 
 The dashboard's Demo mode never calls these for results - it replays bundled
 fixtures. Live mode is enabled only for the flows this status reports as
@@ -45,6 +48,10 @@ class PlanRequest(BaseModel):
 class FactsRequest(BaseModel):
     question: str = Field(min_length=1, max_length=500)
     facts: dict[str, Any]
+
+
+class SceneBranchRequest(BaseModel):
+    scene: str = Field(default="car_sale", pattern=r"^[a-z0-9_]{1,64}$", description="scene id (ACM scenes/<id>.yaml)")
 
 
 class LiveTextRequest(BaseModel):
@@ -173,6 +180,34 @@ def register(app: FastAPI, prefix: str) -> None:
             return llm.answer(request.question, request.facts, kind="physics")
         except llm.LLMUnavailable as exc:
             raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    @app.get(f"{prefix}/acm/scene/status")
+    def acm_scene_status() -> dict[str, Any]:
+        """Which scenes exist, and whether the optional model provider can generate branches."""
+        try:
+            from acm.scene import scene_ids
+            from acm.scene.providers import ModelProvider
+        except ImportError as exc:
+            return {"scenes": [], "model": {"available": False, "reason": f"ACM scene engine not installed ({exc})"}}
+        ok, reason = ModelProvider().available()
+        return {"scenes": scene_ids(), "model": {"available": ok, "reason": reason}}
+
+    @app.post(f"{prefix}/acm/scene/branches")
+    def acm_scene_branches(request: SceneBranchRequest) -> dict[str, Any]:
+        """Model-generated next scenes for a scene. No silent fallback: failures are 503s."""
+        try:
+            from acm.scene import ProviderError, generate_branches, load_scene
+        except ImportError as exc:
+            raise HTTPException(status_code=503, detail=f"ACM scene engine not installed ({exc})") from exc
+        try:
+            scene = load_scene(request.scene)
+        except (FileNotFoundError, ValueError) as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        try:
+            result = generate_branches(scene, "model", fallback=False)
+        except ProviderError as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
+        return {**result, "branches": [b.model_dump(mode="json") for b in result["branches"]]}
 
     @app.post(f"{prefix}/multimodal/text")
     def multimodal_text(request: LiveTextRequest) -> dict[str, Any]:

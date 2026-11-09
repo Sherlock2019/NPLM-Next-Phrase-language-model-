@@ -1,6 +1,6 @@
 "use client";
 
-/** Definitions: the terms used across the site (ARM, MLM, LLM, Phrase DNA, rings, badges...), searchable. */
+/** Definitions: the terms used across the site (ACM, MLM, LLM, Phrase DNA, rings, badges...), searchable. */
 
 import { useMemo, useState } from "react";
 import { inputClass } from "@/components/ui";
@@ -17,22 +17,22 @@ const GROUPS: { title: string; terms: Term[] }[] = [
     title: "The models",
     terms: [
       {
-        term: "ARM", full: "Action Reaction Model",
-        text: "This system. It predicts what an action changes and for whom: for the one acting, for those it lands on, for other people's goals, and across its blast radius from the place it happens out to the earth. It works from a sentence, an image or a video, and gives a reason for every claim. Its engine is the Python package acm (the project was first called ACM, the Actions Consequential Model).",
+        term: "ACM", full: "Action–Consequence Model",
+        text: "This system. It predicts what an action changes and for whom: for the one acting, for those it lands on, for other people's goals, and across its blast radius from the place it happens out to the earth. It works from a sentence, an image or a video, and gives a reason for every claim. Its engine is the Python package acm (the project was first called ACM, the Action–Consequence Model).",
         example: "“John flew to London.” → John is now in London; aircraft noise for Croydon, Watford, Slough; emissions for the UK and the earth.",
       },
       {
         term: "MLM", full: "Meaning Language Model",
-        text: "The meaning layer under ARM. It reads a sentence into its structure — who does what, to whom, where, when, how and why (Phrase DNA) — with the Stanza parser and its own rules. It does not use an LLM to do this. MLM also has a next-word prediction mode (the MLM Playground) that re-scores a small language model's guesses with that structure.",
+        text: "The meaning layer under ACM. It reads a sentence into its structure — who does what, to whom, where, when, how and why (Phrase DNA) — with the Stanza parser and its own rules. It does not use an LLM to do this. MLM also has a next-word prediction mode (the MLM Playground) that re-scores a small language model's guesses with that structure.",
         example: "“John will meet Sarah in Paris tomorrow” → WHO John · DOES meet · WITH WHOM Sarah · WHERE Paris · WHEN tomorrow.",
       },
       {
         term: "LLM", full: "Large Language Model",
-        text: "A neural network trained to continue text. In ARM a local LLM (qwen2.5:7b, run with Ollama) only puts answers into words and reads free-form physics questions; it never decides a consequence — those come from ARM's rules and the simulator. Without it, the chats fall back to ARM's own sentences.",
+        text: "A neural network trained to continue text. In ACM a local LLM (qwen2.5:7b, run with Ollama) only puts answers into words and reads free-form physics questions; it never decides a consequence — those come from ACM's rules and the simulator. Without it, the chats fall back to ACM's own sentences.",
       },
       {
         term: "SmolLM2", full: "a small base language model (135M parameters)",
-        text: "The model MLM's next-word prediction re-scores in the MLM Playground, Ablation and Benchmark pages. It is not instruction-tuned and plays no part in ARM's consequences.",
+        text: "The model MLM's next-word prediction re-scores in the MLM Playground, Ablation and Benchmark pages. It is not instruction-tuned and plays no part in ACM's consequences.",
       },
       {
         term: "Stanza",
@@ -40,7 +40,7 @@ const GROUPS: { title: string; terms: Term[] }[] = [
       },
       {
         term: "Ollama",
-        text: "A program that runs language models on your own machine. ARM uses it to run qwen2.5:7b locally, so no text leaves the machine. Set ACM_LLM_MODEL to use another model (e.g. qwen2.5:3b on a machine without a GPU).",
+        text: "A program that runs language models on your own machine. ACM uses it to run qwen2.5:7b locally, so no text leaves the machine. Set ACM_LLM_MODEL to use another model (e.g. qwen2.5:3b on a machine without a GPU).",
       },
     ],
   },
@@ -53,7 +53,7 @@ const GROUPS: { title: string; terms: Term[] }[] = [
       },
       {
         term: "Context",
-        text: "Earlier sentences given with the action. ARM reads them for other people's goals and actions, so it can say whose plan an action helps or blocks.",
+        text: "Earlier sentences given with the action. ACM reads them for other people's goals and actions, so it can say whose plan an action helps or blocks.",
         example: "context “Mark wants to buy my car.” + action “I will sell my car to Sarah.” → Mark's goal: blocked.",
       },
       {
@@ -62,7 +62,7 @@ const GROUPS: { title: string; terms: Term[] }[] = [
       },
       {
         term: "Concept",
-        text: "The kind of action a verb stands for, from ARM's knowledge packs (sell → SALE, fly → MOVE, steal → THEFT). Each concept declares its roles and the state changes it causes.",
+        text: "The kind of action a verb stands for, from ACM's knowledge packs (sell → SALE, fly → MOVE, steal → THEFT). Each concept declares its roles and the state changes it causes.",
       },
       {
         term: "Roles bound",
@@ -70,7 +70,7 @@ const GROUPS: { title: string; terms: Term[] }[] = [
       },
       {
         term: "Negation",
-        text: "A negated action (“John did not sell his car”) changes nothing; ARM says so instead of predicting consequences.",
+        text: "A negated action (“John did not sell his car”) changes nothing; ACM says so instead of predicting consequences.",
       },
     ],
   },
@@ -79,7 +79,7 @@ const GROUPS: { title: string; terms: Term[] }[] = [
     terms: [
       {
         term: "Consequence",
-        text: "A change ARM predicts: a state that becomes true or false (Sarah has the car; John no longer has it), or an impact on a wider layer (aircraft noise for the neighbours).",
+        text: "A change ACM predicts: a state that becomes true or false (Sarah has the car; John no longer has it), or an impact on a wider layer (aircraft noise for the neighbours).",
       },
       {
         term: "Blast radius",
@@ -91,7 +91,7 @@ const GROUPS: { title: string; terms: Term[] }[] = [
       },
       {
         term: "Knowledge packs (rule packs)",
-        text: "ARM's YAML knowledge: verbs → concepts, each concept's effects, impact rules per layer, and a place gazetteer (London → its neighbours, city, country). Every rule-derived row names the rule it came from.",
+        text: "ACM's YAML knowledge: verbs → concepts, each concept's effects, impact rules per layer, and a place gazetteer (London → its neighbours, city, country). Every rule-derived row names the rule it came from.",
       },
       {
         term: "Impact rule",
@@ -111,7 +111,7 @@ const GROUPS: { title: string; terms: Term[] }[] = [
       },
       {
         term: "What-if (counterfactual)",
-        text: "A question like “What if John took the train?”: ARM runs again on the new action, with the same context, and lists which consequences are new, which no longer follow and which stay.",
+        text: "A question like “What if John took the train?”: ACM runs again on the new action, with the same context, and lists which consequences are new, which no longer follow and which stay.",
       },
     ],
   },
@@ -152,13 +152,13 @@ const GROUPS: { title: string; terms: Term[] }[] = [
   {
     title: "Labels you will see",
     terms: [
-      { term: "Rule-derived", text: "Computed by ARM's knowledge packs; deterministic, with the rule named." },
+      { term: "Rule-derived", text: "Computed by ACM's knowledge packs; deterministic, with the rule named." },
       { term: "Simulated", text: "Computed by a physics simulator." },
       { term: "Observed", text: "Read from the evidence (a sentence, an image, a video)." },
       { term: "Inferred", text: "Concluded from the evidence, not stated in it." },
       { term: "Assumed", text: "A typical value used because the evidence cannot give it (table height, a mug's mass)." },
-      { term: "Unknown", text: "ARM cannot say, and states what it would need (e.g. whether the cup spills: its contents)." },
-      { term: "Generic", text: "ARM has no concept for the verb, so it gives no verdict." },
+      { term: "Unknown", text: "ACM cannot say, and states what it would need (e.g. whether the cup spills: its contents)." },
+      { term: "Generic", text: "ACM has no concept for the verb, so it gives no verdict." },
       { term: "Fixture", text: "A hand-authored extraction replayed in the demo, labelled as such — not live model output." },
       { term: "Mock", text: "A stand-in for a model that is not wired in yet (e.g. object detection)." },
       { term: "Ablation", text: "Switching parts of MLM off one at a time to measure what each one contributes." },
@@ -182,7 +182,7 @@ export default function DefinitionsPage() {
       <header className="panel flex flex-col gap-3 p-5 sm:p-6">
         <h1 className="text-2xl font-semibold tracking-tight">Definitions</h1>
         <p className="dim max-w-3xl text-[14px] leading-relaxed">
-          The terms used across ARM: the models (ARM, MLM, LLM), how a sentence is read, how consequences are predicted, the physics
+          The terms used across ACM: the models (ACM, MLM, LLM), how a sentence is read, how consequences are predicted, the physics
           side, and the labels on every row.
         </p>
         <input className={`${inputClass} max-w-md text-[13px]`} placeholder="Search a term… (e.g. MLM, ring, friction)"

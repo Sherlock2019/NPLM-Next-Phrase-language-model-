@@ -1,12 +1,12 @@
 /**
- * The ARM home page's researcher intro, in five chapters plus the physical-world path:
+ * The ACM home page's researcher intro, in five chapters plus the physical-world path:
  *
- *   What is ARM?  ·  Why it exists (LLM limits)  ·  So what (ARM vs an LLM)  ·
+ *   What is ACM?  ·  Why it exists (LLM limits)  ·  So what (ACM vs an LLM)  ·
  *   How it works  ·  The physical world (Unreal Engine 5)  ·  What next
  *
  * The text is condensed from the ACM README (https://github.com/Sherlock2019/ACM). The LLM
  * answers quoted under "Why" are real recordings (examples/llm_baseline.json, SmolLM2-135M);
- * ARM's answers are its real outputs for the same inputs. The Unreal Engine chapter is the
+ * ACM's answers are its real outputs for the same inputs. The Unreal Engine chapter is the
  * proposed design: today the prototype runs matter.js in 2D and says so.
  */
 
@@ -82,31 +82,31 @@ const STEPS: { n: number; title: string; text: string; code?: string }[] = [
   { n: 4, title: "Other actors' goals", text: "Context sentences (“Mark wants to buy my car”) become wanted states. Exclusive states, such as one owner per thing, show who is blocked and who is helped." },
   { n: 5, title: "Blast radius, layer by layer", text: "A gazetteer gives each place its neighbours, organization, city and country. Impact rules, each scoped to a layer, say what the action does there, out to society and the earth." },
   { n: 6, title: "Graph + vector memory", text: "The whole report becomes one graph with an 83-dimensional vector on every node, stored in SQLite and searchable by similarity and by entity history." },
-  { n: 7, title: "The LLM only phrases it", text: "A local LLM (qwen2.5:7b) turns ARM's facts into plain sentences. It may use only what ARM or the simulator computed. It never decides a consequence." },
+  { n: 7, title: "The LLM only phrases it", text: "A local LLM (qwen2.5:7b) turns ACM's facts into plain sentences. It may use only what ACM or the simulator computed. It never decides a consequence." },
 ];
 
 /* ---------- 05 unreal ------------------------------------------------------------------ */
 
 const UE_SYSTEMS = [
   { name: "Chaos Physics", role: "Simulates the action", text: "Rigid bodies, collisions and gravity, plus Chaos Destruction for breakage. The proposed push becomes a force; the engine steps time, and the mug slides, tips and falls." },
-  { name: "Physical Materials", role: "Gives objects their properties", text: "Friction, restitution and density for each surface. Values come from ARM's per-environment object library (kitchen, house, garden, street, mountain): mass, shape, texture, material." },
+  { name: "Physical Materials", role: "Gives objects their properties", text: "Friction, restitution and density for each surface. Values come from ACM's per-environment object library (kitchen, house, garden, street, mountain): mass, shape, texture, material." },
   { name: "Sequencer + Movie Render Queue", role: "Shows what would happen", text: "Renders the predicted outcome as frames or video from the original camera, so the prediction can be compared, frame by frame, with what really happened." },
 ];
 
 const UE_LOOP = [
   "Image / video", "Recognise objects + library properties", "Rebuild the scene in Unreal 3D",
-  "Apply the proposed action", "Chaos steps the physics", "Events → ARM state changes (basis: simulation)", "Rings + explanation, before acting",
+  "Apply the proposed action", "Chaos steps the physics", "Events → ACM state changes (basis: simulation)", "Rings + explanation, before acting",
 ];
 
 /* ---------- 06 next -------------------------------------------------------------------- */
 
 const NEXT = [
-  { title: "Unreal Engine 5 in the loop", text: "Replace the 2D matter.js stand-in with a 3D Unreal scene driven through its Python / Remote Control API, and feed simulated events back into ARM." },
+  { title: "Unreal Engine 5 in the loop", text: "Replace the 2D matter.js stand-in with a 3D Unreal scene driven through its Python / Remote Control API, and feed simulated events back into ACM." },
   { title: "Real perception", text: "Swap the hand-authored image and video replays for a vision-language model (Qwen3-VL) and a detector/tracker (YOLO), keeping the no-future-leakage rule." },
   { title: "Bigger knowledge packs", text: "Today: about 18 concepts, 50 English verbs, 40 impact rules and 20 places. Each one is a YAML edit away, in more languages." },
   { title: "Learned components that beat the baseline", text: "A learned embedder, then trained consequence models. The current rules are the honest baseline they must outperform on the benchmark." },
   { title: "World models", text: "V-JEPA 2-AC and similar models plug in behind the same transition interface as the tabletop simulator." },
-  { title: "An AI checking its own actions", text: "When the actor is “I”, the report is the agent's view of its own planned action. ARM becomes a pre-action check: see the consequences, then decide." },
+  { title: "An AI checking its own actions", text: "When the actor is “I”, the report is the agent's view of its own planned action. ACM becomes a pre-action check: see the consequences, then decide." },
   { title: "People and objects together", text: "Human responses to physical events, such as a worker reacting to a falling box. This is a concept today and not built yet." },
 ];
 
@@ -123,7 +123,7 @@ export function ResearchIntro() {
       <Chapter id="what" n="01" kicker="What it is" title="A model that predicts what an action does"
         lead={<>
           A language model predicts the next word. <b className="text-[var(--text)]">MLM</b>, the Meaning Language Model, first works out what a sentence
-          means. <b className="text-[var(--text)]">ARM, the Action Reaction Model, goes one step further: it predicts what an action <i>does</i>.</b> It
+          means. <b className="text-[var(--text)]">ACM, the Action–Consequence Model, goes one step further: it predicts what an action <i>does</i>.</b> It
           traces the consequences for the one acting, for those it lands on and for other actors' goals, and then across its whole <b className="text-[var(--text)]">blast radius</b>,
           from the place where it happens out to the earth.
         </>}>
@@ -157,7 +157,7 @@ export function ResearchIntro() {
             </ul>
             <p className="faint mt-2 text-[11.5px]">SmolLM2-135M, local, recorded 2026-10-26 (examples/llm_baseline.json). A small base model makes the failure easy to see; larger models fail less often, but in the same way and less visibly.</p>
           </Card>
-          <Card title="ARM, same input" tone="ok">
+          <Card title="ACM, same input" tone="ok">
             <p className="text-[14px] font-semibold text-[var(--text)]">Mark wants to buy John's car: BLOCKED ❌</p>
             <p className="mt-1 text-[13px]">Why: SALE makes <code className="num">has(Sarah, car) = true</code>. Ownership is exclusive, so <code className="num">has(Mark, car)</code> cannot hold.</p>
             <p className="mt-1 text-[13px]">Sarah needs a car: ADVANCED ✅. Basis: rule, certainty 1.0 (past action).</p>
@@ -166,7 +166,7 @@ export function ResearchIntro() {
       </Chapter>
 
       {/* 03 SO WHAT */}
-      <Chapter id="so-what" n="03" kicker="So what" title="What ARM gives you that LLM mode does not"
+      <Chapter id="so-what" n="03" kicker="So what" title="What ACM gives you that LLM mode does not"
         lead="Rules determine the outcomes and the LLM only explains them. Every claim can be inspected, repeated and corrected.">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[620px] border-collapse text-[13.5px]">
@@ -174,7 +174,7 @@ export function ResearchIntro() {
               <tr className="hairline border-b text-left text-[11px] uppercase tracking-wider">
                 <th className="faint py-2 pr-3 font-semibold"> </th>
                 <th className="py-2 pr-3 font-semibold text-amber-500">LLM mode</th>
-                <th className="py-2 font-semibold text-cyan-500">ARM</th>
+                <th className="py-2 font-semibold text-cyan-500">ACM</th>
               </tr>
             </thead>
             <tbody>
@@ -189,7 +189,7 @@ export function ResearchIntro() {
           </table>
         </div>
         <p className="dim rounded-lg border border-dashed border-[var(--border)] p-3 text-[13px]">
-          <b className="text-[var(--text)]">Where an LLM is still better:</b> {LLM_BETTER.join(" · ")}. That is why ARM keeps an LLM to phrase its
+          <b className="text-[var(--text)]">Where an LLM is still better:</b> {LLM_BETTER.join(" · ")}. That is why ACM keeps an LLM to phrase its
           answers and to read free-form questions, but never lets it decide a consequence.
         </p>
       </Chapter>
@@ -223,9 +223,9 @@ export function ResearchIntro() {
 
       {/* 05 UNREAL */}
       <Chapter id="unreal" n="05" kicker="The physical world" title="Unreal Engine 5: letting the AI see the physical consequences of its actions"
-        lead={<>Words cannot tell an agent whether a pushed mug falls. A game engine can. ARM proposes using three systems that already exist in
+        lead={<>Words cannot tell an agent whether a pushed mug falls. A game engine can. ACM proposes using three systems that already exist in
           <b className="text-[var(--text)]"> Unreal Engine 5</b> to rebuild the scene in 3D, simulate the proposed action and return what happens as
-          ARM state changes with the basis <code className="num">simulation</code>, before the agent acts.</>}>
+          ACM state changes with the basis <code className="num">simulation</code>, before the agent acts.</>}>
         <div className="grid gap-3 md:grid-cols-3">
           {UE_SYSTEMS.map((u, i) => (
             <div key={u.name} className="panel-raised flex flex-col gap-1.5 p-4">
