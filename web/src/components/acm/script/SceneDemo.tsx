@@ -4,7 +4,7 @@
  * ACM scene demo, rendered from a scene bundle written by the ACM scene engine
  * (`acm scene bundle` / `acm demo --json` → public/demo/scene_<id>.json).
  *
- *   A Scene overview · B Actions and dialogue · C Actors · D Consequence radius · E Next scenes
+ *   A Scene overview · B Actions and dialogue · C Actors · D World layers · E Consequence radius · F Next scenes
  *
  * An actor focus applies across every section; "Show all" lays them out on one page.
  */
@@ -13,6 +13,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { actorColors, type SceneBundle } from "@/lib/acm/scene";
 import { ActorCards } from "./ActorCards";
 import { Branches, ExportButton } from "./Branches";
+import { LayerStack } from "./LayerStack";
 import { Overview } from "./Overview";
 import { RadiusMap } from "./RadiusMap";
 import { ScriptPlayer } from "./ScriptPlayer";
@@ -22,8 +23,9 @@ const STAGES = [
   { k: "A", title: "Scene overview", hint: "Where, when, who, what is at stake" },
   { k: "B", title: "Actions and dialogue", hint: "The script, step by step" },
   { k: "C", title: "Actors", hint: "Goals, behaviour, possible feelings, unknowns" },
-  { k: "D", title: "Consequence radius", hint: "Eight scopes around the action" },
-  { k: "E", title: "Next scenes", hint: "Possible continuations and export" },
+  { k: "D", title: "World layers", hint: "Which systems each event is routed to, and what each layer finds" },
+  { k: "E", title: "Consequence radius", hint: "Eight scopes around the action" },
+  { k: "F", title: "Next scenes", hint: "Possible continuations and export" },
 ];
 
 export function SceneDemo({ b, initialStage = 0, initialAll = false }: { b: SceneBundle; initialStage?: number; initialAll?: boolean }) {
@@ -47,8 +49,9 @@ export function SceneDemo({ b, initialStage = 0, initialAll = false }: { b: Scen
       <ExportButton directions={b.directions} name={`${s.id}_scene1_directions.json`} />
     </div>,
     <ActorCards key="c" b={b} colors={colors} focus={focus} setFocus={setFocus} />,
-    <RadiusMap key="d" b={b} colors={colors} focus={focus} action={action} />,
-    <Branches key="e" b={b} colors={colors} focus={focus} />,
+    <LayerStack key="d" b={b} colors={colors} focus={focus} action={action} />,
+    <RadiusMap key="e" b={b} colors={colors} focus={focus} action={action} />,
+    <Branches key="f" b={b} colors={colors} focus={focus} />,
   ];
 
   return (

@@ -40,8 +40,17 @@ export interface SceneEvent {
 
 export interface Scope { n: number; id: string; title: string; short: string }
 
+/** ACM's world-model layers, bottom-up (acm.scene.layers). 0 is the event, 3 the router. */
+export type LayerId = "action" | "physical" | "perception" | "routing" | "human_social" | "digital" | "business" | "society" | "planetary";
+export interface WorldLayer {
+  level: number; id: LayerId; icon: string; name: string; examines: string;
+  osi: string; osi_role: string; engine: string; status: "working" | "partial" | "planned";
+}
+export interface Route { layer: LayerId; actors: string[]; objects: string[]; reasons: string[] }
+export interface RoutingRow { event: string; routes: Route[] }
+
 export interface Consequence {
-  id: string; scope: string; affected: string[]; description: string; goal: string | null;
+  id: string; scope: string; layer: LayerId; affected: string[]; description: string; goal: string | null;
   evidence: string[]; status: Status; effect: Record<string, Valence>; horizon: Horizon;
   assumptions: string[]; questions: string[]; source: Source;
 }
@@ -93,6 +102,10 @@ export interface SceneBundle {
   branches: Branch[];
   directions: Directions;
   vocabulary: Record<string, string>;
+  layers: WorldLayer[];
+  /** For each scene event: which world layers, actors and objects examine it, and why. */
+  routing: RoutingRow[];
+  branch_routing: Record<string, RoutingRow[]>;
 }
 
 /** Display colours per actor (presentation only; not part of the scene data). */

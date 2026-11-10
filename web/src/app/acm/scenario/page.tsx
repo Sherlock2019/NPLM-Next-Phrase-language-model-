@@ -2,7 +2,7 @@
 
 /**
  * ACM scene engine demo: /acm/scenario (car_sale) or /acm/scenario?scene=<id>.
- * Deep links: ?section=A..E opens a section, ?all=1 shows every section.
+ * Deep links: ?section=A..F opens a section, ?all=1 shows every section.
  * Reads public/demo/scene_<id>.json, written by the ACM scene engine (acm demo --json, which
  * ./start.sh runs). Static data: no API, key or model needed.
  */
@@ -20,7 +20,7 @@ export default function ScenePage() {
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const id = (q.get("scene") ?? "car_sale").replace(/[^a-z0-9_]/g, "");
-    setView({ section: Math.max("ABCDE".indexOf((q.get("section") ?? "A").toUpperCase()), 0), all: q.get("all") === "1" });
+    setView({ section: Math.max("ABCDEF".indexOf((q.get("section") ?? "A").toUpperCase()), 0), all: q.get("all") === "1" });
     fetch(`/demo/scene_${id}.json`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`scene_${id}.json: ${r.status}`))))
       .then(setBundle)

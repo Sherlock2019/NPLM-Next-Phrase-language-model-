@@ -13,6 +13,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ConsequenceRings } from "./ConsequenceRings";
+import { WorldLayersIntro } from "./WorldLayers";
 
 const SCROLL = "scroll-mt-[calc(var(--nav-h,72px)+16px)]";
 
@@ -62,7 +63,7 @@ const VS: { aspect: string; llm: string; arm: string }[] = [
   { aspect: "Why it says so", llm: "hidden in the weights", arm: "every consequence carries its basis (rule · simulation · observation) and the rule that fired" },
   { aspect: "Unknowns", llm: "filled with plausible text", arm: "reported: “no rule matched” never means “no impact”, and unknown places are not guessed" },
   { aspect: "Other people's goals", llm: "often forgotten or contradicted", arm: "checked one by one: advanced · enabled · blocked · at risk · hindered" },
-  { aspect: "Reach", llm: "whoever the text mentions", arm: "the full blast radius: self → impacted → others → local → … → earth" },
+  { aspect: "Reach", llm: "whoever the text mentions", arm: "eight world layers (physical → perception → routing → people → digital → business → society → planet) and the full radius, self → … → earth" },
   { aspect: "Physical actions", llm: "guessed from text", arm: "simulated in a physics engine using object properties" },
   { aspect: "Repeatability", llm: "varies with sampling", arm: "same input, same report, same certainty score" },
   { aspect: "Memory", llm: "the context window", arm: "a graph vector database of every analysed action" },
@@ -80,7 +81,7 @@ const STEPS: { n: number; title: string; text: string; code?: string }[] = [
     code: "has(Sarah, car)  = true\nhas(self, car)   = false\nhas(self, money) = true" },
   { n: 3, title: "Who it lands on", text: "Each change is placed on the actor, the impacted participants or the local environment." },
   { n: 4, title: "Other actors' goals", text: "Context sentences (“Mark wants to buy my car”) become wanted states. Exclusive states, such as one owner per thing, show who is blocked and who is helped." },
-  { n: 5, title: "Blast radius, layer by layer", text: "A gazetteer gives each place its neighbours, organization, city and country. Impact rules, each scoped to a layer, say what the action does there, out to society and the earth." },
+  { n: 5, title: "Routing to the world layers", text: "The consequence router sends each event to the world models that should examine it: physical, perception, human and social, digital, business, society and planet, with the reason for each route. A gazetteer and scoped impact rules then place each consequence on a ring, from the actor out to the earth." },
   { n: 6, title: "Graph + vector memory", text: "The whole report becomes one graph with an 83-dimensional vector on every node, stored in SQLite and searchable by similarity and by entity history." },
   { n: 7, title: "The LLM only phrases it", text: "A local LLM (qwen2.5:7b) turns ACM's facts into plain sentences. It may use only what ACM or the simulator computed. It never decides a consequence." },
 ];
@@ -138,6 +139,7 @@ export function ResearchIntro() {
             When the actor is <b>“I”</b>, the report is the model's view of its <b>own</b> planned action.
           </p>
         </div>
+        <WorldLayersIntro />
         <ConsequenceRings />
       </Chapter>
 

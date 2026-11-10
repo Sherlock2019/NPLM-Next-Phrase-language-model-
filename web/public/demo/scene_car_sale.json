@@ -920,6 +920,7 @@
    {
     "id": "c1",
     "scope": "actor",
+    "layer": "human_social",
     "affected": [
      "mark"
     ],
@@ -941,6 +942,7 @@
    {
     "id": "c2",
     "scope": "actor",
+    "layer": "human_social",
     "affected": [
      "mark",
      "sarah"
@@ -966,6 +968,7 @@
    {
     "id": "c3",
     "scope": "participants",
+    "layer": "human_social",
     "affected": [
      "sarah"
     ],
@@ -987,6 +990,7 @@
    {
     "id": "c4",
     "scope": "participants",
+    "layer": "human_social",
     "affected": [
      "florence"
     ],
@@ -1008,6 +1012,7 @@
    {
     "id": "c5",
     "scope": "participants",
+    "layer": "business",
     "affected": [
      "florence",
      "mark",
@@ -1032,6 +1037,7 @@
    {
     "id": "c6",
     "scope": "physical",
+    "layer": "physical",
     "affected": [
      "car",
      "keys"
@@ -1051,6 +1057,7 @@
    {
     "id": "c7",
     "scope": "relationships",
+    "layer": "human_social",
     "affected": [
      "mark",
      "sarah",
@@ -1076,6 +1083,7 @@
    {
     "id": "c8",
     "scope": "city",
+    "layer": "digital",
     "affected": [
      "car"
     ],
@@ -1094,8 +1102,52 @@
     "source": "authored_demo"
    },
    {
+    "id": "c12",
+    "scope": "participants",
+    "layer": "perception",
+    "affected": [
+     "mark",
+     "sarah",
+     "florence"
+    ],
+    "description": "Everyone present sees the keys held out and hears Sarah's objection; Florence asks about consent right after hearing it.",
+    "goal": null,
+    "evidence": [
+     "e3",
+     "e4",
+     "e6"
+    ],
+    "status": "stated",
+    "effect": {},
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c13",
+    "scope": "city",
+    "layer": "digital",
+    "affected": [
+     "car",
+     "debt"
+    ],
+    "description": "No record changes during the scene: no payment is made and no registration transfer is started.",
+    "goal": null,
+    "evidence": [
+     "e7"
+    ],
+    "status": "stated",
+    "effect": {},
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
     "id": "c9",
     "scope": "society",
+    "layer": "society",
     "affected": [],
     "description": "No specific societal impact is established.",
     "goal": null,
@@ -1110,6 +1162,7 @@
    {
     "id": "c10",
     "scope": "economy",
+    "layer": "society",
     "affected": [],
     "description": "No national economic impact is established.",
     "goal": null,
@@ -1124,8 +1177,9 @@
    {
     "id": "c11",
     "scope": "world",
+    "layer": "planetary",
     "affected": [],
-    "description": "No specific global impact is established.",
+    "description": "No specific global, environmental or ecosystem impact is established.",
     "goal": null,
     "evidence": [],
     "status": "not_identified",
@@ -1330,6 +1384,7 @@
     {
      "id": "ca1",
      "scope": "participants",
+     "layer": "business",
      "affected": [
       "florence"
      ],
@@ -2066,6 +2121,7 @@
     {
      "id": "cb1",
      "scope": "participants",
+     "layer": "business",
      "affected": [
       "florence",
       "mark",
@@ -2624,6 +2680,7 @@
     {
      "id": "cc1",
      "scope": "relationships",
+     "layer": "human_social",
      "affected": [
       "mark",
       "sarah",
@@ -3285,6 +3342,7 @@
     {
      "id": "cd1",
      "scope": "city",
+     "layer": "digital",
      "affected": [
       "car"
      ],
@@ -3947,5 +4005,973 @@
   "speak": "say the event's dialogue (target: the actor addressed, optional)",
   "pause": "stop and wait",
   "gesture": "a visible gesture with no object (e.g. raise a hand)"
+ },
+ "layers": [
+  {
+   "level": 0,
+   "id": "action",
+   "icon": "🎬",
+   "name": "Action or event",
+   "examines": "Who acts, why, their goal and desired outcome, and what happens",
+   "osi": "Source",
+   "osi_role": "A networking application creates or receives information",
+   "engine": "The scene script (acm.scene): actors, goals, ordered events and their state changes; single sentences are parsed by MLM's phrase model",
+   "status": "working"
+  },
+  {
+   "level": 1,
+   "id": "physical",
+   "icon": "⚙️",
+   "name": "Physical world",
+   "examines": "Objects, materials, movement, forces, location and energy",
+   "osi": "Physical",
+   "osi_role": "Transmits raw bits as signals over a physical medium",
+   "engine": "Scene state tracks positions, holders and owners (2D player). Forces and materials: a 2D matter.js stand-in in the Image/Video chat; a 3D physics engine (Unreal Engine 5, Chaos) is planned",
+   "status": "partial"
+  },
+  {
+   "level": 2,
+   "id": "perception",
+   "icon": "👁️",
+   "name": "Perception and observation",
+   "examines": "Images, video, audio, speech, sensors and observations",
+   "osi": "Data Link",
+   "osi_role": "Transfers frames across a local network link",
+   "engine": "Scene observations and who can see or hear each event. Image/video recognition in the Image/Video chat uses replayed detections; a vision-language model and detector are planned",
+   "status": "partial"
+  },
+  {
+   "level": 3,
+   "id": "routing",
+   "icon": "🧭",
+   "name": "Consequence routing",
+   "examines": "Determines which world models, actors and systems should examine an event",
+   "osi": "Network",
+   "osi_role": "Addresses and routes packets across networks (routing)",
+   "engine": "acm.scene.layers.route: explicit rules over each event's verb, type, objects and effects, plus the events each consequence cites as evidence",
+   "status": "working"
+  },
+  {
+   "level": 4,
+   "id": "human_social",
+   "icon": "🧠",
+   "name": "Human and social",
+   "examines": "Goals, behaviour, dialogue, relationships and group reactions",
+   "osi": "Transport",
+   "osi_role": "Provides end-to-end data transport between applications",
+   "engine": "The script model (goals, stated positions, possible feelings, conflicts) and next scenes from the authored demo or the local next-action model",
+   "status": "working"
+  },
+  {
+   "level": 5,
+   "id": "digital",
+   "icon": "💻",
+   "name": "Digital and information systems",
+   "examines": "Applications, records, calculations, permissions and workflows",
+   "osi": "Session",
+   "osi_role": "Establishes, manages and ends communication sessions",
+   "engine": "Explicit state changes and calculations (rule engine: has(x, y), amounts). No external system (registry, bank) is connected",
+   "status": "partial"
+  },
+  {
+   "level": 6,
+   "id": "business",
+   "icon": "🏭",
+   "name": "Business and institutions",
+   "examines": "Organisations, operations, processes, finance and policies",
+   "osi": "Presentation",
+   "osi_role": "Represents or transforms data, including formats and encoding",
+   "engine": "Obligations in the scene (debts, agreements) and the rule engine's organisation-scoped impact rules",
+   "status": "partial"
+  },
+  {
+   "level": 7,
+   "id": "society",
+   "icon": "🏛️",
+   "name": "Society and collective systems",
+   "examines": "Economy, markets, society, public governance and politics",
+   "osi": "Application",
+   "osi_role": "Provides network services used by applications, such as web and email",
+   "engine": "The rule engine's society- and country-scoped impact rules. No economic or political model yet",
+   "status": "partial"
+  },
+  {
+   "level": 8,
+   "id": "planetary",
+   "icon": "🌍",
+   "name": "Planetary and ecosystem",
+   "examines": "Resources, pollution, biodiversity and sustainability",
+   "osi": "Beyond the stack",
+   "osi_role": "(no OSI layer: the outermost system every other one depends on)",
+   "engine": "The rule engine's earth-scoped impact rules (e.g. flying and emissions). No ecosystem model yet",
+   "status": "partial"
+  }
+ ],
+ "routing": [
+  {
+   "event": "e1",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "florence",
+      "mark",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "an observation of the scene"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e2",
+   "routes": [
+    {
+     "layer": "physical",
+     "actors": [
+      "mark"
+     ],
+     "objects": [
+      "car"
+     ],
+     "reasons": [
+      "involves a physical object"
+     ]
+    },
+    {
+     "layer": "perception",
+     "actors": [
+      "sarah",
+      "florence"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "mark",
+      "florence",
+      "sarah"
+     ],
+     "objects": [
+      "car"
+     ],
+     "reasons": [
+      "dialogue between people",
+      "Red Austin Mini belongs to someone other than the actor",
+      "consequence c1 cites it",
+      "consequence c2 cites it",
+      "consequence c3 cites it"
+     ]
+    },
+    {
+     "layer": "digital",
+     "actors": [],
+     "objects": [
+      "car"
+     ],
+     "reasons": [
+      "changes the status of an owned object (Red Austin Mini): records may apply"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e3",
+   "routes": [
+    {
+     "layer": "physical",
+     "actors": [
+      "mark"
+     ],
+     "objects": [
+      "keys"
+     ],
+     "reasons": [
+      "physical verb 'offer'"
+     ]
+    },
+    {
+     "layer": "perception",
+     "actors": [
+      "sarah",
+      "florence",
+      "mark"
+     ],
+     "objects": [],
+     "reasons": [
+      "visible to the others present",
+      "consequence c12 cites it"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "mark",
+      "florence",
+      "sarah"
+     ],
+     "objects": [
+      "keys"
+     ],
+     "reasons": [
+      "an action aimed at a person",
+      "Car keys belongs to someone other than the actor"
+     ]
+    },
+    {
+     "layer": "digital",
+     "actors": [],
+     "objects": [
+      "keys"
+     ],
+     "reasons": [
+      "changes the status of an owned object (Car keys): records may apply"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e4",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "florence",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present",
+      "consequence c12 cites it"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "sarah",
+      "mark",
+      "florence"
+     ],
+     "objects": [],
+     "reasons": [
+      "dialogue between people",
+      "consequence c1 cites it",
+      "consequence c2 cites it",
+      "consequence c3 cites it",
+      "consequence c7 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e5",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "visible to the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "florence"
+     ],
+     "objects": [],
+     "reasons": [
+      "consequence c4 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e6",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "sarah",
+      "florence"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present",
+      "consequence c12 cites it"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "florence",
+      "mark",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "dialogue between people",
+      "consequence c4 cites it",
+      "consequence c7 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e7",
+   "routes": [
+    {
+     "layer": "physical",
+     "actors": [
+      "mark"
+     ],
+     "objects": [
+      "keys",
+      "car"
+     ],
+     "reasons": [
+      "physical verb 'gesture'",
+      "consequence c6 cites it"
+     ]
+    },
+    {
+     "layer": "perception",
+     "actors": [
+      "sarah",
+      "florence"
+     ],
+     "objects": [],
+     "reasons": [
+      "visible to the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "sarah",
+      "mark"
+     ],
+     "objects": [
+      "keys"
+     ],
+     "reasons": [
+      "Car keys belongs to someone other than the actor"
+     ]
+    },
+    {
+     "layer": "digital",
+     "actors": [],
+     "objects": [
+      "keys",
+      "car",
+      "debt"
+     ],
+     "reasons": [
+      "changes the status of an owned object (Car keys): records may apply",
+      "consequence c13 cites it"
+     ]
+    },
+    {
+     "layer": "business",
+     "actors": [
+      "florence",
+      "mark",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "consequence c5 cites it"
+     ]
+    }
+   ]
+  }
+ ],
+ "branch_routing": {
+  "A": [
+   {
+    "event": "a1",
+    "routes": [
+     {
+      "layer": "physical",
+      "actors": [
+       "mark"
+      ],
+      "objects": [
+       "keys"
+      ],
+      "reasons": [
+       "physical verb 'place'"
+      ]
+     },
+     {
+      "layer": "perception",
+      "actors": [
+       "sarah",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "visible to the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "sarah",
+       "mark"
+      ],
+      "objects": [
+       "keys"
+      ],
+      "reasons": [
+       "Car keys belongs to someone other than the actor"
+      ]
+     },
+     {
+      "layer": "digital",
+      "actors": [],
+      "objects": [
+       "keys"
+      ],
+      "reasons": [
+       "changes the status of an owned object (Car keys): records may apply"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "a2",
+    "routes": [
+     {
+      "layer": "physical",
+      "actors": [
+       "mark"
+      ],
+      "objects": [
+       "car"
+      ],
+      "reasons": [
+       "involves a physical object"
+      ]
+     },
+     {
+      "layer": "perception",
+      "actors": [
+       "sarah",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "mark",
+       "sarah"
+      ],
+      "objects": [
+       "car"
+      ],
+      "reasons": [
+       "dialogue between people",
+       "Red Austin Mini belongs to someone other than the actor"
+      ]
+     },
+     {
+      "layer": "digital",
+      "actors": [],
+      "objects": [
+       "car"
+      ],
+      "reasons": [
+       "changes the status of an owned object (Red Austin Mini): records may apply"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "a3",
+    "routes": [
+     {
+      "layer": "physical",
+      "actors": [
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "physical verb 'move'"
+      ]
+     },
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "visible to the others present"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "a4",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "sarah",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "a5",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people"
+      ]
+     },
+     {
+      "layer": "business",
+      "actors": [
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "consequence ca1 cites it"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "a6",
+    "routes": [
+     {
+      "layer": "physical",
+      "actors": [
+       "mark"
+      ],
+      "objects": [
+       "notebook"
+      ],
+      "reasons": [
+       "physical verb 'take'"
+      ]
+     },
+     {
+      "layer": "perception",
+      "actors": [
+       "sarah",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "visible to the others present"
+      ]
+     }
+    ]
+   }
+  ],
+  "B": [
+   {
+    "event": "b1",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "florence",
+       "mark"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people"
+      ]
+     },
+     {
+      "layer": "business",
+      "actors": [
+       "florence",
+       "mark",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "consequence cb1 cites it"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "b2",
+    "routes": [
+     {
+      "layer": "physical",
+      "actors": [
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "physical verb 'move'"
+      ]
+     },
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "visible to the others present"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "b3",
+    "routes": [
+     {
+      "layer": "physical",
+      "actors": [
+       "mark"
+      ],
+      "objects": [
+       "keys"
+      ],
+      "reasons": [
+       "physical verb 'hold'"
+      ]
+     },
+     {
+      "layer": "perception",
+      "actors": [
+       "sarah",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "visible to the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "sarah",
+       "mark"
+      ],
+      "objects": [
+       "keys"
+      ],
+      "reasons": [
+       "Car keys belongs to someone other than the actor"
+      ]
+     }
+    ]
+   }
+  ],
+  "C": [
+   {
+    "event": "c_1",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "sarah",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "mark",
+       "sarah",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people",
+       "consequence cc1 cites it"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "c_2",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "sarah",
+       "mark",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people",
+       "consequence cc1 cites it"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "c_3",
+    "routes": [
+     {
+      "layer": "physical",
+      "actors": [
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "physical verb 'gesture'"
+      ]
+     },
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "visible to the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "sarah",
+       "mark"
+      ],
+      "objects": [],
+      "reasons": [
+       "an action aimed at a person"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "c_4",
+    "routes": [
+     {
+      "layer": "physical",
+      "actors": [
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "physical verb 'move'"
+      ]
+     },
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "visible to the others present"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "c_5",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "florence",
+       "mark",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people",
+       "consequence cc1 cites it"
+      ]
+     }
+    ]
+   }
+  ],
+  "D": [
+   {
+    "event": "d1",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "sarah",
+       "mark"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people"
+      ]
+     },
+     {
+      "layer": "digital",
+      "actors": [],
+      "objects": [
+       "car"
+      ],
+      "reasons": [
+       "consequence cd1 cites it"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "d2",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "sarah",
+       "florence"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "mark",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "d3",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "florence",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people"
+      ]
+     }
+    ]
+   }
+  ]
  }
 }
