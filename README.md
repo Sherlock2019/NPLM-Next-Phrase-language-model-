@@ -19,6 +19,20 @@ MLM asks *what is happening, who is involved, and what kind of information is
 missing?* It then scores the **same** Transformer's top-K candidates against that
 structure.
 
+**Universal Phrase DNA is the core of MLM.** Every sentence becomes a
+language-independent frame: an actor (WHO) that is in a STATE or does an ACTION, plus
+WHAT, TO WHOM, WHERE, WHEN, HOW, USING WHAT, WITH WHOM, WHY and FOR WHAT GOAL. The
+frame does not depend on word order or language. Everything else in MLM either builds
+this frame (parser, semantic roles, morphology) or uses it (context graph, slot
+predictor, candidate scorer, ACM). See [Universal Phrase DNA](#universal-phrase-dna).
+
+```
+John will meet Sarah in Paris tomorrow.
+
+ACTION: meet     WHO: John     WITH WHOM: Sarah
+WHERE:  Paris    WHEN: tomorrow     tense=future
+```
+
 ```mermaid
 flowchart LR
   subgraph base["Standard language model"]
@@ -67,10 +81,25 @@ the consequences of an action.
 
 ## Why
 
-A conventional language model asks *which token statistically comes next?* It has no
-explicit notion that "John will meet Sarah in ___" is asking for a place or a time, that
-"Sarah" is a participant rather than a location, or that a French sentence and a
-Vietnamese sentence can describe the same event.
+**An LLM predicts the next token, not the next phrase.** A token is often only part of
+a word: `Boston` may be one token, while a rarer name is split into several pieces.
+The model chooses one piece at a time from statistics. It never explicitly predicts:
+
+- the **next phrase**: "John will meet Sarah in ___" needs a place or a time, not just
+  a likely next fragment;
+- the **next action** an actor will take;
+- the **next state** of an actor or object: where it is, what condition it is in, and
+  what has changed.
+
+People think in terms of who does what, to whom, where and why. A token model has no
+explicit idea that "Sarah" is a participant rather than a location, or that a French
+sentence and a Vietnamese sentence can describe the same event.
+
+That is why this project is a **Next Phrase Language Model**. It predicts the next
+*unit of meaning* (a Phrase DNA slot: a place, a time, an action, a state of an actor
+or object) and then uses that prediction to steer which tokens the LLM produces. The
+token model still writes the words; Phrase DNA decides what kind of words should come
+next.
 
 MLM tests a narrow hypothesis: **making that structure explicit, and using it to
 re-weight candidates, improves prediction enough to justify its cost.**
