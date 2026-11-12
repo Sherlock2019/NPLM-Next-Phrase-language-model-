@@ -418,6 +418,24 @@ Two axes describe every consequence: the **world** says *which laws* govern it, 
 **reach** says *how far* it goes, from the actor to other actors, the neighbourhood,
 the organisation, the city, the country and the earth.
 
+**Consequences cross worlds.** A consequence in one world has consequences in the other
+worlds, in two ways:
+
+- **By proximity (⇅).** It ripples into neighbouring worlds and nearby actors. The cup
+  falls (physical), people hear the crash (perception), the owner is annoyed (behaviour),
+  a damage report is logged (digital), and the café writes off the cup (business).
+- **By synchronicity (∿).** Worlds change together, at the same moment, down to the
+  quantum level, so a change in one world is matched by a change in another even when
+  no visible chain of cause links them.
+
+At the quantum level, changing together is correlation, not a signal: entangled systems
+stay correlated but cannot carry cause and effect between them. So a synchronous link
+would mark two consequences as *correlated*, never as one *causing* the other.
+
+This is a concept, not yet modelled. ACM routes each action to the worlds that should
+examine it and reports consequences per world, but it does not yet propagate a
+consequence from one world into the others.
+
 MLM's role is the input to this: it turns text, images and video into the actor,
 action, object and state that each world's laws need. The consequence prediction itself
 lives in ACM. The table's last column is the honest status. Several worlds have
