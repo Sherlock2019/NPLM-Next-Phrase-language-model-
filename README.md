@@ -398,7 +398,7 @@ own laws**. The AI predicts the consequence of the action separately in each wor
 using that world's laws, and then shows how far each consequence reaches.
 
 <p align="center">
-  <img src="docs/world-layers.svg" alt="One action, many worlds: the action, written in text, seen in an image or video, or heard, is parsed by MLM into Phrase DNA; the consequence router just above it sends it to each world, from atomic and physical through perception, human and animal behaviour, digital systems, business, and society and economy up to earth, each with its own laws" width="900">
+  <img src="docs/world-layers.svg" alt="One action, many worlds: the action, written in text, seen in an image or video, or heard, is parsed by MLM into Phrase DNA; prediction routing just above it sends it to each world, which predicts the consequence by its own laws and compares it with the desired outcome, from atomic and physical through perception, human and animal behaviour, digital systems, business, and society and economy up to earth, each with its own laws" width="900">
 </p>
 
 The same stack as a table, for "I push the blue cup toward the edge of the table":

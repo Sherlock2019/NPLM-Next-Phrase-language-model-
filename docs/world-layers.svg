@@ -21,7 +21,7 @@
 <text x="600.0" y="100" text-anchor="middle" fill="#fbbf24" font-size="22" font-weight="700" letter-spacing="2">EACH WORLD FOLLOWS ITS OWN LAWS</text>
 <text x="600.0" y="134" text-anchor="middle" fill="#cbd5e1" font-size="16">MLM reads the action as Phrase DNA. ACM predicts its consequence in each world, by that world's laws.</text>
 <g><line x1="45" y1="1546" x2="45" y2="194" stroke="#22c55e" stroke-width="6"/><path d="M45 164 l-18 34 h36 z" fill="#22c55e"/></g>
-<text transform="translate(37 855.0) rotate(-90)" text-anchor="middle" fill="#e2e8f0" font-size="19" font-weight="700" letter-spacing="2">Action → Routing → Consequences in each world</text>
+<text transform="translate(37 855.0) rotate(-90)" text-anchor="middle" fill="#e2e8f0" font-size="19" font-weight="700" letter-spacing="2">Action → Prediction routing → Consequence in each world</text>
 <g><line x1="1155" y1="164" x2="1155" y2="1516" stroke="#f97316" stroke-width="6"/><path d="M1155 1546 l-18 -34 h36 z" fill="#ef4444"/></g>
 <text transform="translate(1163 855.0) rotate(90)" text-anchor="middle" fill="#e2e8f0" font-size="19" font-weight="700" letter-spacing="2">Consequences become the new state of the world</text>
 <rect x="90" y="170" width="1020" height="128" rx="14" fill="url(#g0)" stroke="#10b981" stroke-width="2" filter="url(#glow)"/>
@@ -175,7 +175,7 @@
 <circle cx="117" cy="1341" r="3.5" fill="#06b6d4"/><text x="128" y="1346" fill="#e2e8f0" font-size="15">Objects touched</text>
 <circle cx="117" cy="1362" r="3.5" fill="#06b6d4"/><text x="128" y="1367" fill="#e2e8f0" font-size="15">State changes</text>
 <circle cx="117" cy="1383" r="3.5" fill="#06b6d4"/><text x="128" y="1388" fill="#e2e8f0" font-size="15">Evidence cited</text>
-<text x="600" y="1312" text-anchor="middle" fill="#ffffff" font-size="23" font-weight="800" letter-spacing="2">🧭 CONSEQUENCE ROUTER</text>
+<text x="600" y="1312" text-anchor="middle" fill="#ffffff" font-size="23" font-weight="800" letter-spacing="2">🧭 PREDICTION ROUTING</text>
 <text x="600" y="1338" text-anchor="middle" fill="#e2e8f0" fill-opacity="0.85" font-size="16" font-style="italic" font-weight="600">Which worlds must examine this action?</text>
 <rect x="350.1" y="1356" width="140.8" height="28" rx="14" fill="#0b1324" fill-opacity="0.75" stroke="#06b6d4" stroke-width="1.5"/><text x="420.5" y="1375" text-anchor="middle" fill="#f1f5f9" font-size="14" font-weight="600">Explicit rules</text>
 <rect x="500.9" y="1356" width="173.6" height="28" rx="14" fill="#0b1324" fill-opacity="0.75" stroke="#06b6d4" stroke-width="1.5"/><text x="587.7" y="1375" text-anchor="middle" fill="#f1f5f9" font-size="14" font-weight="600">Evidence per event</text>
@@ -202,11 +202,11 @@
 <rect x="754.9" y="1494" width="50.6" height="28" rx="14" fill="#0b1324" fill-opacity="0.75" stroke="#0ea5e9" stroke-width="1.5"/><text x="780.2" y="1513" text-anchor="middle" fill="#f1f5f9" font-size="14" font-weight="600">WHY</text>
 <path d="M858 1428 h8 v96 h-8" fill="none" stroke="#0ea5e9" stroke-width="2.5"/>
 <text x="874" y="1438" fill="#22c55e" font-size="12" font-weight="800" letter-spacing="1.5">THE ACTION</text>
-<text x="874" y="1462" fill="#f8fafc" font-size="15">“I push the blue cup</text>
-<text x="874" y="1482" fill="#f8fafc" font-size="15">toward the edge.”</text>
+<text x="874" y="1462" fill="#f8fafc" font-size="15">“I push the blue cup to the</text>
+<text x="874" y="1482" fill="#f8fafc" font-size="15">edge” · wants: clear the table</text>
 <circle cx="880" cy="1505" r="6" fill="#22c55e"/><text x="892" y="1510" fill="#22c55e" font-size="13" font-weight="700">working</text><text x="892" y="1528" fill="#94a3b8" font-size="12">MLM parser</text>
 <rect x="150" y="1570" width="900" height="54" rx="27" fill="#0b1324" stroke="#ef4444" stroke-width="2.5" filter="url(#glow)"/>
-<text x="600.0" y="1605" text-anchor="middle" fill="#fca5a5" font-size="21" font-weight="800" letter-spacing="2">MEANING (MLM) → ROUTING → CONSEQUENCES PER WORLD (ACM)</text>
+<text x="600.0" y="1605" text-anchor="middle" fill="#fca5a5" font-size="17" font-weight="800" letter-spacing="0.6">ACTION → PREDICTION ROUTING → CONSEQUENCE IN EACH WORLD → VS DESIRED OUTCOME</text>
 <circle cx="270.0" cy="1657" r="6" fill="#22c55e"/><text x="282.0" y="1662" fill="#cbd5e1" font-size="14">working</text>
 <circle cx="376.0" cy="1657" r="6" fill="#f59e0b"/><text x="388.0" y="1662" fill="#cbd5e1" font-size="14">partly modelled</text>
 <circle cx="546.0" cy="1657" r="6" fill="#94a3b8"/><text x="558.0" y="1662" fill="#cbd5e1" font-size="14">planned</text>
