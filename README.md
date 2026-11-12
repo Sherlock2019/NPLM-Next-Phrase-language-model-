@@ -389,7 +389,7 @@ Tests run against committed CoNLL-U fixtures, so they are fast, deterministic an
 no parser. Regenerate them with `python scripts/make_fixtures.py` and review the diff;
 a change there changes the tests' premises.
 
-### Predicting consequences: one action, many worlds, each with its own laws
+### Predicting consequences: 1 actor, 1 action = consequences in cascade
 
 Phrase DNA says *who does what*. The next question is *what does that action change?*
 An action by an actor (a person, an animal, an object, a system) does not happen in one
@@ -398,7 +398,7 @@ own laws**. The AI predicts the consequence of the action separately in each wor
 using that world's laws, and then shows how far each consequence reaches.
 
 <p align="center">
-  <img src="docs/world-layers.svg" alt="One action, many worlds: the action, written in text, seen in an image or video, or heard, is parsed by MLM into Phrase DNA; prediction routing just above it sends it to each world, which predicts the consequence by its own laws and compares it with the desired outcome, from atomic and physical through perception, human and animal behaviour, digital systems, business, and society and economy up to earth, each with its own laws" width="900">
+  <img src="docs/world-layers.svg" alt="1 actor, 1 action = consequences in cascade: the action, written in text, seen in an image or video, or heard, is parsed by MLM into Phrase DNA; prediction routing reads its WHERE and sends it to each world, which predicts the consequence by its own laws, from atomic and physical through perception, human and animal behaviour, digital systems, business, and society and economy up to earth, each with its own laws" width="900">
 </p>
 
 The same stack as a table, for "I push the blue cup toward the edge of the table":

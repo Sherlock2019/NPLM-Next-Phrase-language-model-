@@ -9,7 +9,7 @@ export const metadata: Metadata =
     ? {
         title: "The Butterfly Model — Action–Worlds Consequence prediction Model (ACM)",
         description:
-          "Every action has consequences: ACM explores possible reactions and outcomes across human decisions, objects, images and videos, built on ACM and the Meaning Language Model.",
+          "1 actor · 1 action = consequences in cascade: ACM predicts what an action changes across eight worlds, each with its own laws, built on the Meaning Language Model.",
       }
     : {
         title: "Meaning Language Model",
