@@ -1,0 +1,2104 @@
+{
+ "schema": "acm.scene/1",
+ "generated_by": "acm.scene (DemoProvider: authored, deterministic)",
+ "scene": {
+  "schema": "acm.scene/1",
+  "id": "job_loss",
+  "title": "The Layoff: Mark Loses His Job",
+  "description": "Claire, Mark's manager, tells him in her office that his position is cut in a restructuring. That evening Mark tells Sarah at home. They still owe Florence €5,000.",
+  "action": "Claire lays Mark off.",
+  "location": {
+   "name": "Office, then Mark and Sarah's kitchen",
+   "city": "Paris",
+   "marks": [
+    {
+     "id": "office_desk",
+     "label": "Claire's desk",
+     "x": 1.0,
+     "y": 1.0
+    },
+    {
+     "id": "office_chair",
+     "label": "chair facing Claire",
+     "x": 1.0,
+     "y": 2.0
+    },
+    {
+     "id": "office_door",
+     "label": "Claire's office door",
+     "x": 3.0,
+     "y": 1.0
+    },
+    {
+     "id": "kitchen",
+     "label": "the kitchen table (home)",
+     "x": 7.0,
+     "y": 3.0
+    }
+   ]
+  },
+  "time": "Thursday: 9:00 a.m. at the office, 7:00 p.m. at home (scenario labels)",
+  "context": [
+   "Mark's company is restructuring; his position is cut.",
+   "He gets one month's notice and severance under his contract.",
+   "Mark and Sarah owe Florence €5,000 and pay rent on a single main income."
+  ],
+  "status": "Mark is laid off; Sarah knows; the household has lost its main income",
+  "initial": {
+   "employed": true,
+   "sarah_knows": false
+  },
+  "actors": [
+   {
+    "id": "claire",
+    "name": "Claire",
+    "role": "Mark's manager, the origin actor",
+    "relationships": {
+     "mark": "manager of"
+    },
+    "goals": [
+     "Carry out the restructuring"
+    ],
+    "preferences": [],
+    "constraints": [],
+    "position": "office_desk",
+    "knows": [],
+    "unknown": [],
+    "inferences": [
+     {
+      "kind": "feeling",
+      "text": "May feel uncomfortable delivering the news.",
+      "status": "possible",
+      "source": "authored_demo"
+     }
+    ]
+   },
+   {
+    "id": "mark",
+    "name": "Mark",
+    "role": "Employee, laid off",
+    "relationships": {
+     "claire": "employee of",
+     "sarah": "husband"
+    },
+    "goals": [
+     "Keep the household afloat"
+    ],
+    "preferences": [],
+    "constraints": [],
+    "position": "office_chair",
+    "knows": [
+     "He and Sarah owe Florence €5,000"
+    ],
+    "unknown": [],
+    "inferences": [
+     {
+      "kind": "feeling",
+      "text": "May feel shocked, ashamed or angry.",
+      "status": "possible",
+      "source": "authored_demo"
+     },
+     {
+      "kind": "reaction",
+      "text": "May start looking for work at once, or withdraw for a while.",
+      "status": "possible",
+      "source": "authored_demo"
+     }
+    ]
+   },
+   {
+    "id": "sarah",
+    "name": "Sarah",
+    "role": "Mark's wife",
+    "relationships": {
+     "mark": "wife"
+    },
+    "goals": [
+     "Keep the household secure"
+    ],
+    "preferences": [],
+    "constraints": [],
+    "position": "kitchen",
+    "knows": [],
+    "unknown": [],
+    "inferences": [
+     {
+      "kind": "feeling",
+      "text": "May feel worried and want to support Mark.",
+      "status": "possible",
+      "source": "authored_demo"
+     }
+    ]
+   }
+  ],
+  "objects": [
+   {
+    "id": "letter",
+    "label": "Termination letter",
+    "kind": "physical",
+    "description": "",
+    "owner": "claire",
+    "holder": "claire",
+    "position": null,
+    "attributes": {}
+   },
+   {
+    "id": "job",
+    "label": "Mark's job",
+    "kind": "obligation",
+    "description": "Mark's employment contract",
+    "owner": null,
+    "holder": null,
+    "position": null,
+    "attributes": {
+     "status": "active",
+     "notice_months": 1
+    }
+   },
+   {
+    "id": "debt",
+    "label": "€5,000 debt to Florence",
+    "kind": "obligation",
+    "description": "",
+    "owner": null,
+    "holder": null,
+    "position": null,
+    "attributes": {
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   }
+  ],
+  "events": [
+   {
+    "id": "e1",
+    "order": 1,
+    "actor": null,
+    "type": "observation",
+    "verb": null,
+    "target": null,
+    "object": null,
+    "description": "Claire asks Mark to come into her office and closes the door.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "effects": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e2",
+    "order": 2,
+    "actor": "claire",
+    "type": "dialogue",
+    "verb": "speak",
+    "target": "mark",
+    "object": null,
+    "description": "Claire tells Mark his position is cut.",
+    "dialogue": "Mark, I'm sorry. Your position is part of the restructuring. Your last day is in one month.",
+    "voice": "careful, formal",
+    "animation": null,
+    "effects": [
+     {
+      "subject": "job",
+      "attribute": "status",
+      "value": "terminated_with_notice"
+     },
+     {
+      "subject": "scene",
+      "attribute": "employed",
+      "value": false
+     }
+    ],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e3",
+    "order": 3,
+    "actor": "claire",
+    "type": "action",
+    "verb": "offer",
+    "target": "mark",
+    "object": "letter",
+    "description": "Claire hands Mark the termination letter.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "effects": [
+     {
+      "subject": "letter",
+      "attribute": "holder",
+      "value": "mark"
+     }
+    ],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e4",
+    "order": 4,
+    "actor": "mark",
+    "type": "action",
+    "verb": "move",
+    "target": "office_door",
+    "object": null,
+    "description": "Mark leaves the office without a word.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "effects": [
+     {
+      "subject": "mark",
+      "attribute": "position",
+      "value": "office_door"
+     }
+    ],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e5",
+    "order": 5,
+    "actor": "mark",
+    "type": "action",
+    "verb": "move",
+    "target": "kitchen",
+    "object": null,
+    "description": "That evening, Mark sits down at the kitchen table at home.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "effects": [
+     {
+      "subject": "mark",
+      "attribute": "position",
+      "value": "kitchen"
+     }
+    ],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e6",
+    "order": 6,
+    "actor": "mark",
+    "type": "dialogue",
+    "verb": "speak",
+    "target": "sarah",
+    "object": null,
+    "description": "Mark tells Sarah.",
+    "dialogue": "I lost my job today. One month's notice.",
+    "voice": "flat, tired",
+    "animation": null,
+    "effects": [
+     {
+      "subject": "scene",
+      "attribute": "sarah_knows",
+      "value": true
+     }
+    ],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e7",
+    "order": 7,
+    "actor": "sarah",
+    "type": "dialogue",
+    "verb": "speak",
+    "target": "mark",
+    "object": null,
+    "description": "Sarah responds.",
+    "dialogue": "We'll get through this. But what about rent, and Florence's money?",
+    "voice": null,
+    "animation": null,
+    "effects": [],
+    "source": "authored_demo"
+   }
+  ],
+  "scopes": [
+   {
+    "n": 1,
+    "id": "actor",
+    "title": "Claire",
+    "short": "Claire"
+   },
+   {
+    "n": 2,
+    "id": "participants",
+    "title": "Mark and Sarah",
+    "short": "Mark & Sarah"
+   },
+   {
+    "n": 3,
+    "id": "physical",
+    "title": "Immediate physical environment",
+    "short": "Physical"
+   },
+   {
+    "n": 4,
+    "id": "relationships",
+    "title": "Family and friends",
+    "short": "Relationships"
+   },
+   {
+    "n": 5,
+    "id": "city",
+    "title": "City and services",
+    "short": "City · services"
+   },
+   {
+    "n": 6,
+    "id": "society",
+    "title": "Society",
+    "short": "Society"
+   },
+   {
+    "n": 7,
+    "id": "economy",
+    "title": "Economy and country",
+    "short": "Economy"
+   },
+   {
+    "n": 8,
+    "id": "world",
+    "title": "World and planet",
+    "short": "World"
+   }
+  ],
+  "unknowns": [
+   "How long it will take Mark to find work.",
+   "The exact unemployment benefit he is entitled to."
+  ],
+  "caveats": [
+   "Contract terms and benefits are scenario facts, not legal advice.",
+   "The dialogue is illustrative demo content."
+  ]
+ },
+ "timeline": [
+  {
+   "event": null,
+   "state": {
+    "scene": {
+     "employed": true,
+     "sarah_knows": false
+    },
+    "claire": {
+     "position": "office_desk"
+    },
+    "mark": {
+     "position": "office_chair"
+    },
+    "sarah": {
+     "position": "kitchen"
+    },
+    "letter": {
+     "owner": "claire",
+     "holder": "claire",
+     "position": null
+    },
+    "job": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "status": "active",
+     "notice_months": 1
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": []
+  },
+  {
+   "event": "e1",
+   "state": {
+    "scene": {
+     "employed": true,
+     "sarah_knows": false
+    },
+    "claire": {
+     "position": "office_desk"
+    },
+    "mark": {
+     "position": "office_chair"
+    },
+    "sarah": {
+     "position": "kitchen"
+    },
+    "letter": {
+     "owner": "claire",
+     "holder": "claire",
+     "position": null
+    },
+    "job": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "status": "active",
+     "notice_months": 1
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": []
+  },
+  {
+   "event": "e2",
+   "state": {
+    "scene": {
+     "employed": false,
+     "sarah_knows": false
+    },
+    "claire": {
+     "position": "office_desk"
+    },
+    "mark": {
+     "position": "office_chair"
+    },
+    "sarah": {
+     "position": "kitchen"
+    },
+    "letter": {
+     "owner": "claire",
+     "holder": "claire",
+     "position": null
+    },
+    "job": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "status": "terminated_with_notice",
+     "notice_months": 1
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": [
+    "job.status",
+    "scene.employed"
+   ]
+  },
+  {
+   "event": "e3",
+   "state": {
+    "scene": {
+     "employed": false,
+     "sarah_knows": false
+    },
+    "claire": {
+     "position": "office_desk"
+    },
+    "mark": {
+     "position": "office_chair"
+    },
+    "sarah": {
+     "position": "kitchen"
+    },
+    "letter": {
+     "owner": "claire",
+     "holder": "mark",
+     "position": null
+    },
+    "job": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "status": "terminated_with_notice",
+     "notice_months": 1
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": [
+    "letter.holder"
+   ]
+  },
+  {
+   "event": "e4",
+   "state": {
+    "scene": {
+     "employed": false,
+     "sarah_knows": false
+    },
+    "claire": {
+     "position": "office_desk"
+    },
+    "mark": {
+     "position": "office_door"
+    },
+    "sarah": {
+     "position": "kitchen"
+    },
+    "letter": {
+     "owner": "claire",
+     "holder": "mark",
+     "position": null
+    },
+    "job": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "status": "terminated_with_notice",
+     "notice_months": 1
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": [
+    "mark.position"
+   ]
+  },
+  {
+   "event": "e5",
+   "state": {
+    "scene": {
+     "employed": false,
+     "sarah_knows": false
+    },
+    "claire": {
+     "position": "office_desk"
+    },
+    "mark": {
+     "position": "kitchen"
+    },
+    "sarah": {
+     "position": "kitchen"
+    },
+    "letter": {
+     "owner": "claire",
+     "holder": "mark",
+     "position": null
+    },
+    "job": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "status": "terminated_with_notice",
+     "notice_months": 1
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": [
+    "mark.position"
+   ]
+  },
+  {
+   "event": "e6",
+   "state": {
+    "scene": {
+     "employed": false,
+     "sarah_knows": true
+    },
+    "claire": {
+     "position": "office_desk"
+    },
+    "mark": {
+     "position": "kitchen"
+    },
+    "sarah": {
+     "position": "kitchen"
+    },
+    "letter": {
+     "owner": "claire",
+     "holder": "mark",
+     "position": null
+    },
+    "job": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "status": "terminated_with_notice",
+     "notice_months": 1
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": [
+    "scene.sarah_knows"
+   ]
+  },
+  {
+   "event": "e7",
+   "state": {
+    "scene": {
+     "employed": false,
+     "sarah_knows": true
+    },
+    "claire": {
+     "position": "office_desk"
+    },
+    "mark": {
+     "position": "kitchen"
+    },
+    "sarah": {
+     "position": "kitchen"
+    },
+    "letter": {
+     "owner": "claire",
+     "holder": "mark",
+     "position": null
+    },
+    "job": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "status": "terminated_with_notice",
+     "notice_months": 1
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": []
+  }
+ ],
+ "analysis": {
+  "scene": "job_loss",
+  "provider": "demo",
+  "source": "authored_demo",
+  "conflicts": [
+   {
+    "between": [
+     "claire",
+     "mark"
+    ],
+    "description": "The company's restructuring ends Mark's job.",
+    "evidence": [
+     "e2"
+    ],
+    "status": "stated"
+   }
+  ],
+  "consequences": [
+   {
+    "id": "c1",
+    "scope": "actor",
+    "layer": "business",
+    "affected": [
+     "claire",
+     "job"
+    ],
+    "description": "Claire completes one step of the restructuring.",
+    "goal": "Carry out the restructuring",
+    "evidence": [
+     "e2",
+     "e3"
+    ],
+    "status": "stated",
+    "effect": {
+     "claire": "mixed"
+    },
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c2",
+    "scope": "participants",
+    "layer": "business",
+    "affected": [
+     "mark",
+     "sarah",
+     "job"
+    ],
+    "description": "The household loses its main income after one month; severance applies.",
+    "goal": "Keep the household afloat",
+    "evidence": [
+     "e2"
+    ],
+    "status": "stated",
+    "effect": {
+     "mark": "negative",
+     "sarah": "negative"
+    },
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c3",
+    "scope": "participants",
+    "layer": "human_social",
+    "affected": [
+     "mark"
+    ],
+    "description": "Mark is hit hard by the news.",
+    "goal": null,
+    "evidence": [
+     "e4",
+     "e6"
+    ],
+    "status": "possible",
+    "effect": {
+     "mark": "negative"
+    },
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c4",
+    "scope": "participants",
+    "layer": "perception",
+    "affected": [
+     "sarah"
+    ],
+    "description": "Sarah hears the news from Mark that evening.",
+    "goal": null,
+    "evidence": [
+     "e6"
+    ],
+    "status": "stated",
+    "effect": {},
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c5",
+    "scope": "physical",
+    "layer": "physical",
+    "affected": [
+     "letter"
+    ],
+    "description": "The termination letter passes from Claire to Mark; Mark leaves the office.",
+    "goal": null,
+    "evidence": [
+     "e3",
+     "e4"
+    ],
+    "status": "stated",
+    "effect": {},
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c6",
+    "scope": "relationships",
+    "layer": "human_social",
+    "affected": [
+     "mark",
+     "sarah",
+     "debt"
+    ],
+    "description": "Repaying Florence's €5,000 becomes harder; the friendship may feel the strain.",
+    "goal": null,
+    "evidence": [
+     "e7"
+    ],
+    "status": "possible",
+    "effect": {
+     "mark": "negative",
+     "sarah": "negative"
+    },
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c7",
+    "scope": "city",
+    "layer": "digital",
+    "affected": [
+     "mark"
+    ],
+    "description": "Mark registers online with the unemployment service and updates his job profiles.",
+    "goal": null,
+    "evidence": [],
+    "status": "possible",
+    "effect": {},
+    "horizon": "later",
+    "assumptions": [
+     "Mark registers for benefits."
+    ],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c8",
+    "scope": "society",
+    "layer": "society",
+    "affected": [
+     "mark"
+    ],
+    "description": "Mark becomes eligible for unemployment benefit, paid by the social insurance system.",
+    "goal": null,
+    "evidence": [],
+    "status": "possible",
+    "effect": {},
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c9",
+    "scope": "economy",
+    "layer": "society",
+    "affected": [],
+    "description": "One more person counts as unemployed; one layoff has no measurable national effect.",
+    "goal": null,
+    "evidence": [
+     "e2"
+    ],
+    "status": "possible",
+    "effect": {},
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c10",
+    "scope": "world",
+    "layer": "planetary",
+    "affected": [],
+    "description": "No specific environmental impact is established.",
+    "goal": null,
+    "evidence": [],
+    "status": "not_identified",
+    "effect": {},
+    "horizon": "unknown",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   }
+  ]
+ },
+ "branches": [
+  {
+   "id": "A",
+   "title": "A plan together",
+   "parent": "job_loss",
+   "assumptions": [
+    "Mark is ready to talk it through tonight."
+   ],
+   "summary": "Mark and Sarah draw up a budget and a job-search plan, and decide to tell Florence.",
+   "events": [
+    {
+     "id": "a1",
+     "order": 8,
+     "actor": "mark",
+     "type": "dialogue",
+     "verb": "speak",
+     "target": "sarah",
+     "object": null,
+     "description": "Mark proposes a plan.",
+     "dialogue": "Let's cut what we can, I'll apply everywhere, and we tell Florence the truth.",
+     "voice": null,
+     "animation": null,
+     "effects": [],
+     "source": "authored_demo"
+    }
+   ],
+   "goal_changes": [
+    {
+     "actor": "mark",
+     "change": "Turns the shock into a plan.",
+     "effect": "mixed"
+    },
+    {
+     "actor": "sarah",
+     "change": "Gets a shared plan.",
+     "effect": "positive"
+    }
+   ],
+   "inferences": {},
+   "consequences": [
+    {
+     "id": "ca1",
+     "scope": "relationships",
+     "layer": "human_social",
+     "affected": [
+      "mark",
+      "sarah"
+     ],
+     "description": "Facing it together may strengthen the couple.",
+     "goal": null,
+     "evidence": [
+      "a1"
+     ],
+     "status": "possible",
+     "effect": {
+      "mark": "positive",
+      "sarah": "positive"
+     },
+     "horizon": "later",
+     "assumptions": [],
+     "questions": [],
+     "source": "authored_demo"
+    }
+   ],
+   "unknowns": [
+    "Will Florence agree to wait?"
+   ],
+   "plausibility": "Sarah asked about rent and the debt directly; a plan answers both.",
+   "source": "authored_demo",
+   "timeline": [
+    {
+     "event": null,
+     "state": {
+      "scene": {
+       "employed": false,
+       "sarah_knows": true
+      },
+      "claire": {
+       "position": "office_desk"
+      },
+      "mark": {
+       "position": "kitchen"
+      },
+      "sarah": {
+       "position": "kitchen"
+      },
+      "letter": {
+       "owner": "claire",
+       "holder": "mark",
+       "position": null
+      },
+      "job": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "status": "terminated_with_notice",
+       "notice_months": 1
+      },
+      "debt": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "amount": 5000,
+       "currency": "EUR",
+       "status": "unpaid"
+      }
+     },
+     "changed": []
+    },
+    {
+     "event": "a1",
+     "state": {
+      "scene": {
+       "employed": false,
+       "sarah_knows": true
+      },
+      "claire": {
+       "position": "office_desk"
+      },
+      "mark": {
+       "position": "kitchen"
+      },
+      "sarah": {
+       "position": "kitchen"
+      },
+      "letter": {
+       "owner": "claire",
+       "holder": "mark",
+       "position": null
+      },
+      "job": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "status": "terminated_with_notice",
+       "notice_months": 1
+      },
+      "debt": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "amount": 5000,
+       "currency": "EUR",
+       "status": "unpaid"
+      }
+     },
+     "changed": []
+    }
+   ],
+   "directions": {
+    "schema": "acm.directions/1",
+    "scene_schema": "acm.scene/1",
+    "scene": "job_loss",
+    "branch": "A",
+    "title": "A plan together",
+    "location": {
+     "name": "Office, then Mark and Sarah's kitchen",
+     "city": "Paris",
+     "marks": [
+      {
+       "id": "office_desk",
+       "label": "Claire's desk",
+       "x": 1.0,
+       "y": 1.0
+      },
+      {
+       "id": "office_chair",
+       "label": "chair facing Claire",
+       "x": 1.0,
+       "y": 2.0
+      },
+      {
+       "id": "office_door",
+       "label": "Claire's office door",
+       "x": 3.0,
+       "y": 1.0
+      },
+      {
+       "id": "kitchen",
+       "label": "the kitchen table (home)",
+       "x": 7.0,
+       "y": 3.0
+      }
+     ]
+    },
+    "time": "Thursday: 9:00 a.m. at the office, 7:00 p.m. at home (scenario labels)",
+    "actors": [
+     {
+      "id": "claire",
+      "name": "Claire",
+      "position": "office_desk"
+     },
+     {
+      "id": "mark",
+      "name": "Mark",
+      "position": "kitchen"
+     },
+     {
+      "id": "sarah",
+      "name": "Sarah",
+      "position": "kitchen"
+     }
+    ],
+    "objects": [
+     {
+      "id": "letter",
+      "label": "Termination letter",
+      "kind": "physical",
+      "owner": "claire",
+      "holder": "mark",
+      "position": null
+     },
+     {
+      "id": "job",
+      "label": "Mark's job",
+      "kind": "obligation",
+      "owner": null,
+      "holder": null,
+      "position": null
+     },
+     {
+      "id": "debt",
+      "label": "€5,000 debt to Florence",
+      "kind": "obligation",
+      "owner": null,
+      "holder": null,
+      "position": null
+     }
+    ],
+    "actions": [
+     {
+      "order": 8,
+      "event": "a1",
+      "type": "dialogue",
+      "verb": "speak",
+      "actor": "mark",
+      "target": "sarah",
+      "object": null,
+      "text": "Mark proposes a plan.",
+      "dialogue": "Let's cut what we can, I'll apply everywhere, and we tell Florence the truth.",
+      "voice": null,
+      "animation": null,
+      "source": "authored_demo",
+      "player_supported": true
+     }
+    ],
+    "assumptions": [
+     "Mark is ready to talk it through tonight."
+    ],
+    "source": "authored_demo",
+    "unsupported": [],
+    "vocabulary": {
+     "move": "go to a stage mark (target: a mark id)",
+     "hold": "hold an object (target: object id)",
+     "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+     "place": "put an object down at a mark (object: object id, target: mark id)",
+     "take": "pick an object up (target: object id)",
+     "speak": "say the event's dialogue (target: the actor addressed, optional)",
+     "pause": "stop and wait",
+     "gesture": "a visible gesture with no object (e.g. raise a hand)"
+    },
+    "integrations": {
+     "renderer_3d": "planned (not integrated)",
+     "physics": "planned (not integrated)",
+     "text_to_speech": "browser speech synthesis in the dashboard only; no export consumer"
+    }
+   }
+  },
+  {
+   "id": "B",
+   "title": "Mark withdraws",
+   "parent": "job_loss",
+   "assumptions": [
+    "Mark needs time before talking."
+   ],
+   "summary": "Mark goes quiet and leaves the table; the plan waits.",
+   "events": [
+    {
+     "id": "b1",
+     "order": 8,
+     "actor": "mark",
+     "type": "action",
+     "verb": "gesture",
+     "target": null,
+     "object": null,
+     "description": "Mark shakes his head and leaves the table.",
+     "dialogue": null,
+     "voice": null,
+     "animation": null,
+     "effects": [],
+     "source": "authored_demo"
+    }
+   ],
+   "goal_changes": [
+    {
+     "actor": "sarah",
+     "change": "Has to wait to plan together.",
+     "effect": "negative"
+    }
+   ],
+   "inferences": {},
+   "consequences": [
+    {
+     "id": "cb1",
+     "scope": "relationships",
+     "layer": "human_social",
+     "affected": [
+      "mark",
+      "sarah"
+     ],
+     "description": "Not talking may add stress for both.",
+     "goal": null,
+     "evidence": [
+      "b1"
+     ],
+     "status": "possible",
+     "effect": {
+      "mark": "negative",
+      "sarah": "negative"
+     },
+     "horizon": "later",
+     "assumptions": [],
+     "questions": [],
+     "source": "authored_demo"
+    }
+   ],
+   "unknowns": [
+    "How long before Mark is ready to talk?"
+   ],
+   "plausibility": "He left Claire's office without a word; withdrawing again is consistent.",
+   "source": "authored_demo",
+   "timeline": [
+    {
+     "event": null,
+     "state": {
+      "scene": {
+       "employed": false,
+       "sarah_knows": true
+      },
+      "claire": {
+       "position": "office_desk"
+      },
+      "mark": {
+       "position": "kitchen"
+      },
+      "sarah": {
+       "position": "kitchen"
+      },
+      "letter": {
+       "owner": "claire",
+       "holder": "mark",
+       "position": null
+      },
+      "job": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "status": "terminated_with_notice",
+       "notice_months": 1
+      },
+      "debt": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "amount": 5000,
+       "currency": "EUR",
+       "status": "unpaid"
+      }
+     },
+     "changed": []
+    },
+    {
+     "event": "b1",
+     "state": {
+      "scene": {
+       "employed": false,
+       "sarah_knows": true
+      },
+      "claire": {
+       "position": "office_desk"
+      },
+      "mark": {
+       "position": "kitchen"
+      },
+      "sarah": {
+       "position": "kitchen"
+      },
+      "letter": {
+       "owner": "claire",
+       "holder": "mark",
+       "position": null
+      },
+      "job": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "status": "terminated_with_notice",
+       "notice_months": 1
+      },
+      "debt": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "amount": 5000,
+       "currency": "EUR",
+       "status": "unpaid"
+      }
+     },
+     "changed": []
+    }
+   ],
+   "directions": {
+    "schema": "acm.directions/1",
+    "scene_schema": "acm.scene/1",
+    "scene": "job_loss",
+    "branch": "B",
+    "title": "Mark withdraws",
+    "location": {
+     "name": "Office, then Mark and Sarah's kitchen",
+     "city": "Paris",
+     "marks": [
+      {
+       "id": "office_desk",
+       "label": "Claire's desk",
+       "x": 1.0,
+       "y": 1.0
+      },
+      {
+       "id": "office_chair",
+       "label": "chair facing Claire",
+       "x": 1.0,
+       "y": 2.0
+      },
+      {
+       "id": "office_door",
+       "label": "Claire's office door",
+       "x": 3.0,
+       "y": 1.0
+      },
+      {
+       "id": "kitchen",
+       "label": "the kitchen table (home)",
+       "x": 7.0,
+       "y": 3.0
+      }
+     ]
+    },
+    "time": "Thursday: 9:00 a.m. at the office, 7:00 p.m. at home (scenario labels)",
+    "actors": [
+     {
+      "id": "claire",
+      "name": "Claire",
+      "position": "office_desk"
+     },
+     {
+      "id": "mark",
+      "name": "Mark",
+      "position": "kitchen"
+     },
+     {
+      "id": "sarah",
+      "name": "Sarah",
+      "position": "kitchen"
+     }
+    ],
+    "objects": [
+     {
+      "id": "letter",
+      "label": "Termination letter",
+      "kind": "physical",
+      "owner": "claire",
+      "holder": "mark",
+      "position": null
+     },
+     {
+      "id": "job",
+      "label": "Mark's job",
+      "kind": "obligation",
+      "owner": null,
+      "holder": null,
+      "position": null
+     },
+     {
+      "id": "debt",
+      "label": "€5,000 debt to Florence",
+      "kind": "obligation",
+      "owner": null,
+      "holder": null,
+      "position": null
+     }
+    ],
+    "actions": [
+     {
+      "order": 8,
+      "event": "b1",
+      "type": "action",
+      "verb": "gesture",
+      "actor": "mark",
+      "target": null,
+      "object": null,
+      "text": "Mark shakes his head and leaves the table.",
+      "dialogue": null,
+      "voice": null,
+      "animation": null,
+      "source": "authored_demo",
+      "player_supported": true
+     }
+    ],
+    "assumptions": [
+     "Mark needs time before talking."
+    ],
+    "source": "authored_demo",
+    "unsupported": [],
+    "vocabulary": {
+     "move": "go to a stage mark (target: a mark id)",
+     "hold": "hold an object (target: object id)",
+     "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+     "place": "put an object down at a mark (object: object id, target: mark id)",
+     "take": "pick an object up (target: object id)",
+     "speak": "say the event's dialogue (target: the actor addressed, optional)",
+     "pause": "stop and wait",
+     "gesture": "a visible gesture with no object (e.g. raise a hand)"
+    },
+    "integrations": {
+     "renderer_3d": "planned (not integrated)",
+     "physics": "planned (not integrated)",
+     "text_to_speech": "browser speech synthesis in the dashboard only; no export consumer"
+    }
+   }
+  }
+ ],
+ "directions": {
+  "schema": "acm.directions/1",
+  "scene_schema": "acm.scene/1",
+  "scene": "job_loss",
+  "branch": null,
+  "title": "The Layoff: Mark Loses His Job",
+  "location": {
+   "name": "Office, then Mark and Sarah's kitchen",
+   "city": "Paris",
+   "marks": [
+    {
+     "id": "office_desk",
+     "label": "Claire's desk",
+     "x": 1.0,
+     "y": 1.0
+    },
+    {
+     "id": "office_chair",
+     "label": "chair facing Claire",
+     "x": 1.0,
+     "y": 2.0
+    },
+    {
+     "id": "office_door",
+     "label": "Claire's office door",
+     "x": 3.0,
+     "y": 1.0
+    },
+    {
+     "id": "kitchen",
+     "label": "the kitchen table (home)",
+     "x": 7.0,
+     "y": 3.0
+    }
+   ]
+  },
+  "time": "Thursday: 9:00 a.m. at the office, 7:00 p.m. at home (scenario labels)",
+  "actors": [
+   {
+    "id": "claire",
+    "name": "Claire",
+    "position": "office_desk"
+   },
+   {
+    "id": "mark",
+    "name": "Mark",
+    "position": "office_chair"
+   },
+   {
+    "id": "sarah",
+    "name": "Sarah",
+    "position": "kitchen"
+   }
+  ],
+  "objects": [
+   {
+    "id": "letter",
+    "label": "Termination letter",
+    "kind": "physical",
+    "owner": "claire",
+    "holder": "claire",
+    "position": null
+   },
+   {
+    "id": "job",
+    "label": "Mark's job",
+    "kind": "obligation",
+    "owner": null,
+    "holder": null,
+    "position": null
+   },
+   {
+    "id": "debt",
+    "label": "€5,000 debt to Florence",
+    "kind": "obligation",
+    "owner": null,
+    "holder": null,
+    "position": null
+   }
+  ],
+  "actions": [
+   {
+    "order": 1,
+    "event": "e1",
+    "type": "observation",
+    "verb": null,
+    "actor": null,
+    "target": null,
+    "object": null,
+    "text": "Claire asks Mark to come into her office and closes the door.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 2,
+    "event": "e2",
+    "type": "dialogue",
+    "verb": "speak",
+    "actor": "claire",
+    "target": "mark",
+    "object": null,
+    "text": "Claire tells Mark his position is cut.",
+    "dialogue": "Mark, I'm sorry. Your position is part of the restructuring. Your last day is in one month.",
+    "voice": "careful, formal",
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 3,
+    "event": "e3",
+    "type": "action",
+    "verb": "offer",
+    "actor": "claire",
+    "target": "mark",
+    "object": "letter",
+    "text": "Claire hands Mark the termination letter.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 4,
+    "event": "e4",
+    "type": "action",
+    "verb": "move",
+    "actor": "mark",
+    "target": "office_door",
+    "object": null,
+    "text": "Mark leaves the office without a word.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 5,
+    "event": "e5",
+    "type": "action",
+    "verb": "move",
+    "actor": "mark",
+    "target": "kitchen",
+    "object": null,
+    "text": "That evening, Mark sits down at the kitchen table at home.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 6,
+    "event": "e6",
+    "type": "dialogue",
+    "verb": "speak",
+    "actor": "mark",
+    "target": "sarah",
+    "object": null,
+    "text": "Mark tells Sarah.",
+    "dialogue": "I lost my job today. One month's notice.",
+    "voice": "flat, tired",
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 7,
+    "event": "e7",
+    "type": "dialogue",
+    "verb": "speak",
+    "actor": "sarah",
+    "target": "mark",
+    "object": null,
+    "text": "Sarah responds.",
+    "dialogue": "We'll get through this. But what about rent, and Florence's money?",
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   }
+  ],
+  "assumptions": [],
+  "source": "authored_demo",
+  "unsupported": [],
+  "vocabulary": {
+   "move": "go to a stage mark (target: a mark id)",
+   "hold": "hold an object (target: object id)",
+   "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+   "place": "put an object down at a mark (object: object id, target: mark id)",
+   "take": "pick an object up (target: object id)",
+   "speak": "say the event's dialogue (target: the actor addressed, optional)",
+   "pause": "stop and wait",
+   "gesture": "a visible gesture with no object (e.g. raise a hand)"
+  },
+  "integrations": {
+   "renderer_3d": "planned (not integrated)",
+   "physics": "planned (not integrated)",
+   "text_to_speech": "browser speech synthesis in the dashboard only; no export consumer"
+  }
+ },
+ "vocabulary": {
+  "move": "go to a stage mark (target: a mark id)",
+  "hold": "hold an object (target: object id)",
+  "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+  "place": "put an object down at a mark (object: object id, target: mark id)",
+  "take": "pick an object up (target: object id)",
+  "speak": "say the event's dialogue (target: the actor addressed, optional)",
+  "pause": "stop and wait",
+  "gesture": "a visible gesture with no object (e.g. raise a hand)"
+ },
+ "layers": [
+  {
+   "level": 0,
+   "id": "action",
+   "icon": "🎬",
+   "name": "Action or event",
+   "examines": "Who acts, why, their goal and desired outcome, and what happens",
+   "osi": "Source",
+   "osi_role": "A networking application creates or receives information",
+   "engine": "The scene script (acm.scene): actors, goals, ordered events and their state changes; single sentences are parsed by MLM's phrase model",
+   "status": "working"
+  },
+  {
+   "level": 1,
+   "id": "physical",
+   "icon": "⚙️",
+   "name": "Physical world",
+   "examines": "Objects, materials, movement, forces, location and energy",
+   "osi": "Physical",
+   "osi_role": "Transmits raw bits as signals over a physical medium",
+   "engine": "Scene state tracks positions, holders and owners (2D player). Forces and materials: a 2D matter.js stand-in in the Image/Video chat; a 3D physics engine (Unreal Engine 5, Chaos) is planned",
+   "status": "partial"
+  },
+  {
+   "level": 2,
+   "id": "perception",
+   "icon": "👁️",
+   "name": "Perception and observation",
+   "examines": "Images, video, audio, speech, sensors and observations",
+   "osi": "Data Link",
+   "osi_role": "Transfers frames across a local network link",
+   "engine": "Scene observations and who can see or hear each event. Image/video recognition in the Image/Video chat uses replayed detections; a vision-language model and detector are planned",
+   "status": "partial"
+  },
+  {
+   "level": 3,
+   "id": "routing",
+   "icon": "🧭",
+   "name": "Consequence routing",
+   "examines": "Determines which world models, actors and systems should examine an event",
+   "osi": "Network",
+   "osi_role": "Addresses and routes packets across networks (routing)",
+   "engine": "acm.scene.layers.route: explicit rules over each event's verb, type, objects and effects, plus the events each consequence cites as evidence",
+   "status": "working"
+  },
+  {
+   "level": 4,
+   "id": "human_social",
+   "icon": "🧠",
+   "name": "Human and social",
+   "examines": "Goals, behaviour, dialogue, relationships and group reactions",
+   "osi": "Transport",
+   "osi_role": "Provides end-to-end data transport between applications",
+   "engine": "The script model (goals, stated positions, possible feelings, conflicts) and next scenes from the authored demo or the local next-action model",
+   "status": "working"
+  },
+  {
+   "level": 5,
+   "id": "digital",
+   "icon": "💻",
+   "name": "Digital and information systems",
+   "examines": "Applications, records, calculations, permissions and workflows",
+   "osi": "Session",
+   "osi_role": "Establishes, manages and ends communication sessions",
+   "engine": "Explicit state changes and calculations (rule engine: has(x, y), amounts). No external system (registry, bank) is connected",
+   "status": "partial"
+  },
+  {
+   "level": 6,
+   "id": "business",
+   "icon": "🏭",
+   "name": "Business and institutions",
+   "examines": "Organisations, operations, processes, finance and policies",
+   "osi": "Presentation",
+   "osi_role": "Represents or transforms data, including formats and encoding",
+   "engine": "Obligations in the scene (debts, agreements) and the rule engine's organisation-scoped impact rules",
+   "status": "partial"
+  },
+  {
+   "level": 7,
+   "id": "society",
+   "icon": "🏛️",
+   "name": "Society and collective systems",
+   "examines": "Economy, markets, society, public governance and politics",
+   "osi": "Application",
+   "osi_role": "Provides network services used by applications, such as web and email",
+   "engine": "The rule engine's society- and country-scoped impact rules. No economic or political model yet",
+   "status": "partial"
+  },
+  {
+   "level": 8,
+   "id": "planetary",
+   "icon": "🌍",
+   "name": "Planetary and ecosystem",
+   "examines": "Resources, pollution, biodiversity and sustainability",
+   "osi": "Beyond the stack",
+   "osi_role": "(no OSI layer: the outermost system every other one depends on)",
+   "engine": "The rule engine's earth-scoped impact rules (e.g. flying and emissions). No ecosystem model yet",
+   "status": "partial"
+  }
+ ],
+ "routing": [
+  {
+   "event": "e1",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "claire",
+      "mark",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "an observation of the scene"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e2",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "claire",
+      "mark"
+     ],
+     "objects": [],
+     "reasons": [
+      "dialogue between people"
+     ]
+    },
+    {
+     "layer": "digital",
+     "actors": [],
+     "objects": [
+      "job"
+     ],
+     "reasons": [
+      "amounts and records of Mark's job"
+     ]
+    },
+    {
+     "layer": "business",
+     "actors": [
+      "claire",
+      "mark",
+      "sarah"
+     ],
+     "objects": [
+      "job"
+     ],
+     "reasons": [
+      "involves an obligation (Mark's job)",
+      "consequence c1 cites it",
+      "consequence c2 cites it"
+     ]
+    },
+    {
+     "layer": "society",
+     "actors": [],
+     "objects": [],
+     "reasons": [
+      "consequence c9 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e3",
+   "routes": [
+    {
+     "layer": "physical",
+     "actors": [
+      "claire"
+     ],
+     "objects": [
+      "letter"
+     ],
+     "reasons": [
+      "physical verb 'offer'",
+      "consequence c5 cites it"
+     ]
+    },
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "visible to the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "claire",
+      "mark"
+     ],
+     "objects": [],
+     "reasons": [
+      "an action aimed at a person"
+     ]
+    },
+    {
+     "layer": "digital",
+     "actors": [],
+     "objects": [
+      "letter"
+     ],
+     "reasons": [
+      "changes the status of an owned object (Termination letter): records may apply"
+     ]
+    },
+    {
+     "layer": "business",
+     "actors": [
+      "claire"
+     ],
+     "objects": [
+      "job"
+     ],
+     "reasons": [
+      "consequence c1 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e4",
+   "routes": [
+    {
+     "layer": "physical",
+     "actors": [
+      "mark"
+     ],
+     "objects": [
+      "letter"
+     ],
+     "reasons": [
+      "physical verb 'move'",
+      "consequence c5 cites it"
+     ]
+    },
+    {
+     "layer": "perception",
+     "actors": [
+      "claire",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "visible to the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "mark"
+     ],
+     "objects": [],
+     "reasons": [
+      "consequence c3 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e5",
+   "routes": [
+    {
+     "layer": "physical",
+     "actors": [
+      "mark"
+     ],
+     "objects": [],
+     "reasons": [
+      "physical verb 'move'"
+     ]
+    },
+    {
+     "layer": "perception",
+     "actors": [
+      "claire",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "visible to the others present"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e6",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "claire",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present",
+      "consequence c4 cites it"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "mark",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "dialogue between people",
+      "consequence c3 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e7",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "claire",
+      "mark"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "sarah",
+      "mark"
+     ],
+     "objects": [
+      "debt"
+     ],
+     "reasons": [
+      "dialogue between people",
+      "consequence c6 cites it"
+     ]
+    }
+   ]
+  }
+ ],
+ "branch_routing": {
+  "A": [
+   {
+    "event": "a1",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "claire",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "mark",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people",
+       "consequence ca1 cites it"
+      ]
+     }
+    ]
+   }
+  ],
+  "B": [
+   {
+    "event": "b1",
+    "routes": [
+     {
+      "layer": "physical",
+      "actors": [
+       "mark"
+      ],
+      "objects": [],
+      "reasons": [
+       "physical verb 'gesture'"
+      ]
+     },
+     {
+      "layer": "perception",
+      "actors": [
+       "claire",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "visible to the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "mark",
+       "sarah"
+      ],
+      "objects": [],
+      "reasons": [
+       "consequence cb1 cites it"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

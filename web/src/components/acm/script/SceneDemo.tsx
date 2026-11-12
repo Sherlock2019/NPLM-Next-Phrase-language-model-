@@ -66,7 +66,7 @@ export function SceneDemo({ b, initialStage = 0, initialAll = false }: { b: Scen
           <StatusBadge s="stated" /> <StatusBadge s="possible" /> <StatusBadge s="unknown" /> <StatusBadge s="not_identified" />
         </p>
         <p className="faint text-[12px]">
-          Rendered from <code className="num">{s.schema}</code> data produced by the ACM scene engine ({b.generated_by}). The script, analysis and four branches are
+          Rendered from <code className="num">{s.schema}</code> data produced by the ACM scene engine ({b.generated_by}). The script, analysis and {b.branches.length} branches are
           authored demo content, deterministic and offline: they show the reasoning format, not live predictions.
         </p>
       </header>

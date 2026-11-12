@@ -1,0 +1,2080 @@
+{
+ "schema": "acm.scene/1",
+ "generated_by": "acm.scene (DemoProvider: authored, deterministic)",
+ "scene": {
+  "schema": "acm.scene/1",
+  "id": "beach_post",
+  "title": "The Beach Photo: One Post, Many Viewers",
+  "description": "Mark called in sick to work today. At the beach, Sarah takes a photo of him asleep on his towel and posts it publicly on Facebook as a joke. Mark's manager Paul sees it in his feed.",
+  "action": "Sarah posts a photo of Mark at the beach on Facebook.",
+  "location": {
+   "name": "Plage du Prado",
+   "city": "Marseille",
+   "marks": [
+    {
+     "id": "towel",
+     "label": "Mark's towel",
+     "x": 1.5,
+     "y": 2.0
+    },
+    {
+     "id": "towel_sarah",
+     "label": "Sarah's towel",
+     "x": 2.7,
+     "y": 2.0
+    },
+    {
+     "id": "water",
+     "label": "the water's edge",
+     "x": 2.0,
+     "y": 5.0
+    },
+    {
+     "id": "path",
+     "label": "beach path",
+     "x": 6.0,
+     "y": 0.5
+    }
+   ]
+  },
+  "time": "Tuesday, 11:30 a.m., a working day (a scenario label)",
+  "context": [
+   "Mark called in sick this morning.",
+   "Sarah's Facebook posts are public, and Mark's colleagues follow her.",
+   "Paul is Mark's manager."
+  ],
+  "status": "The post is public; Paul has asked Mark to see him tomorrow",
+  "initial": {
+   "posted": false,
+   "manager_aware": false
+  },
+  "actors": [
+   {
+    "id": "sarah",
+    "name": "Sarah",
+    "role": "Posts the photo, the origin actor",
+    "relationships": {
+     "mark": "wife"
+    },
+    "goals": [
+     "Share a funny moment"
+    ],
+    "preferences": [],
+    "constraints": [],
+    "position": "towel_sarah",
+    "knows": [
+     "Her posts are public"
+    ],
+    "unknown": [
+     "Whether she knew Mark had called in sick"
+    ],
+    "inferences": [
+     {
+      "kind": "thought",
+      "text": "“This is too funny not to share.”",
+      "status": "possible",
+      "source": "authored_demo"
+     },
+     {
+      "kind": "feeling",
+      "text": "May feel amused, then guilty when she hears about Paul.",
+      "status": "possible",
+      "source": "authored_demo"
+     }
+    ]
+   },
+   {
+    "id": "mark",
+    "name": "Mark",
+    "role": "In the photo, on a sick day",
+    "relationships": {
+     "sarah": "husband",
+     "paul": "employee of"
+    },
+    "goals": [
+     "Rest today without trouble at work"
+    ],
+    "preferences": [],
+    "constraints": [],
+    "position": "towel",
+    "knows": [
+     "He called in sick this morning"
+    ],
+    "unknown": [
+     "Whether he was ill"
+    ],
+    "inferences": [
+     {
+      "kind": "feeling",
+      "text": "May feel caught out and embarrassed.",
+      "status": "possible",
+      "source": "authored_demo"
+     },
+     {
+      "kind": "reaction",
+      "text": "May ask Sarah to delete the post, or call Paul to explain.",
+      "status": "possible",
+      "source": "authored_demo"
+     }
+    ]
+   },
+   {
+    "id": "paul",
+    "name": "Paul",
+    "role": "Mark's manager, sees the post from the office",
+    "relationships": {
+     "mark": "manager of"
+    },
+    "goals": [
+     "Keep the team reliable"
+    ],
+    "preferences": [],
+    "constraints": [],
+    "position": null,
+    "knows": [
+     "Mark called in sick today"
+    ],
+    "unknown": [],
+    "inferences": [
+     {
+      "kind": "thought",
+      "text": "“He doesn't look ill.”",
+      "status": "possible",
+      "source": "authored_demo"
+     }
+    ]
+   }
+  ],
+  "objects": [
+   {
+    "id": "phone",
+    "label": "Sarah's phone",
+    "kind": "physical",
+    "description": "",
+    "owner": "sarah",
+    "holder": "sarah",
+    "position": null,
+    "attributes": {}
+   },
+   {
+    "id": "photo",
+    "label": "Beach photo",
+    "kind": "physical",
+    "description": "A digital photo of Mark asleep on his towel",
+    "owner": "sarah",
+    "holder": null,
+    "position": null,
+    "attributes": {
+     "visibility": "none"
+    }
+   },
+   {
+    "id": "sick_leave",
+    "label": "Sick day",
+    "kind": "obligation",
+    "description": "Mark's declared sick day with his employer",
+    "owner": null,
+    "holder": null,
+    "position": null,
+    "attributes": {
+     "employer_contact": "paul",
+     "status": "declared"
+    }
+   }
+  ],
+  "events": [
+   {
+    "id": "e1",
+    "order": 1,
+    "actor": null,
+    "type": "observation",
+    "verb": null,
+    "target": null,
+    "object": null,
+    "description": "Mark sleeps on his towel in the sun. Sarah sits next to him, phone in hand.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "effects": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e2",
+    "order": 2,
+    "actor": "sarah",
+    "type": "action",
+    "verb": "hold",
+    "target": "phone",
+    "object": null,
+    "description": "Sarah takes a photo of Mark asleep.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "effects": [
+     {
+      "subject": "photo",
+      "attribute": "visibility",
+      "value": "private"
+     }
+    ],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e3",
+    "order": 3,
+    "actor": "sarah",
+    "type": "action",
+    "verb": "gesture",
+    "target": null,
+    "object": null,
+    "description": "Sarah posts the photo publicly on Facebook: “Best sick day ever 😂”.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "effects": [
+     {
+      "subject": "scene",
+      "attribute": "posted",
+      "value": true
+     },
+     {
+      "subject": "photo",
+      "attribute": "visibility",
+      "value": "public"
+     }
+    ],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e4",
+    "order": 4,
+    "actor": "paul",
+    "type": "observation",
+    "verb": null,
+    "target": null,
+    "object": null,
+    "description": "In the office, Paul sees the post in his feed.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "effects": [
+     {
+      "subject": "scene",
+      "attribute": "manager_aware",
+      "value": true
+     }
+    ],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e5",
+    "order": 5,
+    "actor": "paul",
+    "type": "dialogue",
+    "verb": "speak",
+    "target": "mark",
+    "object": null,
+    "description": "Paul messages Mark.",
+    "dialogue": "Feeling better, Mark? Come and see me in my office tomorrow.",
+    "voice": null,
+    "animation": null,
+    "effects": [
+     {
+      "subject": "sick_leave",
+      "attribute": "status",
+      "value": "questioned"
+     }
+    ],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e6",
+    "order": 6,
+    "actor": "mark",
+    "type": "dialogue",
+    "verb": "speak",
+    "target": "sarah",
+    "object": null,
+    "description": "Mark wakes and reads the message.",
+    "dialogue": "Sarah… did you post a photo of me? Paul saw it.",
+    "voice": "alarmed",
+    "animation": null,
+    "effects": [],
+    "source": "authored_demo"
+   }
+  ],
+  "scopes": [
+   {
+    "n": 1,
+    "id": "actor",
+    "title": "Sarah",
+    "short": "Sarah"
+   },
+   {
+    "n": 2,
+    "id": "participants",
+    "title": "Mark and Paul",
+    "short": "Mark & Paul"
+   },
+   {
+    "n": 3,
+    "id": "physical",
+    "title": "Immediate physical environment",
+    "short": "Physical"
+   },
+   {
+    "n": 4,
+    "id": "relationships",
+    "title": "Relationships and work",
+    "short": "Relationships"
+   },
+   {
+    "n": 5,
+    "id": "city",
+    "title": "City and services",
+    "short": "City · services"
+   },
+   {
+    "n": 6,
+    "id": "society",
+    "title": "Society",
+    "short": "Society"
+   },
+   {
+    "n": 7,
+    "id": "economy",
+    "title": "Economy and country",
+    "short": "Economy"
+   },
+   {
+    "n": 8,
+    "id": "world",
+    "title": "World and planet",
+    "short": "World"
+   }
+  ],
+  "unknowns": [
+   "Whether Mark was actually ill.",
+   "Whether Sarah knew he had called in sick.",
+   "What Paul will decide tomorrow."
+  ],
+  "caveats": [
+   "The dialogue and messages are illustrative demo content.",
+   "Nothing here establishes that Mark lied about being ill."
+  ]
+ },
+ "timeline": [
+  {
+   "event": null,
+   "state": {
+    "scene": {
+     "posted": false,
+     "manager_aware": false
+    },
+    "sarah": {
+     "position": "towel_sarah"
+    },
+    "mark": {
+     "position": "towel"
+    },
+    "paul": {
+     "position": null
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null
+    },
+    "photo": {
+     "owner": "sarah",
+     "holder": null,
+     "position": null,
+     "visibility": "none"
+    },
+    "sick_leave": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "employer_contact": "paul",
+     "status": "declared"
+    }
+   },
+   "changed": []
+  },
+  {
+   "event": "e1",
+   "state": {
+    "scene": {
+     "posted": false,
+     "manager_aware": false
+    },
+    "sarah": {
+     "position": "towel_sarah"
+    },
+    "mark": {
+     "position": "towel"
+    },
+    "paul": {
+     "position": null
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null
+    },
+    "photo": {
+     "owner": "sarah",
+     "holder": null,
+     "position": null,
+     "visibility": "none"
+    },
+    "sick_leave": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "employer_contact": "paul",
+     "status": "declared"
+    }
+   },
+   "changed": []
+  },
+  {
+   "event": "e2",
+   "state": {
+    "scene": {
+     "posted": false,
+     "manager_aware": false
+    },
+    "sarah": {
+     "position": "towel_sarah"
+    },
+    "mark": {
+     "position": "towel"
+    },
+    "paul": {
+     "position": null
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null
+    },
+    "photo": {
+     "owner": "sarah",
+     "holder": null,
+     "position": null,
+     "visibility": "private"
+    },
+    "sick_leave": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "employer_contact": "paul",
+     "status": "declared"
+    }
+   },
+   "changed": [
+    "photo.visibility"
+   ]
+  },
+  {
+   "event": "e3",
+   "state": {
+    "scene": {
+     "posted": true,
+     "manager_aware": false
+    },
+    "sarah": {
+     "position": "towel_sarah"
+    },
+    "mark": {
+     "position": "towel"
+    },
+    "paul": {
+     "position": null
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null
+    },
+    "photo": {
+     "owner": "sarah",
+     "holder": null,
+     "position": null,
+     "visibility": "public"
+    },
+    "sick_leave": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "employer_contact": "paul",
+     "status": "declared"
+    }
+   },
+   "changed": [
+    "scene.posted",
+    "photo.visibility"
+   ]
+  },
+  {
+   "event": "e4",
+   "state": {
+    "scene": {
+     "posted": true,
+     "manager_aware": true
+    },
+    "sarah": {
+     "position": "towel_sarah"
+    },
+    "mark": {
+     "position": "towel"
+    },
+    "paul": {
+     "position": null
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null
+    },
+    "photo": {
+     "owner": "sarah",
+     "holder": null,
+     "position": null,
+     "visibility": "public"
+    },
+    "sick_leave": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "employer_contact": "paul",
+     "status": "declared"
+    }
+   },
+   "changed": [
+    "scene.manager_aware"
+   ]
+  },
+  {
+   "event": "e5",
+   "state": {
+    "scene": {
+     "posted": true,
+     "manager_aware": true
+    },
+    "sarah": {
+     "position": "towel_sarah"
+    },
+    "mark": {
+     "position": "towel"
+    },
+    "paul": {
+     "position": null
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null
+    },
+    "photo": {
+     "owner": "sarah",
+     "holder": null,
+     "position": null,
+     "visibility": "public"
+    },
+    "sick_leave": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "employer_contact": "paul",
+     "status": "questioned"
+    }
+   },
+   "changed": [
+    "sick_leave.status"
+   ]
+  },
+  {
+   "event": "e6",
+   "state": {
+    "scene": {
+     "posted": true,
+     "manager_aware": true
+    },
+    "sarah": {
+     "position": "towel_sarah"
+    },
+    "mark": {
+     "position": "towel"
+    },
+    "paul": {
+     "position": null
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null
+    },
+    "photo": {
+     "owner": "sarah",
+     "holder": null,
+     "position": null,
+     "visibility": "public"
+    },
+    "sick_leave": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "employer_contact": "paul",
+     "status": "questioned"
+    }
+   },
+   "changed": []
+  }
+ ],
+ "analysis": {
+  "scene": "beach_post",
+  "provider": "demo",
+  "source": "authored_demo",
+  "conflicts": [
+   {
+    "between": [
+     "mark",
+     "paul"
+    ],
+    "description": "Mark's declared sick day is now questioned by his manager.",
+    "evidence": [
+     "e4",
+     "e5"
+    ],
+    "status": "stated"
+   },
+   {
+    "between": [
+     "sarah",
+     "mark"
+    ],
+    "description": "Sarah's joke exposed Mark at work.",
+    "evidence": [
+     "e3",
+     "e6"
+    ],
+    "status": "stated"
+   }
+  ],
+  "consequences": [
+   {
+    "id": "c1",
+    "scope": "actor",
+    "layer": "human_social",
+    "affected": [
+     "sarah"
+    ],
+    "description": "Her joke post exposes Mark's sick day.",
+    "goal": "Share a funny moment",
+    "evidence": [
+     "e3",
+     "e6"
+    ],
+    "status": "stated",
+    "effect": {
+     "sarah": "negative"
+    },
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c2",
+    "scope": "participants",
+    "layer": "business",
+    "affected": [
+     "mark",
+     "paul",
+     "sick_leave"
+    ],
+    "description": "Mark's sick day is questioned by his employer; a meeting is set for tomorrow.",
+    "goal": null,
+    "evidence": [
+     "e5"
+    ],
+    "status": "stated",
+    "effect": {
+     "mark": "negative"
+    },
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c3",
+    "scope": "participants",
+    "layer": "human_social",
+    "affected": [
+     "mark"
+    ],
+    "description": "Mark is caught out and embarrassed.",
+    "goal": null,
+    "evidence": [
+     "e6"
+    ],
+    "status": "possible",
+    "effect": {
+     "mark": "negative"
+    },
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c4",
+    "scope": "participants",
+    "layer": "perception",
+    "affected": [
+     "paul"
+    ],
+    "description": "Paul sees the photo; the post's audience includes Mark's colleagues.",
+    "goal": null,
+    "evidence": [
+     "e4"
+    ],
+    "status": "stated",
+    "effect": {},
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c5",
+    "scope": "physical",
+    "layer": "physical",
+    "affected": [
+     "mark"
+    ],
+    "description": "Nothing changes on the beach: the post changes only who knows what.",
+    "goal": null,
+    "evidence": [
+     "e3"
+    ],
+    "status": "stated",
+    "effect": {},
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c6",
+    "scope": "city",
+    "layer": "digital",
+    "affected": [
+     "photo"
+    ],
+    "description": "The photo is public on Facebook: anyone on Sarah's network can view, share or screenshot it.",
+    "goal": null,
+    "evidence": [
+     "e3"
+    ],
+    "status": "stated",
+    "effect": {},
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c7",
+    "scope": "relationships",
+    "layer": "human_social",
+    "affected": [
+     "mark",
+     "sarah"
+    ],
+    "description": "Trust between Mark and Sarah may suffer.",
+    "goal": null,
+    "evidence": [
+     "e6"
+    ],
+    "status": "possible",
+    "effect": {
+     "mark": "negative",
+     "sarah": "negative"
+    },
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c8",
+    "scope": "society",
+    "layer": "society",
+    "affected": [],
+    "description": "A small case of how social media blurs private life and work.",
+    "goal": null,
+    "evidence": [],
+    "status": "possible",
+    "effect": {},
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c9",
+    "scope": "economy",
+    "layer": "society",
+    "affected": [],
+    "description": "No national economic impact is established.",
+    "goal": null,
+    "evidence": [],
+    "status": "not_identified",
+    "effect": {},
+    "horizon": "unknown",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c10",
+    "scope": "world",
+    "layer": "planetary",
+    "affected": [],
+    "description": "No specific environmental impact is established.",
+    "goal": null,
+    "evidence": [],
+    "status": "not_identified",
+    "effect": {},
+    "horizon": "unknown",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   }
+  ]
+ },
+ "branches": [
+  {
+   "id": "A",
+   "title": "Delete and explain",
+   "parent": "beach_post",
+   "assumptions": [
+    "Sarah agrees to delete the post.",
+    "Mark chooses to call Paul."
+   ],
+   "summary": "Sarah deletes the post; Mark calls Paul to explain.",
+   "events": [
+    {
+     "id": "a1",
+     "order": 7,
+     "actor": "sarah",
+     "type": "action",
+     "verb": "gesture",
+     "target": null,
+     "object": null,
+     "description": "Sarah deletes the post.",
+     "dialogue": null,
+     "voice": null,
+     "animation": null,
+     "effects": [
+      {
+       "subject": "photo",
+       "attribute": "visibility",
+       "value": "deleted"
+      }
+     ],
+     "source": "authored_demo"
+    },
+    {
+     "id": "a2",
+     "order": 8,
+     "actor": "mark",
+     "type": "dialogue",
+     "verb": "speak",
+     "target": "paul",
+     "object": null,
+     "description": "Mark calls Paul.",
+     "dialogue": "Paul, I'd rather explain now than tomorrow.",
+     "voice": null,
+     "animation": null,
+     "effects": [],
+     "source": "authored_demo"
+    }
+   ],
+   "goal_changes": [
+    {
+     "actor": "mark",
+     "change": "Faces the issue early; the outcome is still open.",
+     "effect": "mixed"
+    },
+    {
+     "actor": "sarah",
+     "change": "Limits further spread of the photo.",
+     "effect": "mixed"
+    }
+   ],
+   "inferences": {},
+   "consequences": [
+    {
+     "id": "ca1",
+     "scope": "city",
+     "layer": "digital",
+     "affected": [
+      "photo"
+     ],
+     "description": "Deleting the post stops new views, but cannot undo views or screenshots already made.",
+     "goal": null,
+     "evidence": [
+      "a1"
+     ],
+     "status": "stated",
+     "effect": {},
+     "horizon": "immediate",
+     "assumptions": [],
+     "questions": [],
+     "source": "authored_demo"
+    }
+   ],
+   "unknowns": [
+    "Has anyone screenshotted it?",
+    "Will Paul accept the explanation?"
+   ],
+   "plausibility": "Mark asked about the post right after Paul's message; deleting it and calling are the direct responses.",
+   "source": "authored_demo",
+   "timeline": [
+    {
+     "event": null,
+     "state": {
+      "scene": {
+       "posted": true,
+       "manager_aware": true
+      },
+      "sarah": {
+       "position": "towel_sarah"
+      },
+      "mark": {
+       "position": "towel"
+      },
+      "paul": {
+       "position": null
+      },
+      "phone": {
+       "owner": "sarah",
+       "holder": "sarah",
+       "position": null
+      },
+      "photo": {
+       "owner": "sarah",
+       "holder": null,
+       "position": null,
+       "visibility": "public"
+      },
+      "sick_leave": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "employer_contact": "paul",
+       "status": "questioned"
+      }
+     },
+     "changed": []
+    },
+    {
+     "event": "a1",
+     "state": {
+      "scene": {
+       "posted": true,
+       "manager_aware": true
+      },
+      "sarah": {
+       "position": "towel_sarah"
+      },
+      "mark": {
+       "position": "towel"
+      },
+      "paul": {
+       "position": null
+      },
+      "phone": {
+       "owner": "sarah",
+       "holder": "sarah",
+       "position": null
+      },
+      "photo": {
+       "owner": "sarah",
+       "holder": null,
+       "position": null,
+       "visibility": "deleted"
+      },
+      "sick_leave": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "employer_contact": "paul",
+       "status": "questioned"
+      }
+     },
+     "changed": [
+      "photo.visibility"
+     ]
+    },
+    {
+     "event": "a2",
+     "state": {
+      "scene": {
+       "posted": true,
+       "manager_aware": true
+      },
+      "sarah": {
+       "position": "towel_sarah"
+      },
+      "mark": {
+       "position": "towel"
+      },
+      "paul": {
+       "position": null
+      },
+      "phone": {
+       "owner": "sarah",
+       "holder": "sarah",
+       "position": null
+      },
+      "photo": {
+       "owner": "sarah",
+       "holder": null,
+       "position": null,
+       "visibility": "deleted"
+      },
+      "sick_leave": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "employer_contact": "paul",
+       "status": "questioned"
+      }
+     },
+     "changed": []
+    }
+   ],
+   "directions": {
+    "schema": "acm.directions/1",
+    "scene_schema": "acm.scene/1",
+    "scene": "beach_post",
+    "branch": "A",
+    "title": "Delete and explain",
+    "location": {
+     "name": "Plage du Prado",
+     "city": "Marseille",
+     "marks": [
+      {
+       "id": "towel",
+       "label": "Mark's towel",
+       "x": 1.5,
+       "y": 2.0
+      },
+      {
+       "id": "towel_sarah",
+       "label": "Sarah's towel",
+       "x": 2.7,
+       "y": 2.0
+      },
+      {
+       "id": "water",
+       "label": "the water's edge",
+       "x": 2.0,
+       "y": 5.0
+      },
+      {
+       "id": "path",
+       "label": "beach path",
+       "x": 6.0,
+       "y": 0.5
+      }
+     ]
+    },
+    "time": "Tuesday, 11:30 a.m., a working day (a scenario label)",
+    "actors": [
+     {
+      "id": "sarah",
+      "name": "Sarah",
+      "position": "towel_sarah"
+     },
+     {
+      "id": "mark",
+      "name": "Mark",
+      "position": "towel"
+     },
+     {
+      "id": "paul",
+      "name": "Paul",
+      "position": null
+     }
+    ],
+    "objects": [
+     {
+      "id": "phone",
+      "label": "Sarah's phone",
+      "kind": "physical",
+      "owner": "sarah",
+      "holder": "sarah",
+      "position": null
+     },
+     {
+      "id": "photo",
+      "label": "Beach photo",
+      "kind": "physical",
+      "owner": "sarah",
+      "holder": null,
+      "position": null
+     },
+     {
+      "id": "sick_leave",
+      "label": "Sick day",
+      "kind": "obligation",
+      "owner": null,
+      "holder": null,
+      "position": null
+     }
+    ],
+    "actions": [
+     {
+      "order": 7,
+      "event": "a1",
+      "type": "action",
+      "verb": "gesture",
+      "actor": "sarah",
+      "target": null,
+      "object": null,
+      "text": "Sarah deletes the post.",
+      "dialogue": null,
+      "voice": null,
+      "animation": null,
+      "source": "authored_demo",
+      "player_supported": true
+     },
+     {
+      "order": 8,
+      "event": "a2",
+      "type": "dialogue",
+      "verb": "speak",
+      "actor": "mark",
+      "target": "paul",
+      "object": null,
+      "text": "Mark calls Paul.",
+      "dialogue": "Paul, I'd rather explain now than tomorrow.",
+      "voice": null,
+      "animation": null,
+      "source": "authored_demo",
+      "player_supported": true
+     }
+    ],
+    "assumptions": [
+     "Sarah agrees to delete the post.",
+     "Mark chooses to call Paul."
+    ],
+    "source": "authored_demo",
+    "unsupported": [],
+    "vocabulary": {
+     "move": "go to a stage mark (target: a mark id)",
+     "hold": "hold an object (target: object id)",
+     "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+     "place": "put an object down at a mark (object: object id, target: mark id)",
+     "take": "pick an object up (target: object id)",
+     "speak": "say the event's dialogue (target: the actor addressed, optional)",
+     "pause": "stop and wait",
+     "gesture": "a visible gesture with no object (e.g. raise a hand)"
+    },
+    "integrations": {
+     "renderer_3d": "planned (not integrated)",
+     "physics": "planned (not integrated)",
+     "text_to_speech": "browser speech synthesis in the dashboard only; no export consumer"
+    }
+   }
+  },
+  {
+   "id": "B",
+   "title": "Ignore it",
+   "parent": "beach_post",
+   "assumptions": [
+    "Mark does not reply to Paul today."
+   ],
+   "summary": "Mark ignores the message; the post stays up.",
+   "events": [
+    {
+     "id": "b1",
+     "order": 7,
+     "actor": "mark",
+     "type": "action",
+     "verb": "move",
+     "target": "water",
+     "object": null,
+     "description": "Mark puts the phone down and walks to the water.",
+     "dialogue": null,
+     "voice": null,
+     "animation": null,
+     "effects": [
+      {
+       "subject": "mark",
+       "attribute": "position",
+       "value": "water"
+      }
+     ],
+     "source": "authored_demo"
+    }
+   ],
+   "goal_changes": [
+    {
+     "actor": "mark",
+     "change": "Avoids the issue today; tomorrow's meeting stays.",
+     "effect": "negative"
+    }
+   ],
+   "inferences": {},
+   "consequences": [
+    {
+     "id": "cb1",
+     "scope": "city",
+     "layer": "digital",
+     "affected": [
+      "photo"
+     ],
+     "description": "The public post keeps collecting views and comments.",
+     "goal": null,
+     "evidence": [
+      "e3",
+      "b1"
+     ],
+     "status": "possible",
+     "effect": {},
+     "horizon": "later",
+     "assumptions": [],
+     "questions": [],
+     "source": "authored_demo"
+    }
+   ],
+   "unknowns": [
+    "How many more colleagues will see it?"
+   ],
+   "plausibility": "Possible but risky: Paul has already seen the photo and asked for a meeting.",
+   "source": "authored_demo",
+   "timeline": [
+    {
+     "event": null,
+     "state": {
+      "scene": {
+       "posted": true,
+       "manager_aware": true
+      },
+      "sarah": {
+       "position": "towel_sarah"
+      },
+      "mark": {
+       "position": "towel"
+      },
+      "paul": {
+       "position": null
+      },
+      "phone": {
+       "owner": "sarah",
+       "holder": "sarah",
+       "position": null
+      },
+      "photo": {
+       "owner": "sarah",
+       "holder": null,
+       "position": null,
+       "visibility": "public"
+      },
+      "sick_leave": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "employer_contact": "paul",
+       "status": "questioned"
+      }
+     },
+     "changed": []
+    },
+    {
+     "event": "b1",
+     "state": {
+      "scene": {
+       "posted": true,
+       "manager_aware": true
+      },
+      "sarah": {
+       "position": "towel_sarah"
+      },
+      "mark": {
+       "position": "water"
+      },
+      "paul": {
+       "position": null
+      },
+      "phone": {
+       "owner": "sarah",
+       "holder": "sarah",
+       "position": null
+      },
+      "photo": {
+       "owner": "sarah",
+       "holder": null,
+       "position": null,
+       "visibility": "public"
+      },
+      "sick_leave": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "employer_contact": "paul",
+       "status": "questioned"
+      }
+     },
+     "changed": [
+      "mark.position"
+     ]
+    }
+   ],
+   "directions": {
+    "schema": "acm.directions/1",
+    "scene_schema": "acm.scene/1",
+    "scene": "beach_post",
+    "branch": "B",
+    "title": "Ignore it",
+    "location": {
+     "name": "Plage du Prado",
+     "city": "Marseille",
+     "marks": [
+      {
+       "id": "towel",
+       "label": "Mark's towel",
+       "x": 1.5,
+       "y": 2.0
+      },
+      {
+       "id": "towel_sarah",
+       "label": "Sarah's towel",
+       "x": 2.7,
+       "y": 2.0
+      },
+      {
+       "id": "water",
+       "label": "the water's edge",
+       "x": 2.0,
+       "y": 5.0
+      },
+      {
+       "id": "path",
+       "label": "beach path",
+       "x": 6.0,
+       "y": 0.5
+      }
+     ]
+    },
+    "time": "Tuesday, 11:30 a.m., a working day (a scenario label)",
+    "actors": [
+     {
+      "id": "sarah",
+      "name": "Sarah",
+      "position": "towel_sarah"
+     },
+     {
+      "id": "mark",
+      "name": "Mark",
+      "position": "towel"
+     },
+     {
+      "id": "paul",
+      "name": "Paul",
+      "position": null
+     }
+    ],
+    "objects": [
+     {
+      "id": "phone",
+      "label": "Sarah's phone",
+      "kind": "physical",
+      "owner": "sarah",
+      "holder": "sarah",
+      "position": null
+     },
+     {
+      "id": "photo",
+      "label": "Beach photo",
+      "kind": "physical",
+      "owner": "sarah",
+      "holder": null,
+      "position": null
+     },
+     {
+      "id": "sick_leave",
+      "label": "Sick day",
+      "kind": "obligation",
+      "owner": null,
+      "holder": null,
+      "position": null
+     }
+    ],
+    "actions": [
+     {
+      "order": 7,
+      "event": "b1",
+      "type": "action",
+      "verb": "move",
+      "actor": "mark",
+      "target": "water",
+      "object": null,
+      "text": "Mark puts the phone down and walks to the water.",
+      "dialogue": null,
+      "voice": null,
+      "animation": null,
+      "source": "authored_demo",
+      "player_supported": true
+     }
+    ],
+    "assumptions": [
+     "Mark does not reply to Paul today."
+    ],
+    "source": "authored_demo",
+    "unsupported": [],
+    "vocabulary": {
+     "move": "go to a stage mark (target: a mark id)",
+     "hold": "hold an object (target: object id)",
+     "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+     "place": "put an object down at a mark (object: object id, target: mark id)",
+     "take": "pick an object up (target: object id)",
+     "speak": "say the event's dialogue (target: the actor addressed, optional)",
+     "pause": "stop and wait",
+     "gesture": "a visible gesture with no object (e.g. raise a hand)"
+    },
+    "integrations": {
+     "renderer_3d": "planned (not integrated)",
+     "physics": "planned (not integrated)",
+     "text_to_speech": "browser speech synthesis in the dashboard only; no export consumer"
+    }
+   }
+  }
+ ],
+ "directions": {
+  "schema": "acm.directions/1",
+  "scene_schema": "acm.scene/1",
+  "scene": "beach_post",
+  "branch": null,
+  "title": "The Beach Photo: One Post, Many Viewers",
+  "location": {
+   "name": "Plage du Prado",
+   "city": "Marseille",
+   "marks": [
+    {
+     "id": "towel",
+     "label": "Mark's towel",
+     "x": 1.5,
+     "y": 2.0
+    },
+    {
+     "id": "towel_sarah",
+     "label": "Sarah's towel",
+     "x": 2.7,
+     "y": 2.0
+    },
+    {
+     "id": "water",
+     "label": "the water's edge",
+     "x": 2.0,
+     "y": 5.0
+    },
+    {
+     "id": "path",
+     "label": "beach path",
+     "x": 6.0,
+     "y": 0.5
+    }
+   ]
+  },
+  "time": "Tuesday, 11:30 a.m., a working day (a scenario label)",
+  "actors": [
+   {
+    "id": "sarah",
+    "name": "Sarah",
+    "position": "towel_sarah"
+   },
+   {
+    "id": "mark",
+    "name": "Mark",
+    "position": "towel"
+   },
+   {
+    "id": "paul",
+    "name": "Paul",
+    "position": null
+   }
+  ],
+  "objects": [
+   {
+    "id": "phone",
+    "label": "Sarah's phone",
+    "kind": "physical",
+    "owner": "sarah",
+    "holder": "sarah",
+    "position": null
+   },
+   {
+    "id": "photo",
+    "label": "Beach photo",
+    "kind": "physical",
+    "owner": "sarah",
+    "holder": null,
+    "position": null
+   },
+   {
+    "id": "sick_leave",
+    "label": "Sick day",
+    "kind": "obligation",
+    "owner": null,
+    "holder": null,
+    "position": null
+   }
+  ],
+  "actions": [
+   {
+    "order": 1,
+    "event": "e1",
+    "type": "observation",
+    "verb": null,
+    "actor": null,
+    "target": null,
+    "object": null,
+    "text": "Mark sleeps on his towel in the sun. Sarah sits next to him, phone in hand.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 2,
+    "event": "e2",
+    "type": "action",
+    "verb": "hold",
+    "actor": "sarah",
+    "target": "phone",
+    "object": null,
+    "text": "Sarah takes a photo of Mark asleep.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 3,
+    "event": "e3",
+    "type": "action",
+    "verb": "gesture",
+    "actor": "sarah",
+    "target": null,
+    "object": null,
+    "text": "Sarah posts the photo publicly on Facebook: “Best sick day ever 😂”.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 4,
+    "event": "e4",
+    "type": "observation",
+    "verb": null,
+    "actor": "paul",
+    "target": null,
+    "object": null,
+    "text": "In the office, Paul sees the post in his feed.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 5,
+    "event": "e5",
+    "type": "dialogue",
+    "verb": "speak",
+    "actor": "paul",
+    "target": "mark",
+    "object": null,
+    "text": "Paul messages Mark.",
+    "dialogue": "Feeling better, Mark? Come and see me in my office tomorrow.",
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 6,
+    "event": "e6",
+    "type": "dialogue",
+    "verb": "speak",
+    "actor": "mark",
+    "target": "sarah",
+    "object": null,
+    "text": "Mark wakes and reads the message.",
+    "dialogue": "Sarah… did you post a photo of me? Paul saw it.",
+    "voice": "alarmed",
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   }
+  ],
+  "assumptions": [],
+  "source": "authored_demo",
+  "unsupported": [],
+  "vocabulary": {
+   "move": "go to a stage mark (target: a mark id)",
+   "hold": "hold an object (target: object id)",
+   "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+   "place": "put an object down at a mark (object: object id, target: mark id)",
+   "take": "pick an object up (target: object id)",
+   "speak": "say the event's dialogue (target: the actor addressed, optional)",
+   "pause": "stop and wait",
+   "gesture": "a visible gesture with no object (e.g. raise a hand)"
+  },
+  "integrations": {
+   "renderer_3d": "planned (not integrated)",
+   "physics": "planned (not integrated)",
+   "text_to_speech": "browser speech synthesis in the dashboard only; no export consumer"
+  }
+ },
+ "vocabulary": {
+  "move": "go to a stage mark (target: a mark id)",
+  "hold": "hold an object (target: object id)",
+  "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+  "place": "put an object down at a mark (object: object id, target: mark id)",
+  "take": "pick an object up (target: object id)",
+  "speak": "say the event's dialogue (target: the actor addressed, optional)",
+  "pause": "stop and wait",
+  "gesture": "a visible gesture with no object (e.g. raise a hand)"
+ },
+ "layers": [
+  {
+   "level": 0,
+   "id": "action",
+   "icon": "🎬",
+   "name": "Action or event",
+   "examines": "Who acts, why, their goal and desired outcome, and what happens",
+   "osi": "Source",
+   "osi_role": "A networking application creates or receives information",
+   "engine": "The scene script (acm.scene): actors, goals, ordered events and their state changes; single sentences are parsed by MLM's phrase model",
+   "status": "working"
+  },
+  {
+   "level": 1,
+   "id": "physical",
+   "icon": "⚙️",
+   "name": "Physical world",
+   "examines": "Objects, materials, movement, forces, location and energy",
+   "osi": "Physical",
+   "osi_role": "Transmits raw bits as signals over a physical medium",
+   "engine": "Scene state tracks positions, holders and owners (2D player). Forces and materials: a 2D matter.js stand-in in the Image/Video chat; a 3D physics engine (Unreal Engine 5, Chaos) is planned",
+   "status": "partial"
+  },
+  {
+   "level": 2,
+   "id": "perception",
+   "icon": "👁️",
+   "name": "Perception and observation",
+   "examines": "Images, video, audio, speech, sensors and observations",
+   "osi": "Data Link",
+   "osi_role": "Transfers frames across a local network link",
+   "engine": "Scene observations and who can see or hear each event. Image/video recognition in the Image/Video chat uses replayed detections; a vision-language model and detector are planned",
+   "status": "partial"
+  },
+  {
+   "level": 3,
+   "id": "routing",
+   "icon": "🧭",
+   "name": "Consequence routing",
+   "examines": "Determines which world models, actors and systems should examine an event",
+   "osi": "Network",
+   "osi_role": "Addresses and routes packets across networks (routing)",
+   "engine": "acm.scene.layers.route: explicit rules over each event's verb, type, objects and effects, plus the events each consequence cites as evidence",
+   "status": "working"
+  },
+  {
+   "level": 4,
+   "id": "human_social",
+   "icon": "🧠",
+   "name": "Human and social",
+   "examines": "Goals, behaviour, dialogue, relationships and group reactions",
+   "osi": "Transport",
+   "osi_role": "Provides end-to-end data transport between applications",
+   "engine": "The script model (goals, stated positions, possible feelings, conflicts) and next scenes from the authored demo or the local next-action model",
+   "status": "working"
+  },
+  {
+   "level": 5,
+   "id": "digital",
+   "icon": "💻",
+   "name": "Digital and information systems",
+   "examines": "Applications, records, calculations, permissions and workflows",
+   "osi": "Session",
+   "osi_role": "Establishes, manages and ends communication sessions",
+   "engine": "Explicit state changes and calculations (rule engine: has(x, y), amounts). No external system (registry, bank) is connected",
+   "status": "partial"
+  },
+  {
+   "level": 6,
+   "id": "business",
+   "icon": "🏭",
+   "name": "Business and institutions",
+   "examines": "Organisations, operations, processes, finance and policies",
+   "osi": "Presentation",
+   "osi_role": "Represents or transforms data, including formats and encoding",
+   "engine": "Obligations in the scene (debts, agreements) and the rule engine's organisation-scoped impact rules",
+   "status": "partial"
+  },
+  {
+   "level": 7,
+   "id": "society",
+   "icon": "🏛️",
+   "name": "Society and collective systems",
+   "examines": "Economy, markets, society, public governance and politics",
+   "osi": "Application",
+   "osi_role": "Provides network services used by applications, such as web and email",
+   "engine": "The rule engine's society- and country-scoped impact rules. No economic or political model yet",
+   "status": "partial"
+  },
+  {
+   "level": 8,
+   "id": "planetary",
+   "icon": "🌍",
+   "name": "Planetary and ecosystem",
+   "examines": "Resources, pollution, biodiversity and sustainability",
+   "osi": "Beyond the stack",
+   "osi_role": "(no OSI layer: the outermost system every other one depends on)",
+   "engine": "The rule engine's earth-scoped impact rules (e.g. flying and emissions). No ecosystem model yet",
+   "status": "partial"
+  }
+ ],
+ "routing": [
+  {
+   "event": "e1",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "paul",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "an observation of the scene"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e2",
+   "routes": [
+    {
+     "layer": "physical",
+     "actors": [
+      "sarah"
+     ],
+     "objects": [
+      "phone",
+      "photo"
+     ],
+     "reasons": [
+      "physical verb 'hold'"
+     ]
+    },
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "paul"
+     ],
+     "objects": [],
+     "reasons": [
+      "visible to the others present"
+     ]
+    },
+    {
+     "layer": "digital",
+     "actors": [],
+     "objects": [
+      "photo"
+     ],
+     "reasons": [
+      "changes the status of an owned object (Beach photo): records may apply"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e3",
+   "routes": [
+    {
+     "layer": "physical",
+     "actors": [
+      "sarah",
+      "mark"
+     ],
+     "objects": [
+      "photo"
+     ],
+     "reasons": [
+      "physical verb 'gesture'",
+      "consequence c5 cites it"
+     ]
+    },
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "paul"
+     ],
+     "objects": [],
+     "reasons": [
+      "visible to the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "consequence c1 cites it"
+     ]
+    },
+    {
+     "layer": "digital",
+     "actors": [],
+     "objects": [
+      "photo"
+     ],
+     "reasons": [
+      "changes the status of an owned object (Beach photo): records may apply",
+      "consequence c6 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e4",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "paul",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "an observation of the scene",
+      "consequence c4 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e5",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "sarah",
+      "mark"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "paul",
+      "mark"
+     ],
+     "objects": [],
+     "reasons": [
+      "dialogue between people"
+     ]
+    },
+    {
+     "layer": "digital",
+     "actors": [],
+     "objects": [
+      "sick_leave"
+     ],
+     "reasons": [
+      "amounts and records of Sick day"
+     ]
+    },
+    {
+     "layer": "business",
+     "actors": [
+      "mark",
+      "paul"
+     ],
+     "objects": [
+      "sick_leave"
+     ],
+     "reasons": [
+      "involves an obligation (Sick day)",
+      "consequence c2 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e6",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "sarah",
+      "paul"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "mark",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "dialogue between people",
+      "consequence c1 cites it",
+      "consequence c3 cites it",
+      "consequence c7 cites it"
+     ]
+    }
+   ]
+  }
+ ],
+ "branch_routing": {
+  "A": [
+   {
+    "event": "a1",
+    "routes": [
+     {
+      "layer": "physical",
+      "actors": [
+       "sarah"
+      ],
+      "objects": [
+       "photo"
+      ],
+      "reasons": [
+       "physical verb 'gesture'"
+      ]
+     },
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "paul"
+      ],
+      "objects": [],
+      "reasons": [
+       "visible to the others present"
+      ]
+     },
+     {
+      "layer": "digital",
+      "actors": [],
+      "objects": [
+       "photo"
+      ],
+      "reasons": [
+       "changes the status of an owned object (Beach photo): records may apply",
+       "consequence ca1 cites it"
+      ]
+     }
+    ]
+   },
+   {
+    "event": "a2",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "sarah",
+       "paul"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "mark",
+       "paul"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people"
+      ]
+     }
+    ]
+   }
+  ],
+  "B": [
+   {
+    "event": "b1",
+    "routes": [
+     {
+      "layer": "physical",
+      "actors": [
+       "mark"
+      ],
+      "objects": [],
+      "reasons": [
+       "physical verb 'move'"
+      ]
+     },
+     {
+      "layer": "perception",
+      "actors": [
+       "sarah",
+       "paul"
+      ],
+      "objects": [],
+      "reasons": [
+       "visible to the others present"
+      ]
+     },
+     {
+      "layer": "digital",
+      "actors": [],
+      "objects": [
+       "photo"
+      ],
+      "reasons": [
+       "consequence cb1 cites it"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

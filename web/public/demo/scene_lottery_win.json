@@ -1,0 +1,2012 @@
+{
+ "schema": "acm.scene/1",
+ "generated_by": "acm.scene (DemoProvider: authored, deterministic)",
+ "scene": {
+  "schema": "acm.scene/1",
+  "id": "lottery_win",
+  "title": "The Lottery Win: €1 Million",
+  "description": "Sarah checks her ticket and finds she has won €1 million. She tells Mark in the living room. They owe Florence €5,000. Sarah's sister Julie calls in the middle of it.",
+  "action": "Sarah tells Mark she won €1 million in the lottery.",
+  "location": {
+   "name": "Mark and Sarah's living room",
+   "city": "Paris",
+   "marks": [
+    {
+     "id": "sofa",
+     "label": "the sofa",
+     "x": 2.0,
+     "y": 2.0
+    },
+    {
+     "id": "table",
+     "label": "the coffee table",
+     "x": 2.0,
+     "y": 3.2
+    },
+    {
+     "id": "window",
+     "label": "the window",
+     "x": 5.0,
+     "y": 1.0
+    }
+   ]
+  },
+  "time": "Saturday, 9:00 p.m., after the draw (a scenario label)",
+  "context": [
+   "Sarah bought the ticket alone, with her own money.",
+   "The prize is €1 million, not yet claimed.",
+   "Mark and Sarah owe Florence €5,000."
+  ],
+  "status": "Ticket confirmed at home; prize not yet claimed",
+  "initial": {
+   "prize_claimed": false,
+   "told": false
+  },
+  "actors": [
+   {
+    "id": "sarah",
+    "name": "Sarah",
+    "role": "Ticket holder, the origin actor",
+    "relationships": {
+     "mark": "wife",
+     "julie": "sister"
+    },
+    "goals": [
+     "Keep the household secure"
+    ],
+    "preferences": [],
+    "constraints": [],
+    "position": "sofa",
+    "knows": [],
+    "unknown": [],
+    "inferences": [
+     {
+      "kind": "feeling",
+      "text": "May feel disbelief, then joy, then caution.",
+      "status": "possible",
+      "source": "authored_demo"
+     }
+    ]
+   },
+   {
+    "id": "mark",
+    "name": "Mark",
+    "role": "Sarah's husband",
+    "relationships": {
+     "sarah": "husband"
+    },
+    "goals": [
+     "Settle the €5,000 debt to Florence"
+    ],
+    "preferences": [],
+    "constraints": [],
+    "position": "window",
+    "knows": [],
+    "unknown": [],
+    "inferences": [
+     {
+      "kind": "reaction",
+      "text": "May want to repay Florence first, or to celebrate.",
+      "status": "possible",
+      "source": "authored_demo"
+     }
+    ]
+   },
+   {
+    "id": "julie",
+    "name": "Julie",
+    "role": "Sarah's sister, on the phone",
+    "relationships": {
+     "sarah": "sister"
+    },
+    "goals": [],
+    "preferences": [],
+    "constraints": [],
+    "position": null,
+    "knows": [],
+    "unknown": [],
+    "inferences": [
+     {
+      "kind": "reaction",
+      "text": "May keep it to herself, or tell family.",
+      "status": "possible",
+      "source": "authored_demo"
+     }
+    ]
+   }
+  ],
+  "objects": [
+   {
+    "id": "ticket",
+    "label": "Winning ticket",
+    "kind": "physical",
+    "description": "",
+    "owner": "sarah",
+    "holder": "sarah",
+    "position": null,
+    "attributes": {
+     "prize_eur": 1000000
+    }
+   },
+   {
+    "id": "phone",
+    "label": "Sarah's phone",
+    "kind": "physical",
+    "description": "",
+    "owner": "sarah",
+    "holder": null,
+    "position": "table",
+    "attributes": {}
+   },
+   {
+    "id": "debt",
+    "label": "€5,000 debt to Florence",
+    "kind": "obligation",
+    "description": "",
+    "owner": null,
+    "holder": null,
+    "position": null,
+    "attributes": {
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   }
+  ],
+  "events": [
+   {
+    "id": "e1",
+    "order": 1,
+    "actor": null,
+    "type": "observation",
+    "verb": null,
+    "target": null,
+    "object": null,
+    "description": "Sarah sits on the sofa checking the numbers on her phone; Mark stands at the window.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "effects": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e2",
+    "order": 2,
+    "actor": "sarah",
+    "type": "action",
+    "verb": "hold",
+    "target": "ticket",
+    "object": null,
+    "description": "Sarah holds up the ticket, hands shaking.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "effects": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e3",
+    "order": 3,
+    "actor": "sarah",
+    "type": "dialogue",
+    "verb": "speak",
+    "target": "mark",
+    "object": null,
+    "description": "Sarah tells Mark.",
+    "dialogue": "Mark… we won. A million euros. All six numbers.",
+    "voice": "whispered, then loud",
+    "animation": null,
+    "effects": [
+     {
+      "subject": "scene",
+      "attribute": "told",
+      "value": true
+     }
+    ],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e4",
+    "order": 4,
+    "actor": "mark",
+    "type": "action",
+    "verb": "move",
+    "target": "sofa",
+    "object": null,
+    "description": "Mark rushes over to see the ticket.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "effects": [
+     {
+      "subject": "mark",
+      "attribute": "position",
+      "value": "sofa"
+     }
+    ],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e5",
+    "order": 5,
+    "actor": "mark",
+    "type": "dialogue",
+    "verb": "speak",
+    "target": "sarah",
+    "object": null,
+    "description": "Mark thinks of the debt first.",
+    "dialogue": "First thing: we pay Florence back. Every cent.",
+    "voice": null,
+    "animation": null,
+    "effects": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e6",
+    "order": 6,
+    "actor": "julie",
+    "type": "dialogue",
+    "verb": "speak",
+    "target": "sarah",
+    "object": null,
+    "description": "Julie calls; Sarah puts her on speaker.",
+    "dialogue": "Sarah? You sound strange. Is everything all right?",
+    "voice": null,
+    "animation": null,
+    "effects": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "e7",
+    "order": 7,
+    "actor": "sarah",
+    "type": "dialogue",
+    "verb": "speak",
+    "target": "julie",
+    "object": null,
+    "description": "Sarah decides to keep it quiet for now.",
+    "dialogue": "Everything's fine. I'll call you tomorrow.",
+    "voice": null,
+    "animation": null,
+    "effects": [
+     {
+      "subject": "scene",
+      "attribute": "kept_secret",
+      "value": true
+     }
+    ],
+    "source": "authored_demo"
+   }
+  ],
+  "scopes": [
+   {
+    "n": 1,
+    "id": "actor",
+    "title": "Sarah",
+    "short": "Sarah"
+   },
+   {
+    "n": 2,
+    "id": "participants",
+    "title": "Mark and Julie",
+    "short": "Mark & Julie"
+   },
+   {
+    "n": 3,
+    "id": "physical",
+    "title": "Immediate physical environment",
+    "short": "Physical"
+   },
+   {
+    "n": 4,
+    "id": "relationships",
+    "title": "Family and friends",
+    "short": "Relationships"
+   },
+   {
+    "n": 5,
+    "id": "city",
+    "title": "City and services",
+    "short": "City · services"
+   },
+   {
+    "n": 6,
+    "id": "society",
+    "title": "Society",
+    "short": "Society"
+   },
+   {
+    "n": 7,
+    "id": "economy",
+    "title": "Economy and country",
+    "short": "Economy"
+   },
+   {
+    "n": 8,
+    "id": "world",
+    "title": "World and planet",
+    "short": "World"
+   }
+  ],
+  "unknowns": [
+   "How they will use the money.",
+   "Who else they will tell."
+  ],
+  "caveats": [
+   "Tax and claim rules are not established here.",
+   "The dialogue is illustrative demo content."
+  ]
+ },
+ "timeline": [
+  {
+   "event": null,
+   "state": {
+    "scene": {
+     "prize_claimed": false,
+     "told": false
+    },
+    "sarah": {
+     "position": "sofa"
+    },
+    "mark": {
+     "position": "window"
+    },
+    "julie": {
+     "position": null
+    },
+    "ticket": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null,
+     "prize_eur": 1000000
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": null,
+     "position": "table"
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": []
+  },
+  {
+   "event": "e1",
+   "state": {
+    "scene": {
+     "prize_claimed": false,
+     "told": false
+    },
+    "sarah": {
+     "position": "sofa"
+    },
+    "mark": {
+     "position": "window"
+    },
+    "julie": {
+     "position": null
+    },
+    "ticket": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null,
+     "prize_eur": 1000000
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": null,
+     "position": "table"
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": []
+  },
+  {
+   "event": "e2",
+   "state": {
+    "scene": {
+     "prize_claimed": false,
+     "told": false
+    },
+    "sarah": {
+     "position": "sofa"
+    },
+    "mark": {
+     "position": "window"
+    },
+    "julie": {
+     "position": null
+    },
+    "ticket": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null,
+     "prize_eur": 1000000
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": null,
+     "position": "table"
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": []
+  },
+  {
+   "event": "e3",
+   "state": {
+    "scene": {
+     "prize_claimed": false,
+     "told": true
+    },
+    "sarah": {
+     "position": "sofa"
+    },
+    "mark": {
+     "position": "window"
+    },
+    "julie": {
+     "position": null
+    },
+    "ticket": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null,
+     "prize_eur": 1000000
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": null,
+     "position": "table"
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": [
+    "scene.told"
+   ]
+  },
+  {
+   "event": "e4",
+   "state": {
+    "scene": {
+     "prize_claimed": false,
+     "told": true
+    },
+    "sarah": {
+     "position": "sofa"
+    },
+    "mark": {
+     "position": "sofa"
+    },
+    "julie": {
+     "position": null
+    },
+    "ticket": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null,
+     "prize_eur": 1000000
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": null,
+     "position": "table"
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": [
+    "mark.position"
+   ]
+  },
+  {
+   "event": "e5",
+   "state": {
+    "scene": {
+     "prize_claimed": false,
+     "told": true
+    },
+    "sarah": {
+     "position": "sofa"
+    },
+    "mark": {
+     "position": "sofa"
+    },
+    "julie": {
+     "position": null
+    },
+    "ticket": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null,
+     "prize_eur": 1000000
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": null,
+     "position": "table"
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": []
+  },
+  {
+   "event": "e6",
+   "state": {
+    "scene": {
+     "prize_claimed": false,
+     "told": true
+    },
+    "sarah": {
+     "position": "sofa"
+    },
+    "mark": {
+     "position": "sofa"
+    },
+    "julie": {
+     "position": null
+    },
+    "ticket": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null,
+     "prize_eur": 1000000
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": null,
+     "position": "table"
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": []
+  },
+  {
+   "event": "e7",
+   "state": {
+    "scene": {
+     "prize_claimed": false,
+     "told": true,
+     "kept_secret": true
+    },
+    "sarah": {
+     "position": "sofa"
+    },
+    "mark": {
+     "position": "sofa"
+    },
+    "julie": {
+     "position": null
+    },
+    "ticket": {
+     "owner": "sarah",
+     "holder": "sarah",
+     "position": null,
+     "prize_eur": 1000000
+    },
+    "phone": {
+     "owner": "sarah",
+     "holder": null,
+     "position": "table"
+    },
+    "debt": {
+     "owner": null,
+     "holder": null,
+     "position": null,
+     "amount": 5000,
+     "currency": "EUR",
+     "status": "unpaid"
+    }
+   },
+   "changed": [
+    "scene.kept_secret"
+   ]
+  }
+ ],
+ "analysis": {
+  "scene": "lottery_win",
+  "provider": "demo",
+  "source": "authored_demo",
+  "conflicts": [
+   {
+    "between": [
+     "sarah",
+     "julie"
+    ],
+    "description": "Sarah keeps the win from her sister for now.",
+    "evidence": [
+     "e6",
+     "e7"
+    ],
+    "status": "stated"
+   }
+  ],
+  "consequences": [
+   {
+    "id": "c1",
+    "scope": "actor",
+    "layer": "business",
+    "affected": [
+     "sarah",
+     "ticket"
+    ],
+    "description": "Sarah holds a ticket worth €1 million, to be claimed.",
+    "goal": null,
+    "evidence": [
+     "e2",
+     "e3"
+    ],
+    "status": "stated",
+    "effect": {
+     "sarah": "positive"
+    },
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c2",
+    "scope": "participants",
+    "layer": "business",
+    "affected": [
+     "mark",
+     "debt"
+    ],
+    "description": "Repaying Florence becomes easy; Mark wants it done first.",
+    "goal": "Settle the €5,000 debt to Florence",
+    "evidence": [
+     "e5"
+    ],
+    "status": "stated",
+    "effect": {
+     "mark": "positive"
+    },
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c3",
+    "scope": "participants",
+    "layer": "human_social",
+    "affected": [
+     "mark",
+     "sarah"
+    ],
+    "description": "Shock and joy; spending choices now need deciding together.",
+    "goal": null,
+    "evidence": [
+     "e3",
+     "e5"
+    ],
+    "status": "possible",
+    "effect": {
+     "mark": "positive",
+     "sarah": "positive"
+    },
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c4",
+    "scope": "participants",
+    "layer": "perception",
+    "affected": [
+     "julie"
+    ],
+    "description": "Julie hears something unusual in Sarah's voice, but not the news.",
+    "goal": null,
+    "evidence": [
+     "e6",
+     "e7"
+    ],
+    "status": "stated",
+    "effect": {},
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c5",
+    "scope": "physical",
+    "layer": "physical",
+    "affected": [
+     "ticket"
+    ],
+    "description": "The winning ticket stays in Sarah's hands; it is the only proof of the win.",
+    "goal": null,
+    "evidence": [
+     "e2"
+    ],
+    "status": "stated",
+    "effect": {},
+    "horizon": "immediate",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c6",
+    "scope": "relationships",
+    "layer": "human_social",
+    "affected": [
+     "sarah",
+     "julie"
+    ],
+    "description": "Keeping the secret may strain family trust when it comes out; telling may bring requests for money.",
+    "goal": null,
+    "evidence": [
+     "e7"
+    ],
+    "status": "possible",
+    "effect": {},
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c7",
+    "scope": "city",
+    "layer": "digital",
+    "affected": [
+     "ticket"
+    ],
+    "description": "Claiming the prize means identity checks and a bank transfer, recorded by the lottery and the bank.",
+    "goal": null,
+    "evidence": [],
+    "status": "possible",
+    "effect": {},
+    "horizon": "later",
+    "assumptions": [
+     "Sarah claims the prize."
+    ],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c8",
+    "scope": "society",
+    "layer": "society",
+    "affected": [],
+    "description": "The lottery publishes a winner in Paris (usually without names).",
+    "goal": null,
+    "evidence": [],
+    "status": "possible",
+    "effect": {},
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c9",
+    "scope": "economy",
+    "layer": "society",
+    "affected": [],
+    "description": "€1 million moves from the lottery pool to a household; any tax depends on local rules (not established).",
+    "goal": null,
+    "evidence": [],
+    "status": "possible",
+    "effect": {},
+    "horizon": "later",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   },
+   {
+    "id": "c10",
+    "scope": "world",
+    "layer": "planetary",
+    "affected": [],
+    "description": "No specific environmental impact is established.",
+    "goal": null,
+    "evidence": [],
+    "status": "not_identified",
+    "effect": {},
+    "horizon": "unknown",
+    "assumptions": [],
+    "questions": [],
+    "source": "authored_demo"
+   }
+  ]
+ },
+ "branches": [
+  {
+   "id": "A",
+   "title": "Pay Florence first",
+   "parent": "lottery_win",
+   "assumptions": [
+    "The prize is claimed.",
+    "Sarah agrees with Mark."
+   ],
+   "summary": "They claim the prize and repay Florence the next week.",
+   "events": [
+    {
+     "id": "a1",
+     "order": 8,
+     "actor": "sarah",
+     "type": "dialogue",
+     "verb": "speak",
+     "target": "mark",
+     "object": null,
+     "description": "Sarah agrees.",
+     "dialogue": "Yes. Florence first. Then we think about the rest, slowly.",
+     "voice": null,
+     "animation": null,
+     "effects": [
+      {
+       "subject": "debt",
+       "attribute": "status",
+       "value": "to be repaid"
+      }
+     ],
+     "source": "authored_demo"
+    }
+   ],
+   "goal_changes": [
+    {
+     "actor": "mark",
+     "change": "The debt will be settled.",
+     "effect": "positive"
+    }
+   ],
+   "inferences": {},
+   "consequences": [
+    {
+     "id": "ca1",
+     "scope": "relationships",
+     "layer": "human_social",
+     "affected": [
+      "mark",
+      "sarah",
+      "debt"
+     ],
+     "description": "Repaying the debt removes a strain on their friendship with Florence.",
+     "goal": null,
+     "evidence": [
+      "a1"
+     ],
+     "status": "possible",
+     "effect": {},
+     "horizon": "later",
+     "assumptions": [],
+     "questions": [],
+     "source": "authored_demo"
+    }
+   ],
+   "unknowns": [
+    "How do they handle the rest of the money?"
+   ],
+   "plausibility": "Mark said so straight away, and the debt is their shared goal.",
+   "source": "authored_demo",
+   "timeline": [
+    {
+     "event": null,
+     "state": {
+      "scene": {
+       "prize_claimed": false,
+       "told": true,
+       "kept_secret": true
+      },
+      "sarah": {
+       "position": "sofa"
+      },
+      "mark": {
+       "position": "sofa"
+      },
+      "julie": {
+       "position": null
+      },
+      "ticket": {
+       "owner": "sarah",
+       "holder": "sarah",
+       "position": null,
+       "prize_eur": 1000000
+      },
+      "phone": {
+       "owner": "sarah",
+       "holder": null,
+       "position": "table"
+      },
+      "debt": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "amount": 5000,
+       "currency": "EUR",
+       "status": "unpaid"
+      }
+     },
+     "changed": []
+    },
+    {
+     "event": "a1",
+     "state": {
+      "scene": {
+       "prize_claimed": false,
+       "told": true,
+       "kept_secret": true
+      },
+      "sarah": {
+       "position": "sofa"
+      },
+      "mark": {
+       "position": "sofa"
+      },
+      "julie": {
+       "position": null
+      },
+      "ticket": {
+       "owner": "sarah",
+       "holder": "sarah",
+       "position": null,
+       "prize_eur": 1000000
+      },
+      "phone": {
+       "owner": "sarah",
+       "holder": null,
+       "position": "table"
+      },
+      "debt": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "amount": 5000,
+       "currency": "EUR",
+       "status": "to be repaid"
+      }
+     },
+     "changed": [
+      "debt.status"
+     ]
+    }
+   ],
+   "directions": {
+    "schema": "acm.directions/1",
+    "scene_schema": "acm.scene/1",
+    "scene": "lottery_win",
+    "branch": "A",
+    "title": "Pay Florence first",
+    "location": {
+     "name": "Mark and Sarah's living room",
+     "city": "Paris",
+     "marks": [
+      {
+       "id": "sofa",
+       "label": "the sofa",
+       "x": 2.0,
+       "y": 2.0
+      },
+      {
+       "id": "table",
+       "label": "the coffee table",
+       "x": 2.0,
+       "y": 3.2
+      },
+      {
+       "id": "window",
+       "label": "the window",
+       "x": 5.0,
+       "y": 1.0
+      }
+     ]
+    },
+    "time": "Saturday, 9:00 p.m., after the draw (a scenario label)",
+    "actors": [
+     {
+      "id": "sarah",
+      "name": "Sarah",
+      "position": "sofa"
+     },
+     {
+      "id": "mark",
+      "name": "Mark",
+      "position": "sofa"
+     },
+     {
+      "id": "julie",
+      "name": "Julie",
+      "position": null
+     }
+    ],
+    "objects": [
+     {
+      "id": "ticket",
+      "label": "Winning ticket",
+      "kind": "physical",
+      "owner": "sarah",
+      "holder": "sarah",
+      "position": null
+     },
+     {
+      "id": "phone",
+      "label": "Sarah's phone",
+      "kind": "physical",
+      "owner": "sarah",
+      "holder": null,
+      "position": "table"
+     },
+     {
+      "id": "debt",
+      "label": "€5,000 debt to Florence",
+      "kind": "obligation",
+      "owner": null,
+      "holder": null,
+      "position": null
+     }
+    ],
+    "actions": [
+     {
+      "order": 8,
+      "event": "a1",
+      "type": "dialogue",
+      "verb": "speak",
+      "actor": "sarah",
+      "target": "mark",
+      "object": null,
+      "text": "Sarah agrees.",
+      "dialogue": "Yes. Florence first. Then we think about the rest, slowly.",
+      "voice": null,
+      "animation": null,
+      "source": "authored_demo",
+      "player_supported": true
+     }
+    ],
+    "assumptions": [
+     "The prize is claimed.",
+     "Sarah agrees with Mark."
+    ],
+    "source": "authored_demo",
+    "unsupported": [],
+    "vocabulary": {
+     "move": "go to a stage mark (target: a mark id)",
+     "hold": "hold an object (target: object id)",
+     "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+     "place": "put an object down at a mark (object: object id, target: mark id)",
+     "take": "pick an object up (target: object id)",
+     "speak": "say the event's dialogue (target: the actor addressed, optional)",
+     "pause": "stop and wait",
+     "gesture": "a visible gesture with no object (e.g. raise a hand)"
+    },
+    "integrations": {
+     "renderer_3d": "planned (not integrated)",
+     "physics": "planned (not integrated)",
+     "text_to_speech": "browser speech synthesis in the dashboard only; no export consumer"
+    }
+   }
+  },
+  {
+   "id": "B",
+   "title": "Tell the family",
+   "parent": "lottery_win",
+   "assumptions": [
+    "Sarah changes her mind and calls Julie back."
+   ],
+   "summary": "Sarah calls Julie back and tells her; the news starts to travel.",
+   "events": [
+    {
+     "id": "b1",
+     "order": 8,
+     "actor": "sarah",
+     "type": "dialogue",
+     "verb": "speak",
+     "target": "julie",
+     "object": null,
+     "description": "Sarah calls Julie back.",
+     "dialogue": "Julie, sit down. I have to tell you something.",
+     "voice": null,
+     "animation": null,
+     "effects": [
+      {
+       "subject": "scene",
+       "attribute": "kept_secret",
+       "value": false
+      }
+     ],
+     "source": "authored_demo"
+    }
+   ],
+   "goal_changes": [
+    {
+     "actor": "sarah",
+     "change": "Shares the joy, and loses control of who knows.",
+     "effect": "mixed"
+    }
+   ],
+   "inferences": {},
+   "consequences": [
+    {
+     "id": "cb1",
+     "scope": "relationships",
+     "layer": "human_social",
+     "affected": [
+      "sarah",
+      "julie"
+     ],
+     "description": "The wider family may soon know, with possible requests for money.",
+     "goal": null,
+     "evidence": [
+      "b1"
+     ],
+     "status": "possible",
+     "effect": {},
+     "horizon": "later",
+     "assumptions": [],
+     "questions": [],
+     "source": "authored_demo"
+    }
+   ],
+   "unknowns": [
+    "Who will Julie tell?"
+   ],
+   "plausibility": "Sarah was close to telling Julie; sisters often share big news.",
+   "source": "authored_demo",
+   "timeline": [
+    {
+     "event": null,
+     "state": {
+      "scene": {
+       "prize_claimed": false,
+       "told": true,
+       "kept_secret": true
+      },
+      "sarah": {
+       "position": "sofa"
+      },
+      "mark": {
+       "position": "sofa"
+      },
+      "julie": {
+       "position": null
+      },
+      "ticket": {
+       "owner": "sarah",
+       "holder": "sarah",
+       "position": null,
+       "prize_eur": 1000000
+      },
+      "phone": {
+       "owner": "sarah",
+       "holder": null,
+       "position": "table"
+      },
+      "debt": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "amount": 5000,
+       "currency": "EUR",
+       "status": "unpaid"
+      }
+     },
+     "changed": []
+    },
+    {
+     "event": "b1",
+     "state": {
+      "scene": {
+       "prize_claimed": false,
+       "told": true,
+       "kept_secret": false
+      },
+      "sarah": {
+       "position": "sofa"
+      },
+      "mark": {
+       "position": "sofa"
+      },
+      "julie": {
+       "position": null
+      },
+      "ticket": {
+       "owner": "sarah",
+       "holder": "sarah",
+       "position": null,
+       "prize_eur": 1000000
+      },
+      "phone": {
+       "owner": "sarah",
+       "holder": null,
+       "position": "table"
+      },
+      "debt": {
+       "owner": null,
+       "holder": null,
+       "position": null,
+       "amount": 5000,
+       "currency": "EUR",
+       "status": "unpaid"
+      }
+     },
+     "changed": [
+      "scene.kept_secret"
+     ]
+    }
+   ],
+   "directions": {
+    "schema": "acm.directions/1",
+    "scene_schema": "acm.scene/1",
+    "scene": "lottery_win",
+    "branch": "B",
+    "title": "Tell the family",
+    "location": {
+     "name": "Mark and Sarah's living room",
+     "city": "Paris",
+     "marks": [
+      {
+       "id": "sofa",
+       "label": "the sofa",
+       "x": 2.0,
+       "y": 2.0
+      },
+      {
+       "id": "table",
+       "label": "the coffee table",
+       "x": 2.0,
+       "y": 3.2
+      },
+      {
+       "id": "window",
+       "label": "the window",
+       "x": 5.0,
+       "y": 1.0
+      }
+     ]
+    },
+    "time": "Saturday, 9:00 p.m., after the draw (a scenario label)",
+    "actors": [
+     {
+      "id": "sarah",
+      "name": "Sarah",
+      "position": "sofa"
+     },
+     {
+      "id": "mark",
+      "name": "Mark",
+      "position": "sofa"
+     },
+     {
+      "id": "julie",
+      "name": "Julie",
+      "position": null
+     }
+    ],
+    "objects": [
+     {
+      "id": "ticket",
+      "label": "Winning ticket",
+      "kind": "physical",
+      "owner": "sarah",
+      "holder": "sarah",
+      "position": null
+     },
+     {
+      "id": "phone",
+      "label": "Sarah's phone",
+      "kind": "physical",
+      "owner": "sarah",
+      "holder": null,
+      "position": "table"
+     },
+     {
+      "id": "debt",
+      "label": "€5,000 debt to Florence",
+      "kind": "obligation",
+      "owner": null,
+      "holder": null,
+      "position": null
+     }
+    ],
+    "actions": [
+     {
+      "order": 8,
+      "event": "b1",
+      "type": "dialogue",
+      "verb": "speak",
+      "actor": "sarah",
+      "target": "julie",
+      "object": null,
+      "text": "Sarah calls Julie back.",
+      "dialogue": "Julie, sit down. I have to tell you something.",
+      "voice": null,
+      "animation": null,
+      "source": "authored_demo",
+      "player_supported": true
+     }
+    ],
+    "assumptions": [
+     "Sarah changes her mind and calls Julie back."
+    ],
+    "source": "authored_demo",
+    "unsupported": [],
+    "vocabulary": {
+     "move": "go to a stage mark (target: a mark id)",
+     "hold": "hold an object (target: object id)",
+     "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+     "place": "put an object down at a mark (object: object id, target: mark id)",
+     "take": "pick an object up (target: object id)",
+     "speak": "say the event's dialogue (target: the actor addressed, optional)",
+     "pause": "stop and wait",
+     "gesture": "a visible gesture with no object (e.g. raise a hand)"
+    },
+    "integrations": {
+     "renderer_3d": "planned (not integrated)",
+     "physics": "planned (not integrated)",
+     "text_to_speech": "browser speech synthesis in the dashboard only; no export consumer"
+    }
+   }
+  }
+ ],
+ "directions": {
+  "schema": "acm.directions/1",
+  "scene_schema": "acm.scene/1",
+  "scene": "lottery_win",
+  "branch": null,
+  "title": "The Lottery Win: €1 Million",
+  "location": {
+   "name": "Mark and Sarah's living room",
+   "city": "Paris",
+   "marks": [
+    {
+     "id": "sofa",
+     "label": "the sofa",
+     "x": 2.0,
+     "y": 2.0
+    },
+    {
+     "id": "table",
+     "label": "the coffee table",
+     "x": 2.0,
+     "y": 3.2
+    },
+    {
+     "id": "window",
+     "label": "the window",
+     "x": 5.0,
+     "y": 1.0
+    }
+   ]
+  },
+  "time": "Saturday, 9:00 p.m., after the draw (a scenario label)",
+  "actors": [
+   {
+    "id": "sarah",
+    "name": "Sarah",
+    "position": "sofa"
+   },
+   {
+    "id": "mark",
+    "name": "Mark",
+    "position": "window"
+   },
+   {
+    "id": "julie",
+    "name": "Julie",
+    "position": null
+   }
+  ],
+  "objects": [
+   {
+    "id": "ticket",
+    "label": "Winning ticket",
+    "kind": "physical",
+    "owner": "sarah",
+    "holder": "sarah",
+    "position": null
+   },
+   {
+    "id": "phone",
+    "label": "Sarah's phone",
+    "kind": "physical",
+    "owner": "sarah",
+    "holder": null,
+    "position": "table"
+   },
+   {
+    "id": "debt",
+    "label": "€5,000 debt to Florence",
+    "kind": "obligation",
+    "owner": null,
+    "holder": null,
+    "position": null
+   }
+  ],
+  "actions": [
+   {
+    "order": 1,
+    "event": "e1",
+    "type": "observation",
+    "verb": null,
+    "actor": null,
+    "target": null,
+    "object": null,
+    "text": "Sarah sits on the sofa checking the numbers on her phone; Mark stands at the window.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 2,
+    "event": "e2",
+    "type": "action",
+    "verb": "hold",
+    "actor": "sarah",
+    "target": "ticket",
+    "object": null,
+    "text": "Sarah holds up the ticket, hands shaking.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 3,
+    "event": "e3",
+    "type": "dialogue",
+    "verb": "speak",
+    "actor": "sarah",
+    "target": "mark",
+    "object": null,
+    "text": "Sarah tells Mark.",
+    "dialogue": "Mark… we won. A million euros. All six numbers.",
+    "voice": "whispered, then loud",
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 4,
+    "event": "e4",
+    "type": "action",
+    "verb": "move",
+    "actor": "mark",
+    "target": "sofa",
+    "object": null,
+    "text": "Mark rushes over to see the ticket.",
+    "dialogue": null,
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 5,
+    "event": "e5",
+    "type": "dialogue",
+    "verb": "speak",
+    "actor": "mark",
+    "target": "sarah",
+    "object": null,
+    "text": "Mark thinks of the debt first.",
+    "dialogue": "First thing: we pay Florence back. Every cent.",
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 6,
+    "event": "e6",
+    "type": "dialogue",
+    "verb": "speak",
+    "actor": "julie",
+    "target": "sarah",
+    "object": null,
+    "text": "Julie calls; Sarah puts her on speaker.",
+    "dialogue": "Sarah? You sound strange. Is everything all right?",
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   },
+   {
+    "order": 7,
+    "event": "e7",
+    "type": "dialogue",
+    "verb": "speak",
+    "actor": "sarah",
+    "target": "julie",
+    "object": null,
+    "text": "Sarah decides to keep it quiet for now.",
+    "dialogue": "Everything's fine. I'll call you tomorrow.",
+    "voice": null,
+    "animation": null,
+    "source": "authored_demo",
+    "player_supported": true
+   }
+  ],
+  "assumptions": [],
+  "source": "authored_demo",
+  "unsupported": [],
+  "vocabulary": {
+   "move": "go to a stage mark (target: a mark id)",
+   "hold": "hold an object (target: object id)",
+   "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+   "place": "put an object down at a mark (object: object id, target: mark id)",
+   "take": "pick an object up (target: object id)",
+   "speak": "say the event's dialogue (target: the actor addressed, optional)",
+   "pause": "stop and wait",
+   "gesture": "a visible gesture with no object (e.g. raise a hand)"
+  },
+  "integrations": {
+   "renderer_3d": "planned (not integrated)",
+   "physics": "planned (not integrated)",
+   "text_to_speech": "browser speech synthesis in the dashboard only; no export consumer"
+  }
+ },
+ "vocabulary": {
+  "move": "go to a stage mark (target: a mark id)",
+  "hold": "hold an object (target: object id)",
+  "offer": "hold an object out toward another actor (target: actor id, object: object id)",
+  "place": "put an object down at a mark (object: object id, target: mark id)",
+  "take": "pick an object up (target: object id)",
+  "speak": "say the event's dialogue (target: the actor addressed, optional)",
+  "pause": "stop and wait",
+  "gesture": "a visible gesture with no object (e.g. raise a hand)"
+ },
+ "layers": [
+  {
+   "level": 0,
+   "id": "action",
+   "icon": "🎬",
+   "name": "Action or event",
+   "examines": "Who acts, why, their goal and desired outcome, and what happens",
+   "osi": "Source",
+   "osi_role": "A networking application creates or receives information",
+   "engine": "The scene script (acm.scene): actors, goals, ordered events and their state changes; single sentences are parsed by MLM's phrase model",
+   "status": "working"
+  },
+  {
+   "level": 1,
+   "id": "physical",
+   "icon": "⚙️",
+   "name": "Physical world",
+   "examines": "Objects, materials, movement, forces, location and energy",
+   "osi": "Physical",
+   "osi_role": "Transmits raw bits as signals over a physical medium",
+   "engine": "Scene state tracks positions, holders and owners (2D player). Forces and materials: a 2D matter.js stand-in in the Image/Video chat; a 3D physics engine (Unreal Engine 5, Chaos) is planned",
+   "status": "partial"
+  },
+  {
+   "level": 2,
+   "id": "perception",
+   "icon": "👁️",
+   "name": "Perception and observation",
+   "examines": "Images, video, audio, speech, sensors and observations",
+   "osi": "Data Link",
+   "osi_role": "Transfers frames across a local network link",
+   "engine": "Scene observations and who can see or hear each event. Image/video recognition in the Image/Video chat uses replayed detections; a vision-language model and detector are planned",
+   "status": "partial"
+  },
+  {
+   "level": 3,
+   "id": "routing",
+   "icon": "🧭",
+   "name": "Consequence routing",
+   "examines": "Determines which world models, actors and systems should examine an event",
+   "osi": "Network",
+   "osi_role": "Addresses and routes packets across networks (routing)",
+   "engine": "acm.scene.layers.route: explicit rules over each event's verb, type, objects and effects, plus the events each consequence cites as evidence",
+   "status": "working"
+  },
+  {
+   "level": 4,
+   "id": "human_social",
+   "icon": "🧠",
+   "name": "Human and social",
+   "examines": "Goals, behaviour, dialogue, relationships and group reactions",
+   "osi": "Transport",
+   "osi_role": "Provides end-to-end data transport between applications",
+   "engine": "The script model (goals, stated positions, possible feelings, conflicts) and next scenes from the authored demo or the local next-action model",
+   "status": "working"
+  },
+  {
+   "level": 5,
+   "id": "digital",
+   "icon": "💻",
+   "name": "Digital and information systems",
+   "examines": "Applications, records, calculations, permissions and workflows",
+   "osi": "Session",
+   "osi_role": "Establishes, manages and ends communication sessions",
+   "engine": "Explicit state changes and calculations (rule engine: has(x, y), amounts). No external system (registry, bank) is connected",
+   "status": "partial"
+  },
+  {
+   "level": 6,
+   "id": "business",
+   "icon": "🏭",
+   "name": "Business and institutions",
+   "examines": "Organisations, operations, processes, finance and policies",
+   "osi": "Presentation",
+   "osi_role": "Represents or transforms data, including formats and encoding",
+   "engine": "Obligations in the scene (debts, agreements) and the rule engine's organisation-scoped impact rules",
+   "status": "partial"
+  },
+  {
+   "level": 7,
+   "id": "society",
+   "icon": "🏛️",
+   "name": "Society and collective systems",
+   "examines": "Economy, markets, society, public governance and politics",
+   "osi": "Application",
+   "osi_role": "Provides network services used by applications, such as web and email",
+   "engine": "The rule engine's society- and country-scoped impact rules. No economic or political model yet",
+   "status": "partial"
+  },
+  {
+   "level": 8,
+   "id": "planetary",
+   "icon": "🌍",
+   "name": "Planetary and ecosystem",
+   "examines": "Resources, pollution, biodiversity and sustainability",
+   "osi": "Beyond the stack",
+   "osi_role": "(no OSI layer: the outermost system every other one depends on)",
+   "engine": "The rule engine's earth-scoped impact rules (e.g. flying and emissions). No ecosystem model yet",
+   "status": "partial"
+  }
+ ],
+ "routing": [
+  {
+   "event": "e1",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "julie",
+      "mark",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "an observation of the scene"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e2",
+   "routes": [
+    {
+     "layer": "physical",
+     "actors": [
+      "sarah"
+     ],
+     "objects": [
+      "ticket"
+     ],
+     "reasons": [
+      "physical verb 'hold'",
+      "consequence c5 cites it"
+     ]
+    },
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "julie"
+     ],
+     "objects": [],
+     "reasons": [
+      "visible to the others present"
+     ]
+    },
+    {
+     "layer": "business",
+     "actors": [
+      "sarah"
+     ],
+     "objects": [
+      "ticket"
+     ],
+     "reasons": [
+      "consequence c1 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e3",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "julie"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "sarah",
+      "mark"
+     ],
+     "objects": [],
+     "reasons": [
+      "dialogue between people",
+      "consequence c3 cites it"
+     ]
+    },
+    {
+     "layer": "business",
+     "actors": [
+      "sarah"
+     ],
+     "objects": [
+      "ticket"
+     ],
+     "reasons": [
+      "consequence c1 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e4",
+   "routes": [
+    {
+     "layer": "physical",
+     "actors": [
+      "mark"
+     ],
+     "objects": [],
+     "reasons": [
+      "physical verb 'move'"
+     ]
+    },
+    {
+     "layer": "perception",
+     "actors": [
+      "sarah",
+      "julie"
+     ],
+     "objects": [],
+     "reasons": [
+      "visible to the others present"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e5",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "sarah",
+      "julie"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "mark",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "dialogue between people",
+      "consequence c3 cites it"
+     ]
+    },
+    {
+     "layer": "business",
+     "actors": [
+      "mark"
+     ],
+     "objects": [
+      "debt"
+     ],
+     "reasons": [
+      "consequence c2 cites it"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e6",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "sarah",
+      "mark",
+      "julie"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present",
+      "consequence c4 cites it"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "julie",
+      "sarah"
+     ],
+     "objects": [],
+     "reasons": [
+      "dialogue between people"
+     ]
+    }
+   ]
+  },
+  {
+   "event": "e7",
+   "routes": [
+    {
+     "layer": "perception",
+     "actors": [
+      "mark",
+      "julie"
+     ],
+     "objects": [],
+     "reasons": [
+      "speech: heard by the others present",
+      "consequence c4 cites it"
+     ]
+    },
+    {
+     "layer": "human_social",
+     "actors": [
+      "sarah",
+      "julie"
+     ],
+     "objects": [],
+     "reasons": [
+      "dialogue between people",
+      "consequence c6 cites it"
+     ]
+    }
+   ]
+  }
+ ],
+ "branch_routing": {
+  "A": [
+   {
+    "event": "a1",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "julie"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "sarah",
+       "mark"
+      ],
+      "objects": [
+       "debt"
+      ],
+      "reasons": [
+       "dialogue between people",
+       "consequence ca1 cites it"
+      ]
+     },
+     {
+      "layer": "digital",
+      "actors": [],
+      "objects": [
+       "debt"
+      ],
+      "reasons": [
+       "amounts and records of €5,000 debt to Florence"
+      ]
+     },
+     {
+      "layer": "business",
+      "actors": [],
+      "objects": [
+       "debt"
+      ],
+      "reasons": [
+       "involves an obligation (€5,000 debt to Florence)"
+      ]
+     }
+    ]
+   }
+  ],
+  "B": [
+   {
+    "event": "b1",
+    "routes": [
+     {
+      "layer": "perception",
+      "actors": [
+       "mark",
+       "julie"
+      ],
+      "objects": [],
+      "reasons": [
+       "speech: heard by the others present"
+      ]
+     },
+     {
+      "layer": "human_social",
+      "actors": [
+       "sarah",
+       "julie"
+      ],
+      "objects": [],
+      "reasons": [
+       "dialogue between people",
+       "consequence cb1 cites it"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}
