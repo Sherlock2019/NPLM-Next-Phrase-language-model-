@@ -68,7 +68,7 @@ export default function AcmDemoPage() {
       <header className="panel flex flex-col gap-4 p-5 sm:p-6">
         <div className="flex flex-wrap items-start gap-4">
           <div className="min-w-0 flex-1">
-            <h1 className="text-2xl font-semibold tracking-tight">Action–Consequence Model (ACM)</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">The Butterfly Model: the Action–Worlds Consequence prediction Model (ACM)</h1>
             <p className="mt-1 text-[15px] font-semibold text-splm-300">See what an action changes before taking it.</p>
           </div>
           <div className="flex flex-col items-end gap-1">

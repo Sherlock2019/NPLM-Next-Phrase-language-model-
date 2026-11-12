@@ -74,7 +74,7 @@ LOCATION slot, and the newline token is demoted. MLM did *not* change the top ch
 here. With a 135M model that is the honest result, so it is shown rather than hidden.
 
 The same meaning representation also accepts **images and video**, and feeds the
-[Actions Consequential Model (ACM)](https://github.com/Sherlock2019/ACM), which predicts
+[Butterfly Model, the Action–Worlds Consequence prediction Model (ACM)](https://github.com/Sherlock2019/ACM), which predicts
 the consequences of an action.
 
 ---
@@ -648,7 +648,7 @@ results/           benchmark output (JSON + CSV)
 
 ### Related
 
-The [Actions Consequential Model (ACM)](https://github.com/Sherlock2019/ACM) builds on
+The [Butterfly Model, the Action–Worlds Consequence prediction Model (ACM)](https://github.com/Sherlock2019/ACM) builds on
 MLM to predict what an action changes for the actor, other actors, the environment,
 society and the earth, from text, images and video. It lives in its own repository and
 depends on this one as the `splm` package.

@@ -124,7 +124,7 @@ export function ResearchIntro() {
       <Chapter id="what" n="01" kicker="What it is" title="A model that predicts what an action does"
         lead={<>
           A language model predicts the next word. <b className="text-[var(--text)]">MLM</b>, the Meaning Language Model, first works out what a sentence
-          means. <b className="text-[var(--text)]">ACM, the Action–Consequence Model, goes one step further: it predicts what an action <i>does</i>.</b> It
+          means. <b className="text-[var(--text)]">The Butterfly Model, ACM, the Action–Worlds Consequence prediction Model, goes one step further: it predicts what an action <i>does</i>.</b> It
           traces the consequences for the one acting, for those it lands on and for other actors' goals, and then across its whole <b className="text-[var(--text)]">blast radius</b>,
           from the place where it happens out to the earth.
         </>}>

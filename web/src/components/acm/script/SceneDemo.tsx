@@ -57,7 +57,7 @@ export function SceneDemo({ b, initialStage = 0, initialAll = false }: { b: Scen
   return (
     <div className="flex flex-col gap-5">
       <header className="panel flex flex-col gap-3 p-5 sm:p-7">
-        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-500">ACM · Action–Consequence Model · scene engine</p>
+        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-500">The Butterfly Model · ACM · scene engine</p>
         <h1 className="text-[26px] font-extrabold leading-tight tracking-tight sm:text-[34px]">{s.title}</h1>
         <p className="text-[17px] font-semibold">Can a model understand what an action might cause?</p>
         <p className="dim max-w-3xl text-[14.5px] leading-relaxed">{s.description}</p>

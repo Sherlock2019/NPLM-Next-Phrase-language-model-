@@ -58,7 +58,7 @@ export function ConsequenceRings() {
   return (
     <figure className="flex flex-col gap-4">
       <figcaption>
-        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-500">Action–Consequence Model</p>
+        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-500">The Butterfly Model · ACM</p>
         <h3 className="text-[22px] font-extrabold tracking-tight sm:text-[26px]">The radius of consequences</h3>
         <p className="dim text-[14px]">One action can create effects across people, places and systems. Point at a ring to see what ACM finds there for the example.</p>
       </figcaption>

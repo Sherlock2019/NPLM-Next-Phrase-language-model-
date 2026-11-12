@@ -2,7 +2,7 @@
  * Which product this dashboard presents.
  *
  *   mlm (default)  the Meaning Language Model console; "/" is the Playground
- *   acm            ACM, the Action–Consequence Model (built on MLM); "/" opens the ACM home page
+ *   acm            ACM, the Butterfly Model: the Action–Worlds Consequence prediction Model (built on MLM); "/" opens the ACM home page
  *                  and the MLM Playground moves to /mlm. ACM's ./start.sh sets this.
  *
  * Set with NEXT_PUBLIC_APP_MODE when the dashboard starts (it is read at build/dev time).
@@ -12,7 +12,7 @@ export const APP_MODE: "mlm" | "acm" = process.env.NEXT_PUBLIC_APP_MODE === "acm
 
 export const BRAND =
   APP_MODE === "acm"
-    ? { mark: "ACM", name: "Action–Consequence Model", tagline: "Every action has consequences" }
+    ? { mark: "ACM", name: "The Butterfly Model", tagline: "Action–Worlds Consequence prediction Model" }
     : { mark: "SP", name: "Meaning Language Model", tagline: "Understand meaning before predicting language" };
 
 export interface MenuLink {

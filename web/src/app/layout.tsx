@@ -7,7 +7,7 @@ import { APP_MODE } from "@/lib/app";
 export const metadata: Metadata =
   APP_MODE === "acm"
     ? {
-        title: "ACM — Action–Consequence Model",
+        title: "The Butterfly Model — Action–Worlds Consequence prediction Model (ACM)",
         description:
           "Every action has consequences: ACM explores possible reactions and outcomes across human decisions, objects, images and videos, built on ACM and the Meaning Language Model.",
       }

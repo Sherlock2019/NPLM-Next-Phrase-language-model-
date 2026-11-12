@@ -17,8 +17,8 @@ const GROUPS: { title: string; terms: Term[] }[] = [
     title: "The models",
     terms: [
       {
-        term: "ACM", full: "Action–Consequence Model",
-        text: "This system. It predicts what an action changes and for whom: for the one acting, for those it lands on, for other people's goals, and across its blast radius from the place it happens out to the earth. It works from a sentence, an image or a video, and gives a reason for every claim. Its engine is the Python package acm (the project was first called ACM, the Action–Consequence Model).",
+        term: "ACM", full: "The Butterfly Model: Action–Worlds Consequence prediction Model",
+        text: "This system. It predicts what an action changes and for whom: for the one acting, for those it lands on, for other people's goals, and across its blast radius from the place it happens out to the earth. It works from a sentence, an image or a video, and gives a reason for every claim. Its engine is the Python package acm (first called the Actions Consequential Model, then the Action–Consequence Model).",
         example: "“John flew to London.” → John is now in London; aircraft noise for Croydon, Watford, Slough; emissions for the UK and the earth.",
       },
       {
