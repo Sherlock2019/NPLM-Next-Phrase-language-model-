@@ -8,8 +8,10 @@
  *      material, friction, fragility, rules; the environment goes into the physics engine
  *      (mock detector / tracker; matter.js stands in for a game engine such as Unreal Engine 5)
  *   3. the action: stated in text or seen in the image / video (e.g. a collision)
- *   4. the physics engine simulates the consequences; ACM places them on its rings
- *   5. the output: predicted frames (a side-view replay) + events; questions about any object
+ *   4. the physics engine simulates the action (side-view replay + events), and the consequences
+ *      cascade across the worlds (WorldCascade): 1 actor · 1 action, routed by its WHERE to the
+ *      world it happens in, then outward by proximity, each world by its own laws
+ *   5. questions about any object
  */
 
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
@@ -25,6 +27,7 @@ import {
 import type { LlmAnswer } from "@/lib/multimodal/types";
 import { ChatShell, DnaChips, LlmAnswerView } from "./Chat";
 import { SceneFlow } from "./SceneFlow";
+import { WorldCascade } from "./WorldCascade";
 
 export interface LabHandle {
   run: () => Promise<void>;
@@ -198,7 +201,12 @@ function LabIntro({ mode, env }: { mode: "image" | "video"; env: string }) {
       <p className="text-[13px] leading-relaxed">
         <b>How the {mode} stage works:</b> computer vision identifies each object{mode === "video" ? " (and tracks it over time)" : ""} and
         matches it to a library of objects with their physical properties; a physics engine then simulates the action and outputs what
-        would happen next, and ACM predicts its consequences. This scene is recognised as <b>{env}</b>.
+        would happen next. This scene is recognised as <b>{env}</b>.
+      </p>
+      <p className="text-[13px] leading-relaxed">
+        <b>The Butterfly Model: 1 actor · 1 action = consequences in cascade.</b> The origin actor performs one action. Prediction routing
+        reads its <b>WHERE</b> (here: on the table, so the <b>physical</b> world), and the consequences then spread by proximity through the
+        worlds, each judged by its own laws: atomic, physical, perception, behaviour, digital, business, society and economy, earth.
       </p>
       <SceneFlow />
       <p className="text-[11px] text-warn-400">
@@ -306,7 +314,7 @@ export const PhysicsLab = forwardRef<LabHandle, { scene: SceneData; mode: "image
     return (
       <section className="hairline flex flex-col gap-3 rounded-lg border p-3" aria-label="Physics lab">
         <div className="flex flex-wrap items-baseline gap-x-3">
-          <h3 className="text-[14px] font-semibold">Physics lab — recognise + classify · properties · simulate · ask</h3>
+          <h3 className="text-[14px] font-semibold">Physics lab — recognise · simulate · consequences in cascade across the worlds · ask</h3>
           <span className="rounded bg-fuchsia-600 px-1.5 py-0.5 text-[10px] font-bold uppercase text-white">mockup</span>
           <span className="faint text-[11px]">{ENGINE_NAME}</span>
         </div>
@@ -426,9 +434,11 @@ export const PhysicsLab = forwardRef<LabHandle, { scene: SceneData; mode: "image
           </div>
         </div>
 
+        <WorldCascade result={result} action={shownAction} actor={actor} />
+
         <ChatShell
           key={selected}
-          title={`4 · Ask about ${selected}`}
+          title={`5 · Ask about ${selected}`}
           hint="answers come from the simulation's events and the behaviour library's rules"
           presets={objectPresets(selected, sel?.cls ?? "cup")}
           placeholder="e.g. What if I push the blue cup 15 cm toward the edge? · Can the red cup break?"
