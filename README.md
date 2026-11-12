@@ -397,7 +397,11 @@ world. The same event is felt in several worlds at once, and **each world follow
 own laws**. The AI predicts the consequence of the action separately in each world,
 using that world's laws, and then shows how far each consequence reaches.
 
-Take "I push the blue cup toward the edge of the table":
+<p align="center">
+  <img src="docs/world-layers.svg" alt="One action, many worlds: the action is parsed by MLM into Phrase DNA, passes through the atomic, physical and perception worlds, is routed by the consequence router, and is examined by the human and animal behaviour, digital systems, business, society and economy, and earth worlds, each with its own laws" width="900">
+</p>
+
+The same stack as a table, for "I push the blue cup toward the edge of the table":
 
 | World | Its laws | Example consequence | Status in [ACM](https://github.com/Sherlock2019/ACM) today |
 |---|---|---|---|
@@ -409,22 +413,6 @@ Take "I push the blue cup toward the edge of the table":
 | 🏭 Business and institutions | Organisational rules, contracts, policies, finance | the café writes off the cup and charges for it | partly: obligations and organisation impact rules |
 | 🏛️ Society and economy | Economic, legal and social laws: markets, prices, law, trust | (small here; large for actions such as a sale or a law) | partly: society and country impact rules; no economic model |
 | 🌍 Earth | Planetary and ecological laws: resources, pollution, biodiversity | broken ceramic goes to landfill | partly: earth-scoped impact rules; no ecosystem model |
-
-The path from language to consequence:
-
-```mermaid
-flowchart LR
-  A[Text · image · video] --> D[MLM<br/>Phrase DNA: actor, action, object, state]
-  D --> R[Consequence router<br/>which worlds must examine this action?]
-  R --> W1[Atomic laws]
-  R --> W2[Physical laws]
-  R --> W3[Perception laws]
-  R --> W4[Behaviour and psychology laws]
-  R --> W5[Digital system laws]
-  R --> W6[Economic and social laws]
-  R --> W7[Earth laws]
-  W1 & W2 & W3 & W4 & W5 & W6 & W7 --> C[Consequences per world<br/>with evidence and reach]
-```
 
 Two axes describe every consequence: the **world** says *which laws* govern it, and the
 **reach** says *how far* it goes, from the actor to other actors, the neighbourhood,

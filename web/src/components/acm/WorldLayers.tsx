@@ -42,6 +42,24 @@ export const WORLD_LAYERS: WorldLayer[] = [
     engine: "The rule engine's earth-scoped impact rules (e.g. flying and emissions). No ecosystem model yet", status: "partial" },
 ];
 
+/**
+ * The laws each world follows: the consequence of an action is predicted separately in each
+ * world, by that world's laws. Keyed by id (not stored on WorldLayer) so it also applies to the
+ * layer lists carried by scene bundles. The atomic scale is folded into the physical world
+ * rather than added as a level, so the stack stays aligned with acm.scene.layers.LAYERS.
+ */
+export const LAYER_LAWS: Record<LayerId, string> = {
+  action: "The cause: an actor, their goal and the action, parsed into Phrase DNA",
+  physical: "Physical laws: force, motion, gravity, friction, energy. At the atomic scale: atomic and chemical laws (bonds, reactions, heat)",
+  perception: "Laws of vibration and signals: light, sound, waves and sensing",
+  routing: "No laws of its own: sends each event to the worlds whose laws apply",
+  human_social: "Behavioural and psychological laws of humans and animals: goals, emotions, reactions, relationships",
+  digital: "Digital system laws: data, logic, permissions, protocols and workflows",
+  business: "Institutional laws: contracts, policies, accounting and regulation",
+  society: "Economic, legal and social laws: supply and demand, prices, law, trust and governance",
+  planetary: "Earth laws: ecology, climate, resource cycles and biodiversity",
+};
+
 /** Fill per layer (presentation only), cool at the bottom to warm at the top. */
 export const LAYER_FILL: Record<LayerId, string> = {
   action: "#0b1b2e", physical: "#e0e7ff", perception: "#dbeafe", routing: "#a5f3fc", human_social: "#ccfbf1",
@@ -88,7 +106,7 @@ export function LayerStackView({ layers, selected, onSelect, count, dim }: {
               <span aria-hidden className="text-[18px]">{l.icon}</span>
               <span className="min-w-0 flex-1">
                 <span className="block text-[13.5px] font-bold leading-tight">{l.name}</span>
-                <span className="block truncate text-[11.5px] opacity-75">{l.examines}</span>
+                <span className="block text-[11.5px] leading-snug opacity-80"><span aria-hidden>⚖️ </span>{LAYER_LAWS[l.id] ?? l.examines}</span>
               </span>
               {n != null && <span className="num shrink-0 rounded-full bg-white/70 px-2 py-0.5 text-[11px] font-bold text-[#0b1b2e]">{n}</span>}
               <span className="hidden shrink-0 rounded bg-black/10 px-1.5 py-0.5 text-[10.5px] font-semibold sm:inline">OSI · {l.osi}</span>
@@ -103,6 +121,7 @@ export function LayerStackView({ layers, selected, onSelect, count, dim }: {
 export function LayerFacts({ l }: { l: WorldLayer }) {
   return (
     <dl className="grid gap-x-3 gap-y-1.5 text-[13px] sm:grid-cols-[110px_1fr]">
+      {LAYER_LAWS[l.id] && <><dt className="faint font-semibold">Its laws</dt><dd className="font-semibold">{LAYER_LAWS[l.id]}</dd></>}
       <dt className="faint font-semibold">Examines</dt><dd>{l.examines}</dd>
       <dt className="faint font-semibold">In ACM today</dt><dd className="flex flex-col items-start gap-1"><LayerStatus s={l.status} /><span>{l.engine}</span></dd>
       <dt className="faint font-semibold">OSI analogy</dt><dd><b>{l.osi}</b>: {l.osi_role}</dd>
@@ -122,7 +141,9 @@ export function WorldLayersIntro({ layers = WORLD_LAYERS }: { layers?: WorldLaye
         <p className="dim max-w-3xl text-[13.5px] leading-relaxed">
           Read it bottom-up, like the OSI network stack it borrows its shape from. An action happens in the physical world and is perceived. The
           <b className="text-[var(--text)]"> consequence router</b> then decides which world models, actors and systems should examine it: people,
-          digital systems, institutions, society and the planet. Each layer has its own kind of model; every consequence names the layer it belongs to.
+          digital systems, institutions, society and the planet. <b className="text-[var(--text)]">Each world follows its own laws</b> (⚖️), from
+          atomic and physical laws up to earth laws, and the consequence of an action is predicted in each world by those laws. Every consequence
+          names the layer it belongs to.
         </p>
       </div>
       <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
