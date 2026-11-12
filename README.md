@@ -2,39 +2,22 @@
 
 **Understand meaning before predicting language.**
 
-A conventional language model asks *which token statistically comes next?* MLM first
-asks *what is happening, who is involved, and what kind of information is missing?* —
-then scores the **same** Transformer's candidates against that structure.
-
-This is a research proof of concept whose purpose is to find out whether that helps.
-It is not built to show that it does. Every component can be switched off, every claim
-is measured on identical input with the same model and hardware, and the cost is
-reported next to the benefit. Where the evidence does not support an improvement, the
-tooling says so.
+| | |
+|---|---|
+| [**What**](#what) | A layer that parses meaning and re-scores a Transformer's next-token candidates against it |
+| [**Why**](#why) | Next-token statistics don't know *who*, *where* or *what kind of thing* comes next |
+| [**So what**](#so-what) | Measured on the same model and hardware: what it buys, what it costs, what isn't proven |
+| [**How**](#how) | Architecture, Phrase DNA, language packs, install, run, extend |
+| [**What next**](#what-next) | Limitations and the work that would settle the open question |
 
 ---
 
-## Contents
+## What
 
-- [What MLM adds](#what-mlm-adds)
-- [Architecture](#architecture)
-- [Quick start](#quick-start)
-- [Installation](#installation)
-- [AWS EC2 deployment](#aws-ec2-deployment)
-- [Running it](#running-it)
-- [Multimodal meaning: text, image, video → MLM → ACM](#multimodal-meaning-text-image-video--mlm--acm)
-- [Measured results](#measured-results)
-- [Universal Phrase DNA](#universal-phrase-dna)
-- [Language packs](#language-packs)
-- [Data sources and licences](#data-sources-and-licences)
-- [Evaluation and honesty rules](#evaluation-and-honesty-rules)
-- [Extending MLM](#extending-mlm)
-- [Current limitations](#current-limitations)
-- [Project layout](#project-layout)
-
----
-
-## What MLM adds
+MLM is a research proof of concept. Before the language model picks the next token,
+MLM asks *what is happening, who is involved, and what kind of information is
+missing?* It then scores the **same** Transformer's top-K candidates against that
+structure.
 
 ```mermaid
 flowchart LR
@@ -55,7 +38,7 @@ flowchart LR
   end
 ```
 
-The concrete difference, on a real prompt:
+On a real prompt:
 
 ```
 $ python -m splm.cli predict "John will meet Sarah in" --detail
@@ -72,14 +55,88 @@ her                3.3%   town               4.7% ^9
 his                2.1%   her                3.9% v1
 ```
 
-`Paris`, `London` and `Boston` each gain **+2.05 logits** because they are compatible
-with the expected LOCATION slot; the newline token is demoted. Note that MLM did *not*
-change the top choice here — that is the honest result with a 135M model, and it is
-reported as such rather than hidden.
+`Paris`, `London` and `Boston` each gain **+2.05 logits** because they fit the expected
+LOCATION slot, and the newline token is demoted. MLM did *not* change the top choice
+here. With a 135M model that is the honest result, so it is shown rather than hidden.
+
+The same meaning representation also accepts **images and video**, and feeds the
+[Actions Consequential Model (ACM)](https://github.com/Sherlock2019/ACM), which predicts
+the consequences of an action.
 
 ---
 
-## Architecture
+## Why
+
+A conventional language model asks *which token statistically comes next?* It has no
+explicit notion that "John will meet Sarah in ___" is asking for a place or a time, that
+"Sarah" is a participant rather than a location, or that a French sentence and a
+Vietnamese sentence can describe the same event.
+
+MLM tests a narrow hypothesis: **making that structure explicit, and using it to
+re-weight candidates, improves prediction enough to justify its cost.**
+
+The project exists to *find out* whether that is true, not to show that it is. So:
+
+- every component can be switched off,
+- every comparison uses identical input, model and hardware,
+- cost is reported next to benefit,
+- and where the evidence does not support an improvement, the tooling says so.
+
+---
+
+## So what
+
+From `python scripts/benchmark.py` (SmolLM2-135M, CPU, 61 items of the hand-authored
+diagnostic suite). **These are real measurements of a small model on a small suite,
+not a benchmark of record.**
+
+| Metric | Base | MLM | Difference | Verdict |
+|---|---|---|---|---|
+| Expected slot accuracy (top-1) | — | **73.8%** (45/61) | n/a | MLM-only capability |
+| Expected slot accuracy (top-3) | — | **83.6%** (51/61) | n/a | MLM-only capability |
+| Next-word accuracy (top-1) | 63.6% | 72.7% | +9.1 pp | **insufficient data** (n=11) |
+| Mean rank of correct answer | 2.55 | 1.82 | −0.73 | — |
+| Mean reciprocal rank | 0.739 | 0.809 | +0.070 | — |
+| Semantic focus | 32.1% | 44.1% | +12.1 pp | over 25 predictions |
+| Latency per prediction (warm) | 75 ms | 306 ms | **+231 ms** | cost |
+
+Per item, by rank of the correct answer: **2 wins, 9 ties, 0 losses**.
+
+Cross-language structural consistency (same meaning, three languages):
+
+| Pair | Agreement |
+|---|---|
+| English ↔ French | 93.3% |
+| English ↔ Vietnamese | 78.3% |
+| French ↔ Vietnamese | 71.7% |
+
+Slot accuracy varies by slot, which shows where the rules are weak:
+
+| Strong | | Weak | |
+|---|---|---|---|
+| WHERE | 100% (10/10) | WHY | 33% (1/3) |
+| USING WHAT | 100% (4/4) | WHERE TO | 60% (3/5) |
+| HOW | 100% (4/4) | FOR WHAT GOAL | 60% (3/5) |
+| TO WHOM | 100% (2/2) | WHEN | 50% (3/6) |
+
+**What this does and doesn't mean:**
+
+- **It works as a mechanism.** MLM produces a slot prediction a plain model cannot,
+  stays consistent across languages, and never ranked a correct answer lower.
+- **It is not shown to improve next-word prediction.** Eleven samples with one
+  disagreement can't support a verdict, so the tooling returns *insufficient data*
+  despite the favourable point estimate.
+- **Slot accuracy has no baseline.** A plain model makes no slot prediction, so it is a
+  capability measurement, not a win.
+- **The suite was written alongside the rules it tests.** A good score localises
+  failures; it is not evidence about natural text.
+- **It costs about 4× the latency**, mostly from parsing on CPU.
+
+---
+
+## How
+
+### Architecture
 
 ```mermaid
 flowchart TD
@@ -103,8 +160,6 @@ flowchart TD
   SCORE --> ADJ[Adjusted logits] --> OUT[Next token]
 ```
 
-Each layer is separate, and nothing knows more than it should:
-
 | Layer | Answers | Module |
 |---|---|---|
 | Language detector | Which language? (separately: locale, script) | `splm/language/detector.py` |
@@ -118,347 +173,17 @@ Each layer is separate, and nothing knows more than it should:
 | Slot predictor | What kind of meaning comes next? | `splm/phrase/slot_predictor.py` |
 | Scorer | Which candidates fit? | `splm/model/candidate_scorer.py` |
 
-Two design rules are load-bearing:
+Two design rules hold everything together:
 
 1. **No linguistic facts in Python.** Which lemma is a STATE, which adposition means
-   WHERE, which verb takes a PARTICIPANT — all of it lives in `language_packs/`. The
+   WHERE, which verb takes a PARTICIPANT: all of it lives in `language_packs/`. The
    modules hold algorithms.
 2. **No model or weight is hard-coded.** The base model id, every scoring weight and
-   every ablation switch comes from `config/`.
+   every ablation switch come from `config/`.
 
----
+### Universal Phrase DNA
 
-## Quick start
-
-On Linux, macOS, or WSL, the launcher creates the Python environment, installs any
-missing dashboard packages, starts both services, and opens the dashboard:
-
-```bash
-git clone git@github.com:Sherlock2019/NPLM-Next-Phrase-language-model-.git
-cd NPLM-Next-Phrase-language-model-
-./start.sh
-```
-
-The dashboard runs at <http://127.0.0.1:3010>, the API at
-<http://127.0.0.1:8001>, and interactive API documentation at
-<http://127.0.0.1:8001/docs>. Use `./start.sh status`, `./start.sh logs`, and
-`./start.sh stop` to manage the services. Set `SPLM_NO_OPEN=1` if the launcher should
-not open a browser. If either default port is already occupied, the launcher selects
-the next available port and prints the resulting address.
-
-The first prediction also needs the parser models and base Transformer described in
-the full installation below.
-
----
-
-## Installation
-
-Requires Python 3.11+ and, for the dashboard, Node 20.9+.
-
-```bash
-git clone git@github.com:Sherlock2019/NPLM-Next-Phrase-language-model-.git
-cd NPLM-Next-Phrase-language-model-
-
-python -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
-scripts/install_runtime.sh          # CPU-only PyTorch + runtime packages
-
-# Optional development and data tooling
-pip install -e ".[data,dev]"
-
-# Download parser models and the base Transformer before the first prediction.
-python scripts/download_resources.py --model
-
-# Verify each language actually loads and parses
-python scripts/download_resources.py --verify-only
-```
-
-`download_resources.py` writes provenance — source, version, licence, date, language —
-for everything it fetches into `data/MANIFEST.json`.
-
-The runtime installer defaults to the CPU-only PyTorch wheel and omits Gradio, pandas,
-SQLAlchemy, and pytest. This avoids downloading the NVIDIA CUDA packages on ordinary
-EC2 instances. On a GPU instance, use `SPLM_TORCH_MODE=cuda scripts/install_runtime.sh`;
-set `SPLM_TORCH_INDEX_URL` to the wheel index appropriate for that CUDA version.
-
-Wiktionary lexicons are separate because the dumps are large. Build them ahead of
-time with `python scripts/build_lexicon.py --languages en fr vi`, or launch with
-`SPLM_LEXICON_AUTO_DOWNLOAD=true` to fetch each language on first use. Every download
-is logged and added to the same manifest.
-
-> **On GPUs.** Device selection confirms CUDA by *running a kernel*, not by trusting
-> `torch.cuda.is_available()`. A GPU whose compute capability the installed torch build
-> has no kernels for reports as unusable and MLM falls back to CPU with a warning,
-> instead of failing deep inside a model load.
-
-Dashboard:
-
-```bash
-cd web && npm install && cd ..
-scripts/dev.sh start        # API on :8001, dashboard on :3010
-scripts/smoke.sh            # check every page and endpoint answers
-```
-
----
-
-## AWS EC2 deployment
-
-The EC2 installer runs the optimized Next.js build and the Python API as separate
-`systemd` services. They continue after the SSH session closes, restart on failure,
-and start automatically after a reboot. The dashboard listens on every network
-interface; the API stays private on `127.0.0.1` and is reached through the dashboard's
-`/api` proxy.
-
-Prerequisites: an Ubuntu EC2 instance with a public IPv4 address, `systemd`, Git,
-Python 3.11+, Node.js 20.9+, npm, and `curl`. Then run:
-
-```bash
-git clone git@github.com:Sherlock2019/NPLM-Next-Phrase-language-model-.git
-cd NPLM-Next-Phrase-language-model-
-./scripts/ec2_service.sh install
-```
-
-The first install downloads the configured Stanza pipelines and Transformer model and
-can take several minutes. If those resources are already present, use
-`SPLM_SKIP_RESOURCES=1 ./scripts/ec2_service.sh deploy`.
-
-CPU-only PyTorch is installed by default to keep the environment small. For a GPU EC2
-instance, run `SPLM_TORCH_MODE=cuda ./scripts/ec2_service.sh install`. Large Wiktionary
-lexicons are also disabled by the launchers unless
-`SPLM_LEXICON_AUTO_DOWNLOAD=true` is set explicitly.
-
-In the instance's EC2 security group, add an inbound **Custom TCP** rule for port
-`3010`. Use **My IP** as the source for private access, or `0.0.0.0/0` only when the
-dashboard is intentionally public. Keep API port `8001` closed. Then open:
-
-```text
-http://EC2-PUBLIC-IP:3010
-```
-
-This direct endpoint is plain HTTP and has no authentication. Restrict the security
-group source while testing; before exposing it broadly, place it behind an HTTPS
-reverse proxy or load balancer and add authentication.
-
-Service management:
-
-```bash
-./scripts/ec2_service.sh status
-./scripts/ec2_service.sh logs
-./scripts/ec2_service.sh restart
-
-# Deploy a later revision
-git pull --ff-only
-SPLM_SKIP_RESOURCES=1 ./scripts/ec2_service.sh deploy
-```
-
-The multimodal demo is served by the same dashboard at
-`http://EC2-PUBLIC-IP:3010/multimodal` and works in Demo mode with nothing else
-installed: its materials are static files under `web/public/demo`. For Live text,
-clone [ACM](https://github.com/Sherlock2019/ACM) next to this repository (or set
-`SPLM_ACM_DIR`) before running the installer; it is then installed into the same
-virtual environment.
-
-Set `SPLM_WEB_PORT` during installation to use a different public port. If the EC2
-instance is stopped and started, its auto-assigned public IPv4 address can change;
-associate an Elastic IP when the address must remain stable.
-
----
-
-## Running it
-
-### Parse a sentence into Phrase DNA
-
-```bash
-python -m splm.cli parse "John will meet Sarah in Paris tomorrow by train to discuss the contract." --tree
-```
-
-```
-ACTION:            WHERE:              FOR WHAT GOAL:
-  meet               Paris               discuss the contract
-WHO:               WHEN:                 ACTION: discuss
-  John               tomorrow            WHAT:   contract
-WITH WHOM:         HOW:
-  Sarah              train {transport=train}
-
-GRAMMAR: tense=future  modality=intention  voice=active  certainty=0.90
-NOT STATED: WHAT, TO WHOM, WHERE TO, USING WHAT, WHY
-```
-
-### Other commands
-
-```bash
-python -m splm.cli slots    "John will meet Sarah in"      # expected next slot
-python -m splm.cli predict  "John will meet Sarah in" --detail
-python -m splm.cli generate "John will meet Sarah in"      # base vs MLM, same settings
-python -m splm.cli detect   "Ngày mai John sẽ gặp Sarah ở Paris."
-python -m splm.cli languages
-python -m splm.cli config model.model.model_id
-```
-
-Useful flags: `--profile tiny|small|medium|research` selects a base model from
-`config/model.yaml`; `--ablation base_only|phrase_only|everything|…` switches layers off.
-
-### Tests and benchmarks
-
-```bash
-pytest                                       # 154 tests, no model downloads needed
-python scripts/demo.py --stage all           # walk the whole pipeline
-python scripts/benchmark.py                  # writes results/*.json and *.csv
-python scripts/benchmark.py --ablation-ladder
-```
-
-Tests run against committed CoNLL-U fixtures, so they are fast and deterministic and do
-not require a parser model. Regenerate them deliberately with
-`python scripts/make_fixtures.py` and review the diff — a change there changes the
-tests' premises.
-
----
-
-## Multimodal meaning: text, image, video → MLM → ACM
-
-Start with one scene: *"A blue cup is near the right edge of a table. A red cup is
-farther from the edge. I plan to push the blue cup toward the right edge."* The same
-scene also exists as an image and as a short video. MLM turns all three into **one
-shared meaning representation**, and [ACM](https://github.com/Sherlock2019/ACM) reads
-that meaning to predict consequences:
-
-```mermaid
-flowchart LR
-  T[TEXT] -->|MLM parser| M
-  I[IMAGE] -->|VLM extraction or fixture replay| M
-  V[VIDEO] -->|track · segment · interpret, or replay| M
-  M[(MLM meaning<br/>splm.meaning)] --> A[ACM consequences] --> R[visual outcome · prediction vs actual]
-```
-
-`splm.meaning` extends Universal Phrase DNA compatibly; it does not replace it.
-
-- **Entities and states.** Entities have stable ids (`blue_cup_01`, `red_cup_01`,
-  `table_01`; two cups are never merged by class). Observations carry evidence and an
-  `observed` / `inferred` status.
-- **Time and actions.** Scene states form a timeline. Events use MLM's semantic roles.
-  Proposed actions, predicted outcomes and goals are kept separate from events.
-- **Coordinates.** Pixel, normalized-image and calibrated-world coordinates carry their
-  frame and unit. Pixels are never metres without a calibration.
-- **Into ACM.** Events and proposals become `UniversalPhraseFrame`s directly
-  (`splm.meaning.frames`), with no prose in between.
-- **Adapters.**
-  - *Text:* the existing parser.
-  - *Image:* rejects claims a still image cannot support (a past push, an intent,
-    ownership).
-  - *Video:* keeps event order and frame links, deduplicates overlapping descriptions,
-    marks causes it cannot see as *uncertain*. `available_at(T)` cuts the timeline so
-    later frames can never reach a prediction.
-- **Live backends.** A Qwen3-VL client (any OpenAI-compatible endpoint) and an
-  Ultralytics YOLO tracker are optional, lazily loaded, and never download anything.
-
-### The ACM demo and ACM mode
-
-The tour (`/acm/tour`, the home page in ACM mode) explains ACM in four chapters, including a side-by-side with a real local language model; `/acm/inference` answers 280+ "what happens next to …?" questions with their reasoning. `/acm` is the ACM demo: a phrase, an image and a video, each predicting the
-consequences of an action across the whole blast radius, with one **Run Demo** button.
-Started from ACM's `./start.sh`, the dashboard runs in **ACM mode**
-(`NEXT_PUBLIC_APP_MODE=acm`). It carries ACM branding, `/` opens `/acm`, and the MLM
-Playground moves to `/mlm`. Without that variable, the dashboard is the MLM console as
-before. Live phrases use `POST /api/acm/phrase`, which needs ACM and the Stanza model.
-
-The dev server only serves its client code to origins it trusts: `127.0.0.1`,
-`localhost`, and any hosts in `SPLM_ALLOWED_DEV_ORIGINS` (comma-separated). ACM's
-launcher adds the machine's public and LAN addresses. Without them, a page opened by
-IP stays on "Loading…".
-
-### The interactive demo
-
-Open **`/multimodal`** in the dashboard (`./start.sh`, then
-http://127.0.0.1:3010/multimodal; on EC2, `http://EC2-PUBLIC-IP:3010/multimodal`). It
-has three tabs, each with its own Run button:
-
-- **Text** — editable text, three selectable actions (do nothing / push toward the
-  edge / move toward the center), and a second example with ACM's car-sale
-  consequence graph.
-- **Image** — a bundled SVG scene and an annotated version labelled *Demo fixture*.
-  The proposed action is chosen separately from what the image shows. You can upload
-  your own image.
-- **Video** — a bundled synthetic MP4/WebM (*Synthetic demonstration — scripted
-  motion*) with an event timeline. Playback stops at T = 2.0 s, before the push.
-  **Predict Consequences** uses only frames up to T. **Reveal Scripted Outcome** then
-  plays on and compares prediction with outcome.
-
-Each run shows five stages: **A** input, **B** MLM meaning (WHO, ACTION, WHAT, TO WHOM,
-WHERE, WHEN, HOW, WHY — WHY only when stated — with status labels and JSON), **C** ACM's
-six circles ("No supporting evidence" where nothing supports a consequence), **D** an
-animated initial vs predicted scene labelled *Illustrative simulation*, and **E** the
-three alternatives from the same initial state.
-
-**Demo mode** (always available, no API keys, GPU or downloads) replays bundled
-fixtures through results computed by the real MLM + ACM pipeline. A permanent badge
-says so. Uploaded media is previewed only, never described as analysed; you can type
-scene facts by hand, and they are labelled *manually supplied*. **Live** is enabled per
-tab only when `/api/multimodal/status` reports it working. Today that is text, when ACM
-and the Stanza model are installed.
-
-Materials live in `web/public/demo/` and are generated from one scenario by
-`python scripts/make_tabletop_demo.py`: SVGs, extraction fixtures, MP4/WebM, text and
-the animation script. The results bundle comes from ACM's
-`python -m acm.cli demo --json web/public/demo/demo_results.json`. The browser's
-simulator is checked against the Python one with `node web/scripts/check-tabletop.mts`.
-Details, verified model facts, licences and limitations:
-[ACM docs/multimodal.md](https://github.com/Sherlock2019/ACM/blob/main/docs/multimodal.md).
-
----
-
-## Measured results
-
-From `python scripts/benchmark.py` on this machine (SmolLM2-135M, CPU, 61 items of the
-hand-authored diagnostic suite). **These are real measurements of a small model on a
-small suite, not a benchmark of record** — see the caveats below.
-
-| Metric | Base | MLM | Difference | Verdict |
-|---|---|---|---|---|
-| Expected slot accuracy (top-1) | — | **73.8%** (45/61) | n/a | MLM-only capability |
-| Expected slot accuracy (top-3) | — | **83.6%** (51/61) | n/a | MLM-only capability |
-| Next-word accuracy (top-1) | 63.6% | 72.7% | +9.1 pp | **insufficient data** (n=11) |
-| Mean rank of correct answer | 2.55 | 1.82 | −0.73 | — |
-| Mean reciprocal rank | 0.739 | 0.809 | +0.070 | — |
-| Semantic focus | 32.1% | 44.1% | +12.1 pp | over 25 predictions |
-| Latency per prediction (warm) | 75 ms | 306 ms | **+231 ms** | cost |
-
-Per-item outcome by rank of the correct answer: **2 wins, 9 ties, 0 losses**.
-
-Cross-language structural consistency (same meaning, three languages):
-
-| Pair | Agreement |
-|---|---|
-| English ↔ French | 93.3% |
-| English ↔ Vietnamese | 78.3% |
-| French ↔ Vietnamese | 71.7% |
-
-**How to read this honestly:**
-
-- Next-word accuracy is **not** reported as an improvement. Eleven samples with one
-  disagreement cannot support a verdict, so the tooling returns *insufficient data*
-  regardless of the favourable point estimate.
-- Expected slot accuracy has **no base-model counterpart**. A plain language model makes
-  no slot prediction, so there is nothing to compare against and it is reported as a
-  capability measurement, not a win.
-- The diagnostic suite was hand-authored alongside the rules it exercises. A good score
-  shows the mechanism works and localises failures; it is **not** evidence that MLM
-  helps on natural text. For that, run against Universal Dependencies.
-- MLM costs about **4× the latency** of the base forward pass here, dominated by
-  parsing on CPU.
-
-Slot accuracy is far from uniform, and the variation is the useful part:
-
-| Strong | | Weak | |
-|---|---|---|---|
-| WHERE | 100% (10/10) | WHY | 33% (1/3) |
-| USING WHAT | 100% (4/4) | WHERE TO | 60% (3/5) |
-| HOW | 100% (4/4) | FOR WHAT GOAL | 60% (3/5) |
-| TO WHOM | 100% (2/2) | WHEN | 50% (3/6) |
-
----
-
-## Universal Phrase DNA
-
-The core representation. Every sentence becomes a language-independent frame:
+Every sentence becomes a language-independent frame:
 
 ```
 WHO
@@ -469,15 +194,11 @@ WHO
       └── WHY?  FOR WHAT GOAL?  UNDER WHAT CONDITIONS?
 ```
 
-Two properties matter more than the field list.
-
-**It is recursive.** Complex language is not flattened:
-
-```bash
-python -m splm.cli parse "If John knew that Sarah might leave, he would call her."
-```
+**It is recursive**, so complex language is not flattened:
 
 ```
+$ python -m splm.cli parse "If John knew that Sarah might leave, he would call her."
+
 ACTION: call            modality=conditional
 WHO:  he      WHAT: her
 UNDER WHAT CONDITIONS:
@@ -488,9 +209,8 @@ UNDER WHAT CONDITIONS:
             WHO: Sarah      modality=possible  certainty=0.35
 ```
 
-**It stores no word order.** Nothing in the frame records that English puts the subject
-first. Vietnamese fronts the time expression, French inflects the future where English
-uses an auxiliary, and all three arrive at the same structure:
+**It stores no word order.** English, French and Vietnamese express the future
+differently and order words differently, yet arrive at the same structure:
 
 | | English | French | Vietnamese |
 |---|---|---|---|
@@ -501,13 +221,10 @@ uses an auxiliary, and all three arrive at the same structure:
 | WHERE | Paris | Paris | Paris |
 | tense | future *(auxiliary)* | future *(inflection)* | future *(particle)* |
 
-The locative reading is shared too — `John is in Paris` / `John est à Paris` /
-`John đang ở Paris` all give `STATE` with sense `located`, despite English and French
-using a copula plus a preposition and Vietnamese using a locative verb.
+The locative reading is shared too: `John is in Paris` / `John est à Paris` /
+`John đang ở Paris` all give `STATE` with sense `located`.
 
----
-
-## Language packs
+### Language packs
 
 Adding a language means adding a directory, not changing the engine.
 
@@ -526,172 +243,304 @@ language_packs/
     └── idioms.yaml       multi-word expressions
 ```
 
-These files carry real linguistic difference rather than translated English:
+The packs encode real linguistic difference, not translated English:
 
-- **French** — `à` is genuinely four-way ambiguous (place, time, recipient,
-  destination); negation is two-part (`ne … pas`); gender agreement is checkable.
-- **Vietnamese** — no inflection *at all*. Tense comes from preverbal particles
+- **French:** `à` is four-way ambiguous (place, time, recipient, destination);
+  negation is two-part (`ne … pas`); gender agreement is checkable.
+- **Vietnamese:** no inflection at all. Tense comes from preverbal particles
   (`đã`, `đang`, `sẽ`), adjectives are predicates without a copula, `ở` is both a
-  locative verb and a preposition, and the pronoun system encodes social relationship.
-  `vi/morphology.yaml` declares `verb_forms: {}` and says why.
+  locative verb and a preposition, and pronouns encode social relationship.
 
-YAML is loaded with a strict loader that **refuses duplicate keys**. In a table of
-per-verb argument structures a repeated key would silently discard an entry and the only
-symptom would be a subtly wrong role somewhere downstream.
+YAML is loaded strictly and **refuses duplicate keys**, because a repeated key in a
+per-verb table would silently drop an entry.
 
----
+### Honesty rules, enforced in code
 
-## Data sources and licences
+- **No evidence contributes exactly zero.** Every score carries an `informative` flag
+  and is centred on a neutral value; the dashboard prints "no evidence", not 0.50.
+- **Re-ranking is not filtering.** MLM re-scores the top-K and deletes nothing. A
+  candidate MLM dislikes can still win if the base model is confident enough.
+- **Coverage is always reported.** Metrics say how many candidates the seed gazetteers
+  could judge, and "no evidence" is never counted as "incompatible".
+- **Verdicts come from statistics.** Four outcomes (*MLM improved*, *no meaningful
+  difference*, *base model better*, *insufficient data*) from a Wilson interval and an
+  exact McNemar test. Below 20 samples, no verdict is given.
+- **Ablating everything reproduces the base model exactly**, asserted in
+  `tests/test_candidate_scorer.py`.
+- **Latency is measured warm** (`engine.warmup()` first); cold results are flagged
+  `warm: false`.
+- **Perplexity is base-model only**, because MLM's top-K scores are not a normalised
+  distribution.
 
-MLM commits **no** third-party linguistic data. Resources are fetched on request and
-recorded in `data/MANIFEST.json`.
+### Install
 
-| Resource | Used for | Licence | Fetched by |
-|---|---|---|---|
-| Stanza UD models | Parsing | Apache-2.0 | `download_resources.py` |
-| Universal Dependencies 2.14 | Evaluation, slot-predictor training | per-treebank (mixed) | configured; automated importer pending |
-| UniMorph 4.0 | Morphology | CC BY-SA 3.0 | configured; automated importer pending |
-| Wiktionary (wiktextract) | Lexicon | CC BY-SA 4.0 / GFDL | `build_lexicon.py` |
-| PropBank 3.4 | Predicate-specific roles | CC BY-SA 4.0 | configured; automated importer pending |
+Requires Python 3.11+ and, for the dashboard, Node 20.9+.
 
-`python scripts/download_resources.py --list` prints the configured set. The large,
-licence-varied resources are deliberately separated so you can review the licences
-first. Parser models and the base Transformer are handled by
-`download_resources.py`; Wiktionary is handled by `build_lexicon.py`. Importers for
-Universal Dependencies, UniMorph, and PropBank are not implemented yet. Until a
-lexicon is available, lexical features report *no evidence* rather than guessing.
+**Quick start** (Linux, macOS, WSL). The launcher creates the environment, starts both
+services and opens the dashboard:
 
----
+```bash
+git clone git@github.com:Sherlock2019/NPLM-Next-Phrase-language-model-.git
+cd NPLM-Next-Phrase-language-model-
+./start.sh            # also: ./start.sh status | logs | stop
+```
 
-## Evaluation and honesty rules
+Dashboard <http://127.0.0.1:3010>, API <http://127.0.0.1:8001>, API docs
+<http://127.0.0.1:8001/docs>. If a port is taken, the next free one is used and
+printed. Set `SPLM_NO_OPEN=1` to skip opening a browser.
 
-These are enforced in code, not left to the reader.
+**Full install**, including the parser models and base Transformer needed for the
+first prediction:
 
-**A feature with no evidence contributes exactly zero.** Every score carries an
-`informative` flag. Scores are centred on a neutral value, so silence cannot
-masquerade as support, and the dashboard prints "no evidence" rather than a
-neutral-looking 0.50.
+```bash
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+scripts/install_runtime.sh          # CPU-only PyTorch + runtime packages
+pip install -e ".[data,dev]"        # optional: development and data tooling
 
-**Re-ranking is not filtering.** MLM re-scores the top-K; it does not delete
-candidates. Only two funnel stages are marked as genuine restrictions (top-K retrieval,
-and the final selection). Everything else is labelled *scored / down-ranked*. A
-candidate MLM scores poorly can still win if the base model is confident enough.
+python scripts/download_resources.py --model        # parser models + base Transformer
+python scripts/download_resources.py --verify-only  # check each language loads
 
-**Coverage is always reported.** The slot-compatibility classifier runs on seed
-gazetteers of a few hundred entries. Every metric derived from it reports how many
-candidates it could actually judge, and "no evidence" is never counted as
-"incompatible".
+cd web && npm install && cd ..
+scripts/dev.sh start                # API on :8001, dashboard on :3010
+scripts/smoke.sh                    # check every page and endpoint answers
+```
 
-**Verdicts come from evidence, not point estimates.** Comparisons have four outcomes —
-*MLM improved*, *no meaningful difference*, *base model better*, *insufficient data* —
-decided from a Wilson confidence interval and an exact McNemar test on the paired
-outcomes. Below 20 samples, no verdict is offered at all.
+Notes:
 
-**Ablating everything must reproduce the base model exactly.** This is asserted in
-`tests/test_candidate_scorer.py`. If it ever fails, no comparison in the project means
-anything.
+- **Provenance.** Every download (source, version, licence, date, language) is recorded
+  in `data/MANIFEST.json`.
+- **GPU.** The runtime installer defaults to CPU-only PyTorch to avoid CUDA packages.
+  On a GPU machine use `SPLM_TORCH_MODE=cuda scripts/install_runtime.sh`, with
+  `SPLM_TORCH_INDEX_URL` set for your CUDA version. CUDA is confirmed by running a
+  kernel; an unsupported GPU falls back to CPU with a warning.
+- **Lexicons.** Wiktionary dumps are large. Build them with
+  `python scripts/build_lexicon.py --languages en fr vi`, or set
+  `SPLM_LEXICON_AUTO_DOWNLOAD=true` to fetch on first use.
 
-**Latency is measured warm.** `engine.warmup()` loads the parser and model before
-anything is timed, because a first call otherwise carries seconds of one-off loading
-that would be reported as per-prediction cost. Cold results are flagged `warm: false`.
+### Run
 
-**Perplexity is reported for the base model only.** MLM re-scores the top-K rather than
-the whole vocabulary, so its adjusted scores are not a normalised distribution and
-calling the result a perplexity would be a category error.
+```bash
+python -m splm.cli parse    "John will meet Sarah in Paris tomorrow by train to discuss the contract." --tree
+python -m splm.cli slots    "John will meet Sarah in"      # expected next slot
+python -m splm.cli predict  "John will meet Sarah in" --detail
+python -m splm.cli generate "John will meet Sarah in"      # base vs MLM, same settings
+python -m splm.cli detect   "Ngày mai John sẽ gặp Sarah ở Paris."
+python -m splm.cli languages
+python -m splm.cli config model.model.model_id
+```
 
----
+`--profile tiny|small|medium|research` picks a base model from `config/model.yaml`;
+`--ablation base_only|phrase_only|everything|…` switches layers off.
 
-## Extending MLM
+Example `parse --tree` output:
 
-### Add a language
+```
+ACTION:            WHERE:              FOR WHAT GOAL:
+  meet               Paris               discuss the contract
+WHO:               WHEN:                 ACTION: discuss
+  John               tomorrow            WHAT:   contract
+WITH WHOM:         HOW:
+  Sarah              train {transport=train}
 
-1. `language_packs/<code>/` with the six YAML files (copy `en/` as a template).
+GRAMMAR: tense=future  modality=intention  voice=active  certainty=0.90
+NOT STATED: WHAT, TO WHOM, WHERE TO, USING WHAT, WHY
+```
+
+### Test and benchmark
+
+```bash
+pytest                                       # 154 tests, no model downloads needed
+python scripts/demo.py --stage all           # walk the whole pipeline
+python scripts/benchmark.py                  # writes results/*.json and *.csv
+python scripts/benchmark.py --ablation-ladder
+```
+
+Tests run against committed CoNLL-U fixtures, so they are fast, deterministic and need
+no parser. Regenerate them with `python scripts/make_fixtures.py` and review the diff;
+a change there changes the tests' premises.
+
+### Multimodal: text, image, video → MLM → ACM
+
+One scene: *"A blue cup is near the right edge of a table. A red cup is farther from
+the edge. I plan to push the blue cup toward the right edge."* It also exists as an
+image and a short video. MLM turns all three into **one shared meaning
+representation**, and ACM reads it to predict consequences.
+
+```mermaid
+flowchart LR
+  T[TEXT] -->|MLM parser| M
+  I[IMAGE] -->|VLM extraction or fixture replay| M
+  V[VIDEO] -->|track · segment · interpret, or replay| M
+  M[(MLM meaning<br/>splm.meaning)] --> A[ACM consequences] --> R[visual outcome · prediction vs actual]
+```
+
+`splm.meaning` extends Phrase DNA compatibly:
+
+- **Entities** have stable ids (`blue_cup_01`, `red_cup_01`); two cups are never merged
+  by class. Observations carry evidence and an `observed` / `inferred` status.
+- **Time.** Scene states form a timeline; proposed actions, predicted outcomes and goals
+  are kept apart from events.
+- **Coordinates** carry their frame and unit. Pixels are never metres without a
+  calibration.
+- **Into ACM**, events become `UniversalPhraseFrame`s directly (`splm.meaning.frames`).
+- **Adapters.** Text uses the parser. Image rejects claims a still can't support (a past
+  push, an intent). Video keeps event order, marks unseen causes *uncertain*, and
+  `available_at(T)` cuts the timeline so later frames can't leak into a prediction.
+- **Live backends** (a Qwen3-VL client for any OpenAI-compatible endpoint, an
+  Ultralytics YOLO tracker) are optional, lazily loaded, and never download anything.
+
+**Dashboard pages**
+
+- **`/multimodal`**: Text, Image and Video tabs. The video stops at T = 2.0 s, before
+  the push; **Predict Consequences** uses only frames up to T, then **Reveal Scripted
+  Outcome** compares prediction with what happened. Each run shows input, MLM meaning,
+  ACM's six circles of consequence, an *illustrative simulation*, and three
+  alternatives.
+- **`/acm`, `/acm/tour`, `/acm/inference`**: the ACM demo, a four-chapter tour, and
+  280+ "what happens next to …?" questions with reasoning. Started from ACM's
+  `./start.sh`, the dashboard runs in **ACM mode** (`NEXT_PUBLIC_APP_MODE=acm`): ACM
+  branding, `/` opens `/acm`, and the MLM Playground moves to `/mlm`.
+
+**Demo mode** needs no keys, GPU or downloads. It replays bundled fixtures through
+results computed by the real MLM + ACM pipeline, and a permanent badge says so. Uploads
+are previewed, never described as analysed. **Live** mode turns on per tab only when
+`/api/multimodal/status` reports it working; today that is text, with ACM and Stanza
+installed. Clone [ACM](https://github.com/Sherlock2019/ACM) next to this repo (or set
+`SPLM_ACM_DIR`) to enable it.
+
+Demo materials in `web/public/demo/` come from `python scripts/make_tabletop_demo.py`;
+the results bundle from ACM's `python -m acm.cli demo --json web/public/demo/demo_results.json`.
+`node web/scripts/check-tabletop.mts` checks the browser simulator against the Python
+one. The dev server serves only trusted origins (`127.0.0.1`, `localhost`,
+`SPLM_ALLOWED_DEV_ORIGINS`); otherwise a page opened by IP stays on "Loading…". Details:
+[ACM docs/multimodal.md](https://github.com/Sherlock2019/ACM/blob/main/docs/multimodal.md).
+
+### Deploy on AWS EC2
+
+The installer runs the Next.js build and the Python API as `systemd` services that
+survive logout and reboot. The dashboard listens publicly; the API stays on
+`127.0.0.1` behind the dashboard's `/api` proxy.
+
+Prerequisites: Ubuntu with a public IPv4, `systemd`, Git, Python 3.11+, Node 20.9+,
+npm, `curl`.
+
+```bash
+./scripts/ec2_service.sh install                     # first install, downloads models
+./scripts/ec2_service.sh status | logs | restart
+
+git pull --ff-only                                   # later revisions
+SPLM_SKIP_RESOURCES=1 ./scripts/ec2_service.sh deploy
+```
+
+- Open inbound **Custom TCP 3010** in the security group (source **My IP** for private
+  use). Keep `8001` closed. Browse to `http://EC2-PUBLIC-IP:3010`.
+- The endpoint is **plain HTTP with no authentication**. Put it behind HTTPS and auth
+  before exposing it widely.
+- `SPLM_TORCH_MODE=cuda` for GPU instances; `SPLM_WEB_PORT` for another port; an Elastic
+  IP if the address must survive stop/start.
+
+### Extend
+
+**Add a language**
+
+1. Create `language_packs/<code>/` with the six YAML files (copy `en/`).
 2. Add the code to `app.languages.supported` and `app.parser.processors` in
    `config/app.yaml`.
 3. `python scripts/download_resources.py --languages <code>`
 4. `python scripts/make_fixtures.py --languages <code>`, then add cases to
    `tests/test_multilingual.py`.
 
-No engine change. `tests/test_multilingual.py::test_packs_declare_the_same_interface`
-checks each pack fills in the same slots.
+No engine change. `test_packs_declare_the_same_interface` checks every pack fills the
+same slots.
 
-### Add a linguistic feature
+**Add a linguistic feature**
 
-1. Add the score to `CandidateFeatures` and to `FEATURE_ORDER`
-   (`splm/model/candidate_features.py`) — the order is positional for trained models.
+1. Add the score to `CandidateFeatures` and `FEATURE_ORDER`
+   (`splm/model/candidate_features.py`); the order is positional for trained models.
 2. Write a `_score_<feature>` method that sets `informative[...]` honestly.
-3. Add a weight to `config/scoring.yaml` and an ablation switch in `FEATURE_SWITCHES`.
-4. Add a test that it contributes zero when it has no evidence.
+3. Add a weight in `config/scoring.yaml` and an ablation switch in `FEATURE_SWITCHES`.
+4. Test that it contributes zero when it has no evidence.
 
-### Use a different base model
+**Use a different base model**
 
 ```bash
 SPLM_MODEL_ID=Qwen/Qwen3-4B-Base python -m splm.cli predict "..."
-# or: python -m splm.cli --profile research predict "..."
+python -m splm.cli --profile research predict "..."
 ```
 
-### Replace a heuristic with a trained model
-
-Both the slot predictor and the candidate scorer sit behind interfaces with a trained
-implementation alongside the rule-based one, sharing the same feature extractor. Set
-`app.slot_predictor.backend: neural` or `scoring.backend: neural`. Without a checkpoint
-they fall back to the heuristic and say so, rather than failing — so the rule-based
-result is always the baseline the trained version has to beat.
+**Swap a heuristic for a trained model.** Set `app.slot_predictor.backend: neural` or
+`scoring.backend: neural`. Without a checkpoint each falls back to the rule-based
+version and says so, so the heuristic is always the baseline to beat.
 
 ---
 
-## Current limitations
+## What next
 
-Stated plainly, because the project's value depends on knowing what it has not shown.
+The project's value depends on knowing what it has not shown.
 
-**Not yet demonstrated**
+### The open question
 
-- **No evidence MLM improves next-word prediction on natural text.** The favourable
-  numbers come from a small hand-authored suite, at sample sizes too low for a verdict.
-  The UD-based evaluation is the missing piece.
-- **No trained scorer or slot predictor.** Both trainable backends are wired in behind
-  their interfaces but no checkpoint exists; all reported behaviour is rule-based.
-- **No deeper integration.** Phase 10 (feeding role and phrase embeddings into the
-  Transformer) is deliberately not attempted until the external architecture proves
-  itself.
+- **Does MLM improve next-word prediction on natural text?** Not yet known. The
+  favourable numbers come from a small hand-authored suite at sample sizes too small for
+  a verdict. **An evaluation on Universal Dependencies is the missing piece**, and the
+  importer for it is not written yet.
 
-**Known weaknesses**
+### Highest-value next steps
 
-- **Latency.** ~4× the base forward pass, dominated by parsing on CPU.
-- **No lexicon is committed.** With the default configuration, the first use of a
-  language starts its Wiktionary download and build; this can be large and slow.
-  Disable `app.lexicon.auto_download` to keep runtime offline and run
-  `scripts/build_lexicon.py` explicitly instead.
-- **Seed gazetteers.** Slot compatibility rests on a few hundred hand-listed words.
-  Replacing them with a real resource (Wikidata place types, WordNet hypernyms,
-  Wiktionary categories) is the highest-value upgrade available.
-- **Parser errors propagate silently.** A wrong tree yields a wrong frame. Vietnamese is
-  worst affected: the VTB parser attaches `John` under the time expression in
-  *Ngày mai John sẽ gặp…*, so that frame has no WHO — which is why en↔vi agreement is
-  78% rather than higher.
+1. **UD evaluation.** Implement the Universal Dependencies importer and run the
+   benchmark on natural text at a sample size that permits a verdict.
+2. **Replace seed gazetteers.** Slot compatibility rests on a few hundred hand-listed
+   words. Wikidata place types, WordNet hypernyms or Wiktionary categories would widen
+   coverage more than any other change.
+3. **Train the scorer and slot predictor.** Both neural backends are wired in, but no
+   checkpoint exists; everything reported today is rule-based.
+4. **Cut latency.** ~4× the base forward pass, dominated by CPU parsing.
+5. **UniMorph and PropBank importers**, for morphology and predicate-specific roles.
+6. **Deeper integration (Phase 10).** Feeding role and phrase embeddings into the
+   Transformer is deliberately deferred until the external architecture proves itself.
+
+### Known weaknesses
+
+- **Parser errors propagate silently.** A wrong tree gives a wrong frame. Vietnamese
+  suffers most: the VTB parser attaches `John` under the time expression in
+  *Ngày mai John sẽ gặp…*, leaving no WHO, which is why en↔vi agreement is 78%.
 - **Per-verb argument structure is hand-written** for a few dozen verbs per language.
-  Outside them, generic relation priors do the work.
-- **Cross-language comparison is structural only.** Content lemmas are excluded because
-  comparing them needs a cross-lingual concept inventory this POC lacks.
+- **Cross-language comparison is structural only**; comparing content lemmas needs a
+  cross-lingual concept inventory.
 - **No hard grammatical rules.** The scorer only re-weights, so the UI says "less
   compatible", never "impossible".
+- **No lexicon is committed.** First use of a language may start a large Wiktionary
+  build. Disable `app.lexicon.auto_download` to stay offline.
+- **Multimodal is unexercised on real vision.** Bundled image and video extractions are
+  hand-authored replays on synthetic media, labelled as such; the Qwen3-VL and YOLO
+  clients have not been run. The tabletop simulator is narrow (rigid discs, one table),
+  and its single scripted episode validates the workflow, not accuracy.
 
-**Multimodal**
-
-- **No vision model has been run.** The image and video extractions bundled with the
-  demo are hand-authored replays matched to synthetic media and labelled as such. The
-  Qwen3-VL and YOLO clients exist but were not exercised.
-- **Narrow simulator.** The consequence demo uses a constrained tabletop simulator
-  (rigid discs, one table), not physical understanding. Its one evaluation episode is
-  scripted, so its perfect scores validate the workflow, not accuracy.
-
-**Substitution from the original spec:** the debugging UI is a Next.js dashboard rather
-than a Gradio app, and graphs are hand-drawn SVG rather than React Flow — fewer
-dependencies and full control over layout. Every panel the spec asked for is present.
+**Deviation from the original spec:** the debugging UI is Next.js rather than Gradio,
+and graphs are hand-drawn SVG rather than React Flow, for fewer dependencies and full
+layout control. Every requested panel is present.
 
 ---
 
-## Project layout
+## Reference
+
+### Data sources and licences
+
+MLM commits **no** third-party linguistic data. Resources are fetched on request and
+recorded in `data/MANIFEST.json` (`python scripts/download_resources.py --list` shows
+the configured set). Until a lexicon is available, lexical features report *no
+evidence* rather than guessing.
+
+| Resource | Used for | Licence | Fetched by |
+|---|---|---|---|
+| Stanza UD models | Parsing | Apache-2.0 | `download_resources.py` |
+| Universal Dependencies 2.14 | Evaluation, slot-predictor training | per-treebank (mixed) | configured; importer pending |
+| UniMorph 4.0 | Morphology | CC BY-SA 3.0 | configured; importer pending |
+| Wiktionary (wiktextract) | Lexicon | CC BY-SA 4.0 / GFDL | `build_lexicon.py` |
+| PropBank 3.4 | Predicate-specific roles | CC BY-SA 4.0 | configured; importer pending |
+
+### Project layout
 
 ```
 config/            model, scoring weights, ablations, data sources  (nothing hard-coded)
@@ -715,13 +564,14 @@ tests/             154 tests over committed CoNLL-U and meaning fixtures
 results/           benchmark output (JSON + CSV)
 ```
 
-The [Actions Consequential Model (ACM)](https://github.com/Sherlock2019/ACM)
-builds on MLM to predict what an action changes for the actor, other actors, the
-environment (local, neighbours, organization, city, country), society and the earth,
-from text, images and video. It lives in its own repository and depends on
-this one as the `splm` package.
+### Related
 
-## Licence
+The [Actions Consequential Model (ACM)](https://github.com/Sherlock2019/ACM) builds on
+MLM to predict what an action changes for the actor, other actors, the environment,
+society and the earth, from text, images and video. It lives in its own repository and
+depends on this one as the `splm` package.
 
-MIT for the code. Downloaded resources remain under their own licences, recorded per
-dataset in `data/MANIFEST.json`.
+### Licence
+
+MIT for the code. Downloaded resources keep their own licences, recorded per dataset in
+`data/MANIFEST.json`.
