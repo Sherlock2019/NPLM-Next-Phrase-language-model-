@@ -53,7 +53,7 @@ const ICONS = {
 
 const MODES = [
   {
-    n: "01", icon: ICONS.actions, title: "Scene engine", sub: "A situation as a script: actions & consequences",
+    n: "01", icon: ICONS.actions, title: "Next Status Engine", sub: "A situation as a script: actions & consequences",
     text: "Explore how a decision could affect people and situations.",
     example: "Mark sells Sarah’s car to Florence to repay a debt. Sarah does not agree. What could follow?",
     href: "/acm/scenario", cta: "Explore the Car Sale",
