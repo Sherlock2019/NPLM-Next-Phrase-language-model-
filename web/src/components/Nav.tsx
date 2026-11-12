@@ -1,7 +1,8 @@
 "use client";
 
 /**
- * The site header, after the ACM design: domino mark + ACM / the Butterfly Model, the menu
+ * The site header, after the ACM design: the butterfly logo (ACM mode; the domino mark for MLM)
+ * + ACM / the Butterfly Model, the menu
  * (What is ACM? · Why ACM? · Prediction Modes ▾ · How It Works · Research ▾) and "Try a Demo".
  * Dropdowns open on click or hover and close on Escape or a click outside. On narrow screens
  * the menu folds into a "Menu" button.
@@ -101,7 +102,10 @@ export function Nav() {
     <header ref={header} className="sticky top-0 z-40 border-b border-white/10 bg-[#0b1b2e] text-white shadow-lg">
       <div className="mx-auto flex max-w-[1600px] items-center gap-4 px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-3" aria-label={`${BRAND.mark} — ${BRAND.name}, home`}>
-          <DominoMark />
+          {BRAND.mark === "ACM" ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/acm/logo.png" alt="" width={64} height={42} className="h-11 w-auto shrink-0 rounded-md" />
+          ) : <DominoMark />}
           <span className="flex flex-col leading-none">
             <span className="text-[30px] font-extrabold tracking-tight">{BRAND.mark}</span>
             <span className="mt-0.5 text-[13px] font-medium text-slate-200">{BRAND.name}</span>
