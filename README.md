@@ -655,5 +655,6 @@ depends on this one as the `splm` package.
 
 ### Licence
 
-MIT for the code. Downloaded resources keep their own licences, recorded per dataset in
-`data/MANIFEST.json`.
+Copyright © 2026 Dzoan Nguyen Tran (dzoanNguyentran@gmail.com). The code is released
+under the [MIT licence](LICENSE). Downloaded resources keep their own licences, recorded
+per dataset in `data/MANIFEST.json`.
