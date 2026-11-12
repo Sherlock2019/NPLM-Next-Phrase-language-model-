@@ -45,7 +45,6 @@ export const MENU: MenuEntry[] =
         {
           label: "Prediction Modes",
           items: [
-            { href: "/acm/scenario", label: "Next Status Engine: 8 scenes", hint: "A scene as a script: actions, consequences, next scenes" },
             { href: "/acm#phrase", label: "Action–Consequence Prediction", hint: "Consequences of one action sentence (rule engine)" },
             { href: "/acm/scene?source=image", label: "Object Image Prediction", hint: "Physical consequences from a scene" },
             { href: "/acm/scene?source=video", label: "Object Video Prediction", hint: "Outcomes from motion and interactions" },

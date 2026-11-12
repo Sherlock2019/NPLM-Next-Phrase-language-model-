@@ -53,10 +53,10 @@ const ICONS = {
 
 const MODES = [
   {
-    n: "01", icon: ICONS.actions, title: "Next Status Engine", sub: "A situation as a script: actions & consequences",
-    text: "Explore how a decision could affect people and situations.",
-    example: "Mark sells Sarah’s car to Florence to repay a debt. Sarah does not agree. What could follow?",
-    href: "/acm/scenario", cta: "Explore the Car Sale",
+    n: "01", icon: ICONS.actions, title: "One Action", sub: "Its consequences, world by world",
+    text: "Type an action and see what it changes, for whom, and how far.",
+    example: "I will sell my car to Sarah in Paris tomorrow to pay my debt. Mark wants to buy my car.",
+    href: "/acm#phrase", cta: "Try an action",
   },
   {
     n: "02", icon: ICONS.image, title: "Object Image", sub: "Physical outcomes from a scene",
