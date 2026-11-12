@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2078" width="1200" height="2078" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
-<title>One action, many worlds, each with its own laws</title>
+<title>1 actor, 1 action = consequences in cascade</title>
 <defs>
 <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1730"/><stop offset="1" stop-color="#050a18"/></linearGradient>
 <filter id="glow" x="-10%" y="-30%" width="120%" height="160%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -17,9 +17,9 @@
 <linearGradient id="g9" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#07101f"/><stop offset="0.25" stop-color="#0ea5e9" stop-opacity="0.30"/><stop offset="0.5" stop-color="#22c55e" stop-opacity="0.42"/><stop offset="0.75" stop-color="#0ea5e9" stop-opacity="0.30"/><stop offset="1" stop-color="#07101f"/></linearGradient>
 </defs>
 <rect width="1200" height="2078" fill="url(#bg)"/>
-<text x="600.0" y="62" text-anchor="middle" fill="#f8fafc" font-size="34" font-weight="800" letter-spacing="3">ONE ACTION · MANY WORLDS</text>
-<text x="600.0" y="100" text-anchor="middle" fill="#fbbf24" font-size="22" font-weight="700" letter-spacing="2">EACH WORLD FOLLOWS ITS OWN LAWS</text>
-<text x="600.0" y="134" text-anchor="middle" fill="#cbd5e1" font-size="16">MLM reads the action as Phrase DNA. ACM predicts its consequence in each world, by that world's laws.</text>
+<text x="600.0" y="62" text-anchor="middle" fill="#f8fafc" font-size="34" font-weight="800" letter-spacing="3">1 ACTOR · 1 ACTION</text>
+<text x="600.0" y="100" text-anchor="middle" fill="#fbbf24" font-size="22" font-weight="700" letter-spacing="2">= CONSEQUENCES IN CASCADE</text>
+<text x="600.0" y="134" text-anchor="middle" fill="#cbd5e1" font-size="16">Each world follows its own laws. MLM reads the action as Phrase DNA; ACM predicts its consequences, world by world.</text>
 <g><line x1="45" y1="1834" x2="45" y2="194" stroke="#22c55e" stroke-width="6"/><path d="M45 164 l-18 34 h36 z" fill="#22c55e"/></g>
 <text transform="translate(37 999.0) rotate(-90)" text-anchor="middle" fill="#e2e8f0" font-size="19" font-weight="700" letter-spacing="2">Action → Prediction routing → Consequence in each world</text>
 <g><line x1="1155" y1="164" x2="1155" y2="1804" stroke="#f97316" stroke-width="6"/><path d="M1155 1834 l-18 -34 h36 z" fill="#ef4444"/></g>
