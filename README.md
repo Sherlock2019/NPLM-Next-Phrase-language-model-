@@ -640,7 +640,7 @@ src/splm/
   evaluation/      datasets, metrics with real statistics, baseline arm, benchmark runner
   api/             FastAPI service
   cli.py           command line
-web/               Next.js dashboard (12 pages, incl. /acm, /multimodal, /mlm); demo materials in web/public/demo
+web/               Next.js dashboard (17 pages, incl. the ACM pages, /multimodal, /mlm); demo materials in web/public/demo
 scripts/           download_resources, make_fixtures, make_tabletop_demo, demo, benchmark, dev, smoke
 tests/             154 tests over committed CoNLL-U and meaning fixtures
 results/           benchmark output (JSON + CSV)
