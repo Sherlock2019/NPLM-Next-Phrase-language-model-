@@ -7,7 +7,7 @@
 | [**What**](#what) | A layer that parses meaning and re-scores a Transformer's next-token candidates against it |
 | [**Why**](#why) | Next-token statistics don't know *who*, *where* or *what kind of thing* comes next |
 | [**So what**](#so-what) | Measured on the same model and hardware: what it buys, what it costs, what isn't proven |
-| [**How**](#how) | Architecture, Phrase DNA, language packs, install, run, extend |
+| [**How**](#how) | Architecture, Phrase DNA, consequences across worlds and their laws, install, run, extend |
 | [**What next**](#what-next) | Limitations and the work that would settle the open question |
 
 ---
@@ -388,6 +388,53 @@ python scripts/benchmark.py --ablation-ladder
 Tests run against committed CoNLL-U fixtures, so they are fast, deterministic and need
 no parser. Regenerate them with `python scripts/make_fixtures.py` and review the diff;
 a change there changes the tests' premises.
+
+### Predicting consequences: one action, many worlds, each with its own laws
+
+Phrase DNA says *who does what*. The next question is *what does that action change?*
+An action by an actor (a person, an animal, an object, a system) does not happen in one
+world. The same event is felt in several worlds at once, and **each world follows its
+own laws**. The AI predicts the consequence of the action separately in each world,
+using that world's laws, and then shows how far each consequence reaches.
+
+Take "I push the blue cup toward the edge of the table":
+
+| World | Its laws | Example consequence | Status in [ACM](https://github.com/Sherlock2019/ACM) today |
+|---|---|---|---|
+| ⚛️ Atomic and molecular | Atomic and chemical laws: bonds, reactions, heat | the cup breaks into pieces; coffee stains the floor | planned, no model yet |
+| ⚙️ Physical | Physical laws: force, motion, gravity, friction, energy | the cup slides, tips over the edge and falls | partly: positions, holders, owners and a 2D tabletop simulator; 3D physics (Unreal Engine 5) planned |
+| 👁️ Perception | Laws of vibration and signals: light, sound, sensing | people nearby see the fall and hear the crash | partly: who sees or hears each event; image/video detection replayed |
+| 🧠 Human and animal behaviour | Behavioural and psychological laws: goals, emotions, reactions, relationships | the owner is annoyed; the cat runs away | working: scene scripts and next-scene prediction |
+| 💻 Digital systems | System laws: records, permissions, calculations, workflows | a damage report is logged; an order for a new cup is placed | partly: explicit state changes and amounts |
+| 🏭 Business and institutions | Organisational rules, contracts, policies, finance | the café writes off the cup and charges for it | partly: obligations and organisation impact rules |
+| 🏛️ Society and economy | Economic, legal and social laws: markets, prices, law, trust | (small here; large for actions such as a sale or a law) | partly: society and country impact rules; no economic model |
+| 🌍 Earth | Planetary and ecological laws: resources, pollution, biodiversity | broken ceramic goes to landfill | partly: earth-scoped impact rules; no ecosystem model |
+
+The path from language to consequence:
+
+```mermaid
+flowchart LR
+  A[Text · image · video] --> D[MLM<br/>Phrase DNA: actor, action, object, state]
+  D --> R[Consequence router<br/>which worlds must examine this action?]
+  R --> W1[Atomic laws]
+  R --> W2[Physical laws]
+  R --> W3[Perception laws]
+  R --> W4[Behaviour and psychology laws]
+  R --> W5[Digital system laws]
+  R --> W6[Economic and social laws]
+  R --> W7[Earth laws]
+  W1 & W2 & W3 & W4 & W5 & W6 & W7 --> C[Consequences per world<br/>with evidence and reach]
+```
+
+Two axes describe every consequence: the **world** says *which laws* govern it, and the
+**reach** says *how far* it goes, from the actor to other actors, the neighbourhood,
+the organisation, the city, the country and the earth.
+
+MLM's role is the input to this: it turns text, images and video into the actor,
+action, object and state that each world's laws need. The consequence prediction itself
+lives in ACM. The table's last column is the honest status. Several worlds have
+explicit rules only, the atomic world has no model yet, and none of the world models
+has been validated for accuracy.
 
 ### Multimodal: text, image, video → MLM → ACM
 
