@@ -57,7 +57,7 @@ export function SceneDemo({ b, initialStage = 0, initialAll = false }: { b: Scen
   return (
     <div className="flex flex-col gap-5">
       <header className="panel flex flex-col gap-3 p-5 sm:p-7">
-        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-500">The Butterfly Model · ACM · Next Status Engine</p>
+        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-500">The Butterfly Model · ACM · Scenario Engine · human behaviour</p>
         <h1 className="text-[26px] font-extrabold leading-tight tracking-tight sm:text-[34px]">{s.title}</h1>
         <p className="text-[17px] font-semibold">Can a model understand what an action might cause?</p>
         <p className="dim max-w-3xl text-[14.5px] leading-relaxed">{s.description}</p>
@@ -66,7 +66,7 @@ export function SceneDemo({ b, initialStage = 0, initialAll = false }: { b: Scen
           <StatusBadge s="stated" /> <StatusBadge s="possible" /> <StatusBadge s="unknown" /> <StatusBadge s="not_identified" />
         </p>
         <p className="faint text-[12px]">
-          Rendered from <code className="num">{s.schema}</code> data produced by ACM's Next Status Engine ({b.generated_by}). The script, analysis and {b.branches.length} branches are
+          Rendered from <code className="num">{s.schema}</code> data produced by ACM's Scenario Engine ({b.generated_by}). The script, analysis and {b.branches.length} branches are
           authored demo content, deterministic and offline: they show the reasoning format, not live predictions.
         </p>
       </header>

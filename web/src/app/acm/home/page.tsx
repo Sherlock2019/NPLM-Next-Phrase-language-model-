@@ -71,10 +71,10 @@ const MODES = [
     href: "/acm/scene?source=video", cta: "Explore Videos",
   },
   {
-    n: "04", icon: ICONS.people, title: "Objects & Human Behavior", sub: "Images, videos & human responses",
-    text: "Explore interactions between people, objects, and their environment.",
+    n: "04", icon: ICONS.people, title: "Scenario Engine", sub: "Human behaviour, scripted",
+    text: "See how people react to an action, scene by scene: goals, feelings, relationships.",
     img: "/acm/home-people.webp", alt: "A worker walking through a warehouse past a cart of boxes, with predicted paths drawn on the floor",
-    href: null, cta: "Explore Interactions",
+    href: "/acm/scenario", cta: "Explore the scenarios",
   },
 ];
 

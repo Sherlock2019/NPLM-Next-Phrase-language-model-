@@ -45,10 +45,10 @@ export const MENU: MenuEntry[] =
         {
           label: "Prediction Modes",
           items: [
+            { href: "/acm/scenario", label: "Scenario Engine: human behaviour", hint: "Scripts of how people react to an action: 8 scenarios" },
             { href: "/acm#phrase", label: "Action–Consequence Prediction", hint: "Consequences of one action sentence (rule engine)" },
             { href: "/acm/scene?source=image", label: "Object Image Prediction", hint: "Physical consequences from a scene" },
             { href: "/acm/scene?source=video", label: "Object Video Prediction", hint: "Outcomes from motion and interactions" },
-            { href: "/acm/home#modes", label: "Objects & Human Behavior", hint: "People, objects, images and video combined — concept" },
           ],
         },
         {
