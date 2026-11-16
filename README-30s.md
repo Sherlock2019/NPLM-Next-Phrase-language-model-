@@ -34,3 +34,7 @@ Try `python -m splm.cli predict "John will meet Sarah in" --detail`. Investors: 
 **WHAT NEXT.** Evaluate on Universal Dependencies, then train the slot predictor and scorer. This becomes the
 front end of a full **Action Prediction Model**, built with AI frontier labs and sold to them. We need engineers:
 [profile](https://dzoannguyentran.jobsmatchnow.com/#projects) · [WhatsApp](https://wa.me/84908618075)
+
+---
+
+**Made with love by [DzoanNguyentran@gmail.com](mailto:DzoanNguyentran@gmail.com) · A better World Builder**

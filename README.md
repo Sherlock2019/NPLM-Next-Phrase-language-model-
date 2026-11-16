@@ -778,3 +778,7 @@ results/           benchmark output (JSON + CSV)
 Copyright © 2026 Dzoan Nguyen Tran (dzoanNguyentran@gmail.com). The code is released under the
 [MIT licence](LICENSE). Downloaded resources keep their own licences, recorded per dataset in
 `data/MANIFEST.json`.
+
+---
+
+**Made with love by [DzoanNguyentran@gmail.com](mailto:DzoanNguyentran@gmail.com) · A better World Builder**
