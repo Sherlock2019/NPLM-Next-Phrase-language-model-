@@ -91,14 +91,19 @@ prepare_application() {
     SPLM_TORCH_INDEX_URL="${SPLM_TORCH_INDEX_URL:-}" \
     "$ROOT/scripts/install_runtime.sh"
 
-  # Optional: ACM (a separate repository) enables Live text on the Multimodal page.
-  # Without it the page still works fully in Demo mode and says why Live is off.
+  # Optional: ACM v1 (the Python `acm` package, branch v1 of the ACM repository) enables
+  # Live text on the Multimodal page. ACM's main branch is a different app without that
+  # package. Without it the page still works fully in Demo mode and says why Live is off.
   local acm_dir="${SPLM_ACM_DIR:-$ROOT/../ACM}"
-  if [ -f "$acm_dir/pyproject.toml" ]; then
-    echo "installing ACM from $acm_dir (enables Live text on /multimodal)"
+  if [ -f "$acm_dir/pyproject.toml" ] && [ -d "$acm_dir/src/acm" ]; then
+    echo "installing ACM v1 from $acm_dir (enables Live text on /multimodal)"
     as_service_user "$python" -m pip install --quiet -e "$acm_dir"
+  elif [ -d "$acm_dir" ]; then
+    echo "ACM at $acm_dir has no Python 'acm' package (main branch?); /multimodal runs in Demo mode."
+    echo "  For Live text: git clone -b v1 git@github.com:Sherlock2019/ACM.git and set SPLM_ACM_DIR"
   else
-    echo "ACM not found at $acm_dir; /multimodal runs in Demo mode (set SPLM_ACM_DIR to enable Live text)"
+    echo "ACM v1 not found at $acm_dir; /multimodal runs in Demo mode."
+    echo "  For Live text: git clone -b v1 git@github.com:Sherlock2019/ACM.git \"$acm_dir\""
   fi
 
   echo "installing and building dashboard"

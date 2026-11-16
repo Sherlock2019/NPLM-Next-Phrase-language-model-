@@ -37,6 +37,7 @@ class LivePhraseRequest(BaseModel):
 class AskRequest(LivePhraseRequest):
     question: str = Field(min_length=1, max_length=500, description="A question about the action")
     llm: bool = Field(default=True, description="Also have the local LLM word the answer from ACM's facts")
+    compare: bool = Field(default=False, description="Also ask the same LLM with no ACM facts (baseline)")
 
 
 class PlanRequest(BaseModel):
@@ -161,6 +162,13 @@ def register(app: FastAPI, prefix: str) -> None:
                 result["llm"] = llm.answer(request.question, llm.phrase_facts(result), kind="phrase")
             except llm.LLMUnavailable as exc:
                 result["llm"] = {"error": str(exc)}  # ACM's own answer still stands
+        if request.compare:
+            from acm import llm
+
+            try:
+                result["llm_alone"] = llm.answer_alone(request.text, context, request.question)
+            except (llm.LLMUnavailable, AttributeError) as exc:
+                result["llm_alone"] = {"error": str(exc)}
         return result
 
     @app.post(f"{prefix}/acm/llm/plan")
