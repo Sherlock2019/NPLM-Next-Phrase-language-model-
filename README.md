@@ -217,8 +217,10 @@ inference stack, not Transformers altogether.
 
 - **A prediction a plain model cannot make.** NPLM says what *kind* of meaning comes next (a place, a time,
   an action), not only which fragment.
-- **One structure across languages.** English, French and Vietnamese sentences that mean the same thing
-  give the same frame.
+- **One structure for every language.** Phrase DNA is language-independent by design: any language can be
+  added with YAML language packs and no engine change. Built and tested today in English, French and
+  Vietnamese, where sentences that mean the same give closely matching frames (structural agreement 93.3%
+  en↔fr, 78.3% en↔vi, 71.7% fr↔vi; see [Measured results](#measured-results)).
 - **Explainable.** Every adjustment to a candidate comes with the slot and the evidence behind it.
 - **Never makes the base model worse on the suite.** 2 wins, 9 ties and 0 losses by rank of the correct
   answer; ablating everything reproduces the base model exactly.

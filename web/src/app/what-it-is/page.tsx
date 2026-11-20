@@ -142,7 +142,7 @@ WHERE:  Paris    WHEN: tomorrow     tense=future`}</pre>
             <ul className="flex flex-col gap-2 text-[12.5px] leading-relaxed">
               {[
                 ["A prediction a plain model cannot make", "what kind of meaning comes next, not only which fragment."],
-                ["One structure across languages", "English, French and Vietnamese sentences that mean the same give the same frame."],
+                ["One structure for every language", "Phrase DNA is language-independent by design: any language can be added with YAML language packs and no engine change. Built and tested today in English, French and Vietnamese, where sentences that mean the same give closely matching frames (structural agreement 93% en↔fr, 78% en↔vi, 72% fr↔vi)."],
                 ["Explainable", "every adjustment comes with the slot and the evidence behind it."],
                 ["Never worse on the suite", "2 wins, 9 ties, 0 losses by rank of the correct answer; ablating everything reproduces the base model."],
                 ["Voice that knows what is missing", "spoken requests are sorted into Phrase DNA, so an agent can ask instead of guessing."],
