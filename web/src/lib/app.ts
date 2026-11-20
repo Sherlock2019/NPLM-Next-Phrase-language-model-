@@ -76,9 +76,14 @@ export const MENU: MenuEntry[] =
     : [
         { href: "/", label: "Playground" },
         ...MLM_PAGES.slice(0, 3),
-        { href: "/acm", label: "ACM Demo" },
-        { href: "/acm/inference", label: "What happens next?" },
-        { href: "/multimodal", label: "Multimodal → ACM" },
+        {
+          label: "Evolution of the Model",
+          items: [
+            { href: "/acm", label: "ACM Demo", hint: "From meaning to consequences: the Action–Consequence Model" },
+            { href: "/acm/inference", label: "What happens next?", hint: "Actions answered with their reasoning" },
+            { href: "/multimodal", label: "Multimodal → ACM", hint: "Text, image and video into one meaning" },
+          ],
+        },
         ...MLM_PAGES.slice(3),
       ];
 
