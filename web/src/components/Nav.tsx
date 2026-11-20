@@ -17,8 +17,10 @@ import { BRAND, CTA, MENU, type MenuEntry, type MenuGroup } from "@/lib/app";
 const isGroup = (e: MenuEntry): e is MenuGroup => "items" in e;
 const linkClass = "rounded-md px-3 py-2 text-[15px] font-medium text-slate-100 transition-colors hover:bg-white/10 hover:text-white";
 
-function Dropdown({ group, open, onToggle, onClose, active }: {
+function Dropdown({ group, open, onToggle, onClose, active, alignRight = false }: {
   group: MenuGroup; open: boolean; onToggle: () => void; onClose: () => void; active: (href: string) => boolean;
+  /** Open towards the left, for a dropdown at the right end of the menu (keeps it on screen). */
+  alignRight?: boolean;
 }) {
   return (
     <div className="relative" onMouseLeave={onClose}>
@@ -31,7 +33,7 @@ function Dropdown({ group, open, onToggle, onClose, active }: {
         </svg>
       </button>
       {open && (
-        <div className="absolute left-0 top-full z-50 pt-2">
+        <div className={`absolute ${alignRight ? "right-0" : "left-0"} top-full z-50 pt-2`}>
           <ul className="w-72 rounded-xl border border-white/10 bg-[#0f2338] p-1.5 shadow-2xl">
             {group.items.map((item) => (
               <li key={item.href}>
@@ -102,9 +104,10 @@ export function Nav() {
         </Link>
 
         <nav aria-label="Main" className="ml-auto hidden items-center gap-1 lg:flex">
-          {MENU.map((entry) =>
+          {MENU.map((entry, index) =>
             isGroup(entry) ? (
               <Dropdown key={entry.label} group={entry} open={open === entry.label} active={active}
+                alignRight={index >= MENU.length - 2}
                 onToggle={() => setOpen(open === entry.label ? null : entry.label)} onClose={() => setOpen(null)} />
             ) : (
               <Link key={entry.href} href={entry.href} className={`${linkClass} ${active(entry.href) ? "text-cyan-300" : ""}`}>

@@ -75,7 +75,7 @@ export const MENU: MenuEntry[] =
       ]
     : [
         { href: "/", label: "Playground" },
-        ...MLM_PAGES.slice(0, 3),
+        ...MLM_PAGES,
         {
           label: "Evolution of the Model",
           items: [
@@ -84,7 +84,6 @@ export const MENU: MenuEntry[] =
             { href: "/acm", label: "ACM Demo", hint: "From meaning to consequences: the Action–Consequence Model" },
           ],
         },
-        ...MLM_PAGES.slice(3),
       ];
 
 /** The header's call to action (ACM mode). */
