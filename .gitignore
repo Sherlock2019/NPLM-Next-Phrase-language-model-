@@ -28,6 +28,8 @@ data/processed/
 data/splm.db
 stanza_resources/
 results/
+# Speech Lab: per-machine verification record and local recordings/manifests
+data/speech/
 
 # Keep the manifests that describe what was downloaded
 !data/raw/.gitkeep

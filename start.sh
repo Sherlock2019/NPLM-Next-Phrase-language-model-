@@ -20,6 +20,8 @@ DEFAULT_PYTHON="$ROOT/.venv/bin/python"
 PYTHON="${SPLM_PYTHON:-$DEFAULT_PYTHON}"
 URL="http://127.0.0.1:$WEB_PORT"
 export SPLM_LEXICON_AUTO_DOWNLOAD="${SPLM_LEXICON_AUTO_DOWNLOAD:-false}"
+# Load the Speech Lab models in the background when the API starts (0 = on first use).
+export SPLM_SPEECH_WARMUP="${SPLM_SPEECH_WARMUP:-1}"
 
 port_available() {
   python3 - "$1" "$2" <<'PY'
@@ -107,9 +109,22 @@ preflight() {
     (cd web && npm install) || return 1
   fi
 
-  if [ ! -f data/MANIFEST.json ]; then
-    echo "warning: data/MANIFEST.json not found; parser and model resources may be missing." >&2
-    echo "         run: $PYTHON scripts/download_resources.py --model" >&2
+  # Parser models: without them every Phrase DNA is empty (the API still runs).
+  if [ ! -d data/raw/stanza_resources ] && [ -z "${SPLM_SKIP_RESOURCES:-}" ]; then
+    echo "downloading parser models and the base Transformer (one-off)"
+    "$PYTHON" scripts/download_resources.py --model \
+      || echo "warning: resource download failed; Phrase DNA will be empty until it succeeds" >&2
+  fi
+
+  # Speech Lab (/speech): Whisper, MMS-TTS voices and the answer model, verified by
+  # running them once. ffmpeg decodes the browser's WebM/Opus recordings.
+  if ! command -v ffmpeg > /dev/null; then
+    echo "warning: ffmpeg not found; the Speech Lab can only accept WAV (sudo apt install ffmpeg)" >&2
+  fi
+  if [ ! -f data/speech/verified.json ] && [ -z "${SPLM_SKIP_SPEECH:-}" ] && [ -z "${SPLM_SKIP_RESOURCES:-}" ]; then
+    echo "downloading and verifying the Speech Lab models (one-off, ~1.5 GB; SPLM_SKIP_SPEECH=1 skips)"
+    "$PYTHON" scripts/download_resources.py --verify-only --speech \
+      || echo "warning: some speech models failed verification; see data/speech/verified.json" >&2
   fi
 }
 

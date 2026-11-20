@@ -1,0 +1,87 @@
+# Speech AI lab: Whisper ASR -> NPLM generation -> multilingual TTS.
+#
+# Reuses config/model.yaml for the generator (the same SPLMEngine and base
+# Transformer as the rest of the project). Nothing in src/splm/speech hard-codes a
+# checkpoint: every model id below can be swapped, and SPLM_ASR_MODEL_ID overrides
+# the ASR checkpoint from the environment.
+
+asr:
+  # Multilingual Whisper (MIT licence). `tiny` keeps CPU latency low; switch to
+  # openai/whisper-base / -small / -large-v3-turbo for better accuracy (and cost).
+  model_id: openai/whisper-tiny
+  device: auto          # auto | cpu | cuda
+  dtype: auto           # auto | float32 | float16
+  # The same beam search runs in every mode, so ASR cost is identical across modes.
+  # The validated mode only *reads* more of that beam (n_best hypotheses).
+  num_beams: 5
+  n_best: 5
+  max_new_tokens: 128
+  sample_rate: 16000
+  # Clips longer than this are rejected rather than silently truncated.
+  max_audio_seconds: 30
+
+tts:
+  device: auto
+  # Per-language VITS checkpoints from Meta's Massively Multilingual Speech project.
+  # Licence: CC-BY-NC 4.0 (non-commercial). Replace before any commercial use.
+  # `verified` is set by `scripts/download_resources.py --speech`, which loads each
+  # checkpoint and synthesises a test sentence; it is not assumed.
+  voices:
+    en: facebook/mms-tts-eng
+    fr: facebook/mms-tts-fra
+    vi: facebook/mms-tts-vie
+  # Text is synthesised sentence by sentence so the first chunk is ready early;
+  # time-to-first-audio is measured at the first chunk.
+  chunk_by_sentence: true
+  max_characters: 600
+  # VITS is stochastic; a fixed seed makes the same text give the same audio.
+  # null = natural variation.
+  seed: 0
+
+generation:
+  # The answer model. Mode A runs it alone; modes B and C run the *same* weights
+  # inside the NPLM stack (SPLMEngine re-scoring every decoding step). Set to null
+  # to reuse config/model.yaml's base model instead.
+  model_id: Qwen/Qwen2.5-0.5B-Instruct
+  # Same settings for every mode (paired comparisons need identical decoding).
+  # Greedy decoding, so a difference between modes is the NPLM layer, not sampling.
+  max_new_tokens: 40
+  # Use the model's chat template when it has one (instruct models). Otherwise the
+  # prompt_template below is used and the model continues the text.
+  use_chat_template: true
+  system_prompt: >-
+    You are a concise voice assistant. Answer in one or two short sentences, in the
+    same language as the user.
+  prompt_template: "{transcript}"
+  # NPLM re-parses the reply every N generated tokens. 1 is the most faithful and
+  # the slowest; latency figures are reported with whatever value is set here.
+  reanalyse_every: 1
+
+validation:
+  # Weights for choosing among Whisper's n-best hypotheses in nplm_validated mode.
+  # acoustic = Whisper's own sequence score; the rest come from the Phrase DNA.
+  weights:
+    acoustic: 1.0
+    predicate: 0.6        # a predicate was found
+    completeness: 0.4     # share of DNA categories filled
+    unresolved: 0.3       # penalty per unresolved slot the predicate expects
+    consensus: 0.8        # critical entities / numbers agreed by most hypotheses
+  # A hypothesis may only replace Whisper's top-1 when its acoustic score is within
+  # this margin (natural-log units): validation must not override clear audio.
+  max_acoustic_gap: 1.5
+
+dialogue:
+  # nplm_validated only: when a request is missing information its Phrase DNA
+  # expects (e.g. "Book a meeting with Sarah tomorrow" has a day but no time),
+  # ask a rule-based clarifying question instead of generating an answer.
+  ask_when_missing: true
+
+modes:
+  base: "Base Transformer: Whisper top-1 transcript -> base model generation (no NPLM layer)"
+  nplm: "NPLM: Whisper top-1 transcript -> NPLM-rescored generation"
+  nplm_validated: "NPLM + semantic validation: Phrase-DNA-checked n-best transcript -> NPLM generation"
+
+benchmark:
+  # JSONL manifest: {"id", "audio", "language", "reference", "slots"?, "entities"?, "numbers"?}
+  manifest: data/speech/manifest.jsonl
+  results_subdir: speech

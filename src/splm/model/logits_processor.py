@@ -41,11 +41,18 @@ class PhraseLanguageLogitsProcessor(_LogitsProcessor):
         top_k: int | None = None,
         reanalyse_every: int = 1,
         record_steps: bool = False,
+        analysis_prefix: str | None = None,
     ) -> None:
         self.engine = engine
         self.prompt = prompt
         self.language = language
         self.top_k = top_k
+        # None (default): analyse prompt + continuation, the original behaviour.
+        # A string: analyse ``analysis_prefix + continuation`` only - used when the
+        # prompt is a chat template whose system/user turns are not the sentence
+        # being written (the speech lab's answer generation).
+        self.analysis_prefix = analysis_prefix
+        self._prompt_length: int | None = None
         # Re-parsing on every token is the most faithful option but also the most
         # expensive; raising this trades freshness for speed.
         self.reanalyse_every = max(1, int(reanalyse_every))
@@ -98,6 +105,14 @@ class PhraseLanguageLogitsProcessor(_LogitsProcessor):
 
     def _current_text(self, input_ids: Any) -> str:
         """Decode the sequence so far, so analysis sees the real growing sentence."""
+        if self.analysis_prefix is not None:
+            # The first call sees exactly the prompt; everything after it is generated.
+            if self._prompt_length is None:
+                self._prompt_length = int(input_ids.shape[-1])
+            generated = self.engine.llm.tokenizer.decode(
+                input_ids[0][self._prompt_length :], skip_special_tokens=True
+            )
+            return self.analysis_prefix + generated
         try:
             return self.engine.llm.tokenizer.decode(
                 input_ids[0], skip_special_tokens=True
@@ -116,6 +131,8 @@ class PhraseLanguageLogitsProcessor(_LogitsProcessor):
         )
         if reuse:
             return self._cached_context
+        if not text.strip():
+            return None  # nothing written yet: leave the base distribution alone
 
         analysis = self.engine.pipeline.analyze(text, language=self.language)
         slots = self.engine.slot_predictor.predict(

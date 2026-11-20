@@ -82,8 +82,24 @@ check_platform() {
   [ "$node_major" -ge 20 ] || die "Node.js 20 or newer is required (found $(node --version))"
 }
 
+ensure_ffmpeg() {
+  # The Speech Lab decodes browser recordings (WebM/Opus) with ffmpeg.
+  if command -v ffmpeg > /dev/null 2>&1; then
+    return 0
+  fi
+  if command -v apt-get > /dev/null 2>&1; then
+    echo "installing ffmpeg (Speech Lab audio decoding)"
+    as_root apt-get update -qq && as_root apt-get install -y -qq ffmpeg \
+      || echo "warning: ffmpeg install failed; the Speech Lab will only accept WAV" >&2
+  else
+    echo "warning: install ffmpeg manually; the Speech Lab will only accept WAV" >&2
+  fi
+}
+
 prepare_application() {
   local python="$ROOT/.venv/bin/python"
+
+  ensure_ffmpeg
 
   echo "preparing Python environment"
   as_service_user env SPLM_ROOT="$ROOT" SPLM_PYTHON="$python" \
@@ -116,6 +132,12 @@ prepare_application() {
     echo "downloading/verifying parser models and base Transformer"
     as_service_user env SPLM_ROOT="$ROOT" HF_HOME="$ROOT/data/raw/hf" \
       "$python" "$ROOT/scripts/download_resources.py" --model
+    if [ "${SPLM_SKIP_SPEECH:-0}" != "1" ]; then
+      echo "downloading/verifying Speech Lab models (Whisper, MMS-TTS en/fr/vi, answer model)"
+      as_service_user env SPLM_ROOT="$ROOT" HF_HOME="$ROOT/data/raw/hf" \
+        "$python" "$ROOT/scripts/download_resources.py" --verify-only --speech \
+        || echo "warning: some speech models failed verification; see $ROOT/data/speech/verified.json" >&2
+    fi
   else
     echo "skipping model downloads because SPLM_SKIP_RESOURCES=1"
   fi
@@ -149,6 +171,7 @@ Environment="SPLM_API_HOST=127.0.0.1"
 Environment="SPLM_API_PORT=$API_PORT"
 Environment="SPLM_LEXICON_AUTO_DOWNLOAD=$LEXICON_AUTO_DOWNLOAD"
 Environment="HF_HOME=$ROOT/data/raw/hf"
+Environment="SPLM_SPEECH_WARMUP=${SPLM_SPEECH_WARMUP:-1}"
 ExecStart=$python -m splm.api.main
 Restart=on-failure
 RestartSec=5
@@ -207,6 +230,11 @@ wait_until_ready() {
       echo "MLM is running in the background and will start after reboot."
       echo "Open: http://<EC2-PUBLIC-IP>:$WEB_PORT"
       echo "Multimodal demo: http://<EC2-PUBLIC-IP>:$WEB_PORT/multimodal"
+      echo "Speech Lab:      http://<EC2-PUBLIC-IP>:$WEB_PORT/speech"
+      echo "  Browsers allow the microphone only on HTTPS or localhost. Over plain http, either"
+      echo "  tunnel:  ssh -L $WEB_PORT:localhost:$WEB_PORT ubuntu@<EC2-PUBLIC-IP>  then open"
+      echo "  http://localhost:$WEB_PORT/speech, or put HTTPS in front (Caddy/nginx/ALB)."
+      echo "  Speech models warm up in the background after start (~1 min, ~4-5 GB RAM)."
       echo "Allow inbound TCP $WEB_PORT in the instance security group; do not expose $API_PORT."
       return 0
     fi

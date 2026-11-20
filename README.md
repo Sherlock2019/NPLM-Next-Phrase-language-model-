@@ -16,7 +16,12 @@
 > **[ACMP](https://github.com/Sherlock2019/Butterfly-effect-AImodel)**, which predicts them across a
 > ten-layer world view.
 >
-> Today it is a working research proof of concept in English, French and Vietnamese, with 154 tests. On a
+> **New: a Speech Lab.** You talk; Whisper transcribes; NPLM sorts your words into Phrase DNA (WHO ·
+> ACTION · ON WHAT · FOR WHAT · WHERE · WHEN · WITH WHOM · HOW) and answers through the same LLM with its
+> re-scoring layer; a local Hugging Face voice speaks the answer. Three modes (plain LLM, NPLM, NPLM with
+> semantic transcript validation) are benchmarked on identical inputs. See [Speech Lab](#speech-lab-whisper--nplm--tts).
+>
+> Today it is a working research proof of concept in English, French and Vietnamese, with 175 tests. On a
 > 61-item hand-written suite it predicts the expected slot correctly 73.8% of the time (top-1). It never
 > ranked a correct answer lower than the base model did. It is **not yet shown** to improve next-word
 > prediction on natural text, and it costs about 4× the latency.
@@ -60,6 +65,8 @@ column is real output from this repository.*
 | The same event in English, French and Vietnamese | Three unrelated token sequences | The same structure: ACTION meet · WHO John · WITH WHOM Sarah · WHERE Paris · future tense. Structural agreement en↔fr 93.3% |
 | What is missing from a sentence | Not tracked | Listed: “NOT STATED: WHAT, TO WHOM, WHERE TO, USING WHAT, WHY” |
 | Does it really help next-word prediction? | — | Says **“insufficient data”** (11 samples) instead of claiming a win |
+| 🎤 Spoken: “Book a meeting with Sarah tomorrow.” (Whisper-tiny → Qwen2.5-0.5B-Instruct → MMS-TTS) | Mode A, Qwen alone: *“Please provide your availability for a meeting with Sarah tomorrow.”* (end to end 4.0 s) | Phrase DNA: ACTION *book* · ON WHAT *meeting with Sarah* · WHEN *tomorrow* · no clock time → mode C asks *“What time would you like to book meeting with Sarah?”* (end to end 1.9 s). Mode B (same Qwen + NPLM): *“Please provide your availability details so I can book an appointment with Sarah tomorrow.”* (5.9 s) |
+| 🎤 What did the user actually say? | One transcript string, right or wrong | Whisper's 5-best re-ranked by Phrase DNA; names or numbers the hypotheses disagree on are flagged (e.g. *uncertain entity 'sarah': heard in 2/5 hypotheses*) |
 
 ### The hypothesis under test
 
@@ -148,7 +155,35 @@ honest result, so it is shown rather than hidden.
 | **[ACMP](https://github.com/Sherlock2019/Butterfly-effect-AImodel)** · Butterfly Effect Model | What does this action change across ten layers of the world, from Earth & Ecosystems to the Physical World? | Optional: ACMP calls NPLM's `POST /api/analyze` to turn the action into Phrase DNA before routing it |
 | **[ACM](https://github.com/Sherlock2019/ACM)** · Action–Consequence Foresight Model | Is this AI agent's plan safe to execute in its digital world, and may it go ahead? | ACM v1 ([`v1` branch](https://github.com/Sherlock2019/ACM/tree/v1), the Python `acm` package) reads NPLM's meaning representation and powers Live mode; see [Multimodal](#multimodal-text-image-video--nplm--acm). ACM's `main` branch does not use NPLM yet |
 
-The same meaning representation also accepts **images and video**.
+The same meaning representation also accepts **images and video**, and now **speech**.
+
+### Speech Lab: talk to NPLM
+
+The `/speech` dashboard page (and `scripts/speech_lab_gradio.py`) turns NPLM into a voice pipeline,
+with every model running locally from Hugging Face:
+
+```
+🎤 microphone ─► Whisper ASR ─► [Phrase DNA validation] ─► Phrase DNA sort ─► LLM │ NPLM ─► MMS-TTS ─► 🔊
+               openai/whisper-tiny    (mode C only)        WHO · ACTION …    Qwen2.5-0.5B-Instruct   en · fr · vi
+```
+
+After you speak, the main output is **your words sorted into Phrase DNA**:
+
+| WHO | ACTION / STATUS | ON WHAT | FOR WHAT | WHERE | WHEN | WITH WHOM | HOW |
+|---|---|---|---|---|---|---|---|
+| subject | predicate (action or state) | objects, recipients | goal, cause | location, destination, source | time | participants | manner, instrument |
+
+A `?` marks information the action expects but you did not give; words the parser could not place are
+listed as *unsorted* rather than forced into a box. Then the model answers, as text and as speech.
+
+| Mode | Pipeline | What differs |
+|---|---|---|
+| **A · Base Transformer** | Whisper top-1 → Qwen2.5-0.5B-Instruct → TTS | the reference |
+| **B · NPLM** | Whisper top-1 → the *same* Qwen weights + NPLM re-scoring at every decoding step → TTS | only the NPLM layer |
+| **C · NPLM + validation** | Whisper 5-best → Phrase DNA checks pick the transcript → NPLM → TTS, plus a clarifying question when a request is missing information | the transcript and the dialogue policy |
+
+NPLM still needs a base Transformer: it replaces the *standalone* LLM in the voice loop with the full NPLM
+inference stack, not Transformers altogether.
 
 ### What it is not (yet)
 
@@ -159,6 +194,8 @@ The same meaning representation also accepts **images and video**.
   "impossible".
 - **Not real vision yet.** Image and video inputs are replays of hand-authored extractions on synthetic
   media, labelled as such.
+- **Not a production voice assistant.** The Speech Lab is a measurement bench: a 0.5B answer model, a
+  rule-based clarification policy, no streaming, and a benchmark on synthetic (TTS-generated) speech.
 
 ### Key terms
 
@@ -167,6 +204,10 @@ The same meaning representation also accepts **images and video**.
 - **Slot:** one position in that frame; the *expected slot* is the kind of meaning that should come next.
 - **Language pack:** the YAML files that hold all linguistic knowledge for one language.
 - **Ablation:** switching a layer off to measure what it contributes.
+- **ASR / TTS:** automatic speech recognition (speech → text) and text-to-speech.
+- **WER / CER:** word / character error rate of a transcript against what was really said.
+- **RTF:** real-time factor, processing time ÷ audio duration (below 1 is faster than real time).
+- **Time to first audio:** from the end of the user's recording to the first synthesised audio chunk.
 
 ---
 
@@ -185,6 +226,9 @@ The same meaning representation also accepts **images and video**.
   with *insufficient data* below 20 samples.
 - **The input to consequence prediction.** Text, images and video become the actor, action, object and
   state that ACM and ACMP need.
+- **Voice that knows what is missing.** Spoken requests are sorted into Phrase DNA, so a voice agent can
+  ask “What time would you like to meet Sarah?” instead of guessing, and can flag a name or number that the
+  speech recogniser was unsure about.
 
 **Business value (target users, to be validated)**
 
@@ -194,6 +238,7 @@ The same meaning representation also accepts **images and video**.
 | Teams building AI agents | Phrase DNA as the input to consequence and decision models (ACM, ACMP) | agents that know who does what before they predict what it changes |
 | Multilingual NLP teams | one frame across languages, added through YAML packs | new languages without engine changes |
 | Education and linguistics | parse trees, roles, morphology and frames shown side by side | teaching material for grammar and meaning |
+| Voice-assistant builders (call centres, booking, in-car) | spoken request → Phrase DNA → clarify or answer | fewer wrong actions from misheard names, numbers and missing details (to be shown on real recordings) |
 
 ### Measured results
 
@@ -409,7 +454,8 @@ NOT STATED: WHAT, TO WHOM, WHERE TO, USING WHAT, WHY
 ### Test and benchmark
 
 ```bash
-pytest                                       # 154 tests, no model downloads needed
+pytest                                       # 175 tests, no model downloads needed
+pytest -m llm tests/test_speech.py           # opt-in: real Whisper -> Qwen -> TTS round trip
 python scripts/demo.py --stage all           # walk the whole pipeline
 python scripts/benchmark.py                  # writes results/*.json and *.csv
 python scripts/benchmark.py --ablation-ladder
@@ -529,6 +575,99 @@ from ACM v1's `python -m acm.cli demo --json web/public/demo/demo_results.json`.
 serves only trusted origins (`127.0.0.1`, `localhost`, `SPLM_ALLOWED_DEV_ORIGINS`); otherwise a page
 opened by IP stays on "Loading…".
 
+### Speech Lab: Whisper → NPLM → TTS
+
+```mermaid
+flowchart TB
+  M[🎤 Microphone · English · French · Vietnamese] --> A[Whisper ASR<br/>openai/whisper-tiny · 5-best beam]
+  A --> V{mode C?}
+  V -- yes --> VAL[Semantic validation<br/>Phrase DNA of each hypothesis +<br/>agreement on names and numbers]
+  V -- no --> T[Whisper top-1]
+  VAL --> D
+  T --> D[Phrase DNA sort<br/>WHO · ACTION · ON WHAT · FOR WHAT · WHERE · WHEN · WITH WHOM · HOW]
+  D --> P{request missing info?<br/>mode C only}
+  P -- yes --> Q[Clarifying question<br/>rule-based, per language]
+  P -- no --> G[Qwen2.5-0.5B-Instruct<br/>A: alone · B/C: + NPLM re-scoring each step]
+  Q --> S
+  G --> S[MMS-TTS VITS<br/>facebook/mms-tts-eng · fra · vie]
+  S --> O[🔊 Spoken answer]
+```
+
+**Where things are defined**
+
+| What | Where |
+|---|---|
+| Model ids, beams, voices, decoding, validation weights, dialogue policy | `config/speech.yaml` (env: `SPLM_ASR_MODEL_ID`, `SPLM_SPEECH_DEVICE`) |
+| Pipeline and the three modes | `src/splm/speech/pipeline.py` (reuses `SPLMEngine`: parser, scorer, lexicon, config) |
+| Whisper n-best beam search (KV-cached) | `src/splm/speech/asr.py` |
+| Voices, sentence-chunked synthesis | `src/splm/speech/tts.py` |
+| Phrase DNA sort and clarifying questions | `src/splm/speech/dna.py` |
+| Semantic transcript validation | `src/splm/speech/validation.py` |
+| WER, CER, entity/number preservation, memory | `src/splm/speech/metrics.py` |
+| Paired benchmark and built-in utterances | `src/splm/speech/benchmark.py`, `eval_utterances.json` |
+| Model provenance (licence, revision, verified) | `src/splm/speech/provenance.py`, `data/speech/verified.json` |
+| API | `src/splm/api/speech.py`: `GET /api/speech/status`, `POST /api/speech/turn`, `GET /api/speech/benchmark/results` |
+| Dashboard / Gradio | `web/src/app/speech/page.tsx` · `scripts/speech_lab_gradio.py` |
+
+**How the comparison stays fair.** One Whisper beam search per utterance serves all modes (each is charged
+its latency); mode C only *reads* more of that beam. Generation is greedy with the same settings in every
+mode, and modes A and B load the same Qwen weights once, so for a given transcript the only difference
+between their answers is the NPLM layer. TTS is seeded, so the same text gives the same audio. NPLM gets an
+opt-in `analysis_prefix` so it parses the growing *answer*, not Qwen's chat template; the default
+behaviour of the engine is unchanged.
+
+**Semantic validation (mode C).** Each Whisper hypothesis is sorted into Phrase DNA and scored on
+Whisper's own log-probability, whether it has a predicate, how many DNA boxes it fills, missing core
+arguments, and how many hypotheses agree on its names and numbers. A hypothesis may replace Whisper's top-1
+only within 1.5 log-probability units of it, so validation re-ranks near-ties and never overrides clearly
+heard audio. Names or numbers heard by fewer than half of the hypotheses are flagged.
+
+**Dialogue policy (mode C).** For an imperative with an action predicate, if the Phrase DNA lacks something
+the request needs (a clock time for *book / meet / call / schedule*, or an expected object, place or
+partner), the assistant asks for it, in the user's language, instead of generating an answer.
+
+**Run and benchmark**
+
+```bash
+python scripts/download_resources.py --speech          # fetch + run each model, write data/speech/verified.json
+python scripts/speech_benchmark.py                     # 48 built-in utterances (en 24, fr 12, vi 12), all modes
+python scripts/speech_benchmark.py --manifest data/speech/manifest.jsonl   # your own recordings
+python scripts/speech_lab_gradio.py                    # optional Gradio UI (pip install -e '.[ui]')
+```
+
+**Measured results: not yet.** The paired benchmark has not been run on the full set, so **no improvement
+is claimed** for any mode. What has been measured is single utterances on CPU (WSL, 12 threads, no GPU):
+
+| One utterance, “Book a meeting with Sarah tomorrow.” (TTS audio) | A · Base | B · NPLM | C · NPLM + validation |
+|---|---|---|---|
+| End to end | 4.0 s | 5.9 s | 1.9 s (clarifying question, no generation) |
+| Whisper-tiny 5-best (KV-cached) | ~0.5–0.8 s for ~3 s of audio (RTF ≈ 0.2–0.3) | same | same + ~0.5 s validation |
+| TTS for a one-sentence answer | ~0.5–1.0 s (RTF ≈ 0.2) | same | same |
+| Process memory, all models loaded | ~4.5–4.9 GB peak RSS | same process | same process |
+
+Model verification (`download_resources.py --speech`): each voice spoke a test sentence and Whisper-tiny
+heard it back at CER 0.00 (en), 0.12 (fr), 0.26 (vi). Run `python scripts/speech_benchmark.py` for WER,
+CER, slot accuracy, entity and number preservation, latencies, RTF and memory over 48 paired items, with
+statistical verdicts (below 20 paired items the tooling answers *insufficient data*).
+
+**Speech Lab limitations**
+
+- **The benchmark audio is synthetic.** It is the MMS-TTS voice read back by Whisper, not people. Real
+  accents, noise and disfluencies are untested; supply recordings with `--manifest` before any claim about
+  users.
+- **Answer quality is not scored.** There are no reference answers; only latency and transcript-side
+  metrics are measured. A 0.5B model often answers vaguely (“I'm sorry, I can't assist with that”).
+- **Slot accuracy compares against the parser's own reading of the reference**, unless the manifest gives
+  gold slots, so it measures transcript damage to meaning, not parser correctness.
+- **No streaming.** Audio comes back in one piece; *time to first audio* is the server-side time to the
+  first synthesised sentence.
+- **Microphone needs HTTPS or localhost** (a browser rule). Over plain `http://IP` use the SSH tunnel below,
+  Upload, or typed text.
+- **MMS-TTS voices are CC-BY-NC 4.0 (non-commercial)**. Swap them in `config/speech.yaml` before
+  commercial use. Whisper is MIT, Qwen2.5-0.5B-Instruct Apache-2.0.
+- **The clarification policy is a handful of rules**, a demonstration of Phrase-DNA-driven dialogue, not a
+  dialogue manager. Vietnamese Phrase DNA inherits the parser's weaknesses (see Limitations).
+
 ### Deploy on AWS EC2
 
 The installer runs the Next.js build and the Python API as `systemd` services that survive logout and
@@ -550,6 +689,17 @@ SPLM_SKIP_RESOURCES=1 ./scripts/ec2_service.sh deploy
   widely.
 - `SPLM_TORCH_MODE=cuda` for GPU instances; `SPLM_WEB_PORT` for another port; an Elastic IP if the address
   must survive stop/start.
+- **Speech Lab on EC2.** `install` also installs `ffmpeg`, downloads and verifies Whisper, the three MMS-TTS
+  voices and Qwen2.5-0.5B-Instruct (`SPLM_SKIP_SPEECH=1` skips), and warms them at API start
+  (`SPLM_SPEECH_WARMUP=0` to load on first use). Budget **≥ 8 GB RAM** (t3.large or larger): the process
+  holds about 4–5 GB with every model loaded. Browsers only open the microphone on HTTPS or localhost, so
+  either tunnel and open `http://localhost:3010/speech`:
+
+  ```bash
+  ssh -L 3010:localhost:3010 ubuntu@EC2-PUBLIC-IP
+  ```
+
+  or put HTTPS (Caddy, nginx + Let's Encrypt, or an ALB) in front of port 3010.
 
 ### Extend
 
@@ -603,6 +753,10 @@ the heuristic is always the baseline to beat.
 - **Backend:** Python 3.11+, FastAPI, Stanza (Universal Dependencies parsing), Hugging Face Transformers
   with CPU-only PyTorch by default.
 - **Dashboard:** Next.js, with hand-drawn SVG graphs.
+- **Speech:** Whisper and MMS-TTS through Transformers; a hand-written KV-cached beam search for Whisper's
+  n-best (in the transformers version tested, `num_return_sequences` returned duplicate beams and ran ~6×
+  slower); ffmpeg for browser audio; WAV and WER/CER with the standard library, so no new Python
+  dependencies.
 - **Deviation from the original spec:** the debugging UI is Next.js rather than Gradio, and graphs are
   hand-drawn SVG rather than React Flow, for fewer dependencies and full layout control. Every requested
   panel is present.
@@ -672,6 +826,10 @@ Notes:
    frame.
 3. Open **`/multimodal`** in the dashboard: predict what happens to the blue cup from text, image or video,
    then reveal the scripted outcome.
+4. Open **`/speech`**, click **Click to talk**, say *“Book a meeting with Sarah tomorrow”*, click again.
+   See your words sorted into Phrase DNA, then hear the answer. Try **Compare A · B · C**, and switch the
+   language to Français or Tiếng Việt. (`./start.sh` downloads and verifies the speech models on first run;
+   needs `ffmpeg`.)
 
 ### My ask for investors
 
@@ -706,7 +864,11 @@ piece**, and the importer for it is not written yet.
      place types, WordNet hypernyms or Wiktionary categories would widen coverage more than any other
      change.
    - **Cut latency.** About 4× the base forward pass, dominated by CPU parsing.
+   - **Speech Lab on real voices.** Evaluate the three modes on real recordings (e.g. FLEURS / Common
+     Voice subsets in en, fr, vi) at a size that permits verdicts; stream TTS sentence by sentence.
 2. **Next**
+   - **Speech: dialogue memory.** Feed each turn's Phrase DNA into the context graph so a follow-up (“at
+     three”) completes the earlier request; a learned clarification policy instead of rules.
    - **Train the scorer and slot predictor.** Both neural backends are wired in, but no checkpoint exists;
      everything reported today is rule-based.
    - **UniMorph and PropBank importers**, for morphology and predicate-specific roles.
@@ -721,11 +883,12 @@ piece**, and the importer for it is not written yet.
 ### Build it with us
 
 Built today: Universal Phrase DNA in three languages, the slot predictor and candidate scorer (rule-based),
-honest statistics with ablations, a multimodal meaning representation, and a 17-page dashboard. Everything
+honest statistics with ablations, a multimodal meaning representation, a local speech pipeline, and an
+18-page dashboard. Everything
 not built yet is labelled.
 
 To finish it, we need **top AI talent**: ML engineers for training and evaluation, computational linguists,
-multimodal and vision engineers, and inference optimisation.
+multimodal, vision and speech engineers, and inference optimisation.
 
 **Let's work together:**
 - Profile and projects: **[dzoannguyentran.jobsmatchnow.com](https://dzoannguyentran.jobsmatchnow.com/#projects)**
@@ -748,6 +911,9 @@ lexicon is available, lexical features report *no evidence* rather than guessing
 | UniMorph 4.0 | Morphology | CC BY-SA 3.0 | configured; importer pending |
 | Wiktionary (wiktextract) | Lexicon | CC BY-SA 4.0 / GFDL | `build_lexicon.py` |
 | PropBank 3.4 | Predicate-specific roles | CC BY-SA 4.0 | configured; importer pending |
+| openai/whisper-tiny | Speech recognition | MIT | `download_resources.py --speech` |
+| facebook/mms-tts-eng · -fra · -vie | Speech synthesis | CC-BY-NC 4.0 (non-commercial) | `download_resources.py --speech` |
+| Qwen/Qwen2.5-0.5B-Instruct | Speech Lab answers | Apache-2.0 | `download_resources.py --speech` |
 
 ### Project layout
 
@@ -765,12 +931,14 @@ src/splm/
                    advantage metrics, engine
   style/           register detection
   evaluation/      datasets, metrics with real statistics, baseline arm, benchmark runner
-  api/             FastAPI service
+  speech/          Speech Lab: Whisper ASR, MMS-TTS, Phrase DNA sort, validation, pipeline, benchmark
+  api/             FastAPI service (speech.py: /api/speech/*)
   cli.py           command line
-web/               Next.js dashboard (17 pages, incl. the ACM pages, /multimodal, /mlm); demo materials in web/public/demo
-scripts/           download_resources, make_fixtures, make_tabletop_demo, demo, benchmark, dev, smoke
-tests/             154 tests over committed CoNLL-U and meaning fixtures
-results/           benchmark output (JSON + CSV)
+web/               Next.js dashboard (18 pages, incl. /speech, the ACM pages, /multimodal, /mlm); demo materials in web/public/demo
+scripts/           download_resources, make_fixtures, make_tabletop_demo, demo, benchmark, speech_benchmark,
+                   speech_lab_gradio, dev, smoke
+tests/             175 tests over committed CoNLL-U and meaning fixtures (speech models faked; one opt-in real run)
+results/           benchmark output (JSON + CSV); results/speech/ for the Speech Lab
 ```
 
 ### Licence

@@ -27,6 +27,7 @@ CONFIG_FILES = {
     "model": "model.yaml",
     "scoring": "scoring.yaml",
     "data_sources": "data_sources.yaml",
+    "speech": "speech.yaml",
 }
 
 #: Environment variable -> dotted path inside the merged configuration.
@@ -43,6 +44,8 @@ ENV_OVERRIDES = {
     "SPLM_SCORER_BACKEND": "scoring.backend",
     "SPLM_SLOT_BACKEND": "app.slot_predictor.backend",
     "SPLM_LEXICON_AUTO_DOWNLOAD": "app.lexicon.auto_download",
+    "SPLM_ASR_MODEL_ID": "speech.asr.model_id",
+    "SPLM_SPEECH_DEVICE": "speech.asr.device",
 }
 
 

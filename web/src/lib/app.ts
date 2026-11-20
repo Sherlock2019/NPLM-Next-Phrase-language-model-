@@ -27,6 +27,7 @@ export interface MenuGroup {
 export type MenuEntry = MenuLink | MenuGroup;
 
 const MLM_PAGES: MenuLink[] = [
+  { href: "/speech", label: "Speech Lab", hint: "Talk to the model: Whisper → NPLM → TTS" },
   { href: "/phrase-dna", label: "Phrase DNA" },
   { href: "/context", label: "Context Graph" },
   { href: "/multilingual", label: "Multilingual" },

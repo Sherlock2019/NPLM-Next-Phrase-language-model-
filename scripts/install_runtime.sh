@@ -48,6 +48,11 @@ else
   echo "PyTorch is already installed; keeping the existing build"
 fi
 
+if ! command -v ffmpeg > /dev/null 2>&1; then
+  echo "note: ffmpeg is not installed; the Speech Lab needs it to decode browser recordings"
+  echo "      (Ubuntu: sudo apt-get install -y ffmpeg)"
+fi
+
 echo "installing minimal MLM runtime dependencies"
 "$PYTHON" -m pip install -e "$ROOT[parse,llm,api]"
 

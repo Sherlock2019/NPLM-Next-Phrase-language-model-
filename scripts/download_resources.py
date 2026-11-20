@@ -235,6 +235,107 @@ def download_base_model(config: Config, manifest: dict[str, Any]) -> int:
     return 0
 
 
+#: One sentence per language for the speech round-trip check.
+SPEECH_CHECK = {
+    "en": "John will meet Sarah in Paris tomorrow.",
+    "fr": "Jean rencontrera Sarah à Paris demain.",
+    "vi": "Ngày mai John sẽ gặp Sarah ở Hà Nội.",
+}
+
+
+def download_speech_models(config: Config, manifest: dict[str, Any]) -> int:
+    """Fetch, load and *run* the speech lab's checkpoints; record what passed.
+
+    A voice is verified when it synthesises the check sentence and Whisper, given
+    that audio, returns a transcript within 50% character error rate. The answer
+    model is verified when it loads and generates. Results go to
+    data/speech/verified.json, which the dashboard's provenance table reads.
+    """
+    import json
+
+    try:
+        from splm.speech.asr import WhisperASR
+        from splm.speech.metrics import cer
+        from splm.speech.provenance import verified_path
+        from splm.speech.tts import MultilingualTTS
+    except ImportError as exc:
+        print(f"speech lab unavailable: {exc}", file=sys.stderr)
+        return 1
+
+    now = datetime.now(timezone.utc).isoformat()
+    verified: dict[str, Any] = {}
+    failures = 0
+    asr = WhisperASR.from_config(config)
+    print(f"\n=== speech: ASR {asr.model_id}")
+    try:
+        asr.load()
+        verified[asr.model_id] = {"ok": True, "at": now, "detail": "loaded"}
+        print("  loaded")
+    except Exception as exc:  # noqa: BLE001
+        print(f"  failed: {exc}", file=sys.stderr)
+        verified[asr.model_id] = {"ok": False, "at": now, "detail": str(exc)}
+        failures += 1
+
+    tts = MultilingualTTS.from_config(config)
+    for language, model_id in tts.voices.items():
+        print(f"=== speech: TTS {language} {model_id}")
+        try:
+            audio, info = tts.synthesize(SPEECH_CHECK.get(language, SPEECH_CHECK["en"]), language)
+            detail = f"synthesised {info.audio_seconds:.1f} s"
+            ok = info.audio_seconds > 0.3
+            if ok and asr.is_loaded:
+                import numpy as np
+
+                samples = audio
+                if info.sample_rate != asr.sample_rate:
+                    from splm.speech.audio import _resample
+
+                    samples = _resample(np.asarray(audio), info.sample_rate, asr.sample_rate)
+                heard = asr.transcribe(samples, language=language).top
+                error = cer(SPEECH_CHECK[language], heard.text if heard else "")
+                detail += f"; Whisper heard {heard.text if heard else ''!r} (CER {error:.2f})"
+                ok = error < 0.5
+            verified[model_id] = {"ok": ok, "at": now, "detail": detail}
+            print(f"  {'ok' if ok else 'FAILED'}: {detail}")
+            failures += 0 if ok else 1
+        except Exception as exc:  # noqa: BLE001
+            print(f"  failed: {exc}", file=sys.stderr)
+            verified[model_id] = {"ok": False, "at": now, "detail": str(exc)}
+            failures += 1
+
+    answer = config.get("speech.generation.model_id")
+    if answer:
+        print(f"=== speech: answer model {answer}")
+        try:
+            from transformers import AutoModelForCausalLM, AutoTokenizer
+
+            tokenizer = AutoTokenizer.from_pretrained(answer)
+            AutoModelForCausalLM.from_pretrained(answer)
+            verified[answer] = {"ok": True, "at": now, "detail": f"loaded; chat template: {bool(tokenizer.chat_template)}"}
+            print("  loaded")
+        except Exception as exc:  # noqa: BLE001
+            verified[answer] = {"ok": False, "at": now, "detail": str(exc)}
+            print(f"  failed: {exc}", file=sys.stderr)
+            failures += 1
+
+    path = verified_path(config)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(verified, indent=2, ensure_ascii=False), encoding="utf-8")
+    for model_id in verified:
+        record(manifest, {
+            "name": f"speech:{model_id}",
+            "language": None,
+            "provider": "Hugging Face Hub",
+            "homepage": f"https://huggingface.co/{model_id}",
+            "version": model_id,
+            "license": "see the model card on the Hub",
+            "downloaded_at": now,
+            "destination": "Hugging Face default cache (HF_HOME)",
+        })
+    print(f"  wrote {path}")
+    return failures
+
+
 def report_pending(config: Config) -> None:
     """List resources SPLM would use but which have no automated fetch yet."""
     sources = config.get("data_sources.sources", {}) or {}
@@ -264,6 +365,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--languages", nargs="*", default=None)
     parser.add_argument("--model", action="store_true", help="also fetch the base LLM")
     parser.add_argument("--all", action="store_true", help="parser models and base LLM")
+    parser.add_argument(
+        "--speech", action="store_true",
+        help="fetch and verify the speech lab models (Whisper, MMS-TTS, answer model)",
+    )
     parser.add_argument("--list", action="store_true", help="show configured sources and exit")
     parser.add_argument("--verify-only", action="store_true", help="check existing models")
     parser.add_argument("--log-level", default="WARNING")
@@ -296,6 +401,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if (args.model or args.all) and not args.verify_only:
         failures += download_base_model(config, manifest)
+
+    if args.speech:
+        failures += download_speech_models(config, manifest)
 
     if not args.verify_only:
         save_manifest(manifest_path, manifest)

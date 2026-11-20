@@ -420,9 +420,16 @@ class SPLMEngine:
         language: str | None = None,
         max_new_tokens: int | None = None,
         use_splm: bool = True,
+        analysis_prefix: str | None = None,
+        reanalyse_every: int = 1,
         **kwargs: Any,
     ) -> str:
-        """Continue ``text``, optionally with SPLM re-scoring active."""
+        """Continue ``text``, optionally with SPLM re-scoring active.
+
+        ``analysis_prefix`` (optional) makes SPLM analyse only that prefix plus the
+        generated continuation instead of the whole prompt - for chat-templated
+        prompts. ``reanalyse_every`` trades parse freshness for speed.
+        """
         from splm.model.logits_processor import PhraseLanguageLogitsProcessor
 
         options = dict(kwargs)
@@ -432,7 +439,13 @@ class SPLMEngine:
         if not use_splm:
             return self.llm.generate(text, **options)
 
-        processor = PhraseLanguageLogitsProcessor(engine=self, prompt=text, language=language)
+        processor = PhraseLanguageLogitsProcessor(
+            engine=self,
+            prompt=text,
+            language=language,
+            analysis_prefix=analysis_prefix,
+            reanalyse_every=reanalyse_every,
+        )
         return self.llm.generate(text, logits_processor=processor, **options)
 
     def generate_comparison(

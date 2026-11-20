@@ -35,7 +35,7 @@ splm = "splm.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-splm = ["py.typed", "meaning/demo/*.json", "meaning/demo/*.conllu"]
+splm = ["py.typed", "meaning/demo/*.json", "meaning/demo/*.conllu", "speech/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

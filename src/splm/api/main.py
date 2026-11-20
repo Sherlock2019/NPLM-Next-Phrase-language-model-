@@ -156,6 +156,11 @@ def create_app(config: Config | None = None) -> FastAPI:
 
     register_multimodal(app, API_PREFIX)
 
+    from splm.api.speech import register as register_speech
+
+    # The speech lab reuses this engine (parser, scorer, lexicon, configuration).
+    register_speech(app, API_PREFIX, engine, config)
+
     @app.get(f"{API_PREFIX}/system")
     def system() -> dict[str, Any]:
         """Model, device, versions and knowledge-base status (UI spec section 32)."""
