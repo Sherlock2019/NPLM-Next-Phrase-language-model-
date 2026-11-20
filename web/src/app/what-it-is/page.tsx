@@ -152,6 +152,17 @@ WHERE:  Paris    WHEN: tomorrow     tense=future`}</pre>
                   <span className="font-semibold text-splm-300">{title}</span> <span className="dim">— {body}</span>
                 </li>
               ))}
+              <li className="rounded-lg border border-warn-400/35 bg-warn-400/6 px-3 py-2">
+                <span className="font-semibold text-warn-400">Focus, not speed (yet)</span>{" "}
+                <span className="dim">
+                  — Phrase DNA tells the model <em>which kind</em> of piece comes next (a place after “meet Sarah
+                  in”) and re-ranks the candidates toward it, instead of treating every token alike. It does
+                  not skip work: the Transformer still reads the whole prompt and scores the whole vocabulary,
+                  and PLM re-parses the growing sentence at each step, so today it <strong>costs</strong> time
+                  (about 4× per prediction on CPU) and saves no tokens. Efficiency is a goal to measure — see
+                  What next.
+                </span>
+              </li>
             </ul>
             <div className="flex flex-col gap-2">
               <p className="eyebrow">Measured (SmolLM2-135M, CPU, 61-item hand-written suite)</p>
@@ -192,6 +203,18 @@ WHERE:  Paris    WHEN: tomorrow     tense=future`}</pre>
                 <span className="font-semibold">Next:</span>{" "}
                 <span className="dim">train the scorer and slot predictor; UniMorph and PropBank importers; real vision;
                 dialogue memory for the Speech Lab.</span>
+              </li>
+              <li className="rounded-lg border border-splm-500/30 bg-splm-500/6 px-3 py-2">
+                <span className="font-semibold">Efficiency hypotheses to measure:</span>{" "}
+                <span className="dim">
+                  (1) <strong>ask instead of generating</strong> when information is missing — on one spoken
+                  request (“Book a meeting with Sarah tomorrow”) the clarifying question took 1.9 s end to end vs
+                  4.0 s for the plain LLM answer, with no generated tokens; (2) send <strong>compact Phrase DNA /
+                  the context graph</strong> instead of the full conversation, for fewer prompt tokens (the graph
+                  is already counted in tokens, not yet fed to generation); (3) let the predicted slot make a
+                  <strong> smaller base model</strong> good enough; (4) <strong>parse less often</strong> during
+                  generation to cut PLM&apos;s own overhead.
+                </span>
               </li>
               <li className="panel-raised px-3 py-2">
                 <span className="font-semibold">Later:</span>{" "}

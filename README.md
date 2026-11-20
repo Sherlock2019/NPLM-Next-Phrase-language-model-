@@ -226,6 +226,11 @@ inference stack, not Transformers altogether.
   with *insufficient data* below 20 samples.
 - **The input to consequence prediction.** Text, images and video become the actor, action, object and
   state that ACM and ACMP need.
+- **Focus, not speed (yet).** Phrase DNA tells the model *which kind* of piece comes next (a place after
+  "meet Sarah in") and re-ranks the candidates toward it. It does not skip work: the Transformer still
+  reads the whole prompt and scores the whole vocabulary, and NPLM re-parses the growing sentence at each
+  step, so today it **costs** about 4× the latency per prediction and saves no tokens. Efficiency gains are
+  hypotheses to measure (see [What next](#what-next-evolution-of-the-product)).
 - **Voice that knows what is missing.** Spoken requests are sorted into Phrase DNA, so a voice agent can
   ask “What time would you like to meet Sarah?” instead of guessing, and can flag a name or number that the
   speech recogniser was unsure about.
@@ -864,6 +869,12 @@ piece**, and the importer for it is not written yet.
      place types, WordNet hypernyms or Wiktionary categories would widen coverage more than any other
      change.
    - **Cut latency.** About 4× the base forward pass, dominated by CPU parsing.
+   - **Efficiency hypotheses to measure.** (1) Ask instead of generating when information is missing: on
+     one spoken request the clarifying question took 1.9 s end to end vs 4.0 s for the plain LLM answer,
+     with no generated tokens. (2) Send compact Phrase DNA / the context graph instead of the full
+     conversation, for fewer prompt tokens (`/api/context` already counts both; the graph is not yet fed
+     to generation). (3) Let the predicted slot make a smaller base model good enough. (4) Parse less
+     often during generation (`reanalyse_every`).
    - **Speech Lab on real voices.** Evaluate the three modes on real recordings (e.g. FLEURS / Common
      Voice subsets in en, fr, vi) at a size that permits verdicts; stream TTS sentence by sentence.
 2. **Next**
