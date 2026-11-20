@@ -139,7 +139,8 @@ export interface SpeechStatus {
   generation?: Record<string, unknown>;
   languages?: string[];
   warm?: boolean;
-  warmup_ms?: Record<string, number>;
+  warming?: boolean;
+  warmup_error?: string | null;
 }
 
 export interface SpeechBenchmarkSummary {

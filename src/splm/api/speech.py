@@ -49,18 +49,35 @@ def register(app: FastAPI, prefix: str, engine: Callable[[], Any], config: Any) 
                     state["pipeline"] = SpeechPipeline(config, engine=engine())
         return state["pipeline"]
 
-    if os.environ.get("SPLM_SPEECH_WARMUP", "").strip().lower() in {"1", "true", "yes"}:
-        # Load Whisper, the voices and the answer model in the background at startup,
-        # so the first spoken turn is not a minute of model loading.
+    state["warming"] = False
+    state["warmup_error"] = None
+    warm_lock = threading.Lock()  # not `lock`: that one is held while the engine loads
+
+    def start_warmup() -> None:
+        """Load Whisper, the voices and the answer model once, in the background.
+
+        Never blocks a request: model loading takes about a minute on CPU, longer than
+        any HTTP proxy will wait. Idempotent - a second call while warming is a no-op.
+        """
+        with warm_lock:
+            if state["warming"] or (state["pipeline"] is not None and state["pipeline"].warm):
+                return
+            state["warming"], state["warmup_error"] = True, None
+
         def _warm() -> None:
             try:
-                instance = pipeline()
-                instance.warmup()
+                pipeline().warmup()
                 logger.info("speech lab warm")
             except Exception as exc:  # noqa: BLE001
                 logger.warning("speech warmup failed: %s", exc)
+                state["warmup_error"] = str(exc)
+            finally:
+                state["warming"] = False
 
         threading.Thread(target=_warm, name="speech-warmup", daemon=True).start()
+
+    if os.environ.get("SPLM_SPEECH_WARMUP", "").strip().lower() in {"1", "true", "yes"}:
+        start_warmup()
 
     @app.get(f"{prefix}/speech/status")
     def speech_status(warm: bool = False) -> dict[str, Any]:
@@ -68,10 +85,17 @@ def register(app: FastAPI, prefix: str, engine: Callable[[], Any], config: Any) 
 
         info: dict[str, Any] = {"provenance": provenance(config)}
         try:
-            instance = pipeline()
-            if warm and not instance.warm:
-                info["warmup_ms"] = instance.warmup()
+            if warm:
+                start_warmup()
+            instance = state["pipeline"]
+            if instance is None:
+                # Still being built by the warmup thread (it loads the shared engine
+                # first); answer immediately instead of waiting for it.
+                info.update({"available": True, "warm": False, "warming": state["warming"]})
+                return info
             info.update(instance.describe())
+            info["warming"] = state["warming"]
+            info["warmup_error"] = state["warmup_error"]
             info["available"] = True
         except Exception as exc:  # noqa: BLE001 - shown in the UI as the reason
             logger.warning("speech lab unavailable: %s", exc)

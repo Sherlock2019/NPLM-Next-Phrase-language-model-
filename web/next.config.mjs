@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // The /api proxy's default 30 s timeout cut off Speech Lab turns (model loading,
+  // NPLM generation and TTS on CPU can take longer): "socket hang up" -> 500.
+  experimental: { proxyTimeout: 600_000 },
   // No floating dev-mode badge over the demo pages.
   devIndicators: false,
   // `next dev` blocks its client resources for origins it does not know, which leaves

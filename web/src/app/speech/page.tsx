@@ -70,13 +70,26 @@ export default function SpeechLabPage() {
     );
   }, []);
 
+  // While the API loads models in the background, poll until they are warm.
+  useEffect(() => {
+    if (!status?.available || status.warm || !(status.warming || warming)) return;
+    const id = setTimeout(() => {
+      speechApi.status()
+        .then((next) => {
+          setStatus(next);
+          if (next.warm || next.warmup_error) setWarming(false);
+        })
+        .catch(() => undefined);
+    }, 3000);
+    return () => clearTimeout(id);
+  }, [status, warming]);
+
   const warm = useCallback(async () => {
     setWarming(true);
     try {
-      setStatus(await speechApi.status(true));
+      setStatus(await speechApi.status(true)); // returns at once; loading continues server-side
     } catch (cause) {
       setError(cause instanceof ApiError ? cause.message : String(cause));
-    } finally {
       setWarming(false);
     }
   }, []);
@@ -301,19 +314,25 @@ export default function SpeechLabPage() {
 function ModelStatus({ status, warming, onWarm }: { status: SpeechStatus | null; warming: boolean; onWarm: () => void }) {
   if (!status) return <Loading label="Checking models" />;
   if (!status.available) return <ErrorBox error={`Speech lab unavailable: ${status.reason}`} />;
+  const loading = warming || status.warming;
   return (
     <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
-      <Pill tone={status.asr?.loaded ? "ok" : "neutral"}>ASR {status.asr?.model_id}</Pill>
-      <Pill tone="neutral">LLM {status.answer_model}</Pill>
+      {status.asr && <Pill tone={status.asr.loaded ? "ok" : "neutral"}>ASR {status.asr.model_id}</Pill>}
+      {status.answer_model && <Pill tone="neutral">LLM {status.answer_model}</Pill>}
       {Object.entries(status.tts?.voices ?? {}).map(([code, id]) => (
         <Pill key={code} tone={status.tts?.loaded.includes(code) ? "ok" : "neutral"}>{code} voice {id.split("/")[1]}</Pill>
       ))}
-      {!status.warm && (
-        <button type="button" className={buttonGhostClass} onClick={onWarm} disabled={warming}>
-          {warming ? "Loading models…" : "Load models"}
-        </button>
+      {status.warm ? (
+        <Pill tone="ok">models warm</Pill>
+      ) : loading ? (
+        <span className="flex items-center gap-1.5 text-warn-400">
+          <span className="animate-pulse-soft size-1.5 rounded-full bg-warn-400" />
+          Loading models (about a minute on CPU)… you can already talk; the first answer waits for them.
+        </span>
+      ) : (
+        <button type="button" className={buttonGhostClass} onClick={onWarm}>Load models</button>
       )}
-      {status.warm && <Pill tone="ok">models warm</Pill>}
+      {status.warmup_error && <Pill tone="danger">warmup failed: {status.warmup_error}</Pill>}
     </div>
   );
 }

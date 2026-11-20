@@ -71,8 +71,10 @@ class SpeechPipeline:
                  answer_engine: Any | None = None) -> None:
         self.config = config or get_config()
         self._engine = engine
-        self._asr = asr
-        self._tts = tts
+        # Wrappers are cheap (weights load on first use); building them here avoids a
+        # race where a status call creates a second, unloaded instance mid-warmup.
+        self._asr = asr if asr is not None else WhisperASR.from_config(self.config)
+        self._tts = tts if tts is not None else MultilingualTTS.from_config(self.config)
         self._answer_engine = answer_engine
         self._lock = threading.Lock()
         self.warm = False
