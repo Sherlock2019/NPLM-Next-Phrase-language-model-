@@ -74,6 +74,7 @@ export const MENU: MenuEntry[] =
         },
       ]
     : [
+        { href: "/what-it-is", label: "What it is" },
         { href: "/", label: "Playground" },
         ...MLM_PAGES,
         {

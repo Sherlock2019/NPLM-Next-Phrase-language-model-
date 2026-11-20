@@ -884,7 +884,7 @@ piece**, and the importer for it is not written yet.
 
 Built today: Universal Phrase DNA in three languages, the slot predictor and candidate scorer (rule-based),
 honest statistics with ablations, a multimodal meaning representation, a local speech pipeline, and an
-18-page dashboard. Everything
+19-page dashboard. Everything
 not built yet is labelled.
 
 To finish it, we need **top AI talent**: ML engineers for training and evaluation, computational linguists,
@@ -934,7 +934,7 @@ src/splm/
   speech/          Speech Lab: Whisper ASR, MMS-TTS, Phrase DNA sort, validation, pipeline, benchmark
   api/             FastAPI service (speech.py: /api/speech/*)
   cli.py           command line
-web/               Next.js dashboard (18 pages, incl. /speech, the ACM pages, /multimodal, /mlm); demo materials in web/public/demo
+web/               Next.js dashboard (19 pages, incl. /what-it-is, /speech, the ACM pages, /multimodal, /mlm); demo materials in web/public/demo
 scripts/           download_resources, make_fixtures, make_tabletop_demo, demo, benchmark, speech_benchmark,
                    speech_lab_gradio, dev, smoke
 tests/             175 tests over committed CoNLL-U and meaning fixtures (speech models faked; one opt-in real run)
