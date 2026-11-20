@@ -13,7 +13,7 @@ export const APP_MODE: "mlm" | "acm" = process.env.NEXT_PUBLIC_APP_MODE === "acm
 export const BRAND =
   APP_MODE === "acm"
     ? { mark: "ACM", name: "The Butterfly Model", tagline: "Action–Worlds Consequence prediction Model" }
-    : { mark: "SP", name: "Meaning Language Model", tagline: "Understand meaning before predicting language" };
+    : { mark: "PLM", name: "Phrase Language Model", tagline: "Understand meaning before predicting language" };
 
 export interface MenuLink {
   href: string;

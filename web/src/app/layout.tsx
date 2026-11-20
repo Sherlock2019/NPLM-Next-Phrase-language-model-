@@ -12,7 +12,7 @@ export const metadata: Metadata =
           "1 actor · 1 action = consequences in cascade: ACM predicts what an action changes across eight worlds, each with its own laws, built on the Meaning Language Model.",
       }
     : {
-        title: "Meaning Language Model",
+        title: "PLM · Phrase Language Model",
         description:
           "Understand meaning before predicting language. A research console comparing a standard Transformer against the same Transformer with an explicit linguistic and semantic layer.",
       };

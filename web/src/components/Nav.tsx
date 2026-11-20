@@ -1,7 +1,8 @@
 "use client";
 
 /**
- * The site header, after the ACM design: the butterfly logo (ACM mode; the domino mark for MLM)
+ * The site header, after the ACM design: the butterfly logo (ACM mode; the PLM wordmark,
+ * web/public/plm/logo.png, otherwise - its navy #040e42 is the header colour so it has no box)
  * + ACM / the Butterfly Model, the menu
  * (What is ACM? · Why ACM? · Prediction Modes ▾ · How It Works · Research ▾) and "Try a Demo".
  * Dropdowns open on click or hover and close on Escape or a click outside. On narrow screens
@@ -12,26 +13,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BRAND, CTA, MENU, type MenuEntry, type MenuGroup } from "@/lib/app";
-
-/** Three falling dominoes in the brand's cyan. */
-function DominoMark() {
-  const tiles = [
-    { x: 2, rot: -28, pips: [] as [number, number][] },
-    { x: 17, rot: -12, pips: [[6, 12], [6, 28]] as [number, number][] },
-    { x: 33, rot: 0, pips: [[4, 10], [8, 15], [4, 26], [8, 31]] as [number, number][] },
-  ];
-  return (
-    <svg viewBox="0 0 48 44" className="h-10 w-auto shrink-0" aria-hidden>
-      {tiles.map((t, i) => (
-        <g key={i} transform={`rotate(${t.rot} ${t.x + 6} 42)`}>
-          <rect x={t.x} y={4} width={12} height={38} rx={2.5} fill={i === 2 ? "#5eead4" : "#22d3ee"} />
-          <line x1={t.x + 2} x2={t.x + 10} y1={22} y2={22} stroke="#0b1b2e" strokeWidth={1.4} opacity={0.6} />
-          {t.pips.map(([px, py], p) => <circle key={p} cx={t.x + px} cy={py} r={1.6} fill="#0b1b2e" />)}
-        </g>
-      ))}
-    </svg>
-  );
-}
 
 const isGroup = (e: MenuEntry): e is MenuGroup => "items" in e;
 const linkClass = "rounded-md px-3 py-2 text-[15px] font-medium text-slate-100 transition-colors hover:bg-white/10 hover:text-white";
@@ -99,17 +80,25 @@ export function Nav() {
   const active = (href: string) => path(href) === pathname;
 
   return (
-    <header ref={header} className="sticky top-0 z-40 border-b border-white/10 bg-[#0b1b2e] text-white shadow-lg">
+    <header ref={header}
+      className={`sticky top-0 z-40 border-b border-white/10 text-white shadow-lg ${BRAND.mark === "ACM" ? "bg-[#0b1b2e]" : "bg-[#040e42]"}`}>
       <div className="mx-auto flex max-w-[1600px] items-center gap-4 px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-3" aria-label={`${BRAND.mark} — ${BRAND.name}, home`}>
+        <Link href="/" className="flex shrink-0 items-center gap-3" aria-label={`${BRAND.mark} — ${BRAND.name}, home`}>
           {BRAND.mark === "ACM" ? (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/acm/logo.png" alt="" width={64} height={42} className="h-11 w-auto shrink-0 rounded-md" />
+              <span className="flex flex-col leading-none">
+                <span className="text-[30px] font-extrabold tracking-tight">{BRAND.mark}</span>
+                <span className="mt-0.5 text-[13px] font-medium text-slate-200">{BRAND.name}</span>
+              </span>
+            </>
+          ) : (
+            // The wordmark already spells "PLM · Phrase Language Model".
             // eslint-disable-next-line @next/next/no-img-element
-            <img src="/acm/logo.png" alt="" width={64} height={42} className="h-11 w-auto shrink-0 rounded-md" />
-          ) : <DominoMark />}
-          <span className="flex flex-col leading-none">
-            <span className="text-[30px] font-extrabold tracking-tight">{BRAND.mark}</span>
-            <span className="mt-0.5 text-[13px] font-medium text-slate-200">{BRAND.name}</span>
-          </span>
+            <img src="/plm/logo.png" alt={`${BRAND.mark} — ${BRAND.name}`} width={754} height={144}
+              className="h-10 w-auto shrink-0 sm:h-12" />
+          )}
         </Link>
 
         <nav aria-label="Main" className="ml-auto hidden items-center gap-1 lg:flex">
