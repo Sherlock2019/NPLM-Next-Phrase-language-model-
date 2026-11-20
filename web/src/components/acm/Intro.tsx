@@ -7,6 +7,7 @@
  * can be kept in step with the app.
  */
 
+import { ACM_PROJECT_URL } from "@/lib/app";
 import type { PageKind } from "./HowItWorks";
 import { SceneFlow } from "./SceneFlow";
 
@@ -29,8 +30,21 @@ export function Intro({ page }: { page: PageKind | "tour" }) {
   const where = WHERE[page];
   return (
     <section className="panel flex flex-col gap-2 p-3" aria-label="How the chats answer">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/acm/how-chat-top.webp" alt={TOP_ALT} width={1601} height={492} className="block h-auto w-full rounded-md" />
+      <div className="relative">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/acm/how-chat-top.webp" alt={TOP_ALT} width={1601} height={492} className="block h-auto w-full rounded-md" />
+        {/* Sits in the blank band under the infographic's subtitle; positioned and sized
+            relative to the image so it stays in that band at every width. */}
+        {page === "inference" && <a
+          href={ACM_PROJECT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute left-1/2 top-[20.5%] -translate-x-1/2 whitespace-nowrap rounded-full bg-[#1e3a8a] px-[1.2%] py-[0.2%] font-semibold text-white shadow-md ring-1 ring-white/30 transition-colors hover:bg-[#2563eb]"
+          style={{ fontSize: "clamp(8px, 0.9vw, 13px)" }}
+        >
+          Open the live ACM demo project ↗
+        </a>}
+      </div>
       <SceneFlow />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/acm/how-chat-footer.webp" alt={FOOTER_ALT} width={1568} height={114} className="block h-auto w-full rounded-md" />

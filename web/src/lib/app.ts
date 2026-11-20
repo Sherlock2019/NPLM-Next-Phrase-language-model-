@@ -80,11 +80,14 @@ export const MENU: MenuEntry[] =
           label: "Evolution of the Model",
           items: [
             { href: "/acm/inference", label: "What happens next?", hint: "Actions answered with their reasoning" },
-            { href: "/multimodal", label: "Multimodal → ACM", hint: "Text, image and video into one meaning" },
             { href: "/acm", label: "ACM Demo", hint: "From meaning to consequences: the Action–Consequence Model" },
           ],
         },
       ];
+
+/** The separately deployed ACM demo project (its own repository and server). */
+export const ACM_PROJECT_URL =
+  process.env.NEXT_PUBLIC_ACM_PROJECT_URL ?? "http://100.31.100.157:3010/acm/home";
 
 /** The header's call to action (ACM mode). */
 export const CTA: MenuLink | null = APP_MODE === "acm" ? { href: "/acm", label: "Try a Demo" } : null;
